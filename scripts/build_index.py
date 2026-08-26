@@ -48,13 +48,20 @@ def main():
                 "ticker": str(fm.get("ticker", "")),
                 "level": str(fm.get("level", "")),
                 "summary": str(fm.get("summary", "")).replace("|", "／"),
-                "action": str(fm.get("action", "")),
+                "signal": str(fm.get("signal", "")),
+                "conviction": str(fm.get("conviction", "")),
                 "tp_delta": str(fm.get("tp_delta", "")),
+                "supersedes": str(fm.get("supersedes", "")).replace(os.sep, "/"),
                 "path": rel.replace(os.sep, "/"),
             }
         )
 
     rows.sort(key=lambda r: (r["date"], LEVEL_ORDER.get(r["level"], 9)), reverse=True)
+
+    # 被其他報告 supersedes 指到的，標記為已取代
+    superseded = {r["supersedes"] for r in rows if r["supersedes"]}
+    for r in rows:
+        r["status"] = "已取代" if r["path"] in superseded else "現行"
 
     out = ["# 推論索引", "", "由 `scripts/build_index.py` 自動產生，勿手改。", ""]
 
@@ -63,21 +70,25 @@ def main():
         by_ticker.setdefault(r["ticker"], []).append(r)
     out.append("## 各標的最近一次推論")
     out.append("")
-    out.append("| 標的 | 最近日期 | 等級 | 累計報告數 | L2+ 次數 |")
-    out.append("|---|---|---|---|---|")
+    out.append("| 標的 | 最近日期 | 等級 | 現行訊號 | 累計報告數 | L2+ 次數 |")
+    out.append("|---|---|---|---|---|---|")
     for t, rs in sorted(by_ticker.items()):
         heavy = sum(1 for x in rs if x["level"] in ("L2", "L3"))
-        out.append(f"| {t} | {rs[0]['date']} | {rs[0]['level']} | {len(rs)} | {heavy} |")
+        out.append(
+            f"| {t} | {rs[0]['date']} | {rs[0]['level']} | {rs[0]['signal']} "
+            f"| {len(rs)} | {heavy} |"
+        )
     out.append("")
 
     out.append("## 全部推論（新到舊）")
     out.append("")
-    out.append("| 日期 | 標的 | 等級 | 摘要 | 動作 | 目標價Δ | 檔案 |")
-    out.append("|---|---|---|---|---|---|---|")
+    out.append("| 日期 | 標的 | 等級 | 摘要 | 訊號 | 信心 | 目標價Δ | 狀態 | 檔案 |")
+    out.append("|---|---|---|---|---|---|---|---|---|")
     for r in rows:
         out.append(
             f"| {r['date']} | {r['ticker']} | {r['level']} | {r['summary']} "
-            f"| {r['action']} | {r['tp_delta']} | [連結]({r['path']}) |"
+            f"| {r['signal']} | {r['conviction']} | {r['tp_delta']} "
+            f"| {r['status']} | [連結]({r['path']}) |"
         )
     out.append("")
 

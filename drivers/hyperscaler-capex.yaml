@@ -1,0 +1,130 @@
+# 共用驅動因子。這一層存放「多檔標的共用、且不屬於任何單一標的」的變數。
+# 規則：一個共用事實只能有一個家。個股 state 用 driver_refs 引用，不複製數值。
+id: hyperscaler-capex
+name: 四大超大型 CSP 資本支出
+what_it_is: AMZN、GOOGL、MSFT、META 四家的年度資本支出合計與各自 guidance 區間
+why_shared: >
+  這是整個 AI 硬體鏈的需求上游 — 它不屬於任何單一標的，卻同時決定 TSM 的投片、
+  3324/3017 的伺服器散熱附載、6442 的光互連需求。同時它也是四家自己的成本與折舊。
+  若複製進每檔 state，數值會各自漂移且沒人會發現。
+
+current:
+  value: 725
+  unit: USD bn（2026 全年合計，公司 guidance）
+  as_of: 2026-08-26
+  tier: 推論
+  source: >
+    彙整自各家 2026 Q1–Q2 財報與 guidance 的第三方統計（多來源一致落在 700–740 區間）。
+    非單一官方揭露，故列推論而非事實。
+  yoy: "+77%（2025 約 410）"
+
+components:
+  - {name: Amazon,    value: 200, guidance: "~200",     source: "2026 guidance；Q1 單季 capex 44.2，AWS 成長 28%", as_of: 2026-08}
+  - {name: Alphabet,  value: 205, guidance: "175–205",  source: "Q2 2026 財報上調上限至 205", as_of: 2026-08}
+  - {name: Microsoft, value: 190, guidance: "~190",     source: "曆年推估；FY26 Q3 單季 capex 30.88，年增 84%", as_of: 2026-08}
+  - {name: Meta,      value: 145, guidance: "125–145",  source: "全年 guidance 兩度上調，主因零組件（含記憶體）與資料中心成本", as_of: 2026-08}
+
+history:
+  - {as_of: 2025, value: 410, note: "2025 全年實際合計"}
+  - {as_of: 2026-02, value: 630, note: "各家 Q4 財報後的初始 2026 guidance 合計上限"}
+  - {as_of: 2026-04, value: 725, note: "Q1 財報後上修"}
+  - {as_of: 2026-08, value: 725, note: "Q2 後 Alphabet 上調上限、Meta 再上調，合計維持 700–740 區間"}
+
+consensus_2027:
+  value: "1,000+"
+  unit: USD bn
+  tier: 假設
+  source: "多家賣方預估 2027 突破 1 兆（Goldman 約 1.01T、JPM 由 800B 升至 1T，口徑含四大以外業者）"
+  note: 口徑不一致，跨來源比較時要先確認是否只含四大
+
+# 2026 年下半最重要的變化不是金額，是市場反應
+market_reaction_regime:
+  as_of: 2026-08-26
+  observation: >
+    capex 上修已從利多轉為利空訊號。Meta 上調 guidance 當日下跌 9.25%；
+    Alphabet 於 2026-07 Q2 上修 capex 後股價下挫約 7%，並拖累其餘三家。
+  implication: >
+    同一則「capex 上修」新聞，對硬體端（TSM/3324/3017/6442）是需求利多，
+    對平台端（MSFT/GOOG/META/AMZN）在當前情緒下是折舊與 ROI 疑慮的利空。
+    處理這類事件時必須分開判斷，不可套用同一個方向。
+  tier: 推論
+
+transmission:
+  - ticker: TSM
+    direction: '+'
+    path: capex → GPU/ASIC 投片量 → 先進製程與 CoWoS 產能利用
+    lag: 領先 1–2 季（晶片先於整機）
+    sensitivity: 高
+    affects: [先進製程營收占比, CoWoS月產能, 全年資本支出guidance]
+  - ticker: '3324'
+    direction: '+'
+    path: capex → 伺服器機櫃出貨量 → 液冷附載率與單機價值量
+    lag: 領先 2–3 季（散熱晚於晶片）
+    sensitivity: 高
+    affects: [液冷滲透率, 北美CSP訂單能見度, 產能利用率]
+  - ticker: '3017'
+    direction: '+'
+    path: capex → 伺服器機櫃出貨量 → 水冷板／分歧管／機箱需求
+    lag: 領先 2–3 季
+    sensitivity: 高
+    affects: [月營收 YoY, 2026E EPS 市場預估]
+  - ticker: '6442'
+    direction: '+'
+    path: capex → 機櫃內外光互連埠數 → 光通訊產品需求與 CPO 導入時程
+    lag: 領先 2–3 季
+    sensitivity: 中（受單一客戶因素干擾，傳導不純）
+    affects: [光通訊產品營收占比, CPO量產時點]
+  - ticker: MSFT
+    direction: '-'
+    path: capex → 折舊費用 → 營益率；除非雲營收同步加速，否則壓縮獲利
+    lag: 落後 2–4 季（折舊隨資產啟用才入帳）
+    sensitivity: 高
+    affects: [資本支出年增, 營益率]
+  - ticker: GOOG
+    direction: '-'
+    path: 同上；另受市場對 ROI 耐心的情緒放大
+    lag: 落後 2–4 季
+    sensitivity: 高
+    affects: [資本支出, Cloud成長率]
+  - ticker: META
+    direction: '-'
+    path: 同上，且 Meta 無公有雲可直接變現 capex，ROI 質疑最強
+    lag: 落後 2–4 季
+    sensitivity: 高
+    affects: [資本支出guidance, 總費用guidance]
+  - ticker: AMZN
+    direction: '-'
+    path: 同上；AWS 成長率是判斷 capex 是否轉化為營收的主要中介指標
+    lag: 落後 2–4 季
+    sensitivity: 高
+    affects: [資本支出, AWS成長率]
+
+falsifiers:
+  - condition: 任兩家在同一季下修全年 capex guidance
+    check_by: 2026-11-30
+    status: 未驗證
+    action: 觸發全覆蓋清單 L3 review（硬體端與平台端方向相反，須分開處理）
+  - condition: 2027 合計 guidance 低於 2026 實際（成長轉負）
+    check_by: 2027-02-28
+    status: 未驗證
+    action: 硬體端全面 L3；平台端視為營益率利多
+  - condition: 任一家明確將 capex 與「需求不足」而非「產能受限」連結
+    check_by: 2026-11-30
+    status: 未驗證
+    action: 這是最早的轉折訊號，優先度高於金額本身
+
+checkpoints:
+  - {date: 2026-10, event: Q3 財報季（四家）, what_to_watch: "2026 全年 guidance 是否再修、2027 初步框架、措辭由『產能受限』轉為其他說法"}
+  - {date: 2027-01, event: Q4 財報季, what_to_watch: 2027 正式 guidance，四家合計是否站上 1 兆}
+
+update_cadence: 每季財報（1、4、7、10 月），期間僅有第三方預估修正
+
+gaps:
+  - {question: 各家 capex 中 AI 相關的實際占比, how_to_close: 財報電話會議 Q&A；多數公司不單獨揭露}
+  - {question: "口徑差異 — 部分統計含 Oracle 等第五家，跨來源比較前須確認", how_to_close: 逐一核對原始報告的成分股}
+  - {question: 折舊年限假設的變動（會直接影響平台端獲利，且容易被忽略）, how_to_close: 10-K 附註}
+
+event_log:
+  - {date: 2026-08-26, level: '—', summary: 建立驅動因子檔，彙整 2026 Q2 後的 guidance, delta: 新增}
+
+last_updated: 2026-08-26

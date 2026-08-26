@@ -129,6 +129,83 @@ def count_gaps(d, prefix=""):
     return n
 
 
+def check_driver_integrity(root):
+    """driver_refs 與 drivers/*.yaml 的 transmission 必須雙向一致。
+
+    單向引用是這個架構最可能腐爛的地方：新增個股時填了 driver_refs
+    卻忘了在 driver 的 transmission 補上，扇出就會漏掉那一檔 —
+    而漏掉不會報錯，只會安靜地讓某檔的模型停止更新。
+    """
+    driver_dir = os.path.join(root, "drivers")
+    if not os.path.isdir(driver_dir):
+        return
+
+    drivers = {}
+    for path in sorted(glob.glob(os.path.join(driver_dir, "*.yaml"))):
+        if os.path.basename(path).startswith("_"):
+            continue
+        rel = os.path.relpath(path, root)
+        try:
+            d = yaml.safe_load(open(path, encoding="utf-8"))
+        except yaml.YAMLError as e:
+            errors.append(f"{rel}: YAML 解析失敗 — {e}")
+            continue
+        if not isinstance(d, dict):
+            continue
+        did = d.get("id") or os.path.basename(path)[:-5]
+        targets = {}
+        for t in d.get("transmission") or []:
+            if isinstance(t, dict) and t.get("ticker"):
+                targets[str(t["ticker"])] = t
+        drivers[did] = {"rel": rel, "targets": targets, "data": d}
+
+        lu = as_date(d.get("last_updated"))
+        if lu and (date.today() - lu).days > 100:
+            notes.append(f"{rel}: driver 已 {(date.today() - lu).days} 天未更新")
+
+    for path in sorted(glob.glob(os.path.join(root, "state", "*.yaml"))):
+        base = os.path.basename(path)
+        if base.startswith("_") or base == "coverage.yaml":
+            continue
+        rel = os.path.relpath(path, root)
+        try:
+            d = yaml.safe_load(open(path, encoding="utf-8"))
+        except yaml.YAMLError:
+            continue
+        if not isinstance(d, dict):
+            continue
+        tick = str(d.get("ticker", ""))
+        for ref in d.get("driver_refs") or []:
+            if not isinstance(ref, dict):
+                continue
+            slug = ref.get("driver")
+            if slug not in drivers:
+                errors.append(f"{rel}: driver_refs 指向不存在的 driver `{slug}`")
+                continue
+            if tick not in drivers[slug]["targets"]:
+                errors.append(
+                    f"{rel}: 引用了 `{slug}`，但該 driver 的 transmission "
+                    f"沒有 {tick} — 扇出會漏掉這一檔"
+                )
+                continue
+            t = drivers[slug]["targets"][tick]
+            if ref.get("direction") and t.get("direction") \
+                    and ref["direction"] != t["direction"]:
+                errors.append(
+                    f"{rel}: `{slug}` 的傳導方向不一致 "
+                    f"(state: {ref['direction']} vs driver: {t['direction']})"
+                )
+
+    for did, info in drivers.items():
+        for tick in info["targets"]:
+            sp = os.path.join(root, "state", f"{tick}.yaml")
+            if not os.path.exists(sp):
+                warns.append(
+                    f"{info['rel']}: transmission 指向 {tick}，"
+                    "但沒有對應的 state 檔"
+                )
+
+
 def main():
     only_stale = "--stale" in sys.argv
     only_gaps = "--gaps" in sys.argv
@@ -183,6 +260,8 @@ def main():
         lu = as_date(d.get("last_updated"))
         if lu is None:
             warns.append(f"{rel}: last_updated 未填或格式非 YYYY-MM-DD")
+
+    check_driver_integrity(root)
 
     if only_stale:
         print("=== 陳舊變數 (>%d 天) ===" % STALE_DAYS)

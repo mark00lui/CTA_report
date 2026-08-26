@@ -10,6 +10,7 @@ conviction: 中                   # 高 / 中 / 低
 tp_before: __
 tp_after: __
 tp_delta: "+0%"
+supersedes: ""                  # 本報告取代哪一份舊報告的路徑；留空表示不取代任何報告
 sources:
   - "來源名稱 — URL — 取得日期"
 ---

@@ -27,13 +27,29 @@
 ## 倉庫結構
 
 ```
-state/<ticker>.yaml       個股狀態 — 唯一真實來源，可寫
+state/<ticker>.yaml       個股狀態 — 個股層唯一真實來源，可寫
 state/coverage.yaml       覆蓋清單的因子結構與共同前提
+drivers/<slug>.yaml       共用驅動因子 — 跨標的變數的唯一真實來源
+notes/YYYY-MM.md          暫存收件匣 — 還不知道該歸哪裡的觀察
 reports/YYYY/MM/*.md      推論文件 — append-only，不修改已提交的報告
 reports/INDEX.md          自動產生，勿手改
 scripts/                  驗證、索引、倉位資訊掃描
 .claude/skills/           cta-research skill（分級規則、模板、schema）
 ```
+
+## 三層資料模型
+
+| 層 | 存什麼 | 誰擁有 |
+|---|---|---|
+| `drivers/` | 多檔共用、不屬於任何單一標的的變數（四大 capex、匯率、產業滲透率） | 跨標的 |
+| `state/` | 該標的專屬的論點、情境、變數、否證點 | 單一標的 |
+| `notes/` | 還不成熟、尚未歸屬的觀察 | 未定 |
+
+**一個共用事實只能有一個家。** 四大 CSP capex 住在 `drivers/hyperscaler-capex.yaml`，個股用 `driver_refs` 引用，**絕不複製數值進 state**。複製會讓四份檔案各自漂移，而漂移不會報錯——只會安靜地讓某檔的模型停止更新。
+
+`validate_state.py` 檢查 `driver_refs` 與 driver 的 `transmission` **雙向一致**：單向引用、方向不一致、指向不存在的 driver 都會擋 commit。
+
+**同一則消息對不同標的方向可能相反。** capex 上修對硬體端（TSM／3324／3017／6442）是需求利多，對平台端（MSFT／GOOG／META／AMZN）是折舊與 ROI 利空。driver 的 `transmission` 逐檔記了 `direction` 與 `lag`——扇出時照它走，不要套用同一個結論。若你發現自己對兩端寫出同方向的結果，先停下來確認那是真的。
 
 ## 核心迴圈
 

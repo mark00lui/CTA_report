@@ -1,0 +1,39 @@
+# 共用驅動因子範本 — 複製為 drivers/<slug>.yaml。
+# 這一層存放「多檔標的共用、且不屬於任何單一標的」的變數。
+# 規則：一個共用事實只能有一個家。個股 state 用 driver_refs 引用，不複製數值。
+id: __                    # slug，與檔名一致
+name: "__"
+what_it_is: "__"          # 一句話定義：這個變數量測什麼
+why_shared: "__"          # 為何它不屬於任何單一標的
+
+current:
+  value: __
+  unit: __
+  as_of: __
+  tier: __                # 事實 / 推論 / 假設 / 缺口
+  source: "__"
+
+components: []            # 若由多個來源加總，逐一列出 {name, value, guidance_range, source, as_of}
+
+history: []               # {as_of, value, note} — 保留變化軌跡，看修正方向比看絕對值重要
+
+transmission:             # 傳導到哪些標的、方向、時滯、敏感度
+  - ticker: __
+    direction: __         # + 正向 / - 反向
+    path: "__"            # 傳導鏈，寫清楚中間環節
+    lag: "__"             # 領先／落後幾季
+    sensitivity: __       # 高 / 中 / 低
+    affects: [__]         # 對應該檔 state 的哪些 key_variables
+
+falsifiers:
+  - {condition: "__", check_by: __, status: 未驗證, action: "__"}
+
+checkpoints:
+  - {date: __, event: "__", what_to_watch: "__"}
+
+update_cadence: "__"      # 什麼時候會有新資料
+gaps:
+  - {question: "__", how_to_close: "__"}
+
+event_log: []
+last_updated: __

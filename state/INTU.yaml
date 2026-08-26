@@ -1,102 +1,139 @@
-# 公開研究檔範本 — 複製為 state/<ticker>.yaml。
-# 本倉庫不含任何倉位資訊：無成本、無張數、無權重、無 Kelly、無損益、無持倉揭露。
+# 公開研究檔 — 本倉庫不含任何倉位資訊：無成本、無張數、無權重、無 Kelly、無損益、無持倉揭露。
 # 未知值一律留 __ 並寫進 gaps，不要填看起來合理的數字。
+#
+# 估值口徑注意：自 2026-08-01（FY2027 起）Intuit 的 non-GAAP 已「含」股權薪酬，
+# FY27 指引內含每股 $5.81。scenarios 的 eps 與 exit_multiple 均為新口徑。
+# 歷史 30–40x 為舊口徑（排除 SBC），換算新口徑約 38–50x。跨年度 EPS 比較前務必先還原。
 ticker: INTU
 name: Intuit
 market: US
 factor_tags:
 - ai_application
 - saas
-thesis: __
-thesis_since: __
+thesis: 護城河同時被 agentic AI 與低價競爭測試；管理層以自願降價重建漏斗換取更大付費基數，估值已定價轉型失敗，驗證要等 2027 報稅季
+thesis_since: 2026-08-26
+valuation_base_year: FY2027
 scenarios:
   bear:
-    p: __
-    p_basis: __
-    key_assumption: 中小企業景氣轉弱、AI 原生競爭者侵蝕、報稅市佔流失
-    eps: __
-    exit_multiple: __
-    tp: __
-    narrative: __
+    p: 0.30
+    p_basis: 機率由使用者於 2026-08-26 全量重估指定。AI 替代風險在 2027 報稅季前無法否證，屬不對稱的無知不可低估；但管理層連五季超預期，且本次侵蝕經證實來自價格而非 AI，故壓在三成而非更高
+    key_assumption: 降價未換回件數；agentic AI 對 DIY 與記帳的替代真實發生；FY28 營收成長跌破 8%
+    eps: 22.88
+    exit_multiple: 10
+    tp: 229
+    narrative: 「自願重置」事後被證實是被迫，市場給結構性衰退倍數
   base:
-    p: __
-    p_basis: __
-    key_assumption: 訂閱維持雙位數成長、AI 功能提升留存但定價效果有限
-    eps: __
-    exit_multiple: __
-    tp: __
-    narrative: __
+    p: 0.45
+    p_basis: FY27 減速是管理層自選而非被動下修，達成機率高於一般情形；QuickBooks Free/Lite 首月逾 20,000 戶與 Mid-Market Q4 +39% 證明漏斗運作中
+    key_assumption: FY27 指引達成；件數止穩但以 ARPU 讓利換取，成長維持 9–10%
+    eps: 23.00
+    exit_multiple: 15
+    tp: 345
+    narrative: 重置有效但慢，倍數自 13.7x 溫和修復
   bull:
-    p: __
-    p_basis: __
-    key_assumption: AI agent 成功貨幣化，ARPU 與滲透同步上行
-    eps: __
-    exit_multiple: __
-    tp: __
-    narrative: __
-  weighted_tp: __
+    p: 0.25
+    p_basis: 需要件數回正與倍數修復同時發生，而件數要到 2027-05 才看得到，時間上不允許更高權重
+    key_assumption: 2027 報稅季付費件數回到 +5% 以上；Mid-Market 維持 30%+；市場承認 AI 恐慌過度
+    eps: 24.00
+    exit_multiple: 22
+    tp: 528
+    narrative: 倍數向歷史區間下緣修復，但即使 bull 也假設永久折損未完全消失（22x 仍遠低於歷史換算後的 38–50x）
+  weighted_tp: 356
 key_variables:
-- name: 訂閱營收成長
-  value: __
+- name: Online Ecosystem成長(ex-Mailchimp)
+  value: 23
   unit: '% YoY'
-  tier: 缺口
-  source: ''
-  updated: __
+  tier: 事實
+  source: Intuit FY26 Q4 財報／法說 2026-08-25（Q4 +20%；FY27 GBS 指引 +13–14%）
+  updated: 2026-08-26
+- name: TurboTax付費件數
+  value: 2
+  unit: '% YoY'
+  tier: 事實
+  source: Intuit FY26 Q4 法說 2026-08-25（總件數 -2%，ARPU +11%）
+  updated: 2026-08-26
 - name: AI功能貨幣化證據
-  value: __
+  value: 無獨立計價機制；定位為 assisted tax 的規模化槓桿而非加價工具，未給貨幣化時程
   unit: 質性
-  tier: 缺口
-  source: ''
-  updated: __
+  tier: 事實
+  source: Intuit FY26 Q4 法說 2026-08-25
+  updated: 2026-08-26
 - name: 中小企業客戶淨增
-  value: __
+  value: QuickBooks Free/Lite 首月逾 20,000 戶；new-to-franchise 客戶增逾 30%
+  unit: 質性
+  tier: 事實
+  source: Intuit FY26 Q4 法說 2026-08-25
+  updated: 2026-08-26
+- name: Non-GAAP營益率(FY27指引)
+  value: 34.6
   unit: '%'
-  tier: 缺口
-  source: ''
-  updated: __
-- name: 報稅季市佔
-  value: __
-  unit: '%'
-  tier: 缺口
-  source: ''
-  updated: __
-- name: 營益率
-  value: __
-  unit: '%'
-  tier: 缺口
-  source: ''
-  updated: __
+  tier: 推論
+  source: 由 FY27 指引 $8.063–8.145B ÷ $23.279–23.512B 推算，2026-08-25
+  updated: 2026-08-26
+- name: 中型企業成長
+  value: 39
+  unit: '% YoY (Q4)'
+  tier: 事實
+  source: Intuit FY26 Q4 法說 2026-08-25；Intuit Enterprise Suite 年化營收逾 $145M，YoY 4x
+  updated: 2026-08-26
 cta:
-  位階: __
-  price: __
-  key_ma: __
-  support: __
-  resistance: __
-  updated: __
-  invalidation: __
-  confirm_trigger: __
+  位階: 空頭排列、反彈受阻 — 價格在 200DMA 之下，死亡交叉未修復；自 52 週低反彈約 +41% 後遭財報跳空回吐
+  price: 315.60
+  key_ma: 50DMA 302.80 / 200DMA 439.52
+  support: 302.80 (50DMA) → 252.84 (52週低)
+  resistance: 369.92 (財報前收盤，跳空缺口上緣) → 439.52 (200DMA)
+  updated: 2026-08-26
+  invalidation: 週收盤跌破 302.80 且後續失守 252.84 → bear 機率上修、評級轉偏空
+  confirm_trigger: 兩段式 — (1) 收復並站穩 369.92 缺口且 50DMA 上彎；(2) 站上 439.52 且 200DMA 走平轉揚。第 (2) 段成立才算右側確認
 signal:
-  rating: __
-  conviction: __
-  basis: __
-  changes_if: __
+  rating: 中性
+  conviction: 中
+  basis: FY27 EPS 指引還原 SBC 口徑後（$28.69–28.93）實際優於市場模型，34.6% 營益率搭配 11.0x 舊口徑估值已定價相當程度的結構性衰退；但 agentic AI 替代風險在 2027 報稅季前無法否證，技術面仍在 200DMA 之下缺乏右側確認
+  changes_if: 站上 439.52 且 200DMA 轉揚 → 偏多；週收盤跌破 252.84 → 偏空；FY27 Q3（約 2027-05）TurboTax 付費件數 YoY 轉負 → 直接偏空，不等技術面
 falsifiers:
-- condition: 訂閱成長跌破 __% 且管理層歸因於競爭而非景氣
-  check_by: __
-  status: 未驗證
-- condition: 報稅季付費件數 YoY 轉負
-  check_by: __
+- condition: Online Ecosystem (ex-Mailchimp) 年成長跌破 15% 且管理層歸因於競爭而非景氣（現況 FY26 +23%）
+  check_by: 2027-02-28
+  status: 未觸發
+- condition: TurboTax Online 付費件數 YoY 轉負（現況 FY26 +2%；先行指標總件數已 -2%）
+  check_by: 2027-05-31
+  status: 未觸發
+- condition: FY27 實際營收低於指引下緣 23.279B 美元，且管理層將 Consumer 減速歸因於競爭而非自主重置
+  check_by: 2027-08-31
   status: 未驗證
 checkpoints:
-- date: __
-  event: 季報
-  what_to_watch: 訂閱成長、AI 相關 ARPU 措辭
-- date: __
-  event: 報稅季結束後的成績單
-  what_to_watch: 市佔與付費轉換
+- date: '2026-11'
+  event: Q1 FY27 財報（日期未公告，依 FY26 慣例推估 11 月下旬）
+  what_to_watch: QuickBooks Free/Lite 付費轉換率、Online Ecosystem 成長是否守住 20%、Credit Karma 減速歸因
+- date: '2027-02'
+  event: Q2 FY27 財報
+  what_to_watch: 報稅季早期件數指標、降價幅度是否量化
+- date: '2027-05'
+  event: Q3 FY27 財報 — 報稅季成績單
+  what_to_watch: 付費件數與總件數 YoY。本論點的主要驗證點；付費件數轉負即論點失效
+- date: '2027-08'
+  event: Q4 FY27 + FY28 指引
+  what_to_watch: 「三年後更大付費基數」的第一次可信度檢驗
 gaps:
-- question: AI 是降本還是能加價？兩者估值意涵完全不同
-  how_to_close: 法說 Q&A、定價頁面變化、客戶端訪查
-notes: 本檔在覆蓋清單中的作用是與 AI capex 因子低相關。若分析時把它當成另一支 AI 股來看，就失去單獨追蹤的意義 — 每季實測它與清單其他標的的相關性。
-event_log: []
+- question: FY2028 市場一致預估查無可靠值，無法檢查基準年滾動後的估值
+  how_to_close: 待賣方於 FY27 Q1/Q2 後更新模型；或 S&P Global／Visible Alpha
+- question: 2026-08-26 正式收盤價未知（CTA 採盤前 315.60；另有報導稱盤中跌幅收斂至約 -5%）
+  how_to_close: 次一交易日確認收盤，若位階判讀改變則出 L1 補正
+- question: FY27 TurboTax 件數指引未給（只給營收 +2–3%），無法區分「降價換量成功」與「量價齊跌」
+  how_to_close: Q1 FY27 法說 Q&A
+- question: 降價幅度未量化
+  how_to_close: 追蹤 TurboTax 定價頁面；Q2 FY27 報稅季開跑時實測
+- question: AI agent 貨幣化時程 — 管理層明說沒有
+  how_to_close: FY27 法說或 Investor Day
+- question: Credit Karma 自 +20% 減速至 +11–13% 的歸因（信貸循環 vs TurboTax 導流一次性效應消退）
+  how_to_close: Q1 FY27 法說
+notes: 本檔在覆蓋清單中的作用是與 AI capex 因子低相關。2026-08-26 的證據支持這個假設，且更進一步 —
+  壓垮 INTU 的是低價競爭與 agentic AI 對應用層的替代疑慮，方向與 capex 鏈相反（capex 越強、agentic
+  AI 能力越強，應用層護城河壓力越大），因此某種程度上是 AI capex 主題的反向曝險。若股價開始與 TSM／3324／6442
+  同向，代表假設失效，應觸發覆蓋層 review。｜機率敏感度低：另兩組候選機率得出 341 與 362，全距僅 ±3%，
+  Base 情境主導。真正的槓桿在 exit multiple — 未來若調高倍數來維持結論，那是論點漂移，應標 L3。
+event_log:
+- date: 2026-08-26
+  level: L3
+  summary: 手動全量重估（適逢 FY26 Q4 財報）。當季雙超預期（$4.4B +14%／non-GAAP EPS $4.03），FY27 指引主動減速至 +9–10%；管理層承認 DIY 稅務在低價端輸掉市佔
+  delta: 論點層首次建立；基準年設為 FY2027；三情境寫定，加權目標價 356（無前值）；訊號中性／信心中。既有兩條 falsifier 均未觸發，但 TurboTax 總件數 -2% 已為先行指標。發現 FY27 起 non-GAAP 含 SBC，還原後 EPS 指引實為超前而非落後
 last_updated: 2026-08-26

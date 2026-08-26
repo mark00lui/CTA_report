@@ -1,104 +1,150 @@
-# 公開研究檔範本 — 複製為 state/<ticker>.yaml。
-# 本倉庫不含任何倉位資訊：無成本、無張數、無權重、無 Kelly、無損益、無持倉揭露。
+# 公開研究檔 — 本倉庫不含任何倉位資訊：無成本、無張數、無權重、無 Kelly、無損益、無持倉揭露。
 # 未知值一律留 __ 並寫進 gaps，不要填看起來合理的數字。
+#
+# 估值口徑：scenarios 的 eps 為 non-GAAP（排除 OpenAI 投資損益）。該項在 FY26 使
+# GAAP EPS $17.95 高於 non-GAAP $17.28，且季間會反轉方向（Q4 為 +$480M 利益，
+# 前一年同期為 -$1.6B 損失），不適合當估值錨。
 ticker: MSFT
 name: Microsoft
 market: US
 factor_tags:
 - ai_platform
 - saas
-thesis: __
-thesis_since: __
+driver_refs:
+- driver: hyperscaler-capex
+  direction: '-'
+  note: 四大 CSP capex 合計與各家曆年成分值住在 driver，不複製進本檔。傳導路徑（capex → 折舊費用 → 營益率，落後
+    2–4 季，敏感度高）見該檔 transmission。⚠ 該 driver 的 Microsoft 成分仍為 190（標「曆年推估」），與公司
+    2026-07-29 揭露的曆年 2026 約 175 不符，合計 725 亦連帶高估 — 需另跑 /driver 修正並扇出，修正時務必註明
+    差額為會計年限口徑而非需求下修。
+thesis: Azure +43% 與 RPO +84% 證明 capex 正轉為承諾營收；真正風險不是需求而是折舊時點與 15→25 年年限假設，那決定 FY27–28 獲利品質
+thesis_since: 2026-08-26
+valuation_base_year: FY2027
 scenarios:
   bear:
-    p: __
-    p_basis: __
-    key_assumption: capex 折舊侵蝕營益率、Azure 成長減速
-    eps: __
-    exit_multiple: __
-    tp: __
-    narrative: __
+    p: 0.25
+    p_basis: 機率由使用者於 2026-08-26 全量重估指定。折舊壓力是確定會發生的事，只是時點與幅度未知；街上已用 FY27 EPS +14%（vs FY26 +22%）標了它。給四分之一，反映「會發生但已被部分定價」
+    key_assumption: FY26–27 capex 的折舊在 FY27 下半集中入帳，營益率跌破 46.8%；Azure 隨產能到位回落至 35% 區間；市場對 AI 平台的耐心縮短
+    eps: 18.50
+    exit_multiple: 20
+    tp: 370
+    narrative: 折舊先於營收到位；20x 是 52 週低 349.20 當時市場實際付過的倍數
   base:
-    p: __
-    p_basis: __
-    key_assumption: Azure 維持 guidance 區間、Copilot 溫和貨幣化
-    eps: __
-    exit_multiple: __
-    tp: __
-    narrative: __
+    p: 0.50
+    p_basis: 需求面本季沒有可爭論處，Q1 FY27 指引（Azure +45% cc）還高於共識 41.4%。共識達成是最可能的路徑
+    key_assumption: FY27 共識達成；Azure 維持 40%+，營益率大致持平；倍數自 24.89x 小幅修復
+    eps: 19.75
+    exit_multiple: 26
+    tp: 514
+    narrative: 倍數僅略高於現況，刻意不靠重評價支撐目標價
   bull:
-    p: __
-    p_basis: __
-    key_assumption: AI 產能約束解除 + Copilot seats 加速
-    eps: __
-    exit_multiple: __
-    tp: __
-    narrative: __
-  weighted_tp: __
+    p: 0.25
+    p_basis: 需要 Copilot 席次動能延續與折舊晚於預期同時成立；前者有本季實績（20M→30M）支撐，後者未經驗證。與 bear 對稱
+    key_assumption: Copilot 自 6.5% 滲透率繼續複製本季席次跳增；RPO 轉化速度優於折舊累積；年限變更貢獻高於管理層所稱的 minimal
+    eps: 21.00
+    exit_multiple: 31
+    tp: 651
+    narrative: 倍數回到近五年區間中段（25–35x），未取上緣
+  weighted_tp: 512
 key_variables:
 - name: Azure成長率
-  value: __
-  unit: '% YoY cc'
-  tier: 缺口
-  source: ''
-  updated: __
-- name: 資本支出年增
-  value: __
-  unit: '%'
-  tier: 缺口
-  source: ''
-  updated: __
+  value: Q4 FY26 +43%；FY26 全年 +41%（年營收首破 $100B）；Q1 FY27 指引 +45% cc（共識 41.4%）
+  unit: '% YoY'
+  tier: 事實
+  source: Microsoft FY26 Q4 財報／法說 2026-07-29。註：Q4 的 +43% 來源未區分報導值或 cc
+  updated: 2026-08-26
 - name: 營益率
-  value: __
+  value: 46.8
   unit: '%'
-  tier: 缺口
-  source: ''
-  updated: __
+  tier: 事實
+  source: FY26 營業利益 $155.2B ÷ 營收 $331.8B，2026-07-29；Q4 為 45.1%（$40.6B ÷ $90.0B）
+  updated: 2026-08-26
 - name: RPO與成長
-  value: __
+  value: 678
   unit: USD bn
-  tier: 缺口
-  source: ''
-  updated: __
+  tier: 事實
+  source: Microsoft FY26 Q4 財報 2026-07-29；+84% YoY，排除 OpenAI 承諾後仍 +25%
+  updated: 2026-08-26
 - name: Copilot付費席次
-  value: __
+  value: 30
   unit: M
-  tier: 缺口
-  source: ''
-  updated: __
+  tier: 事實
+  source: Microsoft FY26 Q4 法說 2026-07-29（逾 30M，Q3 約 20M）；約當 ~464M M365 商用席次的 6.5%
+  updated: 2026-08-26
 - name: OpenAI關係結構
-  value: __
+  value: non-GAAP 排除 OpenAI 投資損益；Q4 為 +$480M 利益（每股 $0.07），去年同期 -$1.6B 損失；RPO 的 +84% 含 OpenAI 承諾，排除後 +25%
   unit: 質性
-  tier: 缺口
-  source: ''
-  updated: __
+  tier: 事實
+  source: Microsoft FY26 Q4 財報 2026-07-29
+  updated: 2026-08-26
+- name: 折舊年限假設
+  value: 資料中心耐用年限 15→25 年，未來租賃由融資改列營業；曆年 2026 capex 口徑因此由 ~190 降至 ~175。管理層稱對 FY27 營益「minimal benefit」，未經附註驗證
+  unit: 質性
+  tier: 事實
+  source: Microsoft FY26 Q4 法說 2026-07-29（Amy Hood）。實際影響金額待 FY26 10-K 附註
+  updated: 2026-08-26
 cta:
-  位階: __
-  price: __
-  key_ma: __
-  support: __
-  resistance: __
-  updated: __
-  invalidation: __
-  confirm_trigger: __
+  位階: 突破已成、均線結構待確認 — 價格站上並遠高於 50DMA(+15%) 與 200DMA(+13%)，7/29 財報跳空 +8% 近一個月未回補；但 50DMA 仍略低於 200DMA，死亡交叉未完成修復
+  price: 487.73
+  key_ma: 50DMA 423.80 / 200DMA 431.10
+  support: 431.10 (200DMA) → 423.80 (50DMA) → 349.20 (52週低)
+  resistance: 553.72 (52週高)
+  updated: 2026-08-26
+  invalidation: 週收盤跌破 431.10 (200DMA) → 突破失敗，評級降為中性；跌破 349.20 → 偏空
+  confirm_trigger: 主要條件已具備（站上並守住 200DMA、跳空未回補、創更高低點）。剩餘：50DMA 上穿 200DMA 完成黃金交叉（兩者僅差 1.7%）→ 信心度由中升為高
 signal:
-  rating: __
-  conviction: __
-  basis: __
-  changes_if: __
+  rating: 偏多
+  conviction: 中
+  basis: 技術面已具備右側確認主要條件，非「基本面轉好但技術面未確認」的情形；基本面同向（Azure 由 +43% 加速至 Q1 FY27 指引 +45% cc、RPO +84% 排除 OpenAI 後仍 +25%、遠期 24.89x 位於近五年區間下緣）。信心僅中有二：加權目標價相對現價只有 +5.0% 空間；50/200 黃金交叉尚未完成
+  changes_if: 50DMA 上穿 200DMA → 信心升至高；週收盤跌破 431.10 → 中性；FY27 營益率守住但附註顯示主要由年限變更貢獻 → 中性（獲利品質問題）；Azure cc 連兩季低於 35% 且非產能因素，或跌破 349.20 → 偏空
 falsifiers:
-- condition: Azure 成長連兩季減速且非產能因素
-  check_by: __
-  status: 未驗證
-- condition: capex 續增但 RPO 成長放緩（投入未轉化為承諾營收）
-  check_by: __
+- condition: Azure 固定匯率成長連兩季低於 35%，且管理層未歸因於產能受限（現況 Q4 FY26 +43%，Q1 FY27 指引 +45% cc）
+  check_by: 2027-01-31
+  status: 未觸發
+- condition: RPO（排除 OpenAI 承諾）成長連兩季低於 15%，而同期 capex 仍年增（現況 +25%，capex Q4 +69%）
+  check_by: 2027-01-31
+  status: 未觸發
+- condition: 10-K／10-Q 附註顯示資料中心年限由 15 延長至 25 年對 FY27 營益率貢獻超過 100bps（管理層稱 minimal；若實為重大則獲利品質論點受損）
+  check_by: 2027-08-31
   status: 未驗證
 checkpoints:
-- date: __
-  event: 季報 + guidance
-  what_to_watch: Azure cc 成長、capex、營益率三者的取捨措辭
+- date: '2026-10'
+  event: Q1 FY27 財報（日期未公告，依慣例推估 10 月下旬）
+  what_to_watch: Azure 是否達指引的 +45% cc、單季 capex 是否逾 $50B、Copilot 席次自 30M 的續增幅度、營益率
+- date: '2027-01'
+  event: Q2 FY27 財報
+  what_to_watch: Azure 成長的連續性、RPO 排除 OpenAI 後的成長率、折舊費用是否開始明顯反映在營益率
+- date: '2027-04'
+  event: Q3 FY27 財報
+  what_to_watch: AI 業務 ARR 是否重述（上次揭露為 2026-04-29 的 $37B）
+- date: '2027-08'
+  event: Q4 FY27 + FY28 展望
+  what_to_watch: 全年營益率與 FY26 的 46.8% 對照；年限變更的實際貢獻是否如管理層所稱為 minimal
 gaps:
-- question: AI 相關營收的實際揭露顆粒度
-  how_to_close: 財報電話會議 Q&A
-event_log: []
+- question: 年限 15→25 年的適用範圍（僅資料中心廠房外殼？含伺服器與 GPU？）與對 FY27 折舊的實際金額影響
+  how_to_close: FY26 10-K 折舊附註（SEC accession 0001193125-26-323660，已可取得）
+- question: FY2028 共識 EPS 與營收查無公開值（付費牆）
+  how_to_close: 待 FY27 Q2 後的公開來源；或 S&P Global／Visible Alpha
+- question: FY27 共識 EPS $19.75 的口徑（GAAP 或 non-GAAP）未經來源確認
+  how_to_close: 核對原始賣方報告
+- question: Q4 FY26 Azure 的 +43% 是報導值或固定匯率，來源未區分
+  how_to_close: FY26 10-K／Q4 財務報表附件
+- question: 200DMA 斜率（已上彎或仍下彎），影響右側確認的強度判讀
+  how_to_close: 次一交易日的技術資料
+- question: 2026-08-26 正式收盤價未知（CTA 採盤前 487.73）
+  how_to_close: 次一交易日確認
+- question: AI 相關營收的實際揭露顆粒度（原有 gap，本季未關閉）；AI 業務 ARR $37B 為 2026-04-29 揭露且 Q4 未重述
+  how_to_close: 財報電話會議 Q&A；公司不單獨揭露
+- question: Amy Hood 的年限變更原話僅有單一二手來源，未取得法說逐字稿佐證 — 而它支撐了「capex 未下修」這個關鍵判斷
+  how_to_close: 取得 FY26 Q4 法說逐字稿；若與此不符，報告的〈口徑陷阱〉整節需重寫
+notes: 本檔的分歧不在需求而在獲利品質。Azure、RPO、Intelligent Cloud 三者本季都沒有可爭論的空間；問題是那些營收要用多貴的資產去換、
+  以及折舊何時入帳（落後 2–4 季）。街上把 FY27 EPS 成長從 FY26 的 +22% 砍到 +14%，就是這條負向傳導的定量表述。｜
+  重要：2026-07-29 起 capex「金額」與「折舊入帳方式」正式分岔 —— 硬體端（TSM／3324／3017／6442）看的是出貨量，
+  不受年限假設影響；平台端看的是進入損益表的折舊。drivers/hyperscaler-capex.yaml 用單一數值同時服務兩端的精度
+  已因此下降。若平台端與硬體端的模型日後出現說不通的落差，第一個該懷疑的是這裡，不是個股層假設。
+event_log:
+- date: 2026-08-26
+  level: L3
+  summary: 手動全量重估（最近財報為 2026-07-29 FY26 Q4）。營收 $90.0B +18%、non-GAAP EPS $4.74 +23%、Azure +43%、RPO $678B +84%；曆年 2026 capex 由 ~190 降至 ~175
+  delta: 論點層首次建立；基準年設為 FY2027；三情境寫定，加權目標價 512（無前值）；訊號偏多／信心中。兩條原 falsifier 門檻補齊後均未觸發，新增年限變更貢獻的第三條。資本支出年增移出 key_variables 改為 driver_refs 引用。關鍵發現：capex 口徑下修全數來自折舊年限 15→25 年與租賃重分類，非需求，driver 的三條 falsifier 亦均未觸發
 last_updated: 2026-08-26

@@ -1,13 +1,16 @@
 #!/bin/sh
-# CTA 推論專案 — commit 前的洩漏攔截
+# CTA 推論專案 — commit 前檢查
 # 安裝： bash scripts/install_hooks.sh
 
-echo "→ 掃描 staged 檔案是否含尺寸／損益資料…"
+echo "→ 掃描 staged 檔案是否含倉位資訊…"
 python scripts/check_public.py --staged || {
     echo ""
     echo "✗ commit 已中止。推上 public 之後就洗不掉了。"
     exit 1
 }
+
+echo "→ 檢查 reports/ 是否維持 append-only…"
+python scripts/check_append_only.py || exit 1
 
 echo "→ 驗證 state 結構…"
 python scripts/validate_state.py || exit 1

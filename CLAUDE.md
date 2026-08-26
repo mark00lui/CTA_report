@@ -45,15 +45,19 @@ scripts/                  驗證、索引、倉位資訊掃描
 
 ## 這個倉庫的特殊約定
 
-**報告是 append-only。** 已 commit 的報告不修改。判斷錯了就寫新報告修正它，讓錯誤留在 git history 裡。事後修飾過的研究記錄沒有校準價值——你需要能回頭問「我當時憑什麼那樣想」。
+**報告是 append-only，由 pre-commit hook 機械強制。** 已 commit 的報告不修改、不刪除、不改名——`check_append_only.py` 會擋下（`reports/INDEX.md` 例外，它是自動產生的）。
+
+判斷錯了就寫新報告修正，並在新報告的 front-matter 填 `supersedes` 指向舊檔，索引會把舊的標為「已取代」。舊報告留在原地。事後修飾過的研究記錄沒有校準價值——你需要能回頭問「我當時憑什麼那樣想」，而「只是改個錯字」正是這種記錄開始腐爛的方式。
+
+**state 則相反：原地修改。** 一份檔案代表當下最佳判斷，歷史由 git diff 保存。這是兩種物件的分工——報告不可變、state 可變且被版控。
 
 **state 可寫，但每次改動必須有對應報告。** 沒有報告佐證的 state 變動不該存在。若 state 與 reports 不一致，以 reports 為準並補寫修正報告。
 
 **commit 前一定跑：**
 ```bash
-python scripts/check_public.py && python scripts/validate_state.py && python scripts/build_index.py
+python scripts/check_public.py && python scripts/check_append_only.py && python scripts/validate_state.py && python scripts/build_index.py
 ```
-pre-commit hook 會自動跑前兩項（`bash scripts/install_hooks.sh` 安裝一次）。
+pre-commit hook 會自動跑前三項（`bash scripts/install_hooks.sh` 安裝一次）。
 
 **commit message 格式**（讓 `git log` 本身成為研究日誌），同樣不得含倉位資訊：
 ```

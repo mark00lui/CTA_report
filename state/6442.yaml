@@ -1,0 +1,121 @@
+# 公開研究檔範本 — 複製為 state/<ticker>.yaml。
+# 本倉庫不含任何倉位資訊：無成本、無張數、無權重、無 Kelly、無損益、無持倉揭露。
+# 未知值一律留 __ 並寫進 gaps，不要填看起來合理的數字。
+ticker: 6442
+name: 光聖
+market: TW
+factor_tags:
+- ai_capex_hw
+- optical
+- cpo
+- single_customer
+- tw_fx
+thesis: AI 資料中心光纖連接與 CPO 用光學互連需求，帶動產品組合升級與毛利結構性上移
+thesis_since: __
+scenarios:
+  bear:
+    p: __
+    p_basis: __
+    key_assumption: CPO 量產遞延、A 客戶砍單或分散供應商
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: __
+  base:
+    p: __
+    p_basis: __
+    key_assumption: 光通訊占比維持高檔，CPO 依既定時程放量
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: __
+  bull:
+    p: __
+    p_basis: __
+    key_assumption: CPO 加速滲透 + 上游結盟綁定，毛利率維持 50%+
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: __
+  weighted_tp: __
+key_variables:
+- name: A客戶營收占比
+  value: 63
+  unit: '%'
+  tier: 事實
+  source: 2025 合併財報（單一客戶銷貨占全年營收約 63%）
+  updated: 2026-08-26
+- name: 光通訊產品營收占比
+  value: __
+  unit: '%'
+  tier: 缺口
+  source: 近期揭露約 80%~92% 區間，須以最新一期為準
+  updated: __
+- name: 毛利率
+  value: __
+  unit: '%'
+  tier: 缺口
+  source: 2025 全年約 57.7%（待最新季度更新）
+  updated: __
+- name: CPO量產時點
+  value: __
+  unit: 季
+  tier: 缺口
+  source: ''
+  updated: __
+- name: 產能擴充進度
+  value: __
+  unit: '%'
+  tier: 缺口
+  source: ''
+  updated: __
+- name: IET-KY結盟綜效
+  value: __
+  unit: 質性
+  tier: 缺口
+  source: 策略換股取得 IET-KY 約 15.26% 股權（待確認最新狀態）
+  updated: __
+monthly_revenue:
+- month: __
+  rev: __
+  yoy: __
+  mom: __
+cta:
+  位階: __
+  price: __
+  key_ma: __
+  support: __
+  resistance: __
+  updated: __
+  invalidation: __
+  confirm_trigger: __
+signal:
+  rating: __
+  conviction: __
+  basis: __
+  changes_if: __
+falsifiers:
+- condition: A 客戶占比驟降或明確分散供應，單季營收 YoY 轉負
+  check_by: __
+  status: 未驗證
+- condition: 毛利率連兩季跌破 __%（產品組合下滑或殺價）
+  check_by: __
+  status: 未驗證
+- condition: CPO 量產時程遞延超過 __ 季
+  check_by: __
+  status: 未驗證
+checkpoints:
+- date: __
+  event: 月營收公布
+  what_to_watch: YoY 動能與客戶集中度線索
+- date: __
+  event: 季報／法說
+  what_to_watch: 毛利率、光通訊占比、CPO 進度
+gaps:
+- question: A 客戶身分與其 capex 週期（集中度風險的真正來源）
+  how_to_close: 供應鏈查證 / 終端客戶 capex guidance 交叉比對
+- question: 轉債（光聖三）稀釋影響與轉換價
+  how_to_close: 公開資訊觀測站公告
+notes: 單一客戶占比 63% 是本檔最大的非對稱風險 — 論點對了但客戶砍單，股價仍會受重擊。這個風險與論點本身相互獨立，訊號評級的信心度應據此下調。
+event_log: []
+last_updated: 2026-08-26

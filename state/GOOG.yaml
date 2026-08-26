@@ -1,0 +1,101 @@
+# 公開研究檔範本 — 複製為 state/<ticker>.yaml。
+# 本倉庫不含任何倉位資訊：無成本、無張數、無權重、無 Kelly、無損益、無持倉揭露。
+# 未知值一律留 __ 並寫進 gaps，不要填看起來合理的數字。
+ticker: GOOG
+name: Alphabet
+market: US
+factor_tags:
+- ai_platform
+- advertising
+thesis: __
+thesis_since: __
+scenarios:
+  bear:
+    p: __
+    p_basis: __
+    key_assumption: Search 詢價量被 AI 介面侵蝕、反壟斷救濟實質化
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: __
+  base:
+    p: __
+    p_basis: __
+    key_assumption: Search 穩定、Cloud 維持高成長
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: __
+  bull:
+    p: __
+    p_basis: __
+    key_assumption: TPU 外售形成第二成長曲線 + Gemini 貨幣化
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: __
+  weighted_tp: __
+key_variables:
+- name: Search營收成長
+  value: __
+  unit: '% YoY'
+  tier: 缺口
+  source: ''
+  updated: __
+- name: Cloud成長率
+  value: __
+  unit: '% YoY'
+  tier: 缺口
+  source: ''
+  updated: __
+- name: 資本支出
+  value: __
+  unit: USD bn
+  tier: 缺口
+  source: ''
+  updated: __
+- name: TPU外部採用進展
+  value: __
+  unit: 質性
+  tier: 缺口
+  source: ''
+  updated: __
+- name: 反壟斷救濟狀態
+  value: __
+  unit: 質性
+  tier: 缺口
+  source: ''
+  updated: __
+cta:
+  位階: __
+  price: __
+  key_ma: __
+  support: __
+  resistance: __
+  updated: __
+  invalidation: __
+  confirm_trigger: __
+signal:
+  rating: __
+  conviction: __
+  basis: __
+  changes_if: __
+falsifiers:
+- condition: Search 營收成長連兩季低於 __%
+  check_by: __
+  status: 未驗證
+- condition: 法院救濟涉及預設搜尋協議的實質變更
+  check_by: __
+  status: 未驗證
+checkpoints:
+- date: __
+  event: 季報
+  what_to_watch: Search 成長、Cloud backlog、capex
+- date: __
+  event: 法律程序節點
+  what_to_watch: 救濟範圍
+gaps:
+- question: TPU 外售對 NVDA 生態的實際替代率
+  how_to_close: 客戶端訪查 / 同業法說
+event_log: []
+last_updated: 2026-08-26

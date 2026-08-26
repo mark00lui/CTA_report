@@ -1,0 +1,99 @@
+# 公開研究檔範本 — 複製為 state/<ticker>.yaml。
+# 本倉庫不含任何倉位資訊：無成本、無張數、無權重、無 Kelly、無損益、無持倉揭露。
+# 未知值一律留 __ 並寫進 gaps，不要填看起來合理的數字。
+ticker: META
+name: Meta Platforms
+market: US
+factor_tags:
+- ai_platform
+- advertising
+thesis: __
+thesis_since: __
+scenarios:
+  bear:
+    p: __
+    p_basis: __
+    key_assumption: capex 與人才成本失控、市場對 AI 投資 ROI 失去耐心
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: __
+  base:
+    p: __
+    p_basis: __
+    key_assumption: 廣告成長穩健、capex 在 guidance 內
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: __
+  bull:
+    p: __
+    p_basis: __
+    key_assumption: AI 推薦顯著提升 ARPU + 新形態廣告變現
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: __
+  weighted_tp: __
+key_variables:
+- name: 廣告營收成長
+  value: __
+  unit: '% YoY'
+  tier: 缺口
+  source: ''
+  updated: __
+- name: ARPU
+  value: __
+  unit: USD
+  tier: 缺口
+  source: ''
+  updated: __
+- name: 資本支出guidance
+  value: __
+  unit: USD bn
+  tier: 缺口
+  source: ''
+  updated: __
+- name: 總費用guidance
+  value: __
+  unit: USD bn
+  tier: 缺口
+  source: ''
+  updated: __
+- name: Reality Labs虧損
+  value: __
+  unit: USD bn
+  tier: 缺口
+  source: ''
+  updated: __
+cta:
+  位階: __
+  price: __
+  key_ma: __
+  support: __
+  resistance: __
+  updated: __
+  invalidation: __
+  confirm_trigger: __
+signal:
+  rating: __
+  conviction: __
+  basis: __
+  changes_if: __
+falsifiers:
+- condition: capex 或費用 guidance 再度大幅上修而廣告成長未同步加速
+  check_by: __
+  status: 未驗證
+- condition: 廣告營收成長跌破 __% 且非匯率因素
+  check_by: __
+  status: 未驗證
+checkpoints:
+- date: __
+  event: 季報 + 次年費用/capex guidance
+  what_to_watch: 支出與成長的剪刀差
+gaps:
+- question: AI 投資的 ROI 是否有可觀測的中介指標
+  how_to_close: 管理層在法說揭露的轉換率／參與度數據
+notes: 本檔的風險與報酬幾乎都繫於『支出成長 vs 營收成長』的相對速度，其他都是次要。
+event_log: []
+last_updated: 2026-08-26

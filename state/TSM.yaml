@@ -1,0 +1,112 @@
+# 公開研究檔範本 — 複製為 state/<ticker>.yaml。
+# 本倉庫不含任何倉位資訊：無成本、無張數、無權重、無 Kelly、無損益、無持倉揭露。
+# 未知值一律留 __ 並寫進 gaps，不要填看起來合理的數字。
+ticker: TSM
+name: 台積電 ADR
+market: US
+factor_tags:
+- ai_capex_hw
+- foundry
+- tw_fx
+thesis: 先進製程與先進封裝的定價權，使 AI 需求週期中的價值捕捉高於歷史代工水準
+thesis_since: __
+scenarios:
+  bear:
+    p: __
+    p_basis: __
+    key_assumption: AI capex 見頂、庫存修正；地緣風險溢價擴大
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: __
+  base:
+    p: __
+    p_basis: __
+    key_assumption: AI 營收 CAGR 依 guidance；毛利率維持 5x%
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: __
+  bull:
+    p: __
+    p_basis: __
+    key_assumption: CoWoS 持續供不應求 + 漲價；N2 順利放量
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: __
+  weighted_tp: __
+key_variables:
+- name: 先進製程營收占比
+  value: __
+  unit: '%'
+  tier: 缺口
+  source: ''
+  updated: __
+- name: CoWoS月產能
+  value: __
+  unit: 千片
+  tier: 缺口
+  source: ''
+  updated: __
+- name: 毛利率
+  value: __
+  unit: '%'
+  tier: 缺口
+  source: ''
+  updated: __
+- name: N2進度與客戶採用
+  value: __
+  unit: 質性
+  tier: 缺口
+  source: ''
+  updated: __
+- name: 全年資本支出guidance
+  value: __
+  unit: USD bn
+  tier: 缺口
+  source: ''
+  updated: __
+- name: 新台幣匯率
+  value: __
+  unit: TWD/USD
+  tier: 缺口
+  source: ''
+  updated: __
+cta:
+  位階: __
+  price: __
+  key_ma: __
+  support: __
+  resistance: __
+  updated: __
+  invalidation: __
+  confirm_trigger: __
+signal:
+  rating: __
+  conviction: __
+  basis: __
+  changes_if: __
+falsifiers:
+- condition: 季度毛利率跌破 __% 且管理層歸因於價格而非匯率
+  check_by: __
+  status: 未驗證
+- condition: 資本支出 guidance 下修超過 __%（AI 需求見頂的最早訊號）
+  check_by: __
+  status: 未驗證
+- condition: 先進製程營收占比連兩季下滑
+  check_by: __
+  status: 未驗證
+checkpoints:
+- date: __
+  event: 月營收（台股揭露）
+  what_to_watch: 對 ADR 有領先性
+- date: __
+  event: 季報 + 法說
+  what_to_watch: capex guidance、CoWoS 擴產、AI 營收 CAGR 措辭變化
+gaps:
+- question: 本檔相對其他標的的集中度是否已超過紀律上限？（尺寸細節見 private）
+  how_to_close: 以 private/portfolio.private.yaml 的實際權重對照公開的 limit 檢核
+notes: 組合中集中度最高的標的之一。任何 L2 以上變動都要同步檢查組合層曝險，不能只看個股邏輯。
+event_log: []
+last_updated: 2026-08-26

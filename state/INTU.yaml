@@ -1,0 +1,102 @@
+# 公開研究檔範本 — 複製為 state/<ticker>.yaml。
+# 本倉庫不含任何倉位資訊：無成本、無張數、無權重、無 Kelly、無損益、無持倉揭露。
+# 未知值一律留 __ 並寫進 gaps，不要填看起來合理的數字。
+ticker: INTU
+name: Intuit
+market: US
+factor_tags:
+- ai_application
+- saas
+thesis: __
+thesis_since: __
+scenarios:
+  bear:
+    p: __
+    p_basis: __
+    key_assumption: 中小企業景氣轉弱、AI 原生競爭者侵蝕、報稅市佔流失
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: __
+  base:
+    p: __
+    p_basis: __
+    key_assumption: 訂閱維持雙位數成長、AI 功能提升留存但定價效果有限
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: __
+  bull:
+    p: __
+    p_basis: __
+    key_assumption: AI agent 成功貨幣化，ARPU 與滲透同步上行
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: __
+  weighted_tp: __
+key_variables:
+- name: 訂閱營收成長
+  value: __
+  unit: '% YoY'
+  tier: 缺口
+  source: ''
+  updated: __
+- name: AI功能貨幣化證據
+  value: __
+  unit: 質性
+  tier: 缺口
+  source: ''
+  updated: __
+- name: 中小企業客戶淨增
+  value: __
+  unit: '%'
+  tier: 缺口
+  source: ''
+  updated: __
+- name: 報稅季市佔
+  value: __
+  unit: '%'
+  tier: 缺口
+  source: ''
+  updated: __
+- name: 營益率
+  value: __
+  unit: '%'
+  tier: 缺口
+  source: ''
+  updated: __
+cta:
+  位階: __
+  price: __
+  key_ma: __
+  support: __
+  resistance: __
+  updated: __
+  invalidation: __
+  confirm_trigger: __
+signal:
+  rating: __
+  conviction: __
+  basis: __
+  changes_if: __
+falsifiers:
+- condition: 訂閱成長跌破 __% 且管理層歸因於競爭而非景氣
+  check_by: __
+  status: 未驗證
+- condition: 報稅季付費件數 YoY 轉負
+  check_by: __
+  status: 未驗證
+checkpoints:
+- date: __
+  event: 季報
+  what_to_watch: 訂閱成長、AI 相關 ARPU 措辭
+- date: __
+  event: 報稅季結束後的成績單
+  what_to_watch: 市佔與付費轉換
+gaps:
+- question: AI 是降本還是能加價？兩者估值意涵完全不同
+  how_to_close: 法說 Q&A、定價頁面變化、客戶端訪查
+notes: 本檔在覆蓋清單中的作用是與 AI capex 因子低相關。若分析時把它當成另一支 AI 股來看，就失去單獨追蹤的意義 — 每季實測它與清單其他標的的相關性。
+event_log: []
+last_updated: 2026-08-26

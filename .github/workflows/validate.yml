@@ -1,0 +1,27 @@
+name: validate
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pyyaml
+      - name: 洩漏掃描（尺寸／損益不得進 public）
+        run: python scripts/check_public.py
+      - name: 驗證 state 結構
+        run: python scripts/validate_state.py
+      - name: 檢查索引是最新的
+        run: |
+          python scripts/build_index.py
+          git diff --exit-code reports/INDEX.md \
+            || (echo "reports/INDEX.md 未更新，請在本機跑 build_index.py 後重新提交"; exit 1)
+      - name: 列出陳舊變數（僅提示）
+        run: python scripts/validate_state.py --stale

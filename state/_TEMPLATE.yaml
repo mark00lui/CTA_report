@@ -1,0 +1,68 @@
+# 公開研究檔範本 — 複製為 state/<ticker>.yaml。
+# 本倉庫不含任何倉位資訊：無成本、無張數、無權重、無 Kelly、無損益、無持倉揭露。
+# 未知值一律留 __ 並寫進 gaps，不要填看起來合理的數字。
+ticker: __
+name: __
+market: __            # TW / US
+factor_tags: []
+thesis: "__"          # 一句話，且必須可否證
+thesis_since: __
+
+scenarios:
+  bear:
+    p: __
+    p_basis: "__"
+    key_assumption: "__"
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: "__"
+  base:
+    p: __
+    p_basis: "__"
+    key_assumption: "__"
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: "__"
+  bull:
+    p: __
+    p_basis: "__"
+    key_assumption: "__"
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: "__"
+  weighted_tp: __
+
+key_variables:         # 上限 6 個
+  - {name: __, value: __, unit: __, tier: 缺口, source: "", updated: __}
+
+cta:
+  位階: __             # 右側確認 / 整理 / 破線 / 左側觀察
+  price: __
+  key_ma: __
+  support: __
+  resistance: __
+  invalidation: __     # 技術面失效價位（規則參數，非個人停損）
+  confirm_trigger: "__" # 右側確認條件：具體價格 + 量能
+  updated: __
+
+signal:
+  rating: __           # 偏多 / 中性 / 偏空 — 研究結論，非交易建議
+  conviction: __       # 高 / 中 / 低
+  basis: "__"          # 為何是這個評級，一句話
+  changes_if: "__"     # 什麼條件會改變評級
+
+falsifiers:            # 至少 2 條，須有數字門檻與可驗證日期
+  - {condition: "__", check_by: __, status: 未驗證}
+
+checkpoints:
+  - {date: __, event: "__", what_to_watch: "__"}
+
+gaps:
+  - {question: "__", how_to_close: "__"}
+
+event_log: []          # {date, level, summary, delta} — 只留最近 20 筆
+
+last_updated: __

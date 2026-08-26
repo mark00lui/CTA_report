@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.DS_Store
+.venv/
+venv/
+
+# 本機草稿 — 若你要在本機記任何私人筆記，用這些檔名，它們永遠不進版控
+*.local.yaml
+*.local.md
+scratch/

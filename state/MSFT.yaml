@@ -1,0 +1,104 @@
+# 公開研究檔範本 — 複製為 state/<ticker>.yaml。
+# 本倉庫不含任何倉位資訊：無成本、無張數、無權重、無 Kelly、無損益、無持倉揭露。
+# 未知值一律留 __ 並寫進 gaps，不要填看起來合理的數字。
+ticker: MSFT
+name: Microsoft
+market: US
+factor_tags:
+- ai_platform
+- saas
+thesis: __
+thesis_since: __
+scenarios:
+  bear:
+    p: __
+    p_basis: __
+    key_assumption: capex 折舊侵蝕營益率、Azure 成長減速
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: __
+  base:
+    p: __
+    p_basis: __
+    key_assumption: Azure 維持 guidance 區間、Copilot 溫和貨幣化
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: __
+  bull:
+    p: __
+    p_basis: __
+    key_assumption: AI 產能約束解除 + Copilot seats 加速
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: __
+  weighted_tp: __
+key_variables:
+- name: Azure成長率
+  value: __
+  unit: '% YoY cc'
+  tier: 缺口
+  source: ''
+  updated: __
+- name: 資本支出年增
+  value: __
+  unit: '%'
+  tier: 缺口
+  source: ''
+  updated: __
+- name: 營益率
+  value: __
+  unit: '%'
+  tier: 缺口
+  source: ''
+  updated: __
+- name: RPO與成長
+  value: __
+  unit: USD bn
+  tier: 缺口
+  source: ''
+  updated: __
+- name: Copilot付費席次
+  value: __
+  unit: M
+  tier: 缺口
+  source: ''
+  updated: __
+- name: OpenAI關係結構
+  value: __
+  unit: 質性
+  tier: 缺口
+  source: ''
+  updated: __
+cta:
+  位階: __
+  price: __
+  key_ma: __
+  support: __
+  resistance: __
+  updated: __
+  invalidation: __
+  confirm_trigger: __
+signal:
+  rating: __
+  conviction: __
+  basis: __
+  changes_if: __
+falsifiers:
+- condition: Azure 成長連兩季減速且非產能因素
+  check_by: __
+  status: 未驗證
+- condition: capex 續增但 RPO 成長放緩（投入未轉化為承諾營收）
+  check_by: __
+  status: 未驗證
+checkpoints:
+- date: __
+  event: 季報 + guidance
+  what_to_watch: Azure cc 成長、capex、營益率三者的取捨措辭
+gaps:
+- question: AI 相關營收的實際揭露顆粒度
+  how_to_close: 財報電話會議 Q&A
+event_log: []
+last_updated: 2026-08-26

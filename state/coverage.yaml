@@ -1,0 +1,40 @@
+# 覆蓋層分析 — 這不是投資組合，是研究覆蓋清單。
+# 本檔不含權重、部位、持倉方向。因子分析以「等權覆蓋」為基準，
+# 目的是量測這批標的的論點相依性，不是描述任何人的股權配置。
+as_of: 2026-08-26
+
+coverage:                 # 追蹤清單（研究覆蓋，非投資組合）
+  - {ticker: TSM,  market: US, tags: [ai_capex_hw, foundry, tw_fx]}
+  - {ticker: MSFT, market: US, tags: [ai_platform, saas]}
+  - {ticker: GOOG, market: US, tags: [ai_platform, advertising]}
+  - {ticker: META, market: US, tags: [ai_platform, advertising]}
+  - {ticker: INTU, market: US, tags: [ai_application, saas]}
+  - {ticker: 3324, market: TW, tags: [ai_capex_hw, thermal, tw_fx]}
+  - {ticker: 6442, market: TW, tags: [ai_capex_hw, optical, cpo, single_customer]}
+
+# 等權基準下的因子分布（7 檔各佔 1/7 = 14.3%）
+# 這是覆蓋清單的結構描述，與任何實際配置無關
+equal_weight_factor_mix:
+  ai_capex_hw:    {count: 3, pct: 42.9, note: "TSM + 3324 + 6442 — 同一條需求鏈，會一起受傷"}
+  ai_platform:    {count: 3, pct: 42.9, note: "MSFT + GOOG + META — 支出方；capex 縮手時它們先反應，硬體端後反應"}
+  ai_application: {count: 1, pct: 14.3, note: "INTU — 唯一與 capex 因子低相關的標的"}
+  tw_market:      {count: 2, pct: 28.6, note: "3324 + 6442，含匯率與地緣風險"}
+  non_ai:         {count: 0, pct: 0.0,  note: "覆蓋清單完全集中於 AI 主題 — 這是清單的結構性偏誤，讀者應據此加權"}
+
+common_premise: "7 檔中有 6 檔共用同一前提：AI 資料中心資本支出在未來 8 個季度不會出現實質減速。這是本覆蓋清單的單一失效點 — 個股層分析再深也看不見它。"
+
+shared_falsifier:
+  condition: "任兩家超大型 CSP 在同一季下修資本支出 guidance"
+  action: "觸發全覆蓋清單 L3 review，不是單一個股"
+  status: 未觸發
+
+correlation_watch:
+  - {pair: "TSM / 3324", note: "同受 AI 伺服器出貨量驅動，相關性高"}
+  - {pair: "TSM / 6442", note: "終端需求同源，但 6442 受單一客戶影響更大"}
+  - {pair: "MSFT / GOOG / META", note: "廣告與雲的景氣循環不同步，但 AI 支出敘事同步"}
+  - {pair: "INTU / 其餘", note: "應為低相關 — 每季實測一次，若相關性上升代表這個假設失效"}
+
+review_cadence:
+  weekly: "事件流回顧 + 共同前提檢核 + 未來兩週檢驗點"
+  monthly: "陳舊變數清理 + 相關性實測"
+  quarterly: "全部 thesis 重審一次，不論有無事件"

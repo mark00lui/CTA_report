@@ -1,0 +1,118 @@
+# 公開研究檔範本 — 複製為 state/<ticker>.yaml。
+# 本倉庫不含任何倉位資訊：無成本、無張數、無權重、無 Kelly、無損益、無持倉揭露。
+# 未知值一律留 __ 並寫進 gaps，不要填看起來合理的數字。
+ticker: 3324
+name: 雙鴻
+market: TW
+factor_tags:
+- ai_capex_hw
+- thermal
+- tw_fx
+thesis: 液冷從選配轉為標配，2026 滲透率與單機價值量決定重評價幅度
+thesis_since: __
+scenarios:
+  bear:
+    p: __
+    p_basis: __
+    key_assumption: 液冷滲透率停滯、氣冷方案延壽；價格競爭壓縮毛利
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: __
+  base:
+    p: __
+    p_basis: __
+    key_assumption: 北美 CSP 液冷導入依既定時程，滲透率溫和上升
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: __
+  bull:
+    p: __
+    p_basis: __
+    key_assumption: 新一代平台功耗上行迫使液冷成標配，單機價值量跳升
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: __
+  weighted_tp: __
+key_variables:
+- name: 液冷滲透率
+  value: __
+  unit: '%'
+  tier: 缺口
+  source: ''
+  updated: __
+- name: 單機液冷價值量
+  value: __
+  unit: USD
+  tier: 缺口
+  source: ''
+  updated: __
+- name: 毛利率
+  value: __
+  unit: '%'
+  tier: 缺口
+  source: ''
+  updated: __
+- name: 北美CSP訂單能見度
+  value: __
+  unit: 季
+  tier: 缺口
+  source: ''
+  updated: __
+- name: 產能利用率
+  value: __
+  unit: '%'
+  tier: 缺口
+  source: ''
+  updated: __
+- name: 對3017相對市佔
+  value: __
+  unit: '%'
+  tier: 缺口
+  source: ''
+  updated: __
+monthly_revenue:
+- month: __
+  rev: __
+  yoy: __
+  mom: __
+cta:
+  位階: __
+  price: __
+  key_ma: __
+  support: __
+  resistance: __
+  updated: __
+  invalidation: __
+  confirm_trigger: __
+signal:
+  rating: __
+  conviction: __
+  basis: __
+  changes_if: __
+falsifiers:
+- condition: 液冷相關營收季占比未達 __%
+  check_by: __
+  status: 未驗證
+- condition: 毛利率連兩季低於 __%（價格競爭實質化）
+  check_by: __
+  status: 未驗證
+- condition: 主要客戶轉單至競爭對手，市佔跌破 __%
+  check_by: __
+  status: 未驗證
+checkpoints:
+- date: __
+  event: 月營收公布
+  what_to_watch: 液冷出貨動能是否延續
+- date: __
+  event: 法說會
+  what_to_watch: next-gen 平台導入時程、毛利率 guidance
+gaps:
+- question: 液冷營收占比公司是否單獨揭露？
+  how_to_close: 法說 Q&A / 年報分部資訊
+- question: 單機價值量在新平台的變化倍數
+  how_to_close: 供應鏈查證 / 同業法說交叉比對
+event_log: []
+last_updated: 2026-08-26

@@ -10,13 +10,26 @@ factor_tags:
 - cpo
 - single_customer
 - tw_fx
+driver_refs:
+- driver: accelerator-roadmap
+  direction: '+'
+  note: >
+    CPO量產時點的產業側事實住在該 driver，不在本檔複製。⚠ 該 driver 的 cpo_layer_note 區分了兩層：
+    scale-out 交換器（Spectrum-X／Quantum-X Photonics）已量產，scale-up（Rubin 的 NVLink 6）仍為銅。
+    引用時務必指明哪一層 —— 混用會高估可及市場。
+- driver: ai-accelerator-demand
+  direction: '+'
+  note: 加速器出貨量 → 互連埠數。領先 2–3 季，但 sensitivity 僅中：單一客戶占比高使傳導不純，族群需求上升不等於本檔拿到訂單。
 thesis: AI 資料中心光纖連接與 CPO 用光學互連需求，帶動產品組合升級與毛利結構性上移
 thesis_since: __
 scenarios:
   bear:
     p: __
     p_basis: __
-    key_assumption: CPO 量產遞延、A 客戶砍單或分散供應商
+    key_assumption: CPO 產業如期放量但本檔未進入五家供應鏈；A 客戶砍單或分散供應商
+    key_assumption_history:
+    - {until: 2026-08-27, text: CPO 量產遞延、A 客戶砍單或分散供應商,
+       why_changed: "accelerator-roadmap 首次填值：scale-out CPO 交換器已進入全面量產、2026 秋出貨，產業側無遞延。失敗路徑因此由『CPO 沒來』改為『CPO 來了但本檔不在名單上』—— 而後者更難驗證，因為五家供應鏈名單不公開，技術時程卻是公開的。見 reports/2026/08/2026-08-27-6442-L1-cpo-scale-out-ramp.md"}
     eps: __
     exit_multiple: __
     tp: __
@@ -98,12 +111,14 @@ falsifiers:
 - condition: A 客戶占比驟降或明確分散供應，單季營收 YoY 轉負
   check_by: __
   status: 未驗證
-- condition: 毛利率連兩季跌破 __%（產品組合下滑或殺價）
-  check_by: __
-  status: 未驗證
-- condition: CPO 量產時程遞延超過 __ 季
-  check_by: __
-  status: 未驗證
+- condition: 毛利率連兩季跌破 50%（產品組合下滑或殺價）
+  check_by: 2027-05-31
+  status: 未觸發
+  note: 門檻 50% 於 2026-08-27 設定，錨點有二 — 2025 全年約 57.7%，且 bull 情境的關鍵假設本就寫「毛利率維持 50%+」。跌破即同時否證 bull 前提
+- condition: 產業 scale-out CPO 出貨（2026 秋）後 2 季內，即 2027Q1 前，本檔仍未揭露 CPO 相關營收或料號進度
+  check_by: 2027-05-31
+  status: 未觸發
+  note: 2026-08-27 改寫。原條件為「CPO 量產時程遞延超過 __ 季」，以本檔自己的量產時點為基期，而該基期是 __，永遠無法驗證。改錨到 accelerator-roadmap 的產業時點後即可驗
 checkpoints:
 - date: __
   event: 月營收公布
@@ -116,6 +131,16 @@ gaps:
   how_to_close: 供應鏈查證 / 終端客戶 capex guidance 交叉比對
 - question: 轉債（光聖三）稀釋影響與轉換價
   how_to_close: 公開資訊觀測站公告
+- question: Spectrum-X CPO 的「五家供應鏈」成員名單未公開 — 這是 accelerator-roadmap 對本檔傳導的最大斷點。產業放量不等於本檔進入 BOM
+  how_to_close: 供應鏈查證；法說 Q&A 直接問 CPO 料號進度
+- question: 本檔的光通訊產品目前落在 scale-out（交換器，CPO 已量產）還是 scale-up（GPU 機櫃內，仍為銅）？兩層的可及市場差一個量級
+  how_to_close: 法說／年報產品組合說明
 notes: 單一客戶占比 63% 是本檔最大的非對稱風險 — 論點對了但客戶砍單，股價仍會受重擊。這個風險與論點本身相互獨立，訊號評級的信心度應據此下調。
-event_log: []
-last_updated: 2026-08-26
+  ｜2026-08-27 補充：這個風險因本次事件而「強化」而非緩解。CPO 產業放量後，本檔能否進入五家供應鏈同樣繫於客戶關係，
+  等於同一個集中度風險同時決定了現有營收與新產品的機會 —— 兩者不獨立，不可視為兩條分散的路徑。
+event_log:
+- date: 2026-08-27
+  level: L1
+  summary: accelerator-roadmap driver 首次填值扇出。scale-out CPO 交換器已進入全面量產、2026 秋出貨；scale-up（Rubin NVLink 6）仍為銅
+  delta: bear 情境 key_assumption 改寫（「CPO 量產遞延」→「產業放量但本檔未進入五家供應鏈」）；兩條 falsifier 由不可驗證改為可驗證（毛利率門檻設 50%；CPO 條件改錨到產業時點）；補上兩個 driver 的 driver_refs。無任何 key_variable 填值 — driver 給的是產業側事實
+last_updated: 2026-08-27

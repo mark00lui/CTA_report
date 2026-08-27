@@ -30,6 +30,7 @@ scenarios:
     key_assumption: capex 與人才成本失控、Reality Labs 虧損不收斂；市場對 AI 投資 ROI 失去耐心，倍數續壓
     eps: 30.0
     exit_multiple: 13
+    multiple_basis: "市場對「成長股轉為費用失控」的典型再定價區間（12–14x forward）。對應價 390 低於 52 週低 520.26 — 市場在過去一年未曾付過此價。⚠ 未取得自身歷史 forward 低分位，13x 為推論值 — 列入 gaps"
     tp: 390
     narrative: 對應價低於 52 週低 520.26，需要比過去一年更深的修正才成立
   base:
@@ -37,18 +38,20 @@ scenarios:
     p_basis: 代設（授權）。廣告引擎本身無虞（+27%、曝光 +14%、價格 +12%）；5 月裁員與 capex 指引收窄是收斂已在進行的證據，只是尚未反映在損益
     key_assumption: 廣告成長穩健、capex 在指引內；費用成長逐步回落但 2027 仍高於營收成長
     eps: 34.70
-    exit_multiple: 16.6
-    tp: 576
-    narrative: 16.6x 即現價隱含值，目標價 576 幾乎等於收盤 576.14 —— 若共識達成且倍數不變，本檔就在合理價
+    exit_multiple: 19
+    multiple_basis: "錨 A（自身歷史）。5 年平均 trailing 26.46x，依該期間約 15–20% 的 EPS 年增率換算 forward ≈ 22x。現況 16.6x 較之折價 25%。判斷為【部分合理】：獲利品質確有惡化 — 費用成長為營收成長的兩倍、TTM EPS 已 -3.7%、Reality Labs 年化虧損約 18B 無收斂時程，這些在歷史平均的期間並不存在，折價有真實理由；但 25% 的幅度已把「剪刀差永不收斂」完全定價，而 5 月裁員與 capex 指引收窄是反向證據。19x 取歷史 22x 與現況 16.6x 之間偏保守處，只修復約一半折價。⚠ 非現價隱含值（16.6x）"
+    tp: 659
+    narrative: 19x 介於歷史換算 forward 22x 與現況 16.6x 之間，只修復約一半折價
   bull:
     p: 0.25
     p_basis: 代設（授權）。需要費用紀律恢復與 ARPU 提升同時發生，而 2027 指引尚未出爐、AI 投資的 ROI 中介指標仍是缺口。與 bear 對稱
     key_assumption: AI 推薦顯著提升 ARPU + 新形態廣告變現；費用紀律恢復，剪刀差 2027 內收斂
     eps: 39.0
     exit_multiple: 22
+    multiple_basis: "錨在賣方定價與自身歷史的交會處：街上均值目標 754.84（2026-08 取得）隱含 21.8x，恰等於 5 年 trailing 平均換算的 forward 22x — 兩個獨立來源指向同一值"
     tp: 858
-    narrative: 22x ≈ 街上均值目標 754.84 隱含的 21.8x
-  weighted_tp: 600
+    narrative: 22x ≈ 街上均值目標 754.84 隱含的 21.8x，亦等於歷史換算 forward 中位
+  weighted_tp: 642
 key_variables:
 - name: 廣告營收成長
   value: 27
@@ -93,7 +96,7 @@ cta:
 signal:
   rating: 中性
   conviction: 中
-  basis: 廣告引擎本身沒問題（+27%、曝光 +14%、價格 +12%、DAP 36 億），股價 52 週 -23.5% 也已把剪刀差定價進去，加權目標價相對盤後有 +3.6%。但技術面是清單中唯一的空頭排列，右側確認三段一段都沒成立 —— 依 CTA 紀律「已經跌很多」不是翻多的理由。也不給偏空：兩條 falsifier 都未觸發且距離不近，營業利益 18.78B 仍厚實
+  basis: 廣告引擎本身沒問題（+27%、曝光 +14%、價格 +12%、DAP 36 億）。2026-08-27 重錨後估值空間自 +3.6% 擴至 +10.8%（加權 642 相對 579）—— 現況 forward 16.6x 較 5 年 trailing 平均換算的 22x 折價 25%，判斷折價有真實理由（獲利品質惡化）但幅度過度。然而技術面是清單中唯一的空頭排列，右側確認三段一段都沒成立 —— 依 CTA 紀律「已經跌很多」與「算出來便宜」都不是翻多的理由。也不給偏空：兩條 falsifier 都未觸發且距離不近，營業利益 18.78B 仍厚實
   changes_if: 三段右側確認全部成立（收復 592.52 → 站上 623.24 → 黃金交叉）→ 偏多；週收盤跌破 520.26、廣告營收成長跌破 15%、或 2027 capex／費用 guidance 上修逾 20% 而廣告成長低於 20% → 偏空；2027 指引出爐且費用成長率低於營收成長率 → 信心升至高
 falsifiers:
 - condition: 2027 capex 或總費用 guidance 較 2026 實際上修逾 20%，而同期廣告營收成長低於 20%
@@ -112,6 +115,8 @@ checkpoints:
   event: Q4 2026 財報 + 2027 capex 與總費用 guidance
   what_to_watch: 本檔論點的核心驗證點 — 2027 費用與 capex 成長率是否低於營收成長率。第一條 falsifier 於此驗證
 gaps:
+- question: ⚠ 自身歷史「遠期」本益比分位未取得，只查到 5 年 trailing 平均 26.46x。bear 的 13x 為推論值，非歷史低分位的查得值
+  how_to_close: Koyfin／GuruFocus／Bloomberg 的歷史 forward PE band；台股另可用 Goodinfo 本益比河流圖或券商看盤軟體
 - question: 2027 capex 與總費用 guidance 尚未出爐 —— 那是本檔論點的核心變數，也是第一條 falsifier 的驗證點
   how_to_close: Q4 2026 財報（約 2027-01）
 - question: Q2 2026 營益率未直接取得（18.78B ÷ 60.80B ≈ 30.9% 為推算）
@@ -134,6 +139,10 @@ notes: 本檔的風險與報酬幾乎都繫於『支出成長 vs 營收成長』
   ｜「何時收斂」而非「會不會收斂」：5 月裁員（Q2 認列 1.18B 遣散費）與 capex 指引收窄
   （下緣上抬、上緣未再抬高）都是收斂的動作，只是尚未反映在損益上。
 event_log:
+- date: 2026-08-27
+  level: L2
+  summary: 重錨估值 — 加權目標價 600 → 642（+7.0%）
+  delta: base 倍數 16.6x（＝現價隱含值）→ 19x。錨改為 5 年 trailing 平均 26.46x 換算之 forward 約 22x；現況 16.6x 折價 25%，判斷部分合理（費用增速為營收兩倍、TTM EPS -3.7%、Reality Labs 年虧約 18B），故只修復一半。三情境全數補上 multiple_basis。機率沿用前值未重評。訊號維持中性 —— 空頭排列下「算出來便宜」不是翻多理由
 - date: 2026-08-27
   level: L3
   summary: 手動全量重估（thesis 首次寫定）。加權目標價 600，相對盤後 579.11 為 +3.6%；訊號中性／信心中

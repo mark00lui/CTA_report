@@ -1,101 +1,150 @@
-# 公開研究檔範本 — 複製為 state/<ticker>.yaml。
-# 本倉庫不含任何倉位資訊：無成本、無張數、無權重、無 Kelly、無損益、無持倉揭露。
+# 公開研究檔 — 本倉庫不含任何倉位資訊：無成本、無張數、無權重、無 Kelly、無損益、無持倉揭露。
 # 未知值一律留 __ 並寫進 gaps，不要填看起來合理的數字。
+#
+# ⚠ 估值口徑：一律用「正常化 EPS」＝排除股權證券的未實現評價損益（公司損益表科目，非作者損益）。
+#   Q2 2026 淨利 $112.1B（+298%）中，其他收入淨利益約 $98B 主要為未實現股權證券利益；
+#   Q1 2026 的 $36.9B 利益經公司揭露使稀釋 EPS 增加 $2.35。
+#   TTM EPS $19.93 因此嚴重失真 —— 正常化後 H1 約 $5.64、年化約 $11.3。
+#   報價頁 trailing PE 17.07 低於 forward PE 25.18，正是這個扭曲的外顯。
 ticker: GOOG
 name: Alphabet
 market: US
 factor_tags:
 - ai_platform
 - advertising
-thesis: __
-thesis_since: __
+driver_refs:
+- driver: hyperscaler-capex
+  direction: '-'
+  note: >
+    capex → 折舊費用 → 營益率；另受市場對 ROI 耐心的情緒放大。落後 2–4 季。
+    Alphabet 的曆年 capex 成分住在該 driver，不在本檔複製 —— 這也是 資本支出 移出 key_variables 的原因。
+    ⚠ 該 driver 的 GOOG affects 仍含「資本支出」，該欄位已不在本檔 key_variables 中，下次 /driver 應一併修正。
+- driver: ai-accelerator-demand
+  direction: '-'
+  note: >
+    加速器採購 → 資產啟用 → 折舊 → 營益率。落後 2–4 季，sensitivity 中 ——
+    自研 TPU 比重高使外購加速器的傳導強度低於同業，但 TPU 出貨量正是該 driver 的缺口，
+    等於這條傳導目前無法量化。
+thesis: Cloud 已從燒錢部門轉為獲利引擎（+82%、backlog $514B），但 $205B capex 的折舊將在 8–12 季後壓上營益率
+thesis_since: 2026-08-27
+valuation_base_year: 2027   # 2026 共識 EPS $20.59 含股權證券利益不可用；forward PE 25.18 隱含 $13.47 指向 2027 正常化口徑
 scenarios:
+  # EPS 為 2027 正常化口徑（排除股權證券損益）。機率由 Claude 在使用者授權下代設，
+  # 沿用使用者今日六次重估一致選用的 0.25/0.50/0.25 —— 非使用者對本檔的個別判斷，待覆核。
   bear:
-    p: __
-    p_basis: __
-    key_assumption: Search 詢價量被 AI 介面侵蝕、反壟斷救濟實質化
-    eps: __
-    exit_multiple: __
-    tp: __
-    narrative: __
+    p: 0.25
+    p_basis: 代設（授權）。Search 詢價量被 AI 介面侵蝕的風險無法在近期否證；資料共享義務的實質影響未知；$205B capex 的折舊尚未開始入帳
+    key_assumption: Search 詢價量被 AI 介面侵蝕、資料共享義務實質削弱競爭地位；折舊快於 Cloud 獲利爬升
+    eps: 12.0
+    exit_multiple: 20
+    tp: 240
+    narrative: 對應價低於 200DMA(332.96)，需要趨勢級修正才成立
   base:
-    p: __
-    p_basis: __
-    key_assumption: Search 穩定、Cloud 維持高成長
-    eps: __
-    exit_multiple: __
-    tp: __
-    narrative: __
+    p: 0.50
+    p_basis: 代設（授權）。Search +17% 無崩壞跡象、Cloud 營業利益已從 2.8B 跳至 8.8B，共識達成是最可能路徑
+    key_assumption: Search 穩定、Cloud 維持高成長；折舊與獲利同步爬升，營益率大致持平
+    eps: 13.5
+    exit_multiple: 25
+    tp: 338
+    narrative: 25x 即現價隱含值，刻意不靠重評價支撐目標價
   bull:
-    p: __
-    p_basis: __
-    key_assumption: TPU 外售形成第二成長曲線 + Gemini 貨幣化
-    eps: __
-    exit_multiple: __
-    tp: __
-    narrative: __
-  weighted_tp: __
+    p: 0.25
+    p_basis: 代設（授權）。需要 TPU 外售成形與 backlog 快速轉化同時發生，而 TPU 外部採用目前無公開數據。與 bear 對稱
+    key_assumption: TPU 外售形成第二成長曲線 + Gemini 貨幣化；Cloud backlog $514B 快速轉化
+    eps: 15.0
+    exit_multiple: 30
+    tp: 450
+    narrative: 30x 略低於街上均值目標 422.34 隱含的 31.4x
+  weighted_tp: 342
 key_variables:
 - name: Search營收成長
-  value: __
+  value: 17
   unit: '% YoY'
-  tier: 缺口
-  source: ''
-  updated: __
+  tier: 事實
+  source: Alphabet Q2 2026 財報 2026-07-22 — Google Search and other 營收 $63.3B；Google Services 合計 $94.5B（+15%）
+  updated: 2026-08-27
 - name: Cloud成長率
-  value: __
+  value: 82
   unit: '% YoY'
-  tier: 缺口
-  source: ''
-  updated: __
-- name: 資本支出
-  value: __
-  unit: USD bn
-  tier: 缺口
-  source: ''
-  updated: __
+  tier: 事實
+  source: Alphabet Q2 2026 財報 — Cloud 營收 $24.8B、營業利益 $8.8B（去年同期 $2.8B，營益率約 35.5%）、backlog $514B 季增逾 $50B
+  updated: 2026-08-27
+- name: 股權證券損益對EPS影響
+  value: Q2 2026 約 +$6.24/股（推論，由 Q1 揭露比例外推）；Q1 2026 +$2.35（公司揭露）。正常化後 H1 EPS 約 $5.64、年化約 $11.3
+  unit: USD/股
+  tier: 推論
+  source: Q1 2026 財報公司揭露 $36.9B 利益使稀釋 EPS +$2.35；Q2 其他收入淨利益約 $98B，按比例外推。⚠ Q2 稅後金額未直接揭露
+  updated: 2026-08-27
 - name: TPU外部採用進展
   value: __
   unit: 質性
   tier: 缺口
-  source: ''
+  source: 無公開數據。與 drivers/ai-accelerator-demand 的「自研 ASIC 出貨無揭露」為同一缺口
   updated: __
 - name: 反壟斷救濟狀態
-  value: __
+  value: 聯邦救濟未強制分拆 Chrome／Android，但課予資料共享義務。⚠ 預設搜尋協議是否被實質變更未取得明確結論
   unit: 質性
-  tier: 缺口
-  source: ''
-  updated: __
+  tier: 推論
+  source: 2026 年 DOJ 反壟斷救濟程序相關報導，2026-08-27 取得（未取得救濟令全文）
+  updated: 2026-08-27
 cta:
-  位階: __
-  price: __
-  key_ma: __
-  support: __
-  resistance: __
-  updated: __
-  invalidation: __
-  confirm_trigger: __
+  位階: 多頭排列但價格夾在兩條均線之間 — 50DMA(349.06) 高於 200DMA(332.96)，惟收盤 339.10 低於 50DMA 約 2.8%、高於 200DMA 約 1.8%，屬整理而非趨勢確認。距 52 週高 404.47 尚有 16.2%
+  price: 339.70
+  key_ma: 50DMA 349.06 / 200DMA 332.96
+  support: 332.96 (200DMA) → 206.39 (52週低)
+  resistance: 349.06 (50DMA) → 404.47 (52週高)
+  updated: 2026-08-27
+  invalidation: 週收盤跌破 332.96 (200DMA) → 多頭排列破壞，評級下修
+  confirm_trigger: 收盤站回 50DMA 349.06 之上並守住，再放量突破 404.47（52週高）
+  note: 339.70 為 2026-08-26 盤後；當日收盤 339.10（-1.23%、-4.24）、前收 343.34、區間 337.01–343.19、量 1,617.6 萬股。52 週區間 206.39–404.47，52 週 +62.13%
 signal:
-  rating: __
-  conviction: __
-  basis: __
-  changes_if: __
+  rating: 中性
+  conviction: 中
+  basis: 基本面有真實亮點（Cloud +82%、營業利益翻三倍、backlog $514B 季增逾 50B），但估值上檔幾乎為零 —— 加權目標價 342 相對盤後 339.70 僅 +0.7%，base 情境等於現價。技術面價格卡在 50DMA 之下屬整理，右側確認未成立。不因 Cloud 亮眼給偏多：那已反映在 25.2x 的正常化本益比裡，真正未定的是 205B capex 的折舊尚未開始顯現
+  changes_if: 收盤站回 349.06 之上並放量突破 404.47 → 偏多；週收盤跌破 332.96 或 Search 營收成長連兩季低於 10% → 偏空；取得 2027 直接共識且 Cloud 營益率再擴張一季 → 信心升至高
 falsifiers:
-- condition: Search 營收成長連兩季低於 __%
-  check_by: __
-  status: 未驗證
+- condition: Search 營收成長連兩季低於 10%
+  check_by: 2027-02-28
+  status: 未觸發
+  note: 門檻於 2026-08-27 設定。錨點：Q2 2026 為 +17%。10% 明顯低於當前水準，跌到那裡就無法再用「AI 介面未侵蝕詢價量」解釋
 - condition: 法院救濟涉及預設搜尋協議的實質變更
-  check_by: __
+  check_by: 2027-02-28
   status: 未驗證
+  note: 部分解決 — 聯邦救濟未強制分拆 Chrome／Android、課予資料共享義務。但「預設搜尋協議是否被實質變更」正是本條核心，未取得明確結論，故維持未驗證
 checkpoints:
-- date: __
-  event: 季報
-  what_to_watch: Search 成長、Cloud backlog、capex
-- date: __
-  event: 法律程序節點
-  what_to_watch: 救濟範圍
+- date: '2026-10'
+  event: Q3 2026 財報（依慣例推估 10 月下旬）
+  what_to_watch: Cloud 營業利益率能否自 35.5% 再擴張、backlog 轉化速度、capex 是否再上修、折舊是否開始壓上營益率
+- date: '2027-01'
+  event: Q4 2026 財報 + 2027 capex guidance
+  what_to_watch: 2027 capex 框架（hyperscaler-capex 的關鍵輸入）；正常化 EPS 的年度基準
+- date: 未定
+  event: 反壟斷救濟後續程序與上訴
+  what_to_watch: 預設搜尋協議是否被實質變更（第二條 falsifier 的驗證點）
 gaps:
-- question: TPU 外售對 NVDA 生態的實際替代率
-  how_to_close: 客戶端訪查 / 同業法說
-event_log: []
-last_updated: 2026-08-26
+- question: 2027 共識 EPS 為付費牆內容，本次的 13.47 由 forward PE 反推。雖與獨立推導的 2026 正常化 11.3 吻合（+19%），仍是間接值
+  how_to_close: 賣方報告；Visible Alpha
+- question: Q2 2026 股權證券利益的稅後金額與精確 EPS 影響未直接揭露，6.24 是用 Q1 比例外推
+  how_to_close: Q2 10-Q 的其他收入附註與稅務調節表
+- question: 預設搜尋協議是否被救濟實質變更 —— 第二條 falsifier 的核心，目前只知未強制分拆、課予資料共享義務
+  how_to_close: 法院救濟令全文；後續上訴進度
+- question: TPU 外售對 NVDA 生態的實際替代率無公開數據，key_variable 仍為 __。它是 bull 情境的主要支柱之一
+  how_to_close: 客戶端訪查／同業法說；與 drivers/ai-accelerator-demand 的自研 ASIC 缺口同源
+- question: Q2 2026 整體營業利益率未取得（僅有 Cloud 分部約 35.5%）
+  how_to_close: 財報全文
+- question: 2026 全年 capex「最高 205B」是上限或中值？driver 記為 175–205 區間
+  how_to_close: 法說逐字稿
+notes: 本檔的分歧不在 Search 會不會被 AI 吃掉，而在兩個引擎的相對速度 —— Search +17% 沒有崩壞跡象，
+  真正改變損益結構的是 Cloud（+82%、營業利益自 2.8B 跳至 8.8B、backlog 514B）。代價寫在資產負債表上：
+  2026 capex 上修至最高 205B，且非以營運現金流支應（6 月發股籌 49.6B、Q2 發債籌 20.3B）。
+  一家帳上現金充裕的公司選擇發股籌資，本身就是規模的訊號。
+  ｜⚠ 本檔是覆蓋清單中 GAAP 獲利被股權證券未實現利益扭曲最嚴重的一檔（正常化後 EPS 只剩三分之一不到）。
+  MSFT（OpenAI 損益）、NVDA（CoreWeave 等評價利益）有同樣結構但幅度較小。三家公司都對 AI 主題標的有大額股權投資，
+  同一批 AI 資產的評價波動會同時影響三檔的帳面獲利 —— 這是 correlation_watch 目前沒有記到的一條連結，
+  建議下次 coverage 更新時納入。用未經調整的 GAAP 或 TTM EPS 算本益比，會系統性低估這批標的的估值水準。
+event_log:
+- date: 2026-08-27
+  level: L3
+  summary: 手動全量重估（thesis 首次寫定）。加權目標價 342，相對盤後 339.70 為 +0.7%；訊號中性／信心中
+  delta: 論點層建立；釐清 TTM EPS $19.93 有逾半來自股權證券未實現利益，估值改錨正常化 EPS（H1 約 5.64、年化約 11.3）；基準年設 2027；填入 Search +17%、Cloud +82%、反壟斷救濟狀態；資本支出移出 key_variables 改為 driver_refs 引用，騰出位置放「股權證券損益對EPS影響」；第一條 falsifier 補上 10% 門檻；補上兩個 driver_refs 完成雙向引用
+last_updated: 2026-08-27

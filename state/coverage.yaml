@@ -7,6 +7,7 @@ coverage:                 # 追蹤清單（研究覆蓋，非投資組合）
   - {ticker: TSM,  market: US, tags: [ai_capex_hw, foundry, tw_fx]}
   - {ticker: NVDA, market: US, tags: [ai_capex_hw, accelerator]}
   - {ticker: MU,   market: US, tags: [ai_capex_hw, memory, cyclical]}
+  - {ticker: SNDK, market: US, tags: [ai_capex_hw, memory, cyclical]}
   - {ticker: MSFT, market: US, tags: [ai_platform, saas]}
   - {ticker: GOOG, market: US, tags: [ai_platform, advertising]}
   - {ticker: META, market: US, tags: [ai_platform, advertising]}
@@ -14,19 +15,28 @@ coverage:                 # 追蹤清單（研究覆蓋，非投資組合）
   - {ticker: 3324, market: TW, tags: [ai_capex_hw, thermal, tw_fx]}
   - {ticker: 6442, market: TW, tags: [ai_capex_hw, optical, cpo, single_customer]}
 
-# 等權基準下的因子分布（9 檔各佔 1/9 = 11.1%）
+# 等權基準下的因子分布（10 檔各佔 1/10 = 10.0%）
 # 這是覆蓋清單的結構描述，與任何實際配置無關
 equal_weight_factor_mix:
-  ai_capex_hw:    {count: 5, pct: 55.6, note: "TSM + NVDA + MU + 3324 + 6442 — 同一條需求鏈。2026-08-27 兩度加深：納入 NVDA 由 42.9% 升至 50.0%，納入 MU 再升至 55.6%。清單已有超過一半押在同一條鏈上"}
-  ai_platform:    {count: 3, pct: 33.3, note: "MSFT + GOOG + META — 支出方；capex 縮手時它們先反應，硬體端後反應"}
-  ai_application: {count: 1, pct: 11.1, note: "INTU — 唯一與 capex 因子低相關的標的；占比自 14.3% 兩度稀釋至 11.1%"}
-  accelerator:    {count: 1, pct: 11.1, note: "NVDA — 加速器供應端。同時是 drivers/ai-accelerator-demand 的主要成分"}
-  memory:         {count: 1, pct: 11.1, note: "MU — 記憶體供應端。⚠ 它是清單內唯一「營收即他檔成本」的標的：記憶體漲價正是 Meta 與 Amazon 上修 capex 時各自點名的原因"}
-  cyclical:       {count: 1, pct: 11.1, note: "MU — 清單中唯一的商品循環股（Beta 2.21，52 週 +706%，毛利率一年內由 37.7% 升至 84.6%）。其餘八檔的風險來自論點，本檔的風險來自循環位置"}
-  tw_market:      {count: 2, pct: 22.2, note: "3324 + 6442，含匯率與地緣風險；占比自 28.6% 兩度稀釋至 22.2%"}
+  ai_capex_hw:    {count: 6, pct: 60.0, note: "TSM + NVDA + MU + SNDK + 3324 + 6442 — 同一條需求鏈。2026-08-27 三度加深：42.9% → 50.0%（NVDA）→ 55.6%（MU）→ 60.0%（SNDK）。清單已有六成押在同一條鏈上"}
+  ai_platform:    {count: 3, pct: 30.0, note: "MSFT + GOOG + META — 支出方；capex 縮手時它們先反應，硬體端後反應"}
+  ai_application: {count: 1, pct: 10.0, note: "INTU — 唯一與 capex 因子低相關的標的；占比自 14.3% 三度稀釋至 10.0%"}
+  accelerator:    {count: 1, pct: 10.0, note: "NVDA — 加速器供應端。同時是 drivers/ai-accelerator-demand 的主要成分"}
+  memory:         {count: 2, pct: 20.0, note: "MU + SNDK — 記憶體供應端。⚠ 清單內唯一「營收即他檔成本」的一組：記憶體漲價正是 Meta 與 Amazon 上修 capex 時各自點名的原因。兩檔占比由 11.1% 倍增至 20.0%"}
+  cyclical:       {count: 2, pct: 20.0, note: "MU + SNDK — 商品循環股。其餘八檔的風險來自論點，這兩檔的風險來自循環位置。兩檔毛利率同為 84.6%、同樣由漲價驅動、同樣面對 CY2027H2 新產能 —— 它們的循環是同一個"}
+  tw_market:      {count: 2, pct: 20.0, note: "3324 + 6442，含匯率與地緣風險；占比自 28.6% 三度稀釋至 20.0%"}
   non_ai:         {count: 0, pct: 0.0,  note: "覆蓋清單完全集中於 AI 主題 — 這是清單的結構性偏誤，讀者應據此加權"}
 
-common_premise: "9 檔中有 8 檔共用同一前提：AI 資料中心資本支出在未來 8 個季度不會出現實質減速。這是本覆蓋清單的單一失效點 — 個股層分析再深也看不見它。2026-08-27 納入 NVDA 與 MU 後，例外仍只有 INTU 一檔。"
+common_premise: "10 檔中有 9 檔共用同一前提：AI 資料中心資本支出在未來 8 個季度不會出現實質減速。這是本覆蓋清單的單一失效點 — 個股層分析再深也看不見它。2026-08-27 納入 NVDA、MU、SNDK 後，例外仍只有 INTU 一檔。"
+
+# ⚠ 納入 SNDK 幾乎是把記憶體曝險加倍，而不是分散。
+# MU 與 SNDK 是同一個循環的兩個切面：毛利率同為 84.6%（巧合但說明問題）、同樣由漲價
+# 驅動、同樣面對 CY2027H2 的新產能、同樣以 6–7x 的循環峰值倍數交易。
+# 兩檔的差異只在 (1) SNDK 純 NAND、MU 含 DRAM 與 HBM，故 HBM 的結構性論證只適用於 MU；
+# (2) SNDK 明確拆分了量價貢獻（三分之二來自漲價），MU 沒有。
+# 判讀清單分散度時，memory 這一格的 20.0% 應被視為「一個部位的兩種寫法」而非兩個獨立賭注。
+# 但第 (2) 點也讓 SNDK 成為判斷整個記憶體循環位置的較佳指標 —— 它的量價拆分是可檢驗的，
+# MU 的不是。若要用一檔追蹤循環轉折，看 SNDK 的漲價貢獻比看兩檔的毛利率更早。
 
 # ⚠ 納入 MU 帶來一個前八檔都沒有的性質：它的營收就是清單其餘標的的成本。
 # 記憶體漲價是 Meta 與 Amazon 上修 2026 capex 時各自明確點名的原因；TrendForce 另估

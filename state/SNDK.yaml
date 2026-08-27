@@ -1,0 +1,167 @@
+# 公開研究檔 — 本倉庫不含任何倉位資訊：無成本、無張數、無權重、無 Kelly、無損益、無持倉揭露。
+# 未知值一律留 __ 並寫進 gaps，不要填看起來合理的數字。
+#
+# ⚠ 讀本檔前先看懂兩件事：
+#   一、所有財務數字都在記憶體循環的歷史級高點（毛利率 84.6%、營收 +372% YoY、52 週 +3,105%）。
+#       在這個位置，低本益比不是估值訊號而是循環位置訊號。
+#   二、季增有約三分之二來自「漲價」而非「出貨量」—— 那是最容易均值回歸的一種成長。
+#       量的成長需要對手擴產才會被侵蝕；價的成長只需要供需稍微鬆動就會反轉。
+ticker: SNDK
+name: Sandisk
+market: US
+factor_tags:
+- ai_capex_hw
+- memory
+- cyclical
+thesis: 成長有三分之二來自漲價而非出貨量，那是最容易回歸的一種；7x 是循環峰值定價而非便宜，爭點是 NBM 長約能把價格鎖多久
+thesis_since: 2026-08-27
+valuation_base_year: FY2027   # 可用算術鎖定：forward PE 7.00 × FY2027 共識 EPS 214.10 = 1,498.7，與 8/26 收盤 1,499.37 吻合
+
+scenarios:
+  bear:
+    p: __
+    p_basis: "__"
+    key_assumption: NAND 現貨與合約價鬆動；漲價貢獻消失後僅剩量的成長；NBM 長約覆蓋率不足以緩衝
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: "__"
+  base:
+    p: __
+    p_basis: "__"
+    key_assumption: FQ1 指引達成；供給緊俏延續，價格高檔盤整
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: "__"
+  bull:
+    p: __
+    p_basis: "__"
+    key_assumption: NBM 長約把價格鎖定為結構性而非循環性；資料中心 NAND 需求使 SSD 脫離消費性循環
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: "__"
+  weighted_tp: __
+
+key_variables:
+- name: 毛利率
+  value: 84.6
+  unit: '%'
+  tier: 事實
+  source: FQ4 FY2026 財報 2026-08-05
+  updated: 2026-08-27
+- name: 單季營收
+  value: 8965
+  unit: USD mn
+  tier: 事實
+  source: FQ4 FY2026 — +372% YoY、+51% QoQ，高於指引區間 7,750–8,250；FQ1 FY2027 指引 10,300–10,800、non-GAAP EPS 44.00–46.00（FQ4 實際 non-GAAP EPS 39.25、GAAP 43.97）
+  updated: 2026-08-27
+- name: 漲價貢獻占季增比重
+  value: 約三分之二
+  unit: 質性
+  tier: 事實
+  source: FQ4 FY2026 法說 —— 季增約三分之一來自出貨量、三分之二來自漲價。⚠ 這是本檔 thesis 的核心變數，也是與 MU 最大的差異（MU 未拆分量價）
+  updated: 2026-08-27
+- name: 資料中心營收成長
+  value: 437
+  unit: '% YoY'
+  tier: 事實
+  source: FQ4 FY2026 —— 營收超出指引主因是往高價值客戶的組合移轉加上漲價
+  updated: 2026-08-27
+- name: NBM長約進度
+  value: 累計 10 份 New Business Model 協議（2026-04 法說宣布 5 份，之後再簽 5 份：3 份新客戶、2 份既有擴大）
+  unit: 質性
+  tier: 事實
+  source: FQ4 FY2026 法說
+  updated: 2026-08-27
+- name: 遠期本益比
+  value: 7.00
+  unit: x (FY2027)
+  tier: 推論
+  source: 2026-08-26 收盤 1,499.37 ÷ FY2027 共識 EPS 214.10 = 7.004。此值可精確驗證，故基準年為 FY2027 而非 NTM
+  updated: 2026-08-27
+
+cta:
+  位階: 長多排列但回檔深於 MU —— 200DMA(958.49) 遠低於現價，惟 8/26 收盤 1,499.37 已跌破 50DMA(1,624.25) 約 7.7%，距 52 週高 2,354.39 達 -36.3%。盤後 1,555.08 仍在 50DMA 之下
+  price: 1555.08
+  key_ma: 50DMA 1624.25 / 200DMA 958.49
+  support: 1450.05 (今日低) → 958.49 (200DMA)
+  resistance: 1624.25 (50DMA) → 2354.39 (52週高)
+  updated: 2026-08-27
+  invalidation: 週收盤跌破 958.49 (200DMA) → 長多排列破壞
+  confirm_trigger: 收盤（非盤後）站回 1,624.25 之上並守住，再放量突破 2,354.39
+  note: >
+    1,555.08 為 2026-08-26 盤後（+3.72%）；當日收盤 1,499.37（+1.26%）、前收 1,480.77、
+    區間 1,450.05–1,511.77、成交 896.7 萬股。52 週區間 46.75–2,354.39，52 週 +3,105.15%。
+    ⚠ 52 週低點 46.75 是 2025-02 自 Western Digital 分拆前後的價格，不具支撐意義，
+    不可當作參考價位 —— 它讓「52 週 +3,105%」這個數字也失去可比性。
+
+signal:
+  rating: __
+  conviction: __
+  basis: "__"
+  changes_if: "__"
+
+falsifiers:
+- condition: GAAP 毛利率連兩季低於 65%
+  check_by: 2027-03-31
+  status: 未觸發
+  note: 門檻於 2026-08-27 設定。現況 84.6%。65% 仍遠高於 NAND 的歷史常態，跌到那裡代表價格循環已經反轉而非雜訊
+- condition: 單季營收 QoQ 轉負，且管理層歸因於價格而非出貨量
+  check_by: 2027-03-31
+  status: 未觸發
+  note: 現況 +51% QoQ，其中約三分之二來自漲價。歸因是關鍵 —— 量的下滑是需求問題，價的下滑是本檔 thesis 的直接驗證
+- condition: FQ1 FY2027 實際營收低於指引下緣 10.30 億美元，或 non-GAAP EPS 低於 44.00
+  check_by: 2026-11-30
+  status: 未觸發
+  note: 四條中最快能給出答案的一條。⚠ 下次財報日未公告，依 FQ4 於 2026-08-05 公布推估約在 2026-11
+- condition: FY2028 全年 GAAP 毛利率維持在 70% 以上
+  check_by: 2028-09-30
+  status: 未驗證
+  note: >
+    方向與前三條相反 —— 這一條否證的是本檔自己的 thesis。前三條問「價格循環是否已反轉」，
+    本條問「是否根本不會反轉」：若 FY2028 毛利率仍守在 70% 以上，就證明 NBM 長約與資料中心
+    需求已讓 NAND 脫離價格循環，「循環峰值定價」的框架整個失效，本檔應改用成長股估值重寫。
+    與 MU 的第四條同一設計 —— 只否證得了別人、否證不了自己的論點清單沒有校準價值。
+
+checkpoints:
+- date: '2026-11'
+  event: FQ1 FY2027 財報（日期未公告，依 FQ4 於 2026-08-05 公布推估）
+  what_to_watch: 是否達 10.30–10.80B 與 EPS 44–46 指引；季增的量價拆分是否仍是三分二來自漲價；NBM 協議數與覆蓋率
+- date: '2027-02'
+  event: FQ2 FY2027 財報
+  what_to_watch: 毛利率是否見頂回落；第一、二條 falsifier 的驗證點
+- date: '2027-H2'
+  event: 產業新產能開出
+  what_to_watch: 與 MU 共用的循環時點 —— 供給追上與否在此見真章
+
+gaps:
+- question: NAND 現貨與合約價的最新月度趨勢未取得。本檔 thesis 完全繫於價格，卻沒有價格的高頻追蹤
+  how_to_close: TrendForce／DRAMeXchange 月度 NAND 報價
+- question: NBM 長約覆蓋的營收占比與價格鎖定機制未揭露（只知累計 10 份）。這決定 bull 情境成立與否
+  how_to_close: 法說 Q&A；10-K 重大合約揭露
+- question: FY2028 共識未取得（付費牆），而那是新產能開出、風險兌現的年度
+  how_to_close: 賣方報告；FQ1 財報後模型更新
+- question: 本檔自 2025-02 才自 Western Digital 分拆，沒有完整的獨立循環史。前次 NAND 循環的毛利率谷底無法直接對照
+  how_to_close: Western Digital 分拆前的 Flash 分部歷史毛利率
+- question: 下次財報日未公告
+  how_to_close: 公司投資人關係頁
+- question: 2026-08-27 正式收盤價未知（CTA 採 8/26 收盤 1,499.37 與盤後 1,555.08）
+  how_to_close: 次一交易日確認
+
+notes: 本檔與 MU 是同一個循環的兩個切面，不是兩個獨立標的。兩者毛利率同為 84.6%（巧合但說明問題）、
+  同樣由漲價驅動、同樣面對 CY2027H2 的新產能。把兩檔一起放進覆蓋清單，比較接近把記憶體的曝險加倍，
+  而不是分散 —— 這一點已寫進 coverage.yaml，判讀清單分散度時必須記得。
+  ｜與 MU 的差異有兩處值得追：(1) SNDK 是純 NAND，MU 是 DRAM+HBM+NAND，HBM 的結構性論證只適用於 MU；
+  (2) SNDK 明確拆分了量價貢獻（三分之二來自漲價），MU 沒有 —— 這使 SNDK 的循環性更容易被檢驗，
+  也讓它成為判斷整個記憶體循環位置的較佳指標。
+  ｜52 週 +3,105% 與 52 週低 46.75 都受分拆影響，不可當作動能或支撐的參考。
+
+event_log:
+- date: 2026-08-27
+  level: '—'
+  summary: 建檔。FQ4 FY2026（2026-08-05 公布）營收 8,965M（+372% YoY、+51% QoQ，高於指引上緣）、GAAP 毛利率 84.6%、non-GAAP EPS 39.25；FQ1 FY2027 指引營收 10,300–10,800、EPS 44.00–46.00
+  delta: 新增追蹤標的。thesis 已寫定（量價拆分而非估值高低）；三情境與訊號留 __，待 /revalue 由使用者指定機率。falsifiers 四條均有數字門檻，其中一條約於 2026-11 財報即可驗證，第四條用於否證本檔自身論點
+
+last_updated: 2026-08-27

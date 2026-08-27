@@ -126,7 +126,13 @@ def collect():
         })
     reports.sort(key=lambda r: r["date"], reverse=True)
 
-    # 時間軸 = 報告 + driver 的 event_log。兩者都是研究記錄，不用 git log。
+    # 時間軸 = 報告 + driver event_log + state event_log。三者都是研究記錄，不用 git log。
+    #
+    # state 的 event_log 必須納入，否則會漏掉一整類更新：
+    #   建檔（state(<ticker>): 新增追蹤標的）只寫 state，不產生報告
+    #   L1 重估依 /revalue 的規定「不寫報告，只更新 state」
+    # 少了它們，一個叫「更新時間軸」的東西會安靜地漏掉這些事件 ——
+    # 那比沒有時間軸更糟，因為它看起來是完整的。
     timeline = [{
         "date": r["date"], "kind": "report", "ticker": r["ticker"],
         "level": r["level"], "text": r["summary"], "path": r["path"],
@@ -141,6 +147,27 @@ def collect():
                 "ticker": dv.get("id", ""), "level": "driver",
                 "text": str(ev.get("summary", "")), "path": None,
             })
+
+    # 同一天同一檔的同一個等級若已有報告，就不再放 state 事件 —— 報告是較豐富的那一份。
+    #
+    # 去重鍵必須含 level。只用 (date, ticker) 會出事：建檔與當日稍後的重估是同一天同一檔，
+    # 但等級不同（建檔是「—」、重估是 L2）。少了 level，建檔會被重估的報告連帶洗掉 ——
+    # 而建檔正是這段程式要救回來的那一類事件。
+    covered = {(r["date"], r["ticker"], r["level"]) for r in reports}
+    for t in tickers:
+        tk = str(t.get("ticker", ""))
+        for ev in (t.get("event_log") or []):
+            if not isinstance(ev, dict):
+                continue
+            date = str(ev.get("date", ""))
+            lvl = str(ev.get("level") or "state")
+            if (date, tk, lvl) in covered:
+                continue
+            timeline.append({
+                "date": date, "kind": "state", "ticker": tk,
+                "level": lvl, "text": str(ev.get("summary", "")), "path": None,
+            })
+
     timeline.sort(key=lambda x: (x["date"], x["kind"]), reverse=True)
 
     return {"tickers": tickers, "coverage": cov, "drivers": drivers,
@@ -213,6 +240,7 @@ details>div{padding-top:10px}
 .tl li::before{content:"";position:absolute;left:-4.5px;top:8px;width:8px;height:8px;
   border-radius:50%;background:var(--gold)}
 .tl li.driver::before{background:var(--flat)}
+.tl li.state::before{background:var(--dim)}
 .tl .d{font-family:var(--mono);font-size:12px;color:var(--dim)}
 .tl .t{font-size:14px;margin:2px 0 0}
 .tl .m{font-size:12px;color:var(--muted);margin-top:2px}

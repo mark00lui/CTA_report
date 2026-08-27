@@ -1,0 +1,157 @@
+# 公開研究檔 — 本倉庫不含任何倉位資訊：無成本、無張數、無權重、無 Kelly、無損益、無持倉揭露。
+# 未知值一律留 __ 並寫進 gaps，不要填看起來合理的數字。
+#
+# ⚠ 讀本檔前先看懂一件事：所有財務數字都處在記憶體循環的歷史級高點。
+#   毛利率 84.6%（去年同期 37.7%）、營收 +346% YoY、股價 52 週 +706%。
+#   在這個位置，低本益比不是估值訊號而是循環位置訊號 —— 循環股在獲利峰值看起來最便宜。
+ticker: MU
+name: Micron Technology
+market: US
+factor_tags:
+- ai_capex_hw
+- memory
+- cyclical
+thesis: 86% 毛利率本身就是最強的擴產誘因，而新產能已排定 2027H2 開出；6.5x 遠期本益比是循環峰值的假便宜，爭點是供給追上前還剩幾季
+thesis_since: 2026-08-27
+
+scenarios:
+  bear:
+    p: __
+    p_basis: "__"
+    key_assumption: 新產能於 2027H2 如期開出，供給追上需求；毛利率自 86% 快速均值回歸；HBM 定價權隨競爭者認證通過而稀釋
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: "__"
+  base:
+    p: __
+    p_basis: "__"
+    key_assumption: FQ4 指引達成；供給緊俏延續至 2027 上半，毛利率高檔盤整後緩降
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: "__"
+  bull:
+    p: __
+    p_basis: "__"
+    key_assumption: HBM 使記憶體脫離商品循環 —— 需求結構性成長、供給受先進封裝與良率限制，毛利率維持 8 字頭
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: "__"
+  weighted_tp: __
+
+key_variables:
+- name: 毛利率
+  value: 84.6
+  unit: '%'
+  tier: 事實
+  source: FQ3 FY2026 財報（季末約 2026-05）— GAAP 毛利率 84.6%，去年同期 37.7%；FQ4 指引約 86.0%
+  updated: 2026-08-27
+- name: 單季營收
+  value: 41.46
+  unit: USD bn
+  tier: 事實
+  source: FQ3 FY2026 — +346% YoY（去年同期 9.30）、+74% QoQ；FQ4 指引 50.0 ±1.0、EPS 指引 31.00 ±1.00（FQ3 實際 EPS 25.11）
+  updated: 2026-08-27
+- name: HBM進度
+  value: HBM4 已為領先客戶進入高量產，並向多家終端客戶送出認證樣品；HBM4E 開發中，目標 2027 曆年量產。管理層目標為 HBM 市占率接近其 DRAM 市占率
+  unit: 質性
+  tier: 事實
+  source: FQ3 FY2026 法說會準備稿
+  updated: 2026-08-27
+- name: 產業供給增速
+  value: 曆年 2026 產業 DRAM bit 出貨成長約低至中 20%，Micron 自身供給大致與產業一致；2027 伺服器 DRAM 與 HBM 合計 bit 供給預估 +27%，部分新廠於 2027H2 放量
+  unit: 質性
+  tier: 推論
+  source: FQ3 FY2026 法說與第三方彙整，2026-08-27 取得。⚠ 這是判斷循環長度的核心變數，卻是推論而非公司逐項揭露
+  updated: 2026-08-27
+- name: 自身資本支出
+  value: 27
+  unit: USD bn
+  tier: 事實
+  source: FY2026 全年約 27；FY2027 預期各季逐季增加，逾半數增額投向無塵室與廠務建設 —— 即「未來產能」而非當期產出
+  updated: 2026-08-27
+- name: 遠期本益比
+  value: 6.53
+  unit: x
+  tier: 推論
+  source: 2026-08-26 收盤 938.40 ÷ 隱含遠期 EPS 約 143.7（站上引用值反推）。⚠ 口徑與對應年度未經原始來源確認，見 gaps
+  updated: 2026-08-27
+
+cta:
+  位階: 長多排列極強但自高點實質回檔 — 200DMA(581.54) 遠低於現價，惟 8/26 收盤 938.40 已跌破 50DMA(958.92)，距 52 週高 1,255.00 達 -25.2%。這是 52 週 +706% 之後的第一次實質回檔，盤後 974.00 站回 50DMA 之上但未經盤中確認
+  price: 974.00
+  key_ma: 50DMA 958.92 / 200DMA 581.54
+  support: 924.60 (今日低) → 581.54 (200DMA)
+  resistance: 958.92 (50DMA) → 1255.00 (52週高)
+  updated: 2026-08-27
+  invalidation: 週收盤跌破 581.54 (200DMA) → 長多排列破壞。⚠ 該價位距現價逾 -38%，對 beta 2.21 的循環股而言過寬，取得更多價格結構後應收緊
+  confirm_trigger: 收盤（非盤後）站回 958.92 之上並守住，再放量突破 1,255.00
+  note: 974.00 為 2026-08-26 盤後（+3.79%）；當日收盤 938.40（+0.58%）、前收 932.97、區間 924.60–945.75、成交 1,871.3 萬股。52 週區間 114.25–1,255.00，52 週價格變動 +706.05%，Beta 2.21
+
+signal:
+  rating: __
+  conviction: __
+  basis: "__"
+  changes_if: "__"
+
+falsifiers:
+- condition: GAAP 毛利率連兩季低於 70%
+  check_by: 2027-03-31
+  status: 未觸發
+  note: 門檻於 2026-08-27 設定。錨點：FQ3 實際 84.6%、FQ4 指引約 86%、去年同期 37.7%。70% 仍遠高於歷史常態，跌到那裡代表均值回歸已經啟動而非雜訊
+- condition: 單季營收 QoQ 轉負，且管理層歸因於需求或客戶庫存而非自身供給調整
+  check_by: 2027-03-31
+  status: 未觸發
+  note: 現況 FQ3 +74% QoQ、FQ4 指引約 +21% QoQ。歸因是關鍵 —— 供給調整造成的下滑是紀律，需求造成的下滑是循環反轉
+- condition: FQ4 FY2026 實際營收低於指引下緣 49.0 億美元，或 EPS 低於 30.00
+  check_by: 2026-10-31
+  status: 未觸發
+  note: 財報日已公告為 2026-09-22，四週內可驗證。這是三條中最快能給出答案的一條
+
+checkpoints:
+- date: '2026-09-22'
+  event: FQ4 FY2026 財報（日期已公告）
+  what_to_watch: 是否達 50.0B 與毛利率 86% 指引、FY2027 capex 絕對金額、HBM4E 時程、對供給緊俏延續期間的措辭
+- date: '2026-12'
+  event: FQ1 FY2027 財報（依慣例推估 12 月下旬）
+  what_to_watch: 毛利率是否見頂回落；合約價漲幅是否收斂
+- date: '2027-03'
+  event: FQ2 FY2027 財報
+  what_to_watch: 第一、二條 falsifier 的驗證點；新廠進度與 2027H2 放量時程是否維持
+- date: '2027-H2'
+  event: 產業新產能開出
+  what_to_watch: 本檔論點的核心時點 —— 供給追上與否在此見真章
+
+gaps:
+- question: 遠期本益比 6.53 隱含的 EPS 約 143.7，但其對應會計年度與口徑未經原始來源確認。循環股的遠期 EPS 假設差一年結果差極大
+  how_to_close: 賣方報告；Visible Alpha
+- question: Micron 的 HBM 市占率絕對值未取得（管理層只說目標接近其 DRAM 市占）。這決定 HBM 定價權還有多少空間
+  how_to_close: 法說 Q&A；第三方市調
+- question: DRAM／NAND 合約價的最新月度趨勢未取得。僅知 2026Q1 合約 DRAM 價 QoQ +15–20%、2025Q4 類似
+  how_to_close: TrendForce／DRAMeXchange 月度報價
+- question: ⚠「記憶體將占 CSP capex 的 68%」與「HBM 合約價 2027 可能再漲 70–140%」均出自 TrendForce，但本次僅取得二手引用，未讀原始報告。這兩個數字若成立，對整個覆蓋清單的影響遠超本檔
+  how_to_close: 取得 TrendForce 原始報告；見 notes/2026-08.md 的記憶體主題
+- question: FY2027 capex 絕對金額未給（僅知逐季增加、逾半投向廠務建設）
+  how_to_close: 2026-09-22 FQ4 法說
+- question: 前次記憶體循環的毛利率谷底與峰值區間未取得，無法定位 84.6% 在歷史上的相對位置
+  how_to_close: 歷年財報；產業循環史
+
+notes: 本檔在覆蓋清單中的角色是不對稱的 —— 它既是 AI 需求的受惠者（HBM），也是清單其餘標的的成本來源。
+  記憶體漲價正是 Meta 與 Amazon 上修 2026 capex 時各自明確點名的原因（見 drivers/hyperscaler-capex.yaml
+  的 components 註記）。換句話說：MU 的營收，就是平台端的成本，也可能是加速器端的毛利壓力。
+  ｜NVDA Q3 FY27 毛利率指引由 75.0% 降至 74.0%，本倉庫先前將其歸因於 Vera Rubin 換代爬坡。
+  HBM 成本上漲是第二個候選解釋，兩者意涵不同（前者暫時、後者結構性）。目前無證據區分，
+  已列入 NVDA 的觀察事項，不在此下結論。
+  ｜循環股的估值陷阱要寫在最前面：6.53x 遠期本益比配上 84.6% 毛利率，是教科書式的「峰值假便宜」。
+  真正該問的不是「幾倍便不便宜」，而是「這個毛利率還能維持幾季」—— 而 86% 的毛利率本身
+  就是全產業最強的擴產誘因，Micron 自己 FY2027 每一季都在調高資本支出。
+
+event_log:
+- date: 2026-08-27
+  level: '—'
+  summary: 建檔。FQ3 FY2026（季末約 2026-05）營收 41.46B（+346% YoY、+74% QoQ）、GAAP 毛利率 84.6%、EPS 25.11；FQ4 指引營收 50.0±1.0、毛利率約 86%、EPS 31.00±1.00
+  delta: 新增追蹤標的。thesis 已寫定（循環位置而非估值高低）；三情境與訊號留 __，待 /revalue 由使用者指定機率。falsifiers 三條均有數字門檻，其中一條於 2026-09-22 財報即可驗證
+
+last_updated: 2026-08-27

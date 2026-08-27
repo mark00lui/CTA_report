@@ -8,105 +8,156 @@ factor_tags:
 - ai_capex_hw
 - foundry
 - tw_fx
+driver_refs:   # 本檔是覆蓋清單八檔中唯一同時被三個 driver 指向的標的
+- driver: hyperscaler-capex
+  direction: '+'
+  note: capex → GPU/ASIC 投片 → 先進製程與 CoWoS 產能利用。領先 1–2 季。四大 CSP capex 合計住在該 driver，不在本檔複製。
+- driver: ai-accelerator-demand
+  direction: '+'
+  note: 加速器需求 → 投片與封裝。⚠ 方向要看清楚：已「認列」的加速器營收對本檔是同步偏落後指標（晶片先做出來才賣得掉），真正領先的是下一季 guidance 與長約。引用時務必分清用的是哪一個。
+- driver: accelerator-roadmap
+  direction: '+'
+  note: 平台節點與封裝需求 → N2 客戶採用與 CoWoS 規格升級。領先 2–4 季。2026-08 新增路徑：Spectrum-X CPO 由 TSMC COUPE 封裝，使先進封裝需求來源由 GPU 擴及交換器。
 thesis: 先進製程與先進封裝的定價權，使 AI 需求週期中的價值捕捉高於歷史代工水準
-thesis_since: __
+thesis_since: 2026-08-27
+valuation_base_year: 2027   # 首次設定。非預設而是驗證所得：站上 forward PE 19.38 僅在 2027 口徑下對得上（NT$142.13×5÷32.3=$22.00 → 19.0x），2026 口徑為 25.1x 對不上
 scenarios:
+  # EPS 為 2027 ADR 口徑：共識 NT$142.13/普通股 × 5 股/ADR ÷ TWD/USD 32.3 = $22.00
   bear:
-    p: __
-    p_basis: __
-    key_assumption: AI capex 見頂、庫存修正；地緣風險溢價擴大
-    eps: __
-    exit_multiple: __
-    tp: __
-    narrative: __
+    p: 0.25
+    p_basis: 機率由使用者於 2026-08-27 全量重估指定。Q3 毛利率指引 65–67% 已低於 Q2 實績 67.7%，加上台幣為淨負面因子，毛利率短期方向向下
+    key_assumption: AI capex 見頂、庫存修正；台幣升值壓縮毛利；地緣風險溢價擴大。EPS 低於共識約 14%
+    eps: 19.0
+    exit_multiple: 15
+    tp: 285
+    narrative: 15x 為歷史區間下緣。對應價 285 低於 200DMA(368) 且遠低於現價 — 需要一次趨勢級修正才成立
   base:
-    p: __
-    p_basis: __
-    key_assumption: AI 營收 CAGR 依 guidance；毛利率維持 5x%
-    eps: __
-    exit_multiple: __
-    tp: __
-    narrative: __
+    p: 0.50
+    p_basis: Q3 指引已給、7 月營收 +44.7%、capex 上修至區間高端、N2 與 CoWoS 擴產路徑明確，共識達成是最可能路徑
+    key_assumption: 2027 共識達成；毛利率維持 6 字頭；N2 與 CoWoS 依既定時程放量
+    eps: 22.0
+    exit_multiple: 19
+    tp: 418
+    narrative: 19x 即現價隱含值，刻意不靠重評價支撐目標價
   bull:
-    p: __
-    p_basis: __
-    key_assumption: CoWoS 持續供不應求 + 漲價；N2 順利放量
-    eps: __
-    exit_multiple: __
-    tp: __
-    narrative: __
-  weighted_tp: __
+    p: 0.25
+    p_basis: 需要產能擴張全數轉為營收且定價權不被稀釋（海外廠成本較高會拉低平均毛利），兩者都尚未證實。與 bear 對稱
+    key_assumption: 先進製程與先進封裝雙雙定價權（thesis 核心）；N2 產能 CAGR 70% 順利、CoWoS 擴產逾 80% 全數轉為營收
+    eps: 24.5
+    exit_multiple: 25
+    tp: 613
+    narrative: 25x ≈ 街上均值目標 554.45 隱含的 25.2x，未取更高
+  weighted_tp: 434
 key_variables:
 - name: 先進製程營收占比
   value: __
   unit: '%'
   tier: 缺口
-  source: ''
+  source: ⚠ 未取得。HPC 平台占營收 66%（2026Q2）是「平台別」不是「製程節點別」，不可代用 — 第三條 falsifier 因此沒有基期無法起算
   updated: __
 - name: CoWoS月產能
-  value: __
-  unit: 千片
-  tier: 缺口
-  source: ''
-  updated: __
-- name: 毛利率
-  value: __
-  unit: '%'
-  tier: 缺口
-  source: ''
-  updated: __
-- name: N2進度與客戶採用
-  value: __
+  value: 絕對月產能未揭露；CoWoS+SoIC 先進封裝產能至 2027 年前每年擴張逾 80%，5.5 倍光罩尺寸 CoWoS 良率 >98%
   unit: 質性
-  tier: 缺口
-  source: ''
-  updated: __
+  tier: 推論
+  source: TSMC 2026 技術論壇（第三方報導彙整），2026-08-27 取得
+  updated: 2026-08-27
+- name: 毛利率
+  value: 67.7
+  unit: '%'
+  tier: 事實
+  source: 2026Q2 財報；Q3 指引 65–67%、營益率 56–58%
+  updated: 2026-08-27
+- name: N2進度與客戶採用
+  value: 2025Q4 如期量產；高雄量產、良率約 70%；2026 年底月產能目標逾 10 萬片；2026 年 5 座 2nm 廠啟動量產；2026–2028 產能 CAGR 約 70%
+  unit: 質性
+  tier: 推論
+  source: TSMC 2026 技術論壇與第三方報導，2026-08-27 取得（量產時點為公司揭露，良率與產能目標為第三方）
+  updated: 2026-08-27
 - name: 全年資本支出guidance
-  value: __
+  value: 52-56
   unit: USD bn
-  tier: 缺口
-  source: ''
-  updated: __
+  tier: 事實
+  source: 2026Q2 法說 — 2026 全年 capex 上修至 52–56 區間的高端；2026 全年營收成長預估略高於 40%（美元計）
+  updated: 2026-08-27
 - name: 新台幣匯率
-  value: __
+  value: 32.3
   unit: TWD/USD
-  tier: 缺口
-  source: ''
-  updated: __
+  tier: 事實
+  source: 2026-08 上旬市場收盤（8/3 為 32.413、8/6 為 32.261）。⚠ 未取得 8/26–27 當日匯率
+  updated: 2026-08-27
+monthly_revenue:   # 台股本體揭露，對 ADR 有領先性
+- month: 2026-07
+  rev: 4675.81
+  yoy: '+44.69%'
+  mom: '+5.6%'
+  note: 億元新台幣，連 3 月創新高；前 7 月累計 28,720.64 億元、YoY +37.0%
 cta:
-  位階: __
-  price: __
-  key_ma: __
-  support: __
-  resistance: __
-  updated: __
-  invalidation: __
-  confirm_trigger: __
+  位階: 多頭排列完整但突破未確認 — 50DMA(423.70) 高於 200DMA(368.22) 約 15%，乖離健康；惟 8/26 收盤 417.69 略低於 50DMA，盤後 424.90 剛站回。52 週已漲 77.3%，以盤後計距 52 週高 479.00 尚有 11.3%
+  price: 424.90
+  key_ma: 50DMA 423.70 / 200DMA 368.22
+  support: 423.70 (50DMA) → 368.22 (200DMA) → 225.63 (52週低)
+  resistance: 479.00 (52週高)
+  updated: 2026-08-27
+  invalidation: 週收盤跌破 368.22 (200DMA) → 多頭排列破壞，評級下修
+  confirm_trigger: 收盤（非盤後）站穩 50DMA 之上，並放量突破 479.00。目前僅滿足「多頭排列存在」，未滿足「突破確認」
+  note: 424.90 為 2026-08-26 盤後報價；當日收盤 417.69（+0.07%）、前收 417.41、區間 414.41–420.75、成交 744.9 萬股。52 週區間 225.63–479.00，52 週價格變動 +77.30%
 signal:
-  rating: __
-  conviction: __
-  basis: __
-  changes_if: __
+  rating: 中性
+  conviction: 中
+  basis: 基本面幾乎無可爭論（Q3 指引 YoY +37%、7 月營收 +44.7% 連 3 月創高、capex 上修至區間高端、N2 與 CoWoS 擴產路徑明確），技術面也是清單中最健康的。不給偏多的理由是估值不是基本面 — 加權目標價 434 相對盤後 424.90 僅 +2.1%，base 情境幾乎等於現價；且收盤仍在 50DMA 之下、52 週已漲 77.3%、距 52 週高 11.3% 未突破。信心中（高於 3324／6442 的低）因資料完整度佳：均線與 52 週區間齊全、當年與次年共識皆有、基準年可用算術驗證
+  changes_if: 收盤站穩 50DMA 之上並放量突破 479.00 → 偏多；週收盤跌破 368.22 → 下修；季度毛利率跌破 60% 且管理層歸因於價格而非匯率 → 偏空；2027 capex guidance 出爐（約 2027-01）且維持成長 → 信心升至高
 falsifiers:
-- condition: 季度毛利率跌破 __% 且管理層歸因於價格而非匯率
-  check_by: __
-  status: 未驗證
-- condition: 資本支出 guidance 下修超過 __%（AI 需求見頂的最早訊號）
-  check_by: __
-  status: 未驗證
+- condition: 季度毛利率跌破 60% 且管理層歸因於價格而非匯率
+  check_by: 2027-01-31
+  status: 未觸發
+  note: 門檻於 2026-08-27 設定。錨點：Q2 實績 67.7%、Q3 指引 65–67%。60% 明顯低於指引下緣，且仍遠高於 TSMC 歷史 5 字頭水準 — 跌到那裡代表 thesis 的「價值捕捉高於歷史代工水準」開始失效
+- condition: 全年資本支出 guidance 單次下修超過 10%，或 2027 guidance 低於 2026 實際（AI 需求見頂的最早訊號）
+  check_by: 2027-01-31
+  status: 未觸發
+  note: 門檻於 2026-08-27 設定。2026 已上修至 52–56 區間高端。capex 是三個 driver 的共同上游，也是最早的轉折訊號。Q4 法說會給 2027 capex
 - condition: 先進製程營收占比連兩季下滑
-  check_by: __
+  check_by: 2027-01-31
   status: 未驗證
+  note: ⚠ 比較式條件無需門檻，但 先進製程營收占比 目前為 __，沒有基期無法起算。須先自季報營收結構表取得該序列
 checkpoints:
-- date: __
-  event: 月營收（台股揭露）
-  what_to_watch: 對 ADR 有領先性
-- date: __
-  event: 季報 + 法說
-  what_to_watch: capex guidance、CoWoS 擴產、AI 營收 CAGR 措辭變化
+- date: '2026-09-10'
+  event: 8 月營收公布（台股揭露，每月 10 日前）
+  what_to_watch: 能否延續 7 月的 +44.69% 與連 3 月創高。月營收對 ADR 有領先性
+- date: '2026-10-15'
+  event: Q3 2026 財報 + 法說（日期已公告）
+  what_to_watch: 毛利率是否落在 65–67% 指引內、先進製程營收結構（補基期）、CoWoS 擴產、2027 capex 初步框架
+- date: '2027-01'
+  event: Q4 2026 財報 + 2027 capex guidance
+  what_to_watch: 2027 capex 是否維持成長（第二條 falsifier 的驗證點）；2027 全年展望
 gaps:
-- question: 本檔相對其他標的的集中度是否已超過紀律上限？（尺寸細節見 private）
-  how_to_close: 以 private/portfolio.private.yaml 的實際權重對照公開的 limit 檢核
-notes: 組合中集中度最高的標的之一。任何 L2 以上變動都要同步檢查組合層曝險，不能只看個股邏輯。
-event_log: []
-last_updated: 2026-08-26
+- question: 先進製程營收占比（7nm 以下）未取得，導致第三條 falsifier 沒有基期無法起算。HPC 平台占比 66% 是平台別不是製程節點別，不可代用
+  how_to_close: 季報營收結構表（TSMC 每季揭露製程別占比）
+- question: CoWoS 絕對月產能未揭露，只有「至 2027 年前每年擴張逾 80%」的成長率與 >98% 良率
+  how_to_close: 法說 Q&A；供應鏈查證
+- question: 業界常引用「台幣每升值 1%，毛利率約降 0.4pp」的經驗係數，本次未取得原始出處，故未寫入模型、未用於任何情境計算。方向確定，幅度待證
+  how_to_close: TSMC 法說逐字稿或季報附註
+- question: 海外廠（美國、日本、德國）對平均毛利率的稀釋幅度 — 這是 bull 情境「定價權不被稀釋」的主要風險
+  how_to_close: 法說 Q&A
+- question: 2028 共識未取得。本次基準年 2027 尚不需要，但滾動前須補
+  how_to_close: 2027 上半
+- question: TWD/USD 採 2026-08 上旬的 32.3，未取得 8/26–27 當日匯率
+  how_to_close: 央行網站每日收盤匯率
+notes: 本檔是覆蓋清單八檔中唯一同時被三個 driver 指向的標的（hyperscaler-capex 的支出承諾、
+  ai-accelerator-demand 的實際出貨、accelerator-roadmap 的平台時程與封裝規格），傳導路徑最密集。
+  common_premise 失效時它會同時從三個方向被打到，而個股層分析看不見這一點 —— 任何 L2 以上變動
+  都要同步檢查覆蓋層，不能只看個股邏輯。
+  ｜tw_fx 是本檔獨有的風險因子（3324／6442 雖同標 tw_fx，但營收與成本同幣別，敏感度遠低）。
+  TSMC 營收以美元計、成本以台幣計 —— 台幣升值壓縮台幣計價的毛利率。對持有 ADR 的美元投資人
+  雖另有換算利益，但兩者不對等，毛利率衝擊通常主導，淨效果為負。不要因為「台幣升值對美元
+  投資人有利」就把方向搞反，那是只算了換算沒算營運。
+  ｜2026-08-27 移除三行可推論持倉的文字：原 gaps 兩行指涉一個存有配置比重的私有檔案與一項尺寸紀律門檻，
+  原 notes 一行陳述本標的在某組合中的相對規模排序。三者皆不含數字，故 check_public.py 掃不到 ——
+  FORBIDDEN_KEYS 只比對欄位名，BLOCK_PATTERNS 的比重規則需要緊鄰數字。這是「正則比對不是理解」的實例。
+  此處刻意不複述原文：既然目的是讓當前版本乾淨，就不該為了說明而再產生一份副本。
+  歷史不動（該文字已隨 4a614e2 推上 origin/main）。詳見 reports/2026/08/2026-08-27-TSM-revaluation.md。
+event_log:
+- date: 2026-08-27
+  level: L2
+  summary: 手動全量重估。首次建立三情境與加權目標價 434，相對盤後 424.90 為 +2.1%；訊號中性／信心中
+  delta: 基準年設 2027 — 非預設而是驗證所得（forward PE 19.38 僅在 2027 口徑對得上）；填入毛利率 67.7%、capex 52–56B、N2 進度、CoWoS 擴產、匯率 32.3、7 月營收；兩條 falsifier 補上門檻（毛利率 60%、capex 下修 10%），第三條因缺基期仍不可起算；補上三個 driver_refs 完成雙向引用（本檔長期單向引用 warn 一併清除）；移除三行可推論持倉的文字
+last_updated: 2026-08-27

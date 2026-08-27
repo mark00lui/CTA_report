@@ -16,6 +16,16 @@ import re
 import sys
 import subprocess
 
+# Windows 主控台預設 cp950，遇到報告裡的 ⚠、—、全形符號會在 print 當下拋
+# UnicodeEncodeError。那會讓掃描器**在印出 BLOCK 訊息的瞬間崩潰** —— exit code
+# 仍非 0（fail-closed，commit 還是被擋住），但操作者看不到究竟是哪一行被擋，
+# 只能改用 PYTHONIOENCODING=utf-8 重跑一次才知道原因。
+# 一個擋得住卻說不出理由的守門員，實務上會被繞過。故強制 stdout 走 UTF-8。
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+except (AttributeError, OSError):   # 舊版 Python 或非標準串流，維持原行為
+    pass
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # 這些 YAML key 一旦出現在 state/ 就是倉位資訊

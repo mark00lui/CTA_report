@@ -14,6 +14,13 @@ import glob
 import os
 from datetime import date, datetime
 
+# 與 check_public.py 同樣的理由：本腳本會把使用者寫的變數名與否證點條件原樣印出，
+# 那些字串可能含 cp950 編不出來的字元，在 Windows 主控台會讓 print 拋例外。
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+except (AttributeError, OSError):
+    pass
+
 try:
     import yaml
 except ImportError:

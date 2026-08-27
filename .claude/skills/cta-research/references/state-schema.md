@@ -12,7 +12,7 @@
 | `factor_tags` | list | 因子標籤，供 portfolio 層彙總。例：`[ai_capex_hw, optical, cpo]` |
 | `thesis` | str | **一句話**論點。寫不成一句話代表論點還沒想清楚。 |
 | `thesis_since` | date | 論點成立日，用來看論點壽命 |
-| `scenarios` | map | `bear` / `base` / `bull`，各含 `p`、關鍵財務假設、`exit_multiple`、`tp`（目標價）、`narrative`（一句話） |
+| `scenarios` | map | `bear` / `base` / `bull`，各含 `p`、`p_basis`、關鍵財務假設、`eps`、`exit_multiple`、**`multiple_basis`**、`tp`（目標價）、`narrative`（一句話） |
 | `key_variables` | list | 決定論點成立與否的變數，**上限 6 個**。每個含 `name` / `value` / `unit` / `tier` / `source` / `updated` |
 | `cta` | map | `位階`（右側確認／整理／破線）、`key_ma`、`support`、`resistance`、`invalidation`（技術面失效價位）、`confirm_trigger`、`updated` |
 | `signal` | map | `rating`（偏多/中性/偏空）、`conviction`（高/中/低）、`basis`、`changes_if` |
@@ -29,6 +29,14 @@
 **key_variables 上限 6 個。** 超過就代表沒有分清主次。分辨標準：這個變數變動 20%，目標價會不會動 10% 以上？不會的話它不是 key variable。
 
 **scenarios 的機率要有依據。** 不是 25/50/25 的預設值。寫 `p_basis` 說明為何是這個機率（歷史頻率？供應鏈訊號？管理層 guidance 的保守程度？）。
+
+**`multiple_basis` 是必填，且 base 的錨不得是現價。** 每個情境都要寫出 exit multiple 錨在哪：自身歷史區間分位、同業／中週期、reverse-DCF 反推的隱含成長、或成長持續期。
+
+bear 與 bull 錨在「市場實際付過的價」是好做法（52 週低點當時的倍數、題材發酵前的倍數、賣方目標價隱含值），但 **base 用現價隱含倍數等於沒有估值** —— 它會讓加權目標價機械性地貼著現價。
+
+四種錨都拿不到時，`multiple_basis` 寫「採用市場定價，非獨立判斷」，並把 `signal.conviction` 上限壓到「低」。這不是懲罰，是讓「沒有意見」在檔案裡看得見 —— 看不見的無知會被當成判斷使用。
+
+完整規則、循環股框架與常見自欺模式見 `references/valuation.md`。
 
 **falsifiers 要有數字與日期。** 「需求轉弱」不可驗證；「Q3 液冷營收占比未達 35%」可驗證。每支個股至少 2 個否證點，其中至少 1 個在未來 6 個月內可驗證。
 

@@ -155,6 +155,9 @@ driver 的 Microsoft 成分 190 與公司揭露的約 175 不符，並註明差�
 
 ## Guardrails
 
+- **base 情境的 exit multiple 不得以現價隱含倍數為錨。** 那不是估值，是把市場的判斷抄下來當成自己的判斷 —— 而它會讓加權目標價機械性地貼著現價，模型永遠說不出「這檔明顯錯價」。每個情境都要在 `multiple_basis` 寫出錨在哪；四種錨都拿不到時，明寫「無獨立估值基礎」並把 `signal.conviction` 上限壓到「低」。完整規則與失敗模式見 `references/valuation.md`。
+- **產出前跑循環性檢查**：若 base 目標價落在現價 ±5% 內，報告必須明寫那是結論還是沒有獨立意見的產物。多檔都落在該區間時，不得在覆蓋層聚合成「清單沒有明顯定價錯誤」。
+
 - **不編造數字。** 沒有的值標 `__` 並列進 `gaps`。目標價、EPS、機率都要能追溯到 state 裡的假設。
 - **成本基礎不參與估值判斷。** `cost_basis` 只用於計算損益與部位，絕不影響三情境機率或目標價。看到自己在替套牢部位找理由時，那就是 L3。
 - **因子集中度示警**：若事件加深覆蓋清單既有的因子集中（如再度強化 AI capex 依賴），在變更單指出，並對照 `state/coverage.yaml` 的 `common_premise`。
@@ -176,5 +179,6 @@ driver 的 Microsoft 成分 190 與公司揭露的約 175 不符，並註明差�
 ## 參考檔案
 
 - `references/state-schema.md` — state 檔各欄位定義與填寫規則。建檔或不確定欄位語意時讀它。
+- `references/valuation.md` — **exit multiple 的錨從哪裡來。跑三情境前讀它。**
 - `references/report-templates.md` — 變更單（L1/L2）、全量報告（L3）、週報組合 review 三份模板，以及 dashboard 設計規範。產出前讀它。
 - `state/_TEMPLATE.yaml` — 新增追蹤標的時複製這份。

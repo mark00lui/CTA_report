@@ -15,6 +15,7 @@ scenarios:
     key_assumption: "__"
     eps: __
     exit_multiple: __
+    multiple_basis: "__"   # 倍數的錨。base 不得用現價隱含倍數 — 見 references/valuation.md
     tp: __
     narrative: "__"
   base:
@@ -23,6 +24,7 @@ scenarios:
     key_assumption: "__"
     eps: __
     exit_multiple: __
+    multiple_basis: "__"   # 倍數的錨。base 不得用現價隱含倍數 — 見 references/valuation.md
     tp: __
     narrative: "__"
   bull:
@@ -31,6 +33,7 @@ scenarios:
     key_assumption: "__"
     eps: __
     exit_multiple: __
+    multiple_basis: "__"   # 倍數的錨。base 不得用現價隱含倍數 — 見 references/valuation.md
     tp: __
     narrative: "__"
   weighted_tp: __

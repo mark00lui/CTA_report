@@ -14,20 +14,36 @@ coverage:                 # 追蹤清單（研究覆蓋，非投資組合）
   - {ticker: INTU, market: US, tags: [ai_application, saas]}
   - {ticker: 3324, market: TW, tags: [ai_capex_hw, thermal, tw_fx]}
   - {ticker: 6442, market: TW, tags: [ai_capex_hw, optical, cpo, single_customer]}
+  - {ticker: 3008, market: TW, tags: [optical, cpo, consumer_optics]}
 
-# 等權基準下的因子分布（10 檔各佔 1/10 = 10.0%）
+# 等權基準下的因子分布（11 檔各佔 1/11 = 9.1%）
 # 這是覆蓋清單的結構描述，與任何實際配置無關
 equal_weight_factor_mix:
-  ai_capex_hw:    {count: 6, pct: 60.0, note: "TSM + NVDA + MU + SNDK + 3324 + 6442 — 同一條需求鏈。2026-08-27 三度加深：42.9% → 50.0%（NVDA）→ 55.6%（MU）→ 60.0%（SNDK）。清單已有六成押在同一條鏈上"}
-  ai_platform:    {count: 3, pct: 30.0, note: "MSFT + GOOG + META — 支出方；capex 縮手時它們先反應，硬體端後反應"}
-  ai_application: {count: 1, pct: 10.0, note: "INTU — 唯一與 capex 因子低相關的標的；占比自 14.3% 三度稀釋至 10.0%"}
-  accelerator:    {count: 1, pct: 10.0, note: "NVDA — 加速器供應端。同時是 drivers/ai-accelerator-demand 的主要成分"}
-  memory:         {count: 2, pct: 20.0, note: "MU + SNDK — 記憶體供應端。⚠ 清單內唯一「營收即他檔成本」的一組：記憶體漲價正是 Meta 與 Amazon 上修 capex 時各自點名的原因。兩檔占比由 11.1% 倍增至 20.0%"}
-  cyclical:       {count: 2, pct: 20.0, note: "MU + SNDK — 商品循環股。其餘八檔的風險來自論點，這兩檔的風險來自循環位置。兩檔毛利率同為 84.6%、同樣由漲價驅動、同樣面對 CY2027H2 新產能 —— 它們的循環是同一個"}
-  tw_market:      {count: 2, pct: 20.0, note: "3324 + 6442，含匯率與地緣風險；占比自 28.6% 三度稀釋至 20.0%"}
-  non_ai:         {count: 0, pct: 0.0,  note: "覆蓋清單完全集中於 AI 主題 — 這是清單的結構性偏誤，讀者應據此加權"}
+  ai_capex_hw:    {count: 6, pct: 54.5, note: "TSM + NVDA + MU + SNDK + 3324 + 6442 — 同一條需求鏈。2026-08-27 三度加深至 60.0%，納入 3008 後因分母變大而稀釋回 54.5% —— 但那是稀釋不是分散，見 cpo 一列"}
+  ai_platform:    {count: 3, pct: 27.3, note: "MSFT + GOOG + META — 支出方；capex 縮手時它們先反應，硬體端後反應"}
+  ai_application: {count: 1, pct: 9.1,  note: "INTU — 唯一與 capex 因子低相關的標的；占比自 14.3% 四度稀釋至 9.1%"}
+  accelerator:    {count: 1, pct: 9.1,  note: "NVDA — 加速器供應端。同時是 drivers/ai-accelerator-demand 的主要成分"}
+  memory:         {count: 2, pct: 18.2, note: "MU + SNDK — 記憶體供應端。⚠ 清單內唯一「營收即他檔成本」的一組。⚠ 2026-08-27 SNDK 重估後修正：兩檔同向但不等深 —— NAND 上一輪谷底毛利率為負（WD Flash −11.9%），DRAM 為 2.7%，且 MU 有 HBM 的先進封裝瓶頸、SNDK 無對等結構"}
+  cyclical:       {count: 2, pct: 18.2, note: "MU + SNDK — 商品循環股。其餘標的的風險來自論點，這兩檔的風險來自循環位置"}
+  cpo:            {count: 2, pct: 18.2, note: "6442 + 3008 — ⚠ 2026-08-27 新增的因子，且一次就是 2 檔。兩者切入點不同（6442 為光通訊產品，3008 自 FA／PMLA／FAU 光學元件端）但共用同一個「CPO 是否如期放量」前提。這是納入 3008 真正加深的地方"}
+  optical:        {count: 2, pct: 18.2, note: "6442 + 3008"}
+  consumer_optics: {count: 1, pct: 9.1, note: "3008 — 清單中唯一營收基礎在消費性電子（手機鏡頭）而非 AI 的標的"}
+  tw_market:      {count: 3, pct: 27.3, note: "3324 + 6442 + 3008，含匯率與地緣風險。台股占比自 20.0% 回升至 27.3%，且三檔的技術面資料都受同一個系統性缺口影響（報價頁 JS 動態渲染）"}
+  non_ai:         {count: 0, pct: 0.0,  note: "⚠ 仍為 0，儘管 3008 的營收基礎是消費性光學。理由見下方 3008 專屬註記 —— 驅動它股價的是 CPO 不是手機鏡頭，所以它填不了這個洞"}
 
-common_premise: "10 檔中有 9 檔共用同一前提：AI 資料中心資本支出在未來 8 個季度不會出現實質減速。這是本覆蓋清單的單一失效點 — 個股層分析再深也看不見它。2026-08-27 納入 NVDA、MU、SNDK 後，例外仍只有 INTU 一檔。"
+common_premise: "11 檔中有 10 檔共用同一前提：AI 資料中心資本支出在未來 8 個季度不會出現實質減速。這是本覆蓋清單的單一失效點 — 個股層分析再深也看不見它。2026-08-27 納入 NVDA、MU、SNDK、3008 後，例外仍只有 INTU 一檔。"
+
+# ⚠ 3008 大立光：一個看起來能分散、實際上不能的案例
+# 它的營收基礎是消費性光學（手機鏡頭），與 AI capex 無關 —— 表面上正好補上 non_ai 的 0.0%。
+# 但納入當日（2026-08-27）它以連續第二根漲停作收、三日 +28.41%、創歷史新高，
+# 而催化劑全部來自 CPO：首張訂單到手、量產客戶規格文件已收、8/25 再砸 30.8 億元購置廠房
+# （今年第 4 度、累計 56.49 億元）。
+#
+# 換句話說：**驅動它股價的不是它的營收基礎。** 買進它等於買 CPO，不是買手機鏡頭。
+# 因此 non_ai 維持 0，而 cpo 由 1 檔變 2 檔 —— 那才是這次新增真正加深的因子。
+#
+# 這個案例的一般性教訓值得記下來：判斷一檔標的能否分散清單，要看「什麼在驅動它的股價」，
+# 不是看「它的營收來自哪裡」。用產業分類做分散度檢核會在這裡失效。
 
 # ⚠ 納入 SNDK 幾乎是把記憶體曝險加倍，而不是分散。
 # MU 與 SNDK 是同一個循環的兩個切面：毛利率同為 84.6%（巧合但說明問題）、同樣由漲價

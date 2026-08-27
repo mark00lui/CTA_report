@@ -43,6 +43,20 @@ correlation_watch:
   - {pair: "NVDA / TSM", note: "預期為清單中最高的一組。NVDA 的出貨就是 TSM 的投片，中間只隔一道代工。若這兩檔相關性「下降」才是異常，通常意味自研 ASIC 比重上升或庫存在通路端堆積"}
   - {pair: "NVDA / 3324、6442", note: "NVDA 領先 2–3 季（散熱與光互連晚於晶片）。同步而非領先的相關性代表傳導假設有誤"}
   - {pair: "NVDA / MSFT、GOOG、META", note: "方向刻意相反：加速器採購對 NVDA 是營收，對平台端是折舊。若四者同向大漲或大跌，代表市場在交易整體 AI 敘事而非個別基本面 — 那是清單分散度最低的時刻"}
+  - pair: "GOOG / NVDA / MSFT（＋清單外的 AMZN）— 股權投資評價利益"
+    added: 2026-08-27
+    note: >
+      一條與營運無關、卻會讓帳面數字同向移動的連結，2026-W35 才發現。四家的 GAAP 獲利都被
+      對 AI 標的的股權投資評價利益灌水：GOOG 的股權證券（Q2 EPS 9.11 → 正常化約 2.87）、
+      NVDA 的 CoreWeave 等（GAAP 2.46 > non-GAAP 2.22）、MSFT 的 OpenAI（GAAP 17.95 >
+      non-GAAP 17.28）、AMZN 的 Anthropic（Q2 GAAP EPS 5.75 含 53.4B 利益）。
+    implication: >
+      (1) 用未經調整的 GAAP 或 TTM EPS 算這批標的的本益比會系統性低估估值水準 —— GOOG 最極端，
+          表面 17x、正常化後 25x 以上。本倉庫一律改錨正常化 EPS。
+      (2) 同一批 AI 資產的評價波動會同時推升或壓低多檔的帳面獲利，這是傳統因子分析看不見的
+          相關性來源。若這批被投資標的（OpenAI、Anthropic、CoreWeave 等）同步重評價，
+          三檔覆蓋標的的 GAAP 獲利會同向跳動，而營運面完全沒變。
+    check: 每季核對各家調節表，確認正常化口徑仍被正確排除
 
 review_cadence:
   weekly: "事件流回顧 + 共同前提檢核 + 未來兩週檢驗點"

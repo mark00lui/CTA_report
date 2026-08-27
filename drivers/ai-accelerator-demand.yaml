@@ -7,22 +7,37 @@ why_shared: >
   這是 hyperscaler-capex 的「實際落地面」。capex guidance 是平台端的支出承諾，
   加速器營收是那筆錢真正變成出貨的部分 — 兩者可以背離，而背離本身就是訊號。
   它同時決定 TSM 的投片、3324 的機櫃附載、6442 的互連埠數，不屬於任何單一標的。
-  NVDA 與 AMD 不在覆蓋清單內，正因如此它們的數字只能住在這一層。
+  ⚠ 2026-08-27 修正：本欄原寫「NVDA 與 AMD 不在覆蓋清單內，正因如此它們的數字只能住在這一層」。
+  NVDA 已於 2026-08-27 納入覆蓋清單，該前提不再成立 —— 但結論不變。這個變數屬於這一層的理由
+  是「它同時驅動三檔硬體端與三檔平台端」，與某一家是否被覆蓋無關。
+  不要因為前提失效就把數值搬進 state/NVDA.yaml；NVDA 改以 driver_refs 引用本檔。
 
 current:
-  value: __
-  unit: USD bn（單季資料中心營收合計）
-  as_of: __
-  tier: 缺口
-  source: "__"
-  yoy: "__"
+  value: 95.7
+  unit: USD bn（單季資料中心營收合計；NVDA + AMD，**不含**自研 ASIC）
+  as_of: 2026-08-27
+  tier: 推論
+  source: >
+    NVDA Q2 FY27（季末約 2026-07-26，2026-08-26 公布）資料中心 89.0
+    + AMD Q2 2026（季末 2026-06-27，2026-08-04 公布）資料中心 6.7。
+    兩家季末差約一個月，非嚴格同期；自研 ASIC 無公開揭露故未計入。
+    因此本值是**下限**，且列推論而非事實 —— 兩個成分各自是事實，合計的口徑不是。
+  yoy: "+116%（NVDA +117%、AMD +107%；合計基期約 44.2 = NVDA 約 41.0 + AMD 3.2）"
 
 components:
-  - {name: NVIDIA Data Center, value: __, guidance: "__", source: "__", as_of: __}
-  - {name: AMD Data Center,    value: __, guidance: "__", source: "__", as_of: __}
+  - {name: NVIDIA Data Center, value: 89.0,
+     guidance: "Q3 FY27 總營收 108 ±2%（未單獨拆 DC），且明確假設中國資料中心運算營收為零",
+     source: "NVIDIA Q2 FY27 財報 2026-08-26；+117% YoY、+18% QoQ；毛利率 75.0%，Q3 指引 74.0% ±50bp",
+     as_of: 2026-08-26}
+  - {name: AMD Data Center, value: 6.7,
+     guidance: "管理層稱資料中心於 2026 下半年加速；Q3 分部指引未於本次取得（見 gaps）",
+     source: "AMD Q2 2026 財報 2026-08-04；+107% YoY，占總營收 58%；分部營益 2.1（去年同期虧損 0.155）；MI350 出貨、MI400 系列發表",
+     as_of: 2026-08-04}
   - {name: 自研 ASIC（TPU／Trainium／MTIA）, value: __, guidance: "__", source: "__", as_of: __}
 
-history: []   # {as_of, value, note} — 修正的方向與速度比絕對值更有訊息量
+history:   # 修正的方向與速度比絕對值更有訊息量
+  - {as_of: 2026-05, value: 81.0, note: "NVDA Q1 FY27 資料中心 75.2（+92% YoY、+21% QoQ）+ AMD Q1 2026 資料中心 5.8（+57% YoY）"}
+  - {as_of: 2026-08, value: 95.7, note: "NVDA 89.0 + AMD 6.7；合計 QoQ +18.1%。首次建立本序列，兩點皆不含 ASIC"}
 
 # 這個 driver 的主要價值不是絕對金額，而是與 hyperscaler-capex 的交叉驗證
 cross_check:
@@ -32,9 +47,32 @@ cross_check:
     可能流向土地廠房電力，硬體鏈的受惠程度低於 capex 金額所暗示的。
     反之加速器營收超前而 capex guidance 未動 → 平台端的 capex 可能即將上修。
   action: 兩者連兩季背離 → 硬體端 L2，並在報告中明寫是哪一邊先動
-  status: 未驗證
+  status: 未背離
+  as_of: 2026-08-27
+  finding: >
+    方向一致，兩邊都在加速，本季無背離訊號。但成長「速率」不同：
+    加速器合計 +116% YoY，四大 CSP capex +77% YoY。若口徑可比，這意味 capex 中
+    流向運算的比重正在上升 —— 對硬體端而言是「每一元 capex 的含金量提高」，屬正面。
+  caveats: >
+    上述比較有兩個口徑問題，未解決前不得當成結論，只能列為觀察：
+    (1) 分子涵蓋範圍大於分母。NVDA 的客戶不限於四大 CSP —— 其 AI Clouds／
+        Industrial & Enterprise 營收 +138% YoY 至 40.3（含主權、AI-native、企業），
+        這些需求不在四大 capex 的分母裡。
+    (2) 期間不對齊。capex 是曆年 2026 全年 guidance，加速器是單季；把高速成長中的
+        單季年化會低估全年。
+    (3) 分母本身已知有誤：hyperscaler-capex 的 Microsoft 成分仍為 190，
+        公司 2026-07-29 已揭露曆年 2026 約 175（會計年限口徑，非需求下修），
+        合計 725 連帶高估。修正後比值會更偏向加速器。
 
 transmission:
+  - ticker: NVDA
+    direction: '+'
+    path: >
+      合計加速器需求 → NVDA 的可及市場與定價權。方向為 '+' 但**內含一個反向成分**：
+      合計數若主要由自研 ASIC 貢獻，對 NVDA 是替代而非受惠。看合計時務必同時看成分結構。
+    lag: 同步（本檔的主要成分就是 NVDA 自己的認列營收）
+    sensitivity: 高
+    affects: [毛利率, 客戶集中度]
   - ticker: TSM
     direction: '+'
     path: 加速器需求 → GPU/ASIC 投片與 CoWoS 封裝 → 先進製程營收占比與產能利用
@@ -80,30 +118,57 @@ transmission:
 
 falsifiers:
   - condition: "加速器合計營收連兩季 QoQ 轉負，且非產能或供應因素"
-    check_by: __
-    status: 未驗證
+    check_by: 2027-02-28
+    status: 未觸發
+    evidence: "2026-08-27：合計 QoQ +18.1%（81.0 → 95.7）。NVDA Q3 指引再 +12% QoQ。距離觸發很遠"
     action: 硬體端全面 L3；平台端視為折舊壓力緩解（方向相反，須分開處理）
   - condition: "任一家明確將 guidance 與『客戶消化庫存／需求不足』連結，而非『供應受限』"
-    check_by: __
-    status: 未驗證
+    check_by: 2026-11-30
+    status: 未觸發
+    evidence: "2026-08-27：NVDA 稱『compute is revenue』並上修至 108；AMD 稱下半年加速。兩家措辭皆為需求側正面，無庫存消化語言"
     action: 最早的轉折訊號，優先度高於金額本身
-  - condition: "自研 ASIC 合計占加速器出貨比重超過 __%（外購加速器被實質取代）"
-    check_by: __
+  - condition: "自研 ASIC 合計占加速器出貨比重超過 30%（外購加速器被實質取代）"
+    check_by: 2027-02-28
     status: 未驗證
+    evidence: "無公開揭露，目前無法驗證。門檻 30% 於 2026-08-27 設定：低於此比重時外購仍為主流，超過則 ASP 與互連規格的話語權開始移轉"
     action: 對 TSM 中性（都在台積電投片），對加速器 ASP 與 6442 的互連規格是 L2
 
 checkpoints:
-  - {date: __, event: "NVIDIA 季度財報", what_to_watch: "資料中心營收、下一季 guidance、供應受限的措辭是否鬆動、庫存與採購承諾"}
-  - {date: __, event: "AMD 季度財報", what_to_watch: "資料中心 GPU 全年目標是否維持、客戶集中度"}
-  - {date: __, event: "四大 CSP 財報", what_to_watch: "自研 ASIC 的部署比重是否被主動揭露"}
+  - {date: '2026-11', event: "NVIDIA Q3 FY27 財報（依慣例推估 11 月中下旬）", what_to_watch: "是否達 108 指引、毛利率是否守住 74%、中國是否恢復貢獻、供應受限措辭是否鬆動、Vera Rubin 出貨進度"}
+  - {date: '2026-11', event: "AMD Q3 2026 財報（依慣例推估 11 月初）", what_to_watch: "資料中心是否如管理層所稱在下半年加速、MI400 系列客戶分布、客戶集中度"}
+  - {date: '2026-10', event: "四大 CSP Q3 財報", what_to_watch: "自研 ASIC 的部署比重是否被主動揭露；capex 是否因加速器需求再上修"}
 
 update_cadence: 每季財報；期間僅有供應鏈查證與第三方出貨估計
 gaps:
-  - {question: "各家資料中心營收中『AI 加速器』與其他（網通、專業繪圖）的拆分", how_to_close: "財報 10-Q 分部附註；多數不單獨揭露"}
-  - {question: "自研 ASIC 出貨量無公開揭露，第三方估計口徑差異大", how_to_close: "供應鏈查證；跨來源比較前先確認成分"}
-  - {question: "合計值的成分定義（是否含網通、是否含中國特規版本）", how_to_close: "逐一核對原始報告"}
+  - {question: "自研 ASIC（TPU／Trainium／MTIA）出貨與營收無公開揭露，本檔 components 留 __，故 current 為下限而非全貌", how_to_close: "供應鏈查證；四大 CSP 財報 Q&A；跨來源比較前先確認成分"}
+  - {question: "AMD Q3 2026 資料中心分部指引未取得（僅取得管理層『下半年加速』的定性說法）", how_to_close: "AMD Q2 2026 法說逐字稿或財報附件"}
+  - {question: "各家資料中心營收中『AI 加速器』與其他（網通、伺服器 CPU）的拆分。AMD 的 6.7 明確含 EPYC CPU，與 NVDA 的口徑不同", how_to_close: "財報 10-Q 分部附註；多數不單獨揭露"}
+  - {question: "NVDA 與 AMD 財季季末差約一個月（07-26 vs 06-27），合計值非嚴格同期", how_to_close: "無法消除，只能在引用時註明；跨季比較維持同一組合即可保持一致性"}
+  - {question: "合計值的成分定義（是否含中國特規版本）。NVDA Q2 對中國 Hopper 出貨低於 DC 營收 1%，Q3 指引假設為零", how_to_close: "逐一核對原始報告"}
+
+# 2026-08-27 扇出結果：7 檔全部判 L0，0 份變更單。
+# 但 L0 有兩種，不可混為一談 —— 混在一起會讓「模型還沒建」偽裝成「已檢查沒事」：
+#   (A) 已檢查、確認無影響        → MSFT
+#   (B) 模型未建立、無變數可動    → TSM、3324、6442、GOOG、META
+# (B) 類的真正阻塞不是本次事件的影響太小，是那些 state 還是空模板。
+fanout_2026_08_27:
+  - {ticker: MSFT, level: L0, type: 已檢查無影響,
+     why: "本事件不改變 MSFT 自己已揭露的 capex（FY26 115.9、Q1 FY27 >50）或 15→25 年折舊年限假設，營益率 46.8% 不動。加速器需求只是它支出的去向，不是它的損益驅動。落後 2–4 季的折舊壓力已由 hyperscaler-capex 承載，本檔 sensitivity 較低不重複計入"}
+  - {ticker: TSM, level: L0, type: 模型未建立,
+     why: "方向 '+' 且強，但依本檔 lag 欄位，NVDA『已認列』營收對 TSM 是同步偏落後指標 —— 這 89.0 的晶片 1–2 季前就投片了，不是新資訊。真正領先的是 Q3 指引 108 與 Rubin 量產，那確認未來 1–2 季投片動能，惟與 TSM 自身 guidance 所述一致。state 的先進製程營收占比、CoWoS月產能均為 __，無數值可動"}
+  - {ticker: '3324', level: L0, type: 模型未建立,
+     why: "領先 2–3 季，Q2 加速器出貨對應的機櫃液冷附載約落在 2026Q4–2027Q1。方向正面，但屬既有 base case 的再確認而非新事實，且 液冷滲透率／北美CSP訂單能見度／產能利用率 均為 __。真正會移動本檔的是 Rubin 的單櫃功耗 —— 那住在 accelerator-roadmap，不在本檔"}
+  - {ticker: '6442', level: L0, type: 模型未建立,
+     why: "同 3324 的時滯，但 sensitivity 為中：單一客戶占比高使傳導不純，族群需求上升不等於它拿到訂單。光通訊產品營收占比為 __。CPO 量產時點屬 accelerator-roadmap"}
+  - {ticker: GOOG, level: L0, type: 模型未建立,
+     why: "方向 '-'（外購加速器 → 折舊 → 營益率），但自研 TPU 比重高使傳導強度低於同業 —— 而 TPU 正是本檔 components 的缺口，等於這條傳導目前無法量化。state 的 資本支出、TPU外部採用進展 均為 __，thesis 亦未寫定"}
+  - {ticker: META, level: L0, type: 模型未建立,
+     why: "方向 '-' 同上，且 Meta 無公有雲直接變現加速器投資，ROI 質疑最強。但 資本支出guidance、總費用guidance 均為 __，thesis 未寫定，無模型可承接"}
+  - {ticker: NVDA, level: L0, type: 資料源本身,
+     why: "本檔的主要成分就是 NVDA 的認列營收，對它而言不是外生變數。NVDA 的三情境與訊號另由 /revalue 建立（本次僅補上 driver_refs 完成雙向引用）"}
 
 event_log:
+  - {date: 2026-08-27, level: '—', summary: "首次填入數值。NVDA Q2 FY27 資料中心 89.0（+117% YoY、+18% QoQ）+ AMD Q2 2026 資料中心 6.7（+107% YoY）＝ 95.7，QoQ +18.1%。三條 falsifier 補上門檻與日期，均未觸發。扇出 7 檔全判 L0，0 份變更單", delta: "current 由缺口 → 95.7（推論，下限）；history 建立兩點序列；cross_check 判定未背離但加速器成長率（+116%）高於 capex（+77%）；transmission 新增 NVDA（direction '+'，內含 ASIC 反向成分）；why_shared 修正因 NVDA 納入覆蓋清單而失效的前提"}
   - {date: 2026-08-27, level: '—', summary: 建立驅動因子檔（結構先行，數值待 /brief 填入）, delta: 新增}
 
 last_updated: 2026-08-27

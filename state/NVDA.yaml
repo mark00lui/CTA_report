@@ -17,7 +17,12 @@ driver_refs:
     本檔是這個 driver 的主要成分，也是它的傳導對象 —— 覆蓋清單中唯一「既被研究、又是他檔資料來源」
     的標的。資料中心營收與合計值取 driver 現值，不在本檔複製。方向為 '+' 但內含一個反向成分：
     合計需求若主要由自研 ASIC 貢獻，對 NVDA 是替代而非受惠，見該檔第三條 falsifier（ASIC 占比 >30%）。
-# accelerator-roadmap 的 driver_refs 待該 driver 填值並把 NVDA 補進 transmission 後再加（見 gaps）
+- driver: accelerator-roadmap
+  direction: '+'
+  note: >
+    自家平台換代節奏。方向 '+'，但換代爬坡期對毛利率是短空 —— Q3 FY27 毛利率指引由 75.0% 降至
+    74.0%，正好是 Vera Rubin 開始出貨的那一季。判讀本檔毛利率下行時，必須先排除「換代爬坡」
+    這個暫時性解釋，才能論證它是結構性的定價權問題。這是 thesis 的核心分歧點。
 thesis: 需求已不是爭點（DC +117%、Q3 指引 $108B 且完全不含中國）；爭點是毛利率自 75% 下行的斜率與 Rubin 換代的持續性，19x 遠期本益比已定價成長終結
 thesis_since: 2026-08-27
 
@@ -135,8 +140,8 @@ gaps:
   how_to_close: 待 Q3 FY27 後的公開來源
 - question: 中國政策路徑 — Q3 指引假設中國資料中心運算為零，若恢復即為純上檔，但幅度與時點無從估計
   how_to_close: 出口管制公告；法說 Q&A
-- question: accelerator-roadmap 尚未接上。該 driver 全欄位仍為 __ 且 transmission 沒有 NVDA 條目，故本檔暫不填該項 driver_refs（單向引用會是 error）。Vera Rubin 的量產時程與單櫃功耗目前無家可歸
-  how_to_close: 跑 /driver accelerator-roadmap，填值並把 NVDA 補進 transmission 後回填 driver_refs
+- question: Q3 FY27 毛利率由 75.0% 降至 74.0%，與 Vera Rubin 開始出貨落在同一季。這 1pp 是換代爬坡的暫時成本，或是定價權開始鬆動？兩者對 thesis 的意涵完全相反
+  how_to_close: Q3 FY27 法說 Q&A；觀察 Q4 指引是否回升。Rubin 出貨占比提高後毛利率若回到 75% 以上，即為爬坡解釋；若續降則為結構性
 - question: 2026-08-27 收盤價未知（CTA 採 8/26 收盤 209.66 與盤後 219.53）
   how_to_close: 次一交易日確認收盤
 

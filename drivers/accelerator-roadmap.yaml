@@ -11,19 +11,56 @@ why_shared: >
   同一次事件可能只動其中一個（例如平台延期不改變本季營收，卻直接推遲液冷放量）。
 
 current:
-  value: __
+  value: >
+    現行主力 GB300 NVL72（Blackwell Ultra，132–142kW／櫃，已強制液冷）；
+    下一代 Vera Rubin 已進入全面量產、2026H2 起出貨（NVL144 約 190kW）；
+    Rubin Ultra 排定 2027、約 600kW。scale-out 互連的 CPO 已進入量產，
+    scale-up（NVLink 6）仍為銅纜。
   unit: 質性（現行主力平台世代 + 下一代量產時點）
-  as_of: __
-  tier: 缺口
-  source: "__"
+  as_of: 2026-08-27
+  tier: 推論
+  source: >
+    量產狀態與客戶名單來自 NVIDIA Q2 FY27 財報 2026-08-26（事實）；
+    各機櫃功耗數字來自第三方規格報導與 ODM 驗證消息（推論，非 NVIDIA 官方揭露），
+    且口徑（滿載／典型／含網通）跨來源不一致 — 見 gaps。整體因此列推論。
 
 components:
-  - {name: 現行主力平台, value: __, guidance: "__", source: "__", as_of: __}
-  - {name: 下一代平台量產時點, value: __, guidance: "__", source: "__", as_of: __}
-  - {name: 單機櫃功耗, value: __, guidance: "__（kW／櫃）", source: "__", as_of: __}
-  - {name: 互連規格世代, value: __, guidance: "__", source: "__", as_of: __}
+  - {name: 現行主力平台, value: "GB300 NVL72（Blackwell Ultra）",
+     guidance: "B300 單顆最高 1,400W，強制液冷；約 90% 熱量進入液體；每櫃 252 對快接頭",
+     source: "第三方規格報導與部署指南彙整，2026-08-27 取得",
+     as_of: 2026-08, tier: 推論}
+  - {name: 下一代平台量產時點, value: "Vera Rubin — 全面量產中，Q3 FY27（2026-08～10）起出貨",
+     guidance: "已於 CoreWeave、Google Cloud、Microsoft Azure、Oracle Cloud、Nebius 部署；Foxconn 已完成工程驗證轉量產。Rubin Ultra 排定 2027",
+     source: "NVIDIA Q2 FY27 財報 2026-08-26（官方，事實）；ODM 驗證進度為第三方報導",
+     as_of: 2026-08-26, tier: 事實}
+  - {name: 單機櫃功耗, value: "GB300 NVL72 132–142（尖峰約 155）→ Rubin NVL144 約 190 → Rubin Ultra 約 600",
+     guidance: "同代亦有變體：Rubin NVL72 約 120–130、NVL144 CPX 約 370。NVL144 沿用 Oberon 機櫃架構，與 GB200/GB300 基礎設施相容",
+     source: "第三方規格報導，2026-08-27 取得。NVIDIA 未官方揭露整櫃功耗",
+     as_of: 2026-08, tier: 推論}
+  - name: 互連規格世代
+    value: "scale-up：NVLink 6（Rubin，仍為銅）｜scale-out：CPO 已量產"
+    guidance: >
+      Spectrum-X Ethernet Photonics 已進入全面量產，2026 秋季開始出貨，與 TSMC 共同開發、
+      採 TSMC COUPE 先進封裝，交換容量達 400 Tb/s，雷射數量減為四分之一，供應鏈為五家廠商。
+      Quantum-X Photonics（InfiniBand）2026 年內供貨，Lambda 已於 2026-06 搭配 GB300 NVL72 部署。
+      TrendForce 2026-07-27：NVIDIA 與 Broadcom 的 CPO 交換器開始放量，瓶頸為光引擎良率與先進封裝產能。
+    source: "NVIDIA 官方產品頁與新聞稿、TrendForce 2026-07-27、StorageReview，2026-08-27 取得"
+    as_of: 2026-08-27
+    tier: 推論
 
-history: []   # 時程類變數看的是「延期或提前的次數與幅度」，務必保留每次修正
+history:   # 時程類變數看的是「延期或提前的次數與幅度」，務必保留每次修正
+  - {as_of: 2026-08-27, value: "Vera Rubin 全面量產、Q3 FY27 出貨；Rubin NVL144 約 190kW",
+     note: "首次填值，無前值可比。此後每次更新務必記錄相對『最近一次官方時程』是提前或遞延幾季 —— 這個序列的價值全在修正方向，不在絕對時點"}
+
+# ⚠ 本檔最容易被誤讀的一點，寫在最前面：
+# 「CPO 已量產」成立的是 **scale-out 交換器**（Spectrum-X／Quantum-X Photonics），
+# 不是 GPU 機櫃內的 scale-up 互連 —— Rubin 的 NVLink 6 仍是銅。
+# 兩者的埠數量級、供應商結構、驗證門檻都不同。
+# 引用本檔支撐任何 CPO 論點前，先確認你指的是哪一層；混用會高估可及市場。
+cpo_layer_note:
+  scale_out: {status: 已量產, detail: "Spectrum-X Ethernet Photonics 全面量產、2026 秋出貨；Quantum-X InfiniBand 2026 年內", tier: 推論}
+  scale_up:  {status: 仍為銅, detail: "Rubin 採 NVLink 6 銅纜；CPO 尚未進入 scale-up 域", tier: 推論}
+  implication: "產業 CPO 放量 ≠ 任一供應商進入 BOM。五家 CPO 供應鏈的成員名單未公開，是本檔對 6442 傳導的最大斷點"
 
 transmission:
   - ticker: '3324'
@@ -42,10 +79,21 @@ transmission:
     affects: [CPO量產時點, 光通訊產品營收占比]
   - ticker: TSM
     direction: '+'
-    path: 下一代平台製程節點與封裝需求 → N2 客戶採用與 CoWoS 規格升級
+    path: >
+      下一代平台製程節點與封裝需求 → N2 客戶採用與 CoWoS 規格升級。
+      2026-08 新增一條具體路徑：Spectrum-X CPO 交換器由 TSMC COUPE 封裝，
+      使先進封裝的需求來源從 GPU 擴及交換器。
     lag: 領先 2–4 季
     sensitivity: 中（節點採用是結構性的，單次時程變動影響有限）
     affects: [N2進度與客戶採用, CoWoS月產能]
+  - ticker: NVDA
+    direction: '+'
+    path: >
+      自家平台換代節奏 → 產品組合與定價權。方向為 '+'，但**換代爬坡期對毛利率是短空**：
+      新平台良率與初期成本較高。這是判讀 NVDA 毛利率下行時必須先排除的一個解釋。
+    lag: 同步（本檔記錄的就是 NVDA 自己的產品時程）
+    sensitivity: 中
+    affects: [毛利率]
 
 # 平台端（MSFT／GOOG／META）刻意不列入：規格與時程不直接改變它們的損益表科目。
 # 若某次事件確實影響平台端（例如平台延期導致 capex 遞延入帳），那走 hyperscaler-capex，
@@ -53,31 +101,57 @@ transmission:
 # INTU 同樣不列入（AI 應用端，不在硬體鏈上）。
 
 falsifiers:
-  - condition: "下一代平台量產時點遞延超過 __ 季（相對最近一次官方時程）"
-    check_by: __
-    status: 未驗證
+  - condition: "下一代平台量產時點遞延超過 1 季（相對最近一次官方時程）"
+    check_by: 2027-03-31
+    status: 未觸發
+    evidence: "2026-08-27：Vera Rubin 已進入全面量產並於 Q3 FY27 出貨，符合先前 2026H2 量產的規劃，未遞延。門檻 1 季於本日設定"
     action: 3324 與 6442 各自 L2，且必須分別判定 — 兩檔的時滯不同
   - condition: "單機櫃功耗的下一代設計值低於現行世代（散熱需求見頂）"
-    check_by: __
-    status: 未驗證
+    check_by: 2027-03-31
+    status: 未觸發
+    evidence: "2026-08-27：明確反向。GB300 NVL72 132–142kW → Rubin NVL144 約 190kW（+約 35%）→ Rubin Ultra 約 600kW。散熱需求非但未見頂，斜率還在陡化"
     action: 3324 的 thesis 核心前提被推翻 → L3
   - condition: "CPO 在下一代平台被推遲至再下一代，或改採可插拔光模組"
-    check_by: __
-    status: 未驗證
+    check_by: 2027-03-31
+    status: 未觸發
+    evidence: >
+      2026-08-27：scale-out 的 CPO 交換器已進入全面量產並開始放量，未被推遲。
+      但須注意本條的原始語意指向「下一代平台」——若指 GPU 機櫃內的 scale-up 互連，
+      Rubin 仍採銅纜 NVLink 6，CPO 尚未進入該層。兩層狀態不同，判定時分開看。
     action: 6442 的 CPO量產時點直接失效 → L3
 
 checkpoints:
-  - {date: __, event: "GTC", what_to_watch: "下一代平台規格與量產時程、機櫃功耗、互連世代"}
-  - {date: __, event: "Computex / OCP Global Summit", what_to_watch: "ODM 機櫃設計、液冷方案的標配化程度"}
-  - {date: __, event: "供應鏈驗證進度", what_to_watch: "散熱與光互連的送樣、驗證、量產三階段時點"}
+  - {date: '2026-10', event: "OCP Global Summit 2026", what_to_watch: "Rubin 世代機櫃設計、液冷方案標配化程度、600kW 級機櫃的供電與散熱規範"}
+  - {date: '2026-11', event: "NVIDIA Q3 FY27 財報", what_to_watch: "Rubin 實際出貨進度、毛利率是否如指引落在 74%（換代爬坡的成本影響）"}
+  - {date: '2027-03', event: "GTC 2027", what_to_watch: "Rubin Ultra 規格與時程是否維持、600kW 機櫃是否確認、CPO 是否進入 scale-up 域"}
+  - {date: 持續, event: "供應鏈驗證進度", what_to_watch: "散熱與光互連的送樣、驗證、量產三階段時點；CPO 五家供應鏈的成員揭露"}
 
 update_cadence: 產業展會與規格發表（不定期），以及每次供應鏈驗證里程碑
 gaps:
   - {question: "官方時程與供應鏈實際進度的落差（官方通常樂觀）", how_to_close: "ODM／散熱廠法說與供應鏈查證，兩者交叉比對"}
-  - {question: "單機櫃功耗的口徑（滿載／典型／含網通設備）跨來源不一致", how_to_close: "以 OCP 規格文件為準"}
+  - {question: "單機櫃功耗的口徑（滿載／典型／含網通設備）跨來源不一致，且本次填入的數字全部來自第三方報導而非 NVIDIA 官方揭露", how_to_close: "以 OCP 規格文件為準；OCP Global Summit 2026-10 是最近的機會"}
   - {question: "CPO 與可插拔光模組的實際採用比例", how_to_close: "客戶端驗證結果；廠商通常只揭露有利的一面"}
+  - {question: "Spectrum-X CPO 的「五家供應鏈」成員名單未公開 —— 這是本檔對 6442 傳導的最大斷點。產業放量不等於特定供應商進入 BOM", how_to_close: "供應鏈查證；6442 法說 Q&A 直接問 CPO 料號進度"}
+  - {question: "Rubin Ultra 的 600kW 是設計目標或已定案規格，以及對應的散熱方案（單相／兩相／浸沒）", how_to_close: "GTC 2027；OCP 規格文件"}
+
+# 2026-08-27 扇出結果：4 檔 — 3324 L1、6442 L1、TSM L0、NVDA L0。2 份變更單。
+# 與 ai-accelerator-demand 那次的差別值得記下來：上次是「已知需求的再確認」，
+# 這次是「兩檔 thesis 的核心未知被解答」。同樣是空模板 state，等級不同是因為
+# 資訊性質不同，不是因為這次比較努力。
+fanout_2026_08_27:
+  - {ticker: '3324', level: L1, report: "reports/2026/08/2026-08-27-3324-L1-rubin-power-density.md",
+     why: "bear 情境的核心機制『氣冷方案延壽』在 190kW→600kW 的功耗軌跡下已不成立。無法填入任何 key_variable 數值（滲透率與價值量須公司自行揭露），但 thesis 方向的信心明確上升，超出 L0 的『未改變任何 key_variable 的數值或信心』"}
+  - {ticker: '6442', level: L1, report: "reports/2026/08/2026-08-27-6442-L1-cpo-scale-out-ramp.md",
+     why: "CPO量產時點由『未知』變為『scale-out 已量產、2026 秋出貨』，bear 情境的『CPO 量產遞延』機制被移除。但產業放量不等於 6442 進入 BOM，五家供應鏈名單未公開，故僅 L1 不升級"}
+  - {ticker: TSM, level: L0, type: 模型未建立,
+     why: "sensitivity 中，且驅動的是結構性節點採用而非單次時程。新增一條具體路徑（Spectrum-X CPO 由 TSMC COUPE 封裝，先進封裝需求由 GPU 擴及交換器）已寫進 transmission，待 TSM state 建模後套用。N2進度與客戶採用、CoWoS月產能 均為 __"}
+  - {ticker: NVDA, level: L0, type: 已檢查無影響,
+     why: "Rubin 換代是 NVDA 自己的時程，非外生變數。其 Q3 毛利率指引 75.0%→74.0% 與 Rubin 開始出貨落在同一季，換代爬坡是該下行的候選解釋之一 —— 但這是待驗證的推論，屬 /revalue NVDA 的工作，不在本次扇出改任何值"}
 
 event_log:
+  - {date: 2026-08-27, level: '—',
+     summary: "首次填入數值。現行 GB300 NVL72 132–142kW；Vera Rubin 全面量產、Q3 FY27 出貨、NVL144 約 190kW；Rubin Ultra 2027 約 600kW。scale-out CPO 已量產，scale-up 仍為銅。三條 falsifier 補上門檻與日期，均未觸發",
+     delta: "current 由缺口 → 質性描述（推論）；四個 components 全部填值並逐項標 tier；新增 cpo_layer_note 區分 scale-out 與 scale-up；transmission 新增 NVDA 並於 TSM 條目補上 TSMC COUPE 路徑；扇出 3324 L1、6442 L1、TSM L0、NVDA L0"}
   - {date: 2026-08-27, level: '—', summary: 建立驅動因子檔（結構先行，數值待 /brief 填入）, delta: 新增}
 
 last_updated: 2026-08-27

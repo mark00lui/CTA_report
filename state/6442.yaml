@@ -21,36 +21,40 @@ driver_refs:
   direction: '+'
   note: 加速器出貨量 → 互連埠數。領先 2–3 季，但 sensitivity 僅中：單一客戶占比高使傳導不純，族群需求上升不等於本檔拿到訂單。
 thesis: AI 資料中心光纖連接與 CPO 用光學互連需求，帶動產品組合升級與毛利結構性上移
-thesis_since: __
+thesis_since: 2026-08-27
+valuation_base_year: 2026   # 曆年。首次設定；2027 僅 2 家機構、能見度不足，滾動時點為 Q3 財報（約 2026-11）
 scenarios:
   bear:
-    p: __
-    p_basis: __
+    p: 0.25
+    p_basis: 機率由使用者於 2026-08-27 全量重估指定。6 月營收 YoY 僅 +1.65% 暴露單一客戶拉貨的不穩定；毛利率 Q1 已由 2025 全年的 57.74% 降至 55.41%
     key_assumption: CPO 產業如期放量但本檔未進入五家供應鏈；A 客戶砍單或分散供應商
     key_assumption_history:
     - {until: 2026-08-27, text: CPO 量產遞延、A 客戶砍單或分散供應商,
        why_changed: "accelerator-roadmap 首次填值：scale-out CPO 交換器已進入全面量產、2026 秋出貨，產業側無遞延。失敗路徑因此由『CPO 沒來』改為『CPO 來了但本檔不在名單上』—— 而後者更難驗證，因為五家供應鏈名單不公開，技術時程卻是公開的。見 reports/2026/08/2026-08-27-6442-L1-cpo-scale-out-ramp.md"}
-    eps: __
-    exit_multiple: __
-    tp: __
-    narrative: __
+    eps: 42.0
+    exit_multiple: 26
+    tp: 1092
+    narrative: EPS 42 = H1 實績 19.07 + H2 22.9，相當於 Q3／Q4 各約 11.5 與 Q2 的 11.21 持平 — 不是災難，只是動能停在這裡。26x 低於現況 34.8x
   base:
-    p: __
-    p_basis: __
-    key_assumption: 光通訊占比維持高檔，CPO 依既定時程放量
-    eps: __
-    exit_multiple: __
-    tp: __
-    narrative: __
+    p: 0.50
+    p_basis: 訂單能見度已達 2026 年底、產能滿載兩班制、菲律賓廠已投產，執行面條件齊備
+    key_assumption: 光通訊占比維持高檔、CPO 依既定時程；H2 溫和成長，Q4 加速使全年達市場估計
+    eps: 46.5
+    exit_multiple: 35
+    tp: 1628
+    narrative: 需 H2 做到 27.4（+44% vs H1），即 Q4 明顯加速。35x 即現價隱含值，不靠重評價支撐
   bull:
-    p: __
-    p_basis: __
-    key_assumption: CPO 加速滲透 + 上游結盟綁定，毛利率維持 50%+
-    eps: __
-    exit_multiple: __
-    tp: __
-    narrative: __
-  weighted_tp: __
+    p: 0.25
+    p_basis: 需要 CPO／ELS 在 Q4 就有實質貢獻，而公司目前只給到「預計 2026 年可見到相關應用」。與 bear 對稱
+    key_assumption: 產能擴充與 CPO／ELS 於 Q4 開始貢獻；毛利率維持 55%+
+    eps: 52.0
+    exit_multiple: 48
+    tp: 2496
+    narrative: 48x 仍低於同業平均 70.8x（近四季口徑，不完全可比），未取激進值
+  weighted_tp: 1711
+  # EPS 全部由 H1 實績 19.07 往下推。刻意不採用兆豐／國票／康和 2026-03 的預估
+  # （38.18／40.41／36.46），那批數字已被 H1 實績超越，其目標價 2,000–2,450 建立在
+  # 已作廢的獲利假設上。
 key_variables:
 - name: A客戶營收占比
   value: 63
@@ -59,29 +63,29 @@ key_variables:
   source: 2025 合併財報（單一客戶銷貨占全年營收約 63%）
   updated: 2026-08-26
 - name: 光通訊產品營收占比
-  value: __
+  value: 80
   unit: '%'
-  tier: 缺口
-  source: 近期揭露約 80%~92% 區間，須以最新一期為準
-  updated: __
+  tier: 事實
+  source: 法說會 2026-06-09 — 光被動元件占比超過 80%（Patch Panel、Cassette、Torpedo Cable 等資料中心產品）
+  updated: 2026-08-27
 - name: 毛利率
-  value: __
+  value: 55.41
   unit: '%'
-  tier: 缺口
-  source: 2025 全年約 57.7%（待最新季度更新）
-  updated: __
+  tier: 事實
+  source: 2026Q1 財報；2025 全年 57.74%（2024 為 55.62%）。⚠ Q2 2026 單季毛利率未取得，無法確認 Q1 的下滑是否延續
+  updated: 2026-08-27
 - name: CPO量產時點
-  value: __
-  unit: 季
-  tier: 缺口
-  source: ''
-  updated: __
+  value: 公司稱「預計 2026 年可見到相關應用」，ELS 外部光源模組開發中。尚無實際出貨或營收貢獻的揭露
+  unit: 質性
+  tier: 推論
+  source: 法說會 2026-06-09（管理層時程陳述，非出貨證據）
+  updated: 2026-08-27
 - name: 產能擴充進度
-  value: __
-  unit: '%'
-  tier: 缺口
-  source: ''
-  updated: __
+  value: 產能滿載、兩班制生產；台灣／中國／菲律賓同步擴產，菲律賓廠 2025-07 正式投產
+  unit: 質性
+  tier: 事實
+  source: 法說會 2026-06-09
+  updated: 2026-08-27
 - name: IET-KY結盟綜效
   value: __
   unit: 質性
@@ -89,43 +93,59 @@ key_variables:
   source: 策略換股取得 IET-KY 約 15.26% 股權（待確認最新狀態）
   updated: __
 monthly_revenue:
-- month: __
-  rev: __
-  yoy: __
+- month: 2026-07
+  rev: 12.29
+  yoy: '+49.25%'
   mom: __
+- month: 2026-06
+  rev: 10.69
+  yoy: '+1.65%'
+  mom: __
+- month: 2026-05
+  rev: __
+  yoy: '+116%'
+  mom: __
+  note: 創單月新高，但金額未取得（見 gaps）
+# ⚠ 三個月的 YoY 是 +116% → +1.65% → +49.25%。在單一客戶占營收 63% 的結構下，
+#   月營收基本上就是那一家的拉貨節奏 — 擺盪不代表需求消失，但它證明了 notes 裡那句話。
 cta:
-  位階: __
-  price: __
-  key_ma: __
-  support: __
+  位階: ⚠ 無法完整判定 — 均線與 52 週區間皆未取得。已確認台股報價頁技術指標為 JS 動態渲染，WebFetch 只能取得頁面框架。已知：連 2 漲累計 +10.27%；今日開高走低，自 1,695 回落至 1,620，收在均價 1,646 之下（單日行為，不構成位階判斷）
+  price: 1620
+  key_ma: __   # 5／20／60／120／240 全部未取得
+  support: __  # 手上僅一個交易日的高低點，無均線亦無 52 週區間；任何價位都會是憑空指定的整數關卡而非結構位。依「不編造數字」留空
   resistance: __
-  updated: __
-  invalidation: __
-  confirm_trigger: __
+  updated: 2026-08-27
+  invalidation: __   # 待補 — 需先取得均線與 52 週區間
+  confirm_trigger: 取得均線後，需價格站上季線且季線上彎，並放量創波段新高。目前完全無法驗證
+  note: 1620 為 2026-08-27 11:35 盤中報價，台股當日未收盤。昨收 1610；今日開 1645、高 1695、低 1615、均價 1646，振幅 4.97%；盤中成交金額 34.17 億元
 signal:
-  rating: __
-  conviction: __
-  basis: __
-  changes_if: __
+  rating: 中性
+  conviction: 低
+  basis: 基本面是清單中最猛的一組（Q2 稅後淨利年增逾 3.5 倍、H1 EPS 19.07 近兩個股本、毛利率 55%+、訂單能見度到年底、產能滿載）。但三件事使偏多不成立：均線與 52 週區間皆未取得故右側確認無從判讀、連技術面失效價位都設不出來；加權目標價相對盤中僅 +5.6%；63% 單一客戶集中度是與論點獨立的非對稱風險，6 月營收 YoY 僅 +1.65% 正是其體現
+  changes_if: 取得均線後價格站上季線且季線上彎並放量創波段新高 → 偏多；單季營收 YoY 轉負或毛利率連兩季跌破 50% → 偏空；補齊 Q2 毛利率與技術位階 → 信心升至中
 falsifiers:
 - condition: A 客戶占比驟降或明確分散供應，單季營收 YoY 轉負
-  check_by: __
-  status: 未驗證
+  check_by: 2027-02-28
+  status: 未觸發
+  note: Q2 2026 營收 YoY +26.55%，距轉負尚遠。但 6 月單月僅 +1.65%（5 月 +116%、7 月 +49.25%）是本條的先行雜訊，需持續盯
 - condition: 毛利率連兩季跌破 50%（產品組合下滑或殺價）
   check_by: 2027-05-31
   status: 未觸發
   note: 門檻 50% 於 2026-08-27 設定，錨點有二 — 2025 全年約 57.7%，且 bull 情境的關鍵假設本就寫「毛利率維持 50%+」。跌破即同時否證 bull 前提
-- condition: 產業 scale-out CPO 出貨（2026 秋）後 2 季內，即 2027Q1 前，本檔仍未揭露 CPO 相關營收或料號進度
+- condition: 2027Q1 前仍未在財報或法說中揭露 CPO／ELS 的實際出貨或營收貢獻（研發進度與時程陳述不算）
   check_by: 2027-05-31
   status: 未觸發
-  note: 2026-08-27 改寫。原條件為「CPO 量產時程遞延超過 __ 季」，以本檔自己的量產時點為基期，而該基期是 __，永遠無法驗證。改錨到 accelerator-roadmap 的產業時點後即可驗
+  note: 2026-08-27 兩度修訂。原條件「CPO 量產時程遞延超過 __ 季」以本檔自己的量產時點為基期而該基期是 __，永遠無法驗證；晨間改錨到產業時點為「未揭露營收或料號進度」；本次收緊 —— 法說已稱「預計 2026 年可見到相關應用」並揭露 ELS 開發，照字面該條已被滿足而永不觸發，但那不是它要問的問題。研發中的專案與拿到料號差距很大，故門檻調高為需有實際出貨或營收貢獻。一條無法否證的否證點比沒有更糟
 checkpoints:
-- date: __
-  event: 月營收公布
-  what_to_watch: YoY 動能與客戶集中度線索
-- date: __
-  event: 季報／法說
-  what_to_watch: 毛利率、光通訊占比、CPO 進度
+- date: '2026-09-10'
+  event: 8 月營收公布（每月 10 日前）
+  what_to_watch: 能否延續 7 月的 +49.25%，或再現 6 月的 +1.65% 那種驟降 — 單一客戶拉貨節奏的直接觀測
+- date: '2026-11'
+  event: Q3 財報與法說
+  what_to_watch: Q3 毛利率是否守住（Q1 55.41%、2025 全年 57.74%）、CPO／ELS 是否有出貨或營收貢獻、2027 展望（基準年滾動觸發點）
+- date: '2026-10'
+  event: OCP Global Summit 2026
+  what_to_watch: CPO 五家供應鏈成員是否揭露 — 本檔是否在內是 accelerator-roadmap 對本檔傳導的最大斷點
 gaps:
 - question: A 客戶身分與其 capex 週期（集中度風險的真正來源）
   how_to_close: 供應鏈查證 / 終端客戶 capex guidance 交叉比對
@@ -135,10 +155,24 @@ gaps:
   how_to_close: 供應鏈查證；法說 Q&A 直接問 CPO 料號進度
 - question: 本檔的光通訊產品目前落在 scale-out（交換器，CPO 已量產）還是 scale-up（GPU 機櫃內，仍為銅）？兩層的可及市場差一個量級
   how_to_close: 法說／年報產品組合說明
+- question: ⚠ 均線（5／20／60／120／240）與 52 週高低皆未取得，導致 CTA 位階、支撐壓力、技術面失效價位全部無法建立。已確認台股報價頁技術指標為 JS 動態渲染，WebFetch 無效 — 這是 3324 與本檔共同的系統性缺口
+  how_to_close: 改用可輸出靜態資料的來源（券商 API、TWSE／TPEx 官方檔案），或由使用者提供
+- question: Q2 2026 單季毛利率未取得，無法確認 Q1 的下滑（57.74% → 55.41%）是否延續
+  how_to_close: 季報全文、公開資訊觀測站
+- question: 2027 共識僅 2 家機構、能見度低，導致估值基準年無法由 2026 滾動至 2027
+  how_to_close: Q3 財報後（約 2026-11）。屆時滾動須在報告明寫基準年變更
+- question: 2026 年 5 月營收金額未取得（僅知 YoY +116%、創單月新高）
+  how_to_close: 公開資訊觀測站月營收公告
+- question: A 客戶占比是否仍為 63%？該數字來自 2025 合併財報、已逾半年未更新，而它是本檔最大的單一風險。法說的「歐美市場 >95%」是地域不是客戶，兩者不可互相代用
+  how_to_close: 年報／季報客戶集中度附註
 notes: 單一客戶占比 63% 是本檔最大的非對稱風險 — 論點對了但客戶砍單，股價仍會受重擊。這個風險與論點本身相互獨立，訊號評級的信心度應據此下調。
   ｜2026-08-27 補充：這個風險因本次事件而「強化」而非緩解。CPO 產業放量後，本檔能否進入五家供應鏈同樣繫於客戶關係，
   等於同一個集中度風險同時決定了現有營收與新產品的機會 —— 兩者不獨立，不可視為兩條分散的路徑。
 event_log:
+- date: 2026-08-27
+  level: L2
+  summary: 手動全量重估。首次建立三情境與加權目標價 1,711，相對盤中 1,620 為 +5.6%；訊號中性／信心低
+  delta: 基準年設 2026（曆年）並訂出滾動時點；EPS 全部由 H1 實績 19.07 往下推，刻意不採用兆豐／國票／康和 2026-03 的預估（38.18／40.41／36.46，已被 H1 實績超越）；填入 光通訊產品營收占比 80%、毛利率 55.41%、CPO量產時點、產能擴充進度、三個月營收序列；第一條 falsifier 補上 check_by，第三條收緊為需有實際出貨或營收貢獻。CTA 位階因均線與 52 週區間皆未取得而無法建立，連 invalidation 都留空
 - date: 2026-08-27
   level: L1
   summary: accelerator-roadmap driver 首次填值扇出。scale-out CPO 交換器已進入全面量產、2026 秋出貨；scale-up（Rubin NVLink 6）仍為銅

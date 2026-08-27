@@ -103,6 +103,12 @@ equity_gain_distortion:
   tier: 事實
 
 transmission:
+  - ticker: COHR
+    direction: '+'
+    path: capex → 資料中心內外光互連埠數 → 收發器與光元件需求
+    lag: 領先 2–3 季
+    sensitivity: 中（FY2027 已售罄且長約含 take-or-pay，短期 capex 波動先反映在訂單能見度而非營收）
+    affects: ['資料中心營收成長', '訂單能見度']
   - ticker: TSM
     direction: '+'
     path: capex → GPU/ASIC 投片量 → 先進製程與 CoWoS 產能利用

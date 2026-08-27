@@ -163,6 +163,7 @@ def check_driver_integrity(root):
         if lu and (date.today() - lu).days > 100:
             notes.append(f"{rel}: driver 已 {(date.today() - lu).days} 天未更新")
 
+    state_tickers, back_refs = set(), {}
     for path in sorted(glob.glob(os.path.join(root, "state", "*.yaml"))):
         base = os.path.basename(path)
         if base.startswith("_") or base == "coverage.yaml":
@@ -175,6 +176,8 @@ def check_driver_integrity(root):
         if not isinstance(d, dict):
             continue
         tick = str(d.get("ticker", ""))
+        state_tickers.add(tick)
+        back_refs.setdefault(tick, set())
         for ref in d.get("driver_refs") or []:
             if not isinstance(ref, dict):
                 continue
@@ -182,6 +185,7 @@ def check_driver_integrity(root):
             if slug not in drivers:
                 errors.append(f"{rel}: driver_refs 指向不存在的 driver `{slug}`")
                 continue
+            back_refs[tick].add(slug)
             if tick not in drivers[slug]["targets"]:
                 errors.append(
                     f"{rel}: 引用了 `{slug}`，但該 driver 的 transmission "
@@ -197,13 +201,25 @@ def check_driver_integrity(root):
                 )
 
     for did, info in drivers.items():
+        missing_file, no_back_ref = [], []
         for tick in info["targets"]:
             sp = os.path.join(root, "state", f"{tick}.yaml")
             if not os.path.exists(sp):
-                warns.append(
-                    f"{info['rel']}: transmission 指向 {tick}，"
-                    "但沒有對應的 state 檔"
-                )
+                missing_file.append(tick)
+            elif did not in back_refs.get(tick, set()):
+                no_back_ref.append(tick)
+        if missing_file:
+            warns.append(
+                f"{info['rel']}: transmission 指向 {'、'.join(missing_file)}，"
+                "但沒有對應的 state 檔"
+            )
+        if no_back_ref:
+            # 單向引用：driver 認得這檔，這檔不認得 driver。扇出會做，
+            # 但個股層讀不到共用數值，於是遲早有人把數字複製進 state。
+            warns.append(
+                f"{info['rel']}: transmission 指向 {'、'.join(no_back_ref)}，"
+                f"但這些 state 檔沒有回引 `{did}` 的 driver_refs — 單向引用"
+            )
 
 
 def main():

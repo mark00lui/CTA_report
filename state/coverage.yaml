@@ -1,10 +1,11 @@
 # 覆蓋層分析 — 這不是投資組合，是研究覆蓋清單。
 # 本檔不含權重、部位、持倉方向。因子分析以「等權覆蓋」為基準，
 # 目的是量測這批標的的論點相依性，不是描述任何人的股權配置。
-as_of: 2026-08-26
+as_of: 2026-08-27
 
 coverage:                 # 追蹤清單（研究覆蓋，非投資組合）
   - {ticker: TSM,  market: US, tags: [ai_capex_hw, foundry, tw_fx]}
+  - {ticker: NVDA, market: US, tags: [ai_capex_hw, accelerator]}
   - {ticker: MSFT, market: US, tags: [ai_platform, saas]}
   - {ticker: GOOG, market: US, tags: [ai_platform, advertising]}
   - {ticker: META, market: US, tags: [ai_platform, advertising]}
@@ -12,16 +13,22 @@ coverage:                 # 追蹤清單（研究覆蓋，非投資組合）
   - {ticker: 3324, market: TW, tags: [ai_capex_hw, thermal, tw_fx]}
   - {ticker: 6442, market: TW, tags: [ai_capex_hw, optical, cpo, single_customer]}
 
-# 等權基準下的因子分布（7 檔各佔 1/7 = 14.3%）
+# 等權基準下的因子分布（8 檔各佔 1/8 = 12.5%）
 # 這是覆蓋清單的結構描述，與任何實際配置無關
 equal_weight_factor_mix:
-  ai_capex_hw:    {count: 3, pct: 42.9, note: "TSM + 3324 + 6442 — 同一條需求鏈，會一起受傷"}
-  ai_platform:    {count: 3, pct: 42.9, note: "MSFT + GOOG + META — 支出方；capex 縮手時它們先反應，硬體端後反應"}
-  ai_application: {count: 1, pct: 14.3, note: "INTU — 唯一與 capex 因子低相關的標的"}
-  tw_market:      {count: 2, pct: 28.6, note: "3324 + 6442，含匯率與地緣風險"}
+  ai_capex_hw:    {count: 4, pct: 50.0, note: "TSM + NVDA + 3324 + 6442 — 同一條需求鏈，會一起受傷。2026-08-27 納入 NVDA 後由 42.9% 升至 50.0%，清單一半押在同一條鏈上"}
+  ai_platform:    {count: 3, pct: 37.5, note: "MSFT + GOOG + META — 支出方；capex 縮手時它們先反應，硬體端後反應"}
+  ai_application: {count: 1, pct: 12.5, note: "INTU — 唯一與 capex 因子低相關的標的；其占比因清單擴大而由 14.3% 稀釋至 12.5%"}
+  accelerator:    {count: 1, pct: 12.5, note: "NVDA — 加速器供應端。它同時是 drivers/ai-accelerator-demand 的主要成分，是清單中唯一「既被研究、又是他檔資料來源」的標的"}
+  tw_market:      {count: 2, pct: 25.0, note: "3324 + 6442，含匯率與地緣風險；占比由 28.6% 稀釋至 25.0%"}
   non_ai:         {count: 0, pct: 0.0,  note: "覆蓋清單完全集中於 AI 主題 — 這是清單的結構性偏誤，讀者應據此加權"}
 
-common_premise: "7 檔中有 6 檔共用同一前提：AI 資料中心資本支出在未來 8 個季度不會出現實質減速。這是本覆蓋清單的單一失效點 — 個股層分析再深也看不見它。"
+common_premise: "8 檔中有 7 檔共用同一前提：AI 資料中心資本支出在未來 8 個季度不會出現實質減速。這是本覆蓋清單的單一失效點 — 個股層分析再深也看不見它。2026-08-27 納入 NVDA 後，例外只剩 INTU 一檔。"
+
+# 納入 NVDA 使既有的因子集中「加深」而非分散，這一點必須寫明：
+# NVDA 是這個共同前提最純粹的單一表述 —— 它沒有非 AI 業務可以緩衝（Edge 僅占 Q2 營收 7.5%），
+# 也沒有像 MSFT／GOOG 那樣的訂閱或廣告基底。若共同前提失效，它不是「跟著受傷」，而是震央。
+# 換句話說：這次新增提高了清單的解析度（多了供應端的第一手視角），但降低了它的分散度。
 
 shared_falsifier:
   condition: "任兩家超大型 CSP 在同一季下修資本支出 guidance"
@@ -33,6 +40,9 @@ correlation_watch:
   - {pair: "TSM / 6442", note: "終端需求同源，但 6442 受單一客戶影響更大"}
   - {pair: "MSFT / GOOG / META", note: "廣告與雲的景氣循環不同步，但 AI 支出敘事同步"}
   - {pair: "INTU / 其餘", note: "應為低相關 — 每季實測一次，若相關性上升代表這個假設失效"}
+  - {pair: "NVDA / TSM", note: "預期為清單中最高的一組。NVDA 的出貨就是 TSM 的投片，中間只隔一道代工。若這兩檔相關性「下降」才是異常，通常意味自研 ASIC 比重上升或庫存在通路端堆積"}
+  - {pair: "NVDA / 3324、6442", note: "NVDA 領先 2–3 季（散熱與光互連晚於晶片）。同步而非領先的相關性代表傳導假設有誤"}
+  - {pair: "NVDA / MSFT、GOOG、META", note: "方向刻意相反：加速器採購對 NVDA 是營收，對平台端是折舊。若四者同向大漲或大跌，代表市場在交易整體 AI 敘事而非個別基本面 — 那是清單分散度最低的時刻"}
 
 review_cadence:
   weekly: "事件流回顧 + 共同前提檢核 + 未來兩週檢驗點"

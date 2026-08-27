@@ -1,0 +1,150 @@
+# 公開研究檔 — 本倉庫不含任何倉位資訊：無成本、無張數、無權重、無 Kelly、無損益、無持倉揭露。
+# 未知值一律留 __ 並寫進 gaps，不要填看起來合理的數字。
+#
+# ⚠ 本檔刻意「不」放資料中心營收。那是共用事實，住在 drivers/ai-accelerator-demand.yaml
+#   的 components（NVIDIA Data Center），同時驅動 TSM 投片、3324 機櫃附載、6442 互連埠數。
+#   依 CLAUDE.md「一個共用事實只能有一個家」，本檔只放 NVDA 自己的變數。
+#   driver_refs 待 /driver 把 NVDA 補進兩個 driver 的 transmission 後再補上（見 gaps）。
+ticker: NVDA
+name: NVIDIA
+market: US
+factor_tags:
+- ai_capex_hw
+- accelerator
+thesis: 需求已不是爭點（DC +117%、Q3 指引 $108B 且完全不含中國）；爭點是毛利率自 75% 下行的斜率與 Rubin 換代的持續性，19x 遠期本益比已定價成長終結
+thesis_since: 2026-08-27
+
+scenarios:
+  bear:
+    p: __
+    p_basis: "__"
+    key_assumption: 毛利率下行快於指引；Rubin 換代出現良率或功耗瓶頸；客戶自研 ASIC 實質替代
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: "__"
+  base:
+    p: __
+    p_basis: "__"
+    key_assumption: Q3 指引達成，毛利率守在 74% 附近；Rubin 如期放量；中國維持零貢獻
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: "__"
+  bull:
+    p: __
+    p_basis: "__"
+    key_assumption: 中國恢復為純上檔；Rubin 帶動 ASP 與毛利率回升；倍數自 19x 修復
+    eps: __
+    exit_multiple: __
+    tp: __
+    narrative: "__"
+  weighted_tp: __
+
+key_variables:
+- name: 毛利率
+  value: 75.0
+  unit: '%'
+  tier: 事實
+  source: NVIDIA Q2 FY27 財報 2026-08-26（GAAP 與 non-GAAP 同為 75.0%；Q1 FY27 74.9%，去年同期 72.4%）；Q3 指引 74.0% ±50bp
+  updated: 2026-08-27
+- name: 下季總營收指引
+  value: 108.0
+  unit: USD bn
+  tier: 事實
+  source: NVIDIA Q3 FY27 展望 2026-08-26（±2%，即 105.84–110.16；較 Q2 實際 96.2 為 +12% QoQ）
+  updated: 2026-08-27
+- name: 中國曝險
+  value: Q2 FY27 Hopper 對中國出貨低於資料中心營收的 1%；Q3 指引假設中國資料中心運算營收為零
+  unit: 質性
+  tier: 事實
+  source: NVIDIA Q2 FY27 財報與展望 2026-08-26
+  updated: 2026-08-27
+- name: 下季營業費用指引
+  value: 9.0
+  unit: USD bn (non-GAAP)
+  tier: 事實
+  source: NVIDIA Q3 FY27 展望 2026-08-26（Q2 實際 8.2，QoQ +10%；GAAP 口徑 9.2）
+  updated: 2026-08-27
+- name: 遠期本益比
+  value: 19.08
+  unit: x
+  tier: 推論
+  source: stockanalysis.com 2026-08-26 收盤 209.66；隱含 FY27 共識 EPS 約 10.99（口徑未經來源確認，見 gaps）
+  updated: 2026-08-27
+- name: 客戶集中度
+  value: __
+  unit: '%'
+  tier: 缺口
+  source: ''
+  updated: __
+
+cta:
+  位階: 多頭排列 — 50DMA(207.75) 高於 200DMA(195.53)，價格在兩者之上；8/26 收盤 209.66 僅略高於 50DMA，財報後盤後 +4.71% 至 219.53，距 52 週高 236.54 尚有 7.7%
+  price: 219.53
+  key_ma: 50DMA 207.75 / 200DMA 195.53
+  support: 207.75 (50DMA) → 195.53 (200DMA) → 164.07 (52週低)
+  resistance: 236.54 (52週高)
+  invalidation: 週收盤跌破 195.53 (200DMA) → 多頭排列破壞；跌破 164.07 (52週低) → 偏空
+  confirm_trigger: 以放大量突破並站穩 236.54（52 週高）→ 右側確認成立。目前僅為財報跳空，尚未突破前高
+  updated: 2026-08-27
+
+signal:
+  rating: __
+  conviction: __
+  basis: "__"
+  changes_if: "__"
+
+falsifiers:
+- condition: Non-GAAP 毛利率連兩季低於 72%（Q2 FY27 為 75.0%，Q3 指引 74.0% ±50bp — 下行斜率快於指引即為定價權或成本結構問題）
+  check_by: 2027-02-28
+  status: 未觸發
+- condition: 單季資料中心營收 QoQ 轉負，且管理層歸因於需求或客戶消化庫存而非供應受限（Q2 FY27 為 +18% QoQ）
+  check_by: 2027-02-28
+  status: 未觸發
+- condition: Q3 FY27 實際營收低於指引下緣 105.84 億美元（連五季超預期的紀錄中斷）
+  check_by: 2026-11-30
+  status: 未觸發
+
+checkpoints:
+- date: '2026-11'
+  event: Q3 FY27 財報（日期未公告，依慣例推估 11 月中下旬）
+  what_to_watch: 是否達 108B 指引、毛利率是否守住 74%、中國是否恢復貢獻、Vera Rubin 出貨進度與客戶名單
+- date: '2027-02'
+  event: Q4 FY27 財報 + FY28 框架
+  what_to_watch: 毛利率全年軌跡、營業費用成長是否持續快於營收、自研 ASIC 替代的實質證據
+- date: '2027-03'
+  event: GTC 2027（時間依歷年慣例推估）
+  what_to_watch: 下一代平台時程與單櫃功耗 — 同時是 accelerator-roadmap driver 的更新節點
+
+gaps:
+- question: 前 N 大客戶集中度未取得（key_variables 留 __）。加速器需求高度集中於四大 CSP，這個數字決定單一客戶決策對本檔的殺傷力
+  how_to_close: 10-Q／10-K 客戶集中度附註
+- question: Q2 FY27 GAAP EPS 2.46 高於 non-GAAP 2.22，方向與常態相反（差額約 24 美分、對應逾 50 億美元），疑為投資利益等一次性項目
+  how_to_close: 核對 Q2 FY27 財報附註與 GAAP/non-GAAP 調節表。這決定 /revalue 時該用哪個口徑當估值錨
+- question: 遠期本益比 19.08x 隱含的 FY27 共識 EPS 約 10.99，但口徑（GAAP 或 non-GAAP）與成分年度未經原始來源確認
+  how_to_close: 核對賣方報告或 Visible Alpha
+- question: FY2028 共識營收與 EPS 未取得
+  how_to_close: 待 Q3 FY27 後的公開來源
+- question: 中國政策路徑 — Q3 指引假設中國資料中心運算為零，若恢復即為純上檔，但幅度與時點無從估計
+  how_to_close: 出口管制公告；法說 Q&A
+- question: NVDA 尚未接上 driver 層。兩個 driver 的 transmission 都沒有 NVDA 條目，故本檔暫不填 driver_refs（單向引用會是 error）
+  how_to_close: 跑 /driver ai-accelerator-demand 與 /driver accelerator-roadmap，把 NVDA 補進 transmission 後再回填 driver_refs
+- question: 2026-08-27 收盤價未知（CTA 採 8/26 收盤 209.66 與盤後 219.53）
+  how_to_close: 次一交易日確認收盤
+
+notes: 本檔與其他覆蓋標的的關係不對稱 —— NVDA 的資料中心營收「同時是」drivers/ai-accelerator-demand
+  的主要成分，也就是說它既是被研究的個股，也是驅動 TSM／3324／6442 模型的上游資料源。因此本檔的
+  key_variables 刻意避開資料中心營收（那住在 driver），只放 NVDA 自己的毛利率、費用、中國曝險與估值。
+  ｜該 driver 的 why_shared 目前寫「NVDA 與 AMD 不在覆蓋清單內，正因如此它們的數字只能住在這一層」——
+  這句話的前提在 2026-08-27 起不成立，但結論仍成立（理由是它驅動三檔硬體端，與是否被覆蓋無關）。
+  下次 /driver 時應修正該句措辭，不要因為前提失效就把數值搬進 state。
+  ｜估值口徑注意：Q2 FY27 的 GAAP EPS 高於 non-GAAP，與多數公司相反，做三情境前必須先釐清原因。
+
+event_log:
+- date: 2026-08-27
+  level: '—'
+  summary: 建檔。適逢 2026-08-26 盤後公布 Q2 FY27：總營收 96.2B（+106% YoY）、資料中心 89.0B（+117% YoY、+18% QoQ）、non-GAAP EPS 2.22、毛利率 75.0%；Q3 指引 108B ±2% 且不含中國
+  delta: 新增追蹤標的。thesis 已寫定；三情境與訊號留 __，待 /revalue 由使用者指定機率。falsifiers 三條均有數字門檻且均可在 6 個月內驗證
+
+last_updated: 2026-08-27

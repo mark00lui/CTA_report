@@ -8,13 +8,26 @@ factor_tags:
 - ai_capex_hw
 - thermal
 - tw_fx
+driver_refs:
+- driver: accelerator-roadmap
+  direction: '+'
+  note: >
+    本檔 thesis 的直接驅動因子。單機櫃功耗、下一代平台量產時點都住在該 driver，不在本檔複製。
+    2026-08-27 該 driver 首次填值：GB300 NVL72 132–142kW → Rubin NVL144 約 190kW →
+    Rubin Ultra 約 600kW（2027）。
+- driver: ai-accelerator-demand
+  direction: '+'
+  note: 加速器出貨量 → 機櫃數 → 液冷附載。領先 2–3 季（散熱晚於晶片）。合計數值取該 driver 現值。
 thesis: 液冷從選配轉為標配，2026 滲透率與單機價值量決定重評價幅度
 thesis_since: __
 scenarios:
   bear:
     p: __
     p_basis: __
-    key_assumption: 液冷滲透率停滯、氣冷方案延壽；價格競爭壓縮毛利
+    key_assumption: 液冷如期普及但 3324 未吃到 — 價格競爭壓縮毛利、對 3017 份額流失、或在新平台設計中被替換
+    key_assumption_history:
+    - {until: 2026-08-27, text: 液冷滲透率停滯、氣冷方案延壽；價格競爭壓縮毛利,
+       why_changed: "accelerator-roadmap 首次填值：GB300 已強制液冷（132–142kW）、Rubin NVL144 約 190kW、Rubin Ultra 約 600kW。氣冷在現行世代就已退場，「延壽」不成立。bear 的失敗路徑因此由『液冷沒來』改為『液冷來了但本檔沒吃到』。見 reports/2026/08/2026-08-27-3324-L1-rubin-power-density.md"}
     eps: __
     exit_multiple: __
     tp: __
@@ -110,9 +123,17 @@ checkpoints:
   event: 法說會
   what_to_watch: next-gen 平台導入時程、毛利率 guidance
 gaps:
-- question: 液冷營收占比公司是否單獨揭露？
+- question: 液冷營收占比公司是否單獨揭露？這是三條 falsifier 中第一條能否設定門檻的前提
   how_to_close: 法說 Q&A / 年報分部資訊
-- question: 單機價值量在新平台的變化倍數
-  how_to_close: 供應鏈查證 / 同業法說交叉比對
-event_log: []
-last_updated: 2026-08-26
+- question: 單機價值量在新平台的變化倍數。⚠ 熱負載倍數（190/142 ≈ 1.34x）不等於營收倍數，不可換算
+  how_to_close: 供應鏈查證 / 同業法說交叉比對；需要散熱方案單價與 BOM 結構
+- question: Rubin Ultra 的 600kW 對應何種散熱方案（單相／兩相／浸沒）。若為浸沒，供應商結構與現行水冷板不同，對本檔是另一個故事
+  how_to_close: GTC 2027、OCP 規格文件（已同步列入 accelerator-roadmap 的 gaps）
+- question: 三條 falsifier 門檻全為 __ 且本次刻意未填 — 沒有基期就設門檻會得到假指標。本檔六個 key_variables 從未填過值
+  how_to_close: 跑 /revalue 3324，補齊月營收、毛利率、液冷占比與技術位階
+event_log:
+- date: 2026-08-27
+  level: L1
+  summary: accelerator-roadmap driver 首次填值扇出。Rubin 機櫃功耗軌跡 142kW → 190kW → 600kW（2027）
+  delta: bear 情境 key_assumption 改寫（「氣冷方案延壽」不再成立，失敗路徑改為「液冷來了但本檔沒吃到」）；補上兩個 driver 的 driver_refs 完成雙向引用。無任何 key_variable 填值 — driver 給的是平台側事實，滲透率與價值量須公司側揭露
+last_updated: 2026-08-27

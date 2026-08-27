@@ -20,6 +20,11 @@ driver_refs:
 - driver: ai-accelerator-demand
   direction: '+'
   note: 加速器出貨量 → 互連埠數。領先 2–3 季，但 sensitivity 僅中：單一客戶占比高使傳導不純，族群需求上升不等於本檔拿到訂單。
+- driver: hyperscaler-capex
+  direction: '+'
+  note: >
+    capex → 機櫃內外光互連埠數 → 光通訊產品需求與 CPO 導入時程。領先 2–3 季，sensitivity 中
+    （同上，單一客戶因素使傳導不純）。合計數值取該 driver 現值，不在本檔複製。
 thesis: AI 資料中心光纖連接與 CPO 用光學互連需求，帶動產品組合升級與毛利結構性上移
 thesis_since: 2026-08-27
 valuation_base_year: 2026   # 曆年。首次設定；2027 僅 2 家機構、能見度不足，滾動時點為 Q3 財報（約 2026-11）

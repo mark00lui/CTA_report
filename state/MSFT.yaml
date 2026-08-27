@@ -11,6 +11,11 @@ factor_tags:
 - ai_platform
 - saas
 driver_refs:
+- driver: ai-accelerator-demand
+  direction: '-'
+  note: >
+    加速器採購 → 資產啟用 → 折舊費用 → 營益率。落後 2–4 季，sensitivity 中 ——
+    低於 hyperscaler-capex，因該檔只涵蓋 capex 中的加速器部分。
 - driver: hyperscaler-capex
   direction: '-'
   note: 四大 CSP capex 合計與各家曆年成分值住在 driver，不複製進本檔。傳導路徑（capex → 折舊費用 → 營益率，落後

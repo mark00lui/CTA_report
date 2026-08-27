@@ -8,46 +8,99 @@ why_shared: >
   3324/3017 的伺服器散熱附載、6442 的光互連需求。同時它也是四家自己的成本與折舊。
   若複製進每檔 state，數值會各自漂移且沒人會發現。
 
+# ⚠ 2026-08-27 修正一個結構性問題：前版 current.value 為 725，但四個成分加總是 740。
+#   前者是第三方統計、後者是公司揭露，兩者混用使整個序列無法重現。
+#   本次起 current.value 一律為「四家公司揭露 guidance 上限之加總」，基準寫死在下方，
+#   第三方統計改列為 cross_check 的外部參照，不再當作 current 本身。
 current:
-  value: 725
-  unit: USD bn（2026 全年合計，公司 guidance）
-  as_of: 2026-08-26
-  tier: 推論
+  value: 745
+  unit: USD bn（2026 曆年合計 = 四家公司揭露 guidance 上限之加總）
+  as_of: 2026-08-27
+  tier: 事實
+  basis: "Amazon 220 + Alphabet 205 + Microsoft 175 + Meta 145 = 745。全部為公司自行揭露，非第三方推估。"
   source: >
-    彙整自各家 2026 Q1–Q2 財報與 guidance 的第三方統計（多來源一致落在 700–740 區間）。
-    非單一官方揭露，故列推論而非事實。
-  yoy: "+77%（2025 約 410）"
+    各家 2026 Q2 財報與法說（Amazon 2026-07-30、Alphabet 2026-07-22、
+    Microsoft 2026-07-29、Meta 2026-07-29）。
+  yoy: "+82%（2025 約 410）"
+  note: >
+    ⚠ 合計數的變化會掩蓋成分的相反方向，看合計前務必先看成分：
+    本次 725→745 的 +20 幾乎全部來自 Amazon 的真實上修，而 Microsoft 的 −15 是
+    會計口徑而非需求縮手。若只看合計會低估真實需求的上行幅度。
 
 components:
-  - {name: Amazon,    value: 200, guidance: "~200",     source: "2026 guidance；Q1 單季 capex 44.2，AWS 成長 28%", as_of: 2026-08}
-  - {name: Alphabet,  value: 205, guidance: "175–205",  source: "Q2 2026 財報上調上限至 205", as_of: 2026-08}
-  - {name: Microsoft, value: 190, guidance: "~190",     source: "曆年推估；FY26 Q3 單季 capex 30.88，年增 84%", as_of: 2026-08}
-  - {name: Meta,      value: 145, guidance: "125–145",  source: "全年 guidance 兩度上調，主因零組件（含記憶體）與資料中心成本", as_of: 2026-08}
+  - {name: Amazon, value: 220, guidance: "約 220（由約 200 上修）",
+     source: "Q2 2026 財報 2026-07-30 —— CEO Jassy 歸因於記憶體成本上漲；Q2 單季現金 capex 53.1；AWS 成長 36.7%。管理層稱 2027 產能已大致被預訂，部分 2028 產能亦已有歸屬",
+     as_of: 2026-08, tier: 事實, change: "真實上修 +20"}
+  - {name: Alphabet, value: 205, guidance: "195–205（由 180–190 上修）",
+     source: "Q2 2026 財報 2026-07-22 —— Q2 單季 capex 44.9（YoY +107%）；約 60% 投向伺服器、40% 投向資料中心與網通設備；公司稱需求強勁但供給限制仍在拖慢產能交付",
+     as_of: 2026-08, tier: 事實, change: "上限持平，下緣由 180 升至 195。⚠ 前版區間記為 175–205，該下緣有誤"}
+  - {name: Microsoft, value: 175, guidance: "約 175（由約 190 下修）",
+     source: "FY26 Q4 法說 2026-07-29 —— 差額全部來自資料中心耐用年限 15→25 年與未來租賃由融資改列營業。CFO Hood：Outside of this useful life impact, our calendar year 2026 CapEx investment expectations remain unchanged。Q1 FY27 單季 capex 指引逾 50",
+     as_of: 2026-08, tier: 事實, change: "⚠ 會計口徑 −15，非需求下修。計算 falsifier 時不得視為 guidance 下修"}
+  - {name: Meta, value: 145, guidance: "130–145（由 125–145 收窄）",
+     source: "Q2 2026 財報 2026-07-29 —— 上限未動、下緣上抬 5；Q2 單季 capex（含融資租賃本金）31.08；2026 全年總費用指引 165–169",
+     as_of: 2026-08, tier: 事實, change: "下緣 +5（略偏正面）。⚠ 前版區間記為 125–145，未反映 7/29 的收窄"}
 
 history:
   - {as_of: 2025, value: 410, note: "2025 全年實際合計"}
   - {as_of: 2026-02, value: 630, note: "各家 Q4 財報後的初始 2026 guidance 合計上限"}
-  - {as_of: 2026-04, value: 725, note: "Q1 財報後上修"}
-  - {as_of: 2026-08, value: 725, note: "Q2 後 Alphabet 上調上限、Meta 再上調，合計維持 700–740 區間"}
+  - {as_of: 2026-04, value: 725, note: "Q1 財報後上修（當時採第三方統計，非成分加總 —— 見 current 的基準說明）"}
+  - {as_of: 2026-08, value: 725, note: "Q2 後 Alphabet 上調上限、Meta 再上調，合計維持 700–740 區間（同上，第三方統計）"}
+  - as_of: 2026-08-27
+    value: 745
+    note: >
+      改以公司揭露上限加總為基準並全面校正三個過時成分：Amazon 200→220（真實上修）、
+      Microsoft 190→175（會計口徑）、Meta 與 Alphabet 的區間下緣修正。
+      ⚠ 本點與前四點的基準不同（成分加總 vs 第三方統計），比較時須注意；
+      若以同一基準回推，2026-08 的成分加總為 740，故真實變動為 740→745。
 
-consensus_2027:
-  value: "1,000+"
-  unit: USD bn
-  tier: 假設
-  source: "多家賣方預估 2027 突破 1 兆（Goldman 約 1.01T、JPM 由 800B 升至 1T，口徑含四大以外業者）"
-  note: 口徑不一致，跨來源比較時要先確認是否只含四大
+# 與 ai-accelerator-demand 互為交叉驗證：承諾（本檔）vs 落地（加速器實際出貨）
+cross_check:
+  against: ai-accelerator-demand
+  logic: >
+    本檔是「支出承諾」，ai-accelerator-demand 是「實際落地」。承諾持續上修但加速器營收停滯
+    → 錢沒流向運算；加速器超前而承諾未動 → 承諾可能即將上修。
+  status: 未背離
+  as_of: 2026-08-27
+  finding: >
+    方向一致。capex +82% YoY（745 vs 2025 的 410），加速器合計 +116% YoY（95.7 vs 約 44.2）。
+    加速器成長仍快於 capex，意味 capex 中流向運算的比重續升。
+    本次新增一個較合理的校準：Alphabet 揭露其 capex 約 60% 投向伺服器。若該比例可外推，
+    745 × 60% ≈ 447，對照加速器單季 95.7 年化後的 383，比值約 86% —— 遠比先前用全額 capex
+    當分母（54%）合理。但高速成長中的單季年化本身會低估，故仍列觀察不作結論。
+  caveats: >
+    (1) 分子涵蓋範圍大於分母：NVDA 客戶不限四大 CSP（其 AI Clouds／Industrial & Enterprise
+        營收 +138% YoY 至 40.3，含主權與 AI-native），這些不在四大 capex 的分母裡。
+    (2) 期間不對齊：本檔為曆年全年，加速器為單季。
+    (3) 60% 伺服器占比是 Alphabet 單一家的揭露，外推至其餘三家未經證實。
+  action: 兩者連兩季背離 → 硬體端 L2，並在報告中明寫是哪一邊先動
 
 # 2026 年下半最重要的變化不是金額，是市場反應
 market_reaction_regime:
-  as_of: 2026-08-26
+  as_of: 2026-08-27
   observation: >
-    capex 上修已從利多轉為利空訊號。Meta 上調 guidance 當日下跌 9.25%；
-    Alphabet 於 2026-07 Q2 上修 capex 後股價下挫約 7%，並拖累其餘三家。
+    capex 上修已從利多轉為利空訊號，且本季再獲印證。
+    Alphabet 於 2026-07-22 上修 capex 至 195–205 後股價下挫，並引發同業賣壓；
+    CNBC 於 2026-07-28 報導 Amazon、Meta、Microsoft 在 Alphabet 報告引發賣壓後
+    面臨投資人更嚴格的檢視。Meta 上調 guidance 當日亦曾下跌 9.25%。
   implication: >
     同一則「capex 上修」新聞，對硬體端（TSM/3324/3017/6442）是需求利多，
     對平台端（MSFT/GOOG/META/AMZN）在當前情緒下是折舊與 ROI 疑慮的利空。
     處理這類事件時必須分開判斷，不可套用同一個方向。
   tier: 推論
+
+# 觀察到的第四個案例：平台端的 GAAP 獲利被股權投資評價利益灌水
+# （MSFT 的 OpenAI、NVDA 的 CoreWeave 等、GOOG 的股權證券、AMZN 的 Anthropic）
+equity_gain_distortion:
+  as_of: 2026-08-27
+  observation: >
+    Amazon Q2 2026 的 GAAP EPS 5.75 含 53.4B 的 Anthropic 投資利益。
+    這是本倉庫目前記錄到的第四家 —— MSFT、NVDA、GOOG 皆有同構的情形。
+  implication: >
+    用未經調整的 GAAP 或 TTM EPS 計算這批標的的本益比，會系統性低估估值水準。
+    且同一批 AI 資產的評價波動會同時影響多檔帳面獲利，是 coverage 的 correlation_watch
+    目前沒有記到的一條連結。
+  tier: 事實
 
 transmission:
   - ticker: TSM
@@ -55,7 +108,7 @@ transmission:
     path: capex → GPU/ASIC 投片量 → 先進製程與 CoWoS 產能利用
     lag: 領先 1–2 季（晶片先於整機）
     sensitivity: 高
-    affects: [先進製程營收占比, CoWoS月產能, 全年資本支出guidance]
+    affects: [先進製程營收占比, CoWoS月產能]
   - ticker: '3324'
     direction: '+'
     path: capex → 伺服器機櫃出貨量 → 液冷附載率與單機價值量
@@ -68,6 +121,7 @@ transmission:
     lag: 領先 2–3 季
     sensitivity: 高
     affects: [月營收 YoY, 2026E EPS 市場預估]
+    note: ⚠ 尚無 state/3017.yaml。本條目為刻意保留 —— 3017 是真實的傳導對象，只是不在覆蓋清單內。驗證腳本會因此持續發出 warn，不要用刪除條目的方式消除它
   - ticker: '6442'
     direction: '+'
     path: capex → 機櫃內外光互連埠數 → 光通訊產品需求與 CPO 導入時程
@@ -79,52 +133,87 @@ transmission:
     path: capex → 折舊費用 → 營益率；除非雲營收同步加速，否則壓縮獲利
     lag: 落後 2–4 季（折舊隨資產啟用才入帳）
     sensitivity: 高
-    affects: [資本支出年增, 營益率]
+    affects: [營益率, 折舊年限假設]   # 2026-08-27 修正：原列「資本支出年增」，該變數已於 MSFT 重估時移出其 key_variables
   - ticker: GOOG
     direction: '-'
     path: 同上；另受市場對 ROI 耐心的情緒放大
     lag: 落後 2–4 季
     sensitivity: 高
-    affects: [資本支出, Cloud成長率]
+    affects: [Cloud成長率]   # 2026-08-27 修正：原列「資本支出」，該變數已於 GOOG 重估時移出其 key_variables
   - ticker: META
     direction: '-'
     path: 同上，且 Meta 無公有雲可直接變現 capex，ROI 質疑最強
     lag: 落後 2–4 季
     sensitivity: 高
-    affects: [資本支出guidance, 總費用guidance]
+    affects: [總費用guidance, 總成本費用成長]   # 2026-08-27 修正：原列「資本支出guidance」，該變數已於 META 重估時移出其 key_variables
   - ticker: AMZN
     direction: '-'
     path: 同上；AWS 成長率是判斷 capex 是否轉化為營收的主要中介指標
     lag: 落後 2–4 季
     sensitivity: 高
     affects: [資本支出, AWS成長率]
+    note: ⚠ 尚無 state/AMZN.yaml。同 3017，為刻意保留的真實傳導對象
 
 falsifiers:
   - condition: 任兩家在同一季下修全年 capex guidance
     check_by: 2026-11-30
-    status: 未驗證
+    status: 未觸發
+    evidence: >
+      2026-08-27：本季唯一的金額下修是 Microsoft（190→175），且已確認全部來自折舊年限與
+      租賃重分類，CFO 明言投資預期未變 —— **不計為 guidance 下修**。其餘三家皆為上修或
+      下緣上抬（Amazon +20、Alphabet 下緣 180→195、Meta 下緣 125→130）。
+      這正是本條需要人判讀而非數字比對的原因：機械式掃描會在 Microsoft 那一筆產生偽陽性。
     action: 觸發全覆蓋清單 L3 review（硬體端與平台端方向相反，須分開處理）
   - condition: 2027 合計 guidance 低於 2026 實際（成長轉負）
     check_by: 2027-02-28
     status: 未驗證
+    evidence: "2026-08-27：尚無 2027 guidance。方向性線索為 Amazon 稱 2027 產能已大致被預訂、部分 2028 產能亦已有歸屬"
     action: 硬體端全面 L3；平台端視為營益率利多
   - condition: 任一家明確將 capex 與「需求不足」而非「產能受限」連結
     check_by: 2026-11-30
-    status: 未驗證
+    status: 未觸發
+    evidence: >
+      2026-08-27：明確反向。Alphabet 稱需求強勁但**供給限制**仍在拖慢產能交付；
+      Amazon 稱 2027 產能已大致被預訂。四家無一將支出與需求不足連結。
     action: 這是最早的轉折訊號，優先度高於金額本身
 
+# 2026-08-27 扇出結果：8 個傳導對象全判 L0，0 份變更單。
+# 理由不是影響太小，而是本次變動的性質是「校正 driver 自身的錯誤」——
+# 三個過時成分被修正後，合計數在同一基準下僅由 740 變為 745（+0.7%），
+# 對任何下游 key_variable 都不足以構成數值變動。
+fanout_2026_08_27:
+  - {ticker: TSM, level: L0, type: 已檢查無影響,
+     why: "先進製程營收占比仍為缺口；CoWoS月產能為 TSMC 自身揭露的「每年擴張逾 80%」，不因 CSP capex 校正而改變。TSM 加權目標價 434 不受 +0.7% 的合計變動影響"}
+  - {ticker: '3324', level: L0, type: 已檢查無影響,
+     why: "液冷滲透率 35.5% 來自公司側（2025Q3 實績），北美CSP訂單能見度與產能利用率仍為缺口。本次補上 hyperscaler-capex 的 driver_refs 完成雙向引用"}
+  - {ticker: '6442', level: L0, type: 已檢查無影響,
+     why: "光通訊產品營收占比 80% 與 CPO量產時點均來自公司法說，不因 capex 校正而改變；且 sensitivity 僅中（單一客戶占比高，族群需求不等於訂單）。本次補上 driver_refs"}
+  - {ticker: MSFT, level: L0, type: 已檢查無影響,
+     why: "Microsoft 成分由 190 校正為 175，而 MSFT 的 state 早在 2026-08-26 重估時就已記載該事實與其會計成因 —— 本次是 driver 追上 state，不是 state 需要改。同時修正 affects（資本支出年增 → 營益率+折舊年限假設）"}
+  - {ticker: GOOG, level: L0, type: 已檢查無影響,
+     why: "Alphabet 成分上限持平 205，僅下緣由 180 升至 195（前版誤記為 175）。GOOG 的 key_variables 不含 capex（已移入 driver），Search／Cloud／股權證券／TPU／反壟斷五項均不受影響。同時修正 affects"}
+  - {ticker: META, level: L0, type: 已檢查無影響,
+     why: "Meta 成分上限持平 145，下緣由 125 升至 130。META 的 state 已於 2026-08-27 重估時記載該收窄。同時修正 affects"}
+  - {ticker: '3017', level: 未評, type: 無 state 檔,
+     why: "不在覆蓋清單內，無 state 可扇出。傳導關係為真，條目刻意保留"}
+  - {ticker: AMZN, level: 未評, type: 無 state 檔,
+     why: "同上。惟本次注意到其 Q2 GAAP EPS 含 53.4B Anthropic 投資利益，是股權投資評價利益扭曲 GAAP 的第四個案例，已記入 equity_gain_distortion"}
+
 checkpoints:
-  - {date: 2026-10, event: Q3 財報季（四家）, what_to_watch: "2026 全年 guidance 是否再修、2027 初步框架、措辭由『產能受限』轉為其他說法"}
-  - {date: 2027-01, event: Q4 財報季, what_to_watch: 2027 正式 guidance，四家合計是否站上 1 兆}
+  - {date: '2026-10', event: "Q3 財報季（四家）", what_to_watch: "2026 全年 guidance 是否再修、2027 初步框架、措辭是否由『產能受限』轉為其他說法"}
+  - {date: '2027-01', event: "Q4 財報季 + 2027 正式 guidance", what_to_watch: "四家合計是否站上 1 兆；第二條 falsifier 於此驗證"}
 
 update_cadence: 每季財報（1、4、7、10 月），期間僅有第三方預估修正
-
 gaps:
-  - {question: 各家 capex 中 AI 相關的實際占比, how_to_close: 財報電話會議 Q&A；多數公司不單獨揭露}
-  - {question: "口徑差異 — 部分統計含 Oracle 等第五家，跨來源比較前須確認", how_to_close: 逐一核對原始報告的成分股}
-  - {question: 折舊年限假設的變動（會直接影響平台端獲利，且容易被忽略）, how_to_close: 10-K 附註}
+  - {question: "各家 capex 中 AI 相關的實際占比。目前只有 Alphabet 揭露約 60% 投向伺服器，其餘三家未揭露", how_to_close: "財報電話會議 Q&A；多數公司不單獨揭露"}
+  - {question: "第三方統計的成分定義（部分含 Oracle 等第五家）。本檔 current 已改為公司揭露加總，第三方數字僅作外部參照", how_to_close: "逐一核對原始報告的成分股"}
+  - {question: "折舊年限假設的變動 —— Microsoft 已於 2026-07 將資料中心年限 15→25 年，其餘三家是否跟進未知。這會直接改變平台端的獲利，且容易被忽略", how_to_close: "各家 10-K 折舊政策附註"}
+  - {question: "Amazon 與 Meta 的 capex 是否含融資租賃本金？各家口徑不一致，Meta 明確含、Amazon 稱「現金 capex」，跨家加總存在口徑風險", how_to_close: "各家財報現金流量表與附註"}
 
 event_log:
+  - {date: 2026-08-27, level: '—',
+     summary: "全面校正三個過時成分並改變 current 的計算基準。Amazon 200→220（真實上修，記憶體成本）、Microsoft 190→175（會計年限口徑，非需求）、Meta 區間 125–145→130–145、Alphabet 區間 175–205→195–205（前版下緣有誤）。合計在新基準下為 745",
+     delta: "current 由第三方統計 725 改為公司揭露上限加總 745 並寫死基準；四個成分全部附上公司揭露來源與變動性質；新增 cross_check（對 ai-accelerator-demand）與 equity_gain_distortion 兩節；修正 MSFT／GOOG／META 三筆 affects 的懸空變數名；3017 與 AMZN 條目加註刻意保留；三條 falsifier 補上 evidence，均未觸發；扇出 8 個對象全 L0"}
   - {date: 2026-08-26, level: '—', summary: 建立驅動因子檔，彙整 2026 Q2 後的 guidance, delta: 新增}
 
-last_updated: 2026-08-26
+last_updated: 2026-08-27

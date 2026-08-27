@@ -18,6 +18,13 @@ driver_refs:
 - driver: ai-accelerator-demand
   direction: '+'
   note: 加速器出貨量 → 機櫃數 → 液冷附載。領先 2–3 季（散熱晚於晶片）。合計數值取該 driver 現值。
+- driver: hyperscaler-capex
+  direction: '+'
+  note: >
+    capex → 伺服器機櫃出貨量 → 液冷附載率與單機價值量。領先 2–3 季，sensitivity 高。
+    四大 CSP capex 合計住在該 driver，不在本檔複製。2026-08-27 該 driver 校正後合計 745
+    （公司揭露上限加總），其中 Microsoft 的 −15 為會計年限口徑而非需求縮手 —— 讀該檔的
+    合計數前務必先看成分，合計會掩蓋成分的相反方向。
 thesis: 液冷從選配轉為標配，2026 滲透率與單機價值量決定重評價幅度
 thesis_since: 2026-08-27   # 產業側（accelerator-roadmap 功耗軌跡）與公司側（7月營收+117%、年度目標上修至+70%）於本日同時對上，論點成立日以此為準
 valuation_base_year: 2026   # 曆年。首次設定；滾動至 2027 的時點為 Q3 財報（約 2026-11），屆時 2027 共識成形

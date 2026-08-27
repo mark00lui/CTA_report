@@ -38,6 +38,7 @@ scenarios:
        why_changed: "accelerator-roadmap 首次填值：scale-out CPO 交換器已進入全面量產、2026 秋出貨，產業側無遞延。失敗路徑因此由『CPO 沒來』改為『CPO 來了但本檔不在名單上』—— 而後者更難驗證，因為五家供應鏈名單不公開，技術時程卻是公開的。見 reports/2026/08/2026-08-27-6442-L1-cpo-scale-out-ramp.md"}
     eps: 42.0
     exit_multiple: 26
+    multiple_basis: "錨在「成長動能停滯後的去化」：26x 低於現況 34.8x。⚠ 未取得自身歷史 forward 分位（台股報價頁 JS 渲染），為推論值 — 見 gaps"
     tp: 1092
     narrative: EPS 42 = H1 實績 19.07 + H2 22.9，相當於 Q3／Q4 各約 11.5 與 Q2 的 11.21 持平 — 不是災難，只是動能停在這裡。26x 低於現況 34.8x
   base:
@@ -46,14 +47,16 @@ scenarios:
     key_assumption: 光通訊占比維持高檔、CPO 依既定時程；H2 溫和成長，Q4 加速使全年達市場估計
     eps: 46.5
     exit_multiple: 35
+    multiple_basis: "⚠ 無獨立估值基礎（依 references/valuation.md，signal.conviction 上限為低，本檔已符合）。錨 A 自身歷史 forward 分位：未取得，台股報價頁為 JS 動態渲染，WebFetch 取不到 — 這是可補的缺口，非本質性不可得。錨 B 同業平均 70.8x（近四季 trailing）明顯含 CPO 族群題材溢價，直接使用等於把族群的樂觀當基準。錨 C reverse-DCF 未執行。35x 即現價隱含值，屬市場定價非獨立判斷"
     tp: 1628
-    narrative: 需 H2 做到 27.4（+44% vs H1），即 Q4 明顯加速。35x 即現價隱含值，不靠重評價支撐
+    narrative: 需 H2 做到 27.4（+44% vs H1），即 Q4 明顯加速。35x 為現價隱含值，非獨立判斷
   bull:
     p: 0.25
     p_basis: 需要 CPO／ELS 在 Q4 就有實質貢獻，而公司目前只給到「預計 2026 年可見到相關應用」。與 bear 對稱
     key_assumption: 產能擴充與 CPO／ELS 於 Q4 開始貢獻；毛利率維持 55%+
     eps: 52.0
     exit_multiple: 48
+    multiple_basis: "錨在同業：同業平均 70.8x（近四季 trailing，含族群題材溢價），取 48x 未取該值。僅作 bull 上緣參照"
     tp: 2496
     narrative: 48x 仍低於同業平均 70.8x（近四季口徑，不完全可比），未取激進值
   weighted_tp: 1711
@@ -152,6 +155,8 @@ checkpoints:
   event: OCP Global Summit 2026
   what_to_watch: CPO 五家供應鏈成員是否揭露 — 本檔是否在內是 accelerator-roadmap 對本檔傳導的最大斷點
 gaps:
+- question: ⚠ 自身歷史遠期本益比分位未取得（台股報價頁為 JS 動態渲染）。base 因此無獨立錨，直接採用現價隱含的 35x
+  how_to_close: Koyfin／GuruFocus／Bloomberg 的歷史 forward PE band；台股另可用 Goodinfo 本益比河流圖或券商看盤軟體
 - question: A 客戶身分與其 capex 週期（集中度風險的真正來源）
   how_to_close: 供應鏈查證 / 終端客戶 capex guidance 交叉比對
 - question: 轉債（光聖三）稀釋影響與轉換價
@@ -174,6 +179,10 @@ notes: 單一客戶占比 63% 是本檔最大的非對稱風險 — 論點對了
   ｜2026-08-27 補充：這個風險因本次事件而「強化」而非緩解。CPO 產業放量後，本檔能否進入五家供應鏈同樣繫於客戶關係，
   等於同一個集中度風險同時決定了現有營收與新產品的機會 —— 兩者不獨立，不可視為兩條分散的路徑。
 event_log:
+- date: 2026-08-27
+  level: L1
+  summary: 重錨估值 — 目標價不變（加權 1,711），三情境補上 multiple_basis
+  delta: base 35x 數值未動並明寫【無獨立估值基礎】。錨 A 未取得（台股報價頁 JS 渲染），錨 B 同業平均 70.8x 明顯含 CPO 族群題材溢價不可用作 base。信心度已為低，符合規則
 - date: 2026-08-27
   level: L2
   summary: 手動全量重估。首次建立三情境與加權目標價 1,711，相對盤中 1,620 為 +5.6%；訊號中性／信心低

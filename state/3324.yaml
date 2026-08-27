@@ -38,6 +38,7 @@ scenarios:
        why_changed: "accelerator-roadmap 首次填值：GB300 已強制液冷（132–142kW）、Rubin NVL144 約 190kW、Rubin Ultra 約 600kW。氣冷在現行世代就已退場，「延壽」不成立。bear 的失敗路徑因此由『液冷沒來』改為『液冷來了但本檔沒吃到』。見 reports/2026/08/2026-08-27-3324-L1-rubin-power-density.md"}
     eps: 50.3
     exit_multiple: 15
+    multiple_basis: "錨在「液冷成長被懷疑後的去化」：15x 低於現況 18.8x，對應市場不再給成長溢價。⚠ 未取得自身歷史 forward 分位（台股報價頁為 JS 動態渲染，WebFetch 取不到），15x 為推論值 — 見 gaps"
     tp: 755
     narrative: 15x 低於現況 18.8x — 成長被懷疑後的去化，非為救目標價而調整倍數
   base:
@@ -46,6 +47,7 @@ scenarios:
     key_assumption: 北美 CSP 液冷導入依既定時程，水冷占比朝 55% 推進；毛利率守住三成
     eps: 57.34
     exit_multiple: 22
+    multiple_basis: "錨 B（賣方定價，非現價）。街上目標價隱含 24.9x，取 22x 刻意保守於共識。⚠ 這是清單中唯一 base 未錨在現價的個股（現況 18.8x，base 22x 高於它 17%），但它仍不是錨 A —— 賣方目標價會隨股價漂移，且需檢查目標價日期是否早於最近的重大價格變動。取得自身歷史 forward 分位後應改錨"
     tp: 1261
     narrative: 22x 略低於街上目標價隱含的 24.9x，刻意保守於共識
   bull:
@@ -54,6 +56,7 @@ scenarios:
     key_assumption: Rubin 全液冷 + ASIC 訂單放量，單機價值量跳升；毛利率隨產品組合上行
     eps: 62.6
     exit_multiple: 30
+    multiple_basis: "錨在同業：同業平均 39.2x（近四季 trailing 口徑，與本檔 forward 分母不完全可比），取 30x 未取該值。⚠ 依 valuation.md，同業平均可能已含族群題材溢價，用作 bull 上緣尚可，不可作為 base"
     tp: 1878
     narrative: 30x 仍低於同業平均 39.2x（口徑為近四季、不完全可比），未取激進值
   weighted_tp: 1289
@@ -146,6 +149,8 @@ checkpoints:
   event: OCP Global Summit 2026
   what_to_watch: Rubin 世代機櫃液冷標配化程度、600kW 級散熱規範（同步更新 accelerator-roadmap）
 gaps:
+- question: ⚠ 自身歷史遠期本益比分位未取得（台股報價頁為 JS 動態渲染，WebFetch 取不到）。base 目前錨在賣方目標價隱含值，屬錨 B；取得歷史分位後應改錨 A
+  how_to_close: Koyfin／GuruFocus／Bloomberg 的歷史 forward PE band；台股另可用 Goodinfo 本益比河流圖或券商看盤軟體
 - question: 液冷營收占比公司是否單獨揭露？這是三條 falsifier 中第一條能否設定門檻的前提
   how_to_close: 法說 Q&A / 年報分部資訊
 - question: 單機價值量在新平台的變化倍數。⚠ 熱負載倍數（190/142 ≈ 1.34x）不等於營收倍數，不可換算
@@ -171,6 +176,10 @@ notes: 街上目標價的上升來自倍數擴張而非獲利上修 —— FactS
   ｜與 NVDA 的對照：NVDA 的賣方均值目標價幾乎等於該檔的 bull 情境；本檔街上目標價 1,425 落在 base(1,261) 與
   bull(1,878) 之間偏 base 上緣 —— 街上對本檔的樂觀程度低於對 NVDA，即使本檔營收成長率遠高於 NVDA。
 event_log:
+- date: 2026-08-27
+  level: L1
+  summary: 重錨估值 — 目標價不變（加權 1,289），三情境補上 multiple_basis
+  delta: base 22x 數值未動。確認本檔是清單中唯一 base 未錨在現價者（現況 18.8x，base 22x 高於它 17%），錨為賣方目標價隱含的 24.9x 打折 —— 屬錨 B 而非錨 A，且賣方目標價會隨股價漂移。取得自身歷史 forward 分位後應改錨，已列入 gaps
 - date: 2026-08-27
   level: L2
   summary: 手動全量重估。首次建立三情境與加權目標價 1,289，相對盤中 1,080 為 +19.3%；訊號中性／信心低

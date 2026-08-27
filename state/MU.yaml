@@ -27,6 +27,7 @@ scenarios:
     key_assumption: 定價在 FY2027 內先行鬆動；EPS 停在 FY2026 水準附近而非再翻倍
     eps: 95
     exit_multiple: 5
+    multiple_basis: "循環股尾部錨在上一輪實際谷底：MU 的 DRAM 谷底為 FY2023 的 2.7% 毛利率。5x 套在峰值 EPS 上是市場對「這就是峰值」的典型定價，非估值訊號"
     tp: 475
     narrative: 5x 為循環峰值常見低檔；對應價低於 200DMA(581.54)
   base:
@@ -35,14 +36,16 @@ scenarios:
     key_assumption: FY2027 共識達成，供給緊俏延續全年；倍數維持在循環峰值該有的低檔
     eps: 155.03
     exit_multiple: 6.5
+    multiple_basis: "循環股框架（見 references/valuation.md）。採市場慣用的【峰值 EPS × 低倍數】：FY2027 共識 155.03 × 6.5x。⚠ 6.5x 貼近現價隱含值，故此數字本身不是獨立判斷 —— 獨立判斷在下面的正常化對照。【正常化對照】MU 的 trailing 本益比 10 年中位 16.78x、5 年平均 15.81x（區間 2.50–164.56x，極值來自循環兩端的 EPS 趨近零，故用中位不用平均）。反推：現價 974 ÷ 16.78x ⇒ 市場隱含的中週期正常化 EPS 約 58 美元，相當於峰值 155 的 37%。真正該問的是「58 美元是不是 MU 合理的跨循環 EPS」，而不是「6.5 倍便不便宜」。上一輪循環 MU 的 EPS 自 FY2023 的 -5.34 到本輪峰值區間，跨度極大，中週期 EPS 目前為缺口 —— 但 58 這個隱含值已被明確算出，可供日後檢驗"
     tp: 1008
-    narrative: 6.5x ≈ 現價隱含值，刻意不靠重評價支撐目標價
+    narrative: 6.5x 為峰值 EPS × 低倍數的市場慣用框架；正常化對照見 multiple_basis —— 現價隱含中週期 EPS 約 58 美元
   bull:
     p: 0.25
     p_basis: 需要市場開始給「非循環」倍數，那是認知的改變而非數字的改變 —— 比 EPS 超預期難得多。與 bear 對稱
     key_assumption: HBM 使記憶體脫離商品循環（需求結構性、供給受先進封裝與良率限制）；市場開始給非循環倍數
     eps: 175
     exit_multiple: 10
+    multiple_basis: "錨在賣方定價：街上均值目標 1,515（2026-08 取得）隱含 9.8x。交叉檢查：10x 峰值 EPS 相當於正常化框架下中週期 EPS 約 90 美元 × 16.78x，即假設本輪高獲利有六成是結構性的"
     tp: 1750
     narrative: 10x ≈ 街上均值目標 1,515 隱含的 9.8x。關鍵是倍數不是 EPS
   weighted_tp: 1060
@@ -144,6 +147,8 @@ checkpoints:
   what_to_watch: 本檔論點的核心時點 —— 供給追上與否在此見真章
 
 gaps:
+- question: ⚠ 中週期正常化 EPS 未取得。目前只有由現價與 trailing 中位 16.78x 反推的市場隱含值約 58 美元，缺少自下而上的估算（跨循環平均營業利益率 × 正常化營收）作為對照
+  how_to_close: Koyfin／GuruFocus／Bloomberg 的歷史 forward PE band；台股另可用 Goodinfo 本益比河流圖或券商看盤軟體
 - question: 遠期本益比 6.53 隱含的 EPS 約 143.7，但其對應會計年度與口徑未經原始來源確認。循環股的遠期 EPS 假設差一年結果差極大
   how_to_close: 賣方報告；Visible Alpha
 - question: Micron 的 HBM 市占率絕對值未取得（管理層只說目標接近其 DRAM 市占）。這決定 HBM 定價權還有多少空間
@@ -172,6 +177,10 @@ notes: 本檔在覆蓋清單中的角色是不對稱的 —— 它既是 AI 需�
   就是全產業最強的擴產誘因，Micron 自己 FY2027 每一季都在調高資本支出。
 
 event_log:
+- date: 2026-08-27
+  level: L1
+  summary: 重錨估值 — 目標價不變（加權 1,060），新增循環股正常化對照
+  delta: base 6.5x 數值未動並明寫其為市場慣用的「峰值 EPS × 低倍數」框架、非獨立判斷。依 valuation.md 要求並列正常化版本：以 trailing 10 年中位 16.78x 反推，現價 974 隱含市場假設的中週期正常化 EPS 約 58 美元，為 FY2027 峰值共識 155.03 的 37%。該隱含值可供日後檢驗
 - date: 2026-08-27
   level: L2
   summary: 手動全量重估（建檔同日）。首次建立三情境與加權目標價 1,060，相對盤後 974.00 為 +8.9%；訊號中性／信心低

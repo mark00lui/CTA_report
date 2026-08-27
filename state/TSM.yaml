@@ -29,6 +29,7 @@ scenarios:
     key_assumption: AI capex 見頂、庫存修正；台幣升值壓縮毛利；地緣風險溢價擴大。EPS 低於共識約 14%
     eps: 19.0
     exit_multiple: 15
+    multiple_basis: "錨在歷史 forward 中位（16.3x，見 base）之下 — 對應「毛利率結構性改善被證偽、回到 AI 之前的定價」。⚠ 10 年 trailing 區間下緣 11.15x 換算 forward 約 9x，但那對應 2018–2019 的低成長期，與現在的產品組合不可比，故不採用該極值"
     tp: 285
     narrative: 15x 為歷史區間下緣。對應價 285 低於 200DMA(368) 且遠低於現價 — 需要一次趨勢級修正才成立
   base:
@@ -37,14 +38,16 @@ scenarios:
     key_assumption: 2027 共識達成；毛利率維持 6 字頭；N2 與 CoWoS 依既定時程放量
     eps: 22.0
     exit_multiple: 19
+    multiple_basis: "錨 A（自身歷史，經 trailing→forward 換算）。10 年 trailing 中位 20.37x、5 年平均 23.6x、10 年區間 11.15–33.10x。依約 25% 的 EPS 年增率換算，歷史 forward 中位 ≈ 20.37/1.25 ≈ 16.3x。現況 forward 19.0x 較之溢價 17%（trailing 口徑則為 28.2x vs 20.37x，溢價 38%）。判斷為【完全合理】：毛利率自歷史的 50% 出頭升至 67.7%，是產品組合與定價權的結構性改變，非循環高點；同樣的 EPS 品質更高，理應給溢價，17% 的幅度不算過分。⚠ 本情境的倍數數值與現價隱含值接近屬結論而非抄襲 — 錨是 16.3x 加上一個具名的溢價理由，不是現價"
     tp: 418
-    narrative: 19x 即現價隱含值，刻意不靠重評價支撐目標價
+    narrative: 19x = 歷史換算 forward 中位 16.3x + 毛利率結構性改善的溢價；數值接近現價隱含值是結論不是起點
   bull:
     p: 0.25
     p_basis: 需要產能擴張全數轉為營收且定價權不被稀釋（海外廠成本較高會拉低平均毛利），兩者都尚未證實。與 bear 對稱
     key_assumption: 先進製程與先進封裝雙雙定價權（thesis 核心）；N2 產能 CAGR 70% 順利、CoWoS 擴產逾 80% 全數轉為營收
     eps: 24.5
     exit_multiple: 25
+    multiple_basis: "錨在賣方定價：街上均值目標 554.45（2026-08 取得）隱含 25.2x，取 25x 未取更高。交叉檢查：25x forward 對應 trailing 約 31x，仍在 10 年 trailing 區間內（上緣 33.10x）"
     tp: 613
     narrative: 25x ≈ 街上均值目標 554.45 隱含的 25.2x，未取更高
   weighted_tp: 434
@@ -130,6 +133,8 @@ checkpoints:
   event: Q4 2026 財報 + 2027 capex guidance
   what_to_watch: 2027 capex 是否維持成長（第二條 falsifier 的驗證點）；2027 全年展望
 gaps:
+- question: ⚠ 自身歷史「遠期」本益比分位未取得，只查到 trailing（10 年中位 20.37x、5 年平均 23.6x、區間 11.15–33.10x）。目前的 forward 錨 16.3x 由 trailing 中位除以成長率換算而得，屬推論非查得值
+  how_to_close: Koyfin／GuruFocus／Bloomberg 的歷史 forward PE band；台股另可用 Goodinfo 本益比河流圖或券商看盤軟體
 - question: 先進製程營收占比（7nm 以下）未取得，導致第三條 falsifier 沒有基期無法起算。HPC 平台占比 66% 是平台別不是製程節點別，不可代用
   how_to_close: 季報營收結構表（TSMC 每季揭露製程別占比）
 - question: CoWoS 絕對月產能未揭露，只有「至 2027 年前每年擴張逾 80%」的成長率與 >98% 良率
@@ -156,6 +161,10 @@ notes: 本檔是覆蓋清單八檔中唯一同時被三個 driver 指向的標�
   此處刻意不複述原文：既然目的是讓當前版本乾淨，就不該為了說明而再產生一份副本。
   歷史不動（該文字已隨 4a614e2 推上 origin/main）。詳見 reports/2026/08/2026-08-27-TSM-revaluation.md。
 event_log:
+- date: 2026-08-27
+  level: L1
+  summary: 重錨估值 — 倍數與目標價不變（加權 434），但 base 的錨由現價改為歷史換算值
+  delta: base 19x 數值未動，multiple_basis 改寫：10 年 trailing 中位 20.37x 依約 25% 成長率換算 forward 約 16.3x，現況 19.0x 溢價 17%，判斷【完全合理】—— 毛利率自歷史 50% 出頭升至 67.7% 為結構性改善。數值接近現價隱含值屬結論而非抄襲。三情境補上 multiple_basis
 - date: 2026-08-27
   level: L2
   summary: 手動全量重估。首次建立三情境與加權目標價 434，相對盤後 424.90 為 +2.1%；訊號中性／信心中

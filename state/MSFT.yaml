@@ -32,6 +32,7 @@ scenarios:
     key_assumption: FY26–27 capex 的折舊在 FY27 下半集中入帳，營益率跌破 46.8%；Azure 隨產能到位回落至 35% 區間；市場對 AI 平台的耐心縮短
     eps: 18.50
     exit_multiple: 20
+    multiple_basis: "錨在市場實際付過的價：52 週低 349.20 當時的 forward 倍數即約 20x。這是最強的一種 bear 錨 —— 它證明該價位真的出現過，不需要任何人接受新的敘事"
     tp: 370
     narrative: 折舊先於營收到位；20x 是 52 週低 349.20 當時市場實際付過的倍數
   base:
@@ -40,16 +41,18 @@ scenarios:
     key_assumption: FY27 共識達成；Azure 維持 40%+，營益率大致持平；倍數自 24.89x 小幅修復
     eps: 19.75
     exit_multiple: 26
+    multiple_basis: "錨 A（自身歷史，經 trailing→forward 換算）。5 年平均 trailing 31.26x，依約 15–18% 的 EPS 年增率換算 forward ≈ 31.26/1.18 ≈ 26.5x → 取 26x。現況 forward 24.96x 較之折價僅 8%，是清單中偏離歷史最小的一檔。判斷為【部分合理】：折價反映 15→25 年伺服器耐用年限變更後折舊節奏的不確定，但 8% 幅度小且該變更本身不改變現金支出（CFO Hood 明言 useful life 影響之外 2026 capex 預期不變）。⚠ 非現價隱含值 —— 26x 由歷史換算得出，事後檢查才發現與現況接近，這個順序很重要"
     tp: 514
-    narrative: 倍數僅略高於現況，刻意不靠重評價支撐目標價
+    narrative: 26x = 5 年 trailing 平均 31.26x 換算後的 forward 值，與現況 24.96x 接近屬巧合非抄襲
   bull:
     p: 0.25
     p_basis: 需要 Copilot 席次動能延續與折舊晚於預期同時成立；前者有本季實績（20M→30M）支撐，後者未經驗證。與 bear 對稱
     key_assumption: Copilot 自 6.5% 滲透率繼續複製本季席次跳增；RPO 轉化速度優於折舊累積；年限變更貢獻高於管理層所稱的 minimal
     eps: 21.00
     exit_multiple: 31
+    multiple_basis: "⚠ 口徑存疑。原依據為「近五年區間 25–35x 的中段」，但未確認該區間是 trailing 還是 forward。若為 trailing，則 31x forward 對應 trailing 約 36.6x，反而高於區間上緣 —— bull 比表面上更激進。暫維持 31x 並列入 gaps，取得歷史 forward 分位後修正"
     tp: 651
-    narrative: 倍數回到近五年區間中段（25–35x），未取上緣
+    narrative: 倍數回到近五年區間中段（25–35x），未取上緣。⚠ 該區間的 trailing/forward 口徑待確認
   weighted_tp: 512
 key_variables:
 - name: Azure成長率
@@ -126,6 +129,8 @@ checkpoints:
   event: Q4 FY27 + FY28 展望
   what_to_watch: 全年營益率與 FY26 的 46.8% 對照；年限變更的實際貢獻是否如管理層所稱為 minimal
 gaps:
+- question: ⚠ 自身歷史「遠期」本益比分位未取得，只查到 5 年 trailing 平均 31.26x。另 bull 情境所用「近五年區間 25–35x」未確認是 trailing 還是 forward —— 若為 trailing，則 31x forward 對應 trailing 約 36.6x 已高於區間上緣，bull 比表面上更激進
+  how_to_close: Koyfin／GuruFocus／Bloomberg 的歷史 forward PE band；台股另可用 Goodinfo 本益比河流圖或券商看盤軟體
 - question: 年限 15→25 年的適用範圍（僅資料中心廠房外殼？含伺服器與 GPU？）與對 FY27 折舊的實際金額影響
   how_to_close: FY26 10-K 折舊附註（SEC accession 0001193125-26-323660，已可取得）
 - question: FY2028 共識 EPS 與營收查無公開值（付費牆）
@@ -148,8 +153,12 @@ notes: 本檔的分歧不在需求而在獲利品質。Azure、RPO、Intelligent
   不受年限假設影響；平台端看的是進入損益表的折舊。drivers/hyperscaler-capex.yaml 用單一數值同時服務兩端的精度
   已因此下降。若平台端與硬體端的模型日後出現說不通的落差，第一個該懷疑的是這裡，不是個股層假設。
 event_log:
+- date: 2026-08-27
+  level: L1
+  summary: 重錨估值 — 倍數與目標價不變（加權 512），base 的錨改為歷史換算值
+  delta: base 26x 數值未動，錨改為 5 年 trailing 平均 31.26x 換算之 forward 約 26.5x；現況 24.96x 折價僅 8%，為清單中偏離歷史最小者。⚠ 發現 bull 的 31x 口徑存疑（原依據「近五年區間 25–35x」未確認 trailing/forward），已列入 gaps
 - date: 2026-08-26
   level: L3
   summary: 手動全量重估（最近財報為 2026-07-29 FY26 Q4）。營收 $90.0B +18%、non-GAAP EPS $4.74 +23%、Azure +43%、RPO $678B +84%；曆年 2026 capex 由 ~190 降至 ~175
   delta: 論點層首次建立；基準年設為 FY2027；三情境寫定，加權目標價 512（無前值）；訊號偏多／信心中。兩條原 falsifier 門檻補齊後均未觸發，新增年限變更貢獻的第三條。資本支出年增移出 key_variables 改為 driver_refs 引用。關鍵發現：capex 口徑下修全數來自折舊年限 15→25 年與租賃重分類，非需求，driver 的三條 falsifier 亦均未觸發
-last_updated: 2026-08-26
+last_updated: 2026-08-27

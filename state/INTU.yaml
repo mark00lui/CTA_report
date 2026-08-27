@@ -20,6 +20,7 @@ scenarios:
     key_assumption: 降價未換回件數；agentic AI 對 DIY 與記帳的替代真實發生；FY28 營收成長跌破 8%
     eps: 22.88
     exit_multiple: 10
+    multiple_basis: "錨在「SaaS 護城河被證偽」後的結構性衰退定價（9–11x forward），非本檔歷史 —— 歷史區間在此情境下依定義不適用，因為該情境的前提正是這家公司不再是歷史上那家公司"
     tp: 229
     narrative: 「自願重置」事後被證實是被迫，市場給結構性衰退倍數
   base:
@@ -28,14 +29,16 @@ scenarios:
     key_assumption: FY27 指引達成；件數止穩但以 ARPU 讓利換取，成長維持 9–10%
     eps: 23.00
     exit_multiple: 15
+    multiple_basis: "⚠ 無獨立估值基礎（依 references/valuation.md，signal.conviction 上限壓至「低」）。四種錨逐一檢查：錨 A 自身歷史 forward 5 年平均 31.22x，但雙重失效 —— (1) 該期間跨越 AI 顛覆疑慮發生前後，商業模式的市場定位已被重新認知；(2) 口徑改變，FY2026 起 non-GAAP EPS 納入 SBC，舊口徑 FY27 EPS 約 28.81 對新口徑 23.00，同價下新口徑倍數較高，歷史 31.22x 換算為新口徑約 39x，與現況 13.7x 差距 65%，該差距的合理性正是本檔的核心未知，不能反過來當錨。錨 B 同業：SaaS 同業同樣面臨 AI 顛覆疑慮，無乾淨可比。錨 C reverse-DCF：現價 316 對新口徑 FY27 EPS 23.00 為 13.7x，隱含市場假設獲利長期零成長甚至衰退 —— 這個假設可否證但目前無足夠證據判斷。故 15x 為「現況 13.7x 加上溫和修復」，本質仍是市場定價的微調，非獨立判斷"
     tp: 345
-    narrative: 重置有效但慢，倍數自 13.7x 溫和修復
+    narrative: 15x 為現況 13.7x 的溫和修復，非獨立估值 —— 本檔無有效歷史錨，信心度因此上限為低
   bull:
     p: 0.25
     p_basis: 需要件數回正與倍數修復同時發生，而件數要到 2027-05 才看得到，時間上不允許更高權重
     key_assumption: 2027 報稅季付費件數回到 +5% 以上；Mid-Market 維持 30%+；市場承認 AI 恐慌過度
     eps: 24.00
     exit_multiple: 22
+    multiple_basis: "錨在自身歷史但明確打折：5 年 forward 平均 31.22x 換算為新（含 SBC）口徑約 39x。取 22x 等於假設 AI 顛覆造成的折損有一半是永久的 —— 即使 bull 也不回到歷史區間"
     tp: 528
     narrative: 倍數向歷史區間下緣修復，但即使 bull 也假設永久折損未完全消失（22x 仍遠低於歷史換算後的 38–50x）
   weighted_tp: 356
@@ -87,8 +90,8 @@ cta:
   confirm_trigger: 兩段式 — (1) 收復並站穩 369.92 缺口且 50DMA 上彎；(2) 站上 439.52 且 200DMA 走平轉揚。第 (2) 段成立才算右側確認
 signal:
   rating: 中性
-  conviction: 中
-  basis: FY27 EPS 指引還原 SBC 口徑後（$28.69–28.93）實際優於市場模型，34.6% 營益率搭配 11.0x 舊口徑估值已定價相當程度的結構性衰退；但 agentic AI 替代風險在 2027 報稅季前無法否證，技術面仍在 200DMA 之下缺乏右側確認
+  conviction: 低
+  basis: FY27 EPS 指引還原 SBC 口徑後（$28.69–28.93）實際優於市場模型，34.6% 營益率搭配 11.0x 舊口徑估值已定價相當程度的結構性衰退；但 agentic AI 替代風險在 2027 報稅季前無法否證，技術面仍在 200DMA 之下缺乏右側確認。信心度 2026-08-27 自「中」下修至「低」：本檔的 base 倍數無有效錨（歷史區間因 AI 顛覆重評價與 SBC 口徑變更雙重失效），依 references/valuation.md，無獨立估值基礎者信心度上限為低。這不是對基本面看法轉差，是承認估值判斷缺乏依據
   changes_if: 站上 439.52 且 200DMA 轉揚 → 偏多；週收盤跌破 252.84 → 偏空；FY27 Q3（約 2027-05）TurboTax 付費件數 YoY 轉負 → 直接偏空，不等技術面
 falsifiers:
 - condition: Online Ecosystem (ex-Mailchimp) 年成長跌破 15% 且管理層歸因於競爭而非景氣（現況 FY26 +23%）
@@ -132,8 +135,12 @@ notes: 本檔在覆蓋清單中的作用是與 AI capex 因子低相關。2026-0
   同向，代表假設失效，應觸發覆蓋層 review。｜機率敏感度低：另兩組候選機率得出 341 與 362，全距僅 ±3%，
   Base 情境主導。真正的槓桿在 exit multiple — 未來若調高倍數來維持結論，那是論點漂移，應標 L3。
 event_log:
+- date: 2026-08-27
+  level: L1
+  summary: 重錨估值 — 目標價不變（加權 356），但信心度自「中」下修至「低」
+  delta: base 15x 數值未動，但確認本檔【無獨立估值基礎】：歷史 forward 5 年平均 31.22x 雙重失效 —— AI 顛覆造成的重評價跨越該期間，且 FY2026 起 non-GAAP 納入 SBC 使口徑不可比（歷史換算為新口徑約 39x）。依 valuation.md，無獨立估值基礎者 signal.conviction 上限為低。這是承認估值判斷缺乏依據，非基本面看法轉差
 - date: 2026-08-26
   level: L3
   summary: 手動全量重估（適逢 FY26 Q4 財報）。當季雙超預期（$4.4B +14%／non-GAAP EPS $4.03），FY27 指引主動減速至 +9–10%；管理層承認 DIY 稅務在低價端輸掉市佔
   delta: 論點層首次建立；基準年設為 FY2027；三情境寫定，加權目標價 356（無前值）；訊號中性／信心中。既有兩條 falsifier 均未觸發，但 TurboTax 總件數 -2% 已為先行指標。發現 FY27 起 non-GAAP 含 SBC，還原後 EPS 指引實為超前而非落後
-last_updated: 2026-08-26
+last_updated: 2026-08-27

@@ -92,7 +92,12 @@ def collect():
             continue
         d = load_yaml(path)
         if isinstance(d, dict):
-            tickers.append(clean(d))
+            d = clean(d)
+            # 台股代號未加引號時 YAML 會解析成整數（3324 而非 "3324"），
+            # 但報告 front-matter 用的是字串。型別不一致不會讓頁面壞掉，
+            # 卻會讓任何想把 tickers 與 reports 對起來的程式安靜失敗。
+            d["ticker"] = str(d.get("ticker", ""))
+            tickers.append(d)
 
     cov = clean(load_yaml(os.path.join(ROOT, "state", "coverage.yaml")))
 

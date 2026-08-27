@@ -23,35 +23,39 @@ driver_refs:
     自家平台換代節奏。方向 '+'，但換代爬坡期對毛利率是短空 —— Q3 FY27 毛利率指引由 75.0% 降至
     74.0%，正好是 Vera Rubin 開始出貨的那一季。判讀本檔毛利率下行時，必須先排除「換代爬坡」
     這個暫時性解釋，才能論證它是結構性的定價權問題。這是 thesis 的核心分歧點。
-thesis: 需求已不是爭點（DC +117%、Q3 指引 $108B 且完全不含中國）；爭點是毛利率自 75% 下行的斜率與 Rubin 換代的持續性，19x 遠期本益比已定價成長終結
+thesis: 需求已不是爭點（DC +117%、Q3 指引 $108B 且完全不含中國）；爭點是毛利率自 75% 下行的斜率與 Rubin 換代的持續性，23x 遠期本益比已明顯折價但未定價成長終結
 thesis_since: 2026-08-27
+thesis_history:
+- {until: 2026-08-27, text: "…19x 遠期本益比已定價成長終結",
+   why_changed: "引用的數字錯誤。19.08x 為 NTM 口徑（跨 FY27H2／FY28H1），與任何單一會計年度共識都對不上。FY2027 共識 EPS 實為 9.02，對 209.66 收盤是 23.2x。23.2x 只支持『已明顯折價』，不支持『已定價成長終結』的強論述。見 reports/2026/08/2026-08-27-NVDA-revaluation.md"}
+valuation_base_year: FY2027   # 首次設定。滾動至 FY2028 的時點為 Q3 FY27 財報（約 2026-11），屆時 FY28 共識可得
 
 scenarios:
   bear:
-    p: __
-    p_basis: "__"
-    key_assumption: 毛利率下行快於指引；Rubin 換代出現良率或功耗瓶頸；客戶自研 ASIC 實質替代
-    eps: __
-    exit_multiple: __
-    tp: __
-    narrative: "__"
+    p: 0.25
+    p_basis: 機率由使用者於 2026-08-27 全量重估指定。52 週股價僅 +16.6% 而同期營收成長 106%，市場已用膝蓋投票表達對持續性的懷疑；毛利率指引下行尚未被證明是暫時的
+    key_assumption: Q4 營收持平於約 110B、毛利率續滑至 72%；市場視其為循環高點，給半導體週期性倍數
+    eps: 8.9
+    exit_multiple: 16
+    tp: 142
+    narrative: 對應價低於 52 週低 164.07 — 需要一次比過去一年更深的修正才成立
   base:
-    p: __
-    p_basis: "__"
-    key_assumption: Q3 指引達成，毛利率守在 74% 附近；Rubin 如期放量；中國維持零貢獻
-    eps: __
-    exit_multiple: __
-    tp: __
-    narrative: "__"
+    p: 0.50
+    p_basis: Q3 已給指引且連五季超預期，達成是最可能路徑；倍數維持現況不需要任何人改變看法
+    key_assumption: Q4 約 120B、毛利率守 74%；倍數維持現況，不重評價
+    eps: 9.3
+    exit_multiple: 23
+    tp: 214
+    narrative: 23x 就是現價隱含值，刻意不靠重評價支撐目標價
   bull:
-    p: __
-    p_basis: "__"
-    key_assumption: 中國恢復為純上檔；Rubin 帶動 ASP 與毛利率回升；倍數自 19x 修復
-    eps: __
-    exit_multiple: __
-    tp: __
-    narrative: "__"
-  weighted_tp: __
+    p: 0.25
+    p_basis: 需要毛利率回升與倍數擴張同時發生，且中國恢復不在任何人的掌控中。與 bear 對稱
+    key_assumption: Q4 約 128B、毛利率回到 75%（證明 74% 只是 Rubin 爬坡）；中國恢復為純上檔；倍數回到 32x
+    eps: 9.5
+    exit_multiple: 32
+    tp: 304
+    narrative: 倍數位於近年區間中段未取上緣。⚠ 此情境的 304 幾乎等於賣方均值目標價 305.79 — 跟隨街上目標價等於選擇了本情境
+  weighted_tp: 219
 
 key_variables:
 - name: 毛利率
@@ -79,10 +83,10 @@ key_variables:
   source: NVIDIA Q3 FY27 展望 2026-08-26（Q2 實際 8.2，QoQ +10%；GAAP 口徑 9.2）
   updated: 2026-08-27
 - name: 遠期本益比
-  value: 19.08
-  unit: x
+  value: 23.2
+  unit: x (FY2027)
   tier: 推論
-  source: stockanalysis.com 2026-08-26 收盤 209.66；隱含 FY27 共識 EPS 約 10.99（口徑未經來源確認，見 gaps）
+  source: 2026-08-26 收盤 209.66 ÷ FY2027 共識 EPS 9.02（stockanalysis.com，61 位分析師）。⚠ 站上另引用的 19.08x 為 NTM 口徑（跨 FY27H2／FY28H1），與單一會計年度共識對不上，2026-08-27 修正
   updated: 2026-08-27
 - name: 客戶集中度
   value: __
@@ -92,20 +96,21 @@ key_variables:
   updated: __
 
 cta:
-  位階: 多頭排列 — 50DMA(207.75) 高於 200DMA(195.53)，價格在兩者之上；8/26 收盤 209.66 僅略高於 50DMA，財報後盤後 +4.71% 至 219.53，距 52 週高 236.54 尚有 7.7%
+  位階: 多頭排列但區間上緣未突破 — 50DMA(207.75) 高於 200DMA(195.53)，價格在兩者之上，技術結構優於清單中其他標的；但 52 週僅 +16.6%，全年在 164–237 區間震盪，盤後 219.53 距 52 週高 236.54 仍有 7.2%，且該跳空未經任何盤中交易日確認
   price: 219.53
   key_ma: 50DMA 207.75 / 200DMA 195.53
   support: 207.75 (50DMA) → 195.53 (200DMA) → 164.07 (52週低)
-  resistance: 236.54 (52週高)
-  invalidation: 週收盤跌破 195.53 (200DMA) → 多頭排列破壞；跌破 164.07 (52週低) → 偏空
-  confirm_trigger: 以放大量突破並站穩 236.54（52 週高）→ 右側確認成立。目前僅為財報跳空，尚未突破前高
+  resistance: 236.54 (52週高，全年區間上緣)
+  invalidation: 週收盤跌破 195.53 (200DMA) → 多頭排列破壞、評級下修；跌破 164.07 (52週低) → 偏空
+  confirm_trigger: 以高於近期均量的成交量收盤突破並站穩 236.54。財報跳空不算 — 盤後成交無法代表市場真實出價
   updated: 2026-08-27
+  volume_ref: 2026-08-26 成交 1.799 億股；收盤 209.66（-1.59%），盤後 219.53（+4.71%），前一日收 213.05
 
 signal:
-  rating: __
-  conviction: __
-  basis: "__"
-  changes_if: "__"
+  rating: 中性
+  conviction: 中
+  basis: 兩件事同時成立才給偏多，目前只成立一件。技術面確為多頭排列且價格在兩條均線之上；但估值上檔已被吃掉 — 加權目標價 219 相對盤後 219.53 為 -0.5%。需求面無可爭議（Q3 指引 108B 且不含中國、Rubin 全面量產），但那正是已被定價的部分。用一個所有人都同意的事實去支撐評級，等於沒有評級
+  changes_if: 放量收盤突破並站穩 236.54 → 偏多；週收盤跌破 195.53 → 下修；Q3 FY27 實際營收低於指引下緣 105.84B 或 non-GAAP 毛利率連兩季低於 72% → 偏空；Q3 毛利率回到 75% 以上（證實 74% 只是 Rubin 爬坡）→ 信心升至高
 
 falsifiers:
 - condition: Non-GAAP 毛利率連兩季低於 72%（Q2 FY27 為 75.0%，Q3 指引 74.0% ±50bp — 下行斜率快於指引即為定價權或成本結構問題）
@@ -132,12 +137,12 @@ checkpoints:
 gaps:
 - question: 前 N 大客戶集中度未取得（key_variables 留 __）。加速器需求高度集中於四大 CSP，這個數字決定單一客戶決策對本檔的殺傷力
   how_to_close: 10-Q／10-K 客戶集中度附註
-- question: Q2 FY27 GAAP EPS 2.46 高於 non-GAAP 2.22，方向與常態相反（差額約 24 美分、對應逾 50 億美元），疑為投資利益等一次性項目
-  how_to_close: 核對 Q2 FY27 財報附註與 GAAP/non-GAAP 調節表。這決定 /revalue 時該用哪個口徑當估值錨
-- question: 遠期本益比 19.08x 隱含的 FY27 共識 EPS 約 10.99，但口徑（GAAP 或 non-GAAP）與成分年度未經原始來源確認
-  how_to_close: 核對賣方報告或 Visible Alpha
-- question: FY2028 共識營收與 EPS 未取得
-  how_to_close: 待 Q3 FY27 後的公開來源
+- question: 賣方均值目標價 305.79 幾乎等於本模型的 bull 情境 304；評等分布 Strong Buy 49／Buy 9／Hold 2／Sell 0／Strong Sell 1，58/61 看多。當賣方全站同一邊，降評空間遠大於升評空間
+  how_to_close: 追蹤評等變動而非目標價水準；降評潮通常伴隨倍數壓縮
+- question: FY2028 共識 EPS 與營收在付費牆後，導致估值基準年無法由 FY2027 滾動至 FY2028。沒有錨就換基準等於把模型架在自編數字上
+  how_to_close: Q3 FY27 財報後（約 2026-11）賣方會發布完整 FY28 模型。屆時滾動必須在報告明寫「基準年由 FY2027 改為 FY2028」，避免把換基準誤讀成重評價
+- question: Q4 FY27 未給指引，是 FY27 EPS 唯一的變數。三情境的 Q4 假設（110／120／128B）全為推論
+  how_to_close: Q3 FY27 法說（約 2026-11）
 - question: 中國政策路徑 — Q3 指引假設中國資料中心運算為零，若恢復即為純上檔，但幅度與時點無從估計
   how_to_close: 出口管制公告；法說 Q&A
 - question: Q3 FY27 毛利率由 75.0% 降至 74.0%，與 Vera Rubin 開始出貨落在同一季。這 1pp 是換代爬坡的暫時成本，或是定價權開始鬆動？兩者對 thesis 的意涵完全相反
@@ -151,9 +156,17 @@ notes: 本檔與其他覆蓋標的的關係不對稱 —— NVDA 的資料中心
   ｜該 driver 的 why_shared 目前寫「NVDA 與 AMD 不在覆蓋清單內，正因如此它們的數字只能住在這一層」——
   這句話的前提在 2026-08-27 起不成立，但結論仍成立（理由是它驅動三檔硬體端，與是否被覆蓋無關）。
   下次 /driver 時應修正該句措辭，不要因為前提失效就把數值搬進 state。
-  ｜估值口徑注意：Q2 FY27 的 GAAP EPS 高於 non-GAAP，與多數公司相反，做三情境前必須先釐清原因。
+  ｜估值口徑：用 non-GAAP。GAAP EPS 高於 non-GAAP 的原因已於 2026-08-27 確認 —— 調節表排除
+  「gains/losses from equity securities, net」（NVIDIA 對 CoreWeave 等公司之股權投資的評價利益），金額大於股權薪酬故 GAAP 反而較高。
+  與 MSFT 的 OpenAI 損益同構。用會反轉方向的項目當估值錨沒有意義（差額連兩季由 0.52 縮至 0.24 即為證據）。
+  ｜結構性認識：FY27 四季中三季已定（Q1/Q2 實際、Q3 已指引），EPS 合理區間僅 8.9–9.5（±3%）。
+  因此三情境的分歧幾乎全在 exit multiple，不在 EPS —— 這與 INTU、MSFT 那兩次重估的結構不同。
 
 event_log:
+- date: 2026-08-27
+  level: L2
+  summary: 手動全量重估（建檔同日）。首次建立三情境與加權目標價 219，相對盤後 219.53 為 -0.5%；訊號中性／信心中
+  delta: 修正 thesis 內的錯誤數字（遠期本益比 19x → 23.2x；19.08 為 NTM 口徑，FY27 共識 EPS 實為 9.02）；確認 GAAP>non-GAAP 源自股權證券評價利益，估值錨定 non-GAAP；基準年設 FY2027 並訂出滾動時點；由 Q3 指引逐季推導 Q3E 2.45（方法經 Q2 回測誤差 1.4%）。三條 falsifier 全部未觸發且維持可驗證，未修改
 - date: 2026-08-27
   level: '—'
   summary: 建檔。適逢 2026-08-26 盤後公布 Q2 FY27：總營收 96.2B（+106% YoY）、資料中心 89.0B（+117% YoY、+18% QoQ）、non-GAAP EPS 2.22、毛利率 75.0%；Q3 指引 108B ±2% 且不含中國

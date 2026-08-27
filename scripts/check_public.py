@@ -84,10 +84,18 @@ def tracked_files(staged_only):
     首次 commit 時尚無 HEAD，`git diff --cached` 會失敗 —
     此時必須退回 `git ls-files --cached`，否則掃描器會掃到零個檔案然後放行，
     那正是最危險的時刻（第一次 push 的內容最不容易被檢查）。
+
+    全量模式必須含「未追蹤但未被 gitignore」的檔案（--others --exclude-standard）。
+    2026-08-27 發現：原本只用 `git ls-files`，只列已追蹤檔案 —— 剛寫好還沒 git add
+    的新報告對全量掃描是隱形的，掃描器會回報 0 block 然後放行。而 CLAUDE.md 要求
+    commit 前手動跑的正是全量模式，等於在最需要檢查的時刻（新內容第一次出現）失效。
+    pre-commit 的 --staged 模式不受影響（diff --cached 含新增檔），但那是第二道防線；
+    第一道防線靜默放行，與 tail 遮蔽 exit code 是同一類 fail-open。
     """
     try:
         if not staged_only:
-            return [f for f in _git("ls-files").splitlines() if f.strip()]
+            out = _git("ls-files", "--cached", "--others", "--exclude-standard")
+            return [f for f in out.splitlines() if f.strip()]
         try:
             _git("rev-parse", "--verify", "HEAD")
         except subprocess.CalledProcessError:

@@ -1,0 +1,83 @@
+# 共用驅動因子。這一層存放「多檔標的共用、且不屬於任何單一標的」的變數。
+# 規則：一個共用事實只能有一個家。個股 state 用 driver_refs 引用，不複製數值。
+id: accelerator-roadmap
+name: 加速器平台時程與功率密度
+what_it_is: 下一代加速器平台的量產時程、單顆與單機櫃功耗、互連規格世代（NVLink／CPO／光互連）
+why_shared: >
+  這是與 ai-accelerator-demand 不同的一個變數，刻意分開放。金額回答「賣了多少」，
+  時程與功率密度回答「長什麼樣、什麼時候到」— 而後者才是 3324 液冷滲透率與
+  6442 CPO 量產時點的直接決定因素。兩者的資料節奏也不同：金額看季報，
+  規格看 GTC／Computex／OCP 與供應鏈驗證進度，兩條線各走各的。
+  同一次事件可能只動其中一個（例如平台延期不改變本季營收，卻直接推遲液冷放量）。
+
+current:
+  value: __
+  unit: 質性（現行主力平台世代 + 下一代量產時點）
+  as_of: __
+  tier: 缺口
+  source: "__"
+
+components:
+  - {name: 現行主力平台, value: __, guidance: "__", source: "__", as_of: __}
+  - {name: 下一代平台量產時點, value: __, guidance: "__", source: "__", as_of: __}
+  - {name: 單機櫃功耗, value: __, guidance: "__（kW／櫃）", source: "__", as_of: __}
+  - {name: 互連規格世代, value: __, guidance: "__", source: "__", as_of: __}
+
+history: []   # 時程類變數看的是「延期或提前的次數與幅度」，務必保留每次修正
+
+transmission:
+  - ticker: '3324'
+    direction: '+'
+    path: 單機櫃功耗上行 → 氣冷散熱能力見頂 → 液冷由選配轉標配，單機價值量跳升
+    lag: >
+      規格定案領先量產 2–4 季，散熱設計導入又更早。
+      平台延期會直接推遲液冷放量，但不改變滲透率的長期方向 — 這兩件事要分開判。
+    sensitivity: 高（本檔 thesis 的直接驅動因子）
+    affects: [液冷滲透率, 單機液冷價值量]
+  - ticker: '6442'
+    direction: '+'
+    path: 互連規格世代 → CPO 導入時點與埠數 → 光通訊產品組合與毛利結構
+    lag: 領先 3–4 季（規格定案到量產驗證）
+    sensitivity: 高（CPO量產時點是本檔 thesis 的核心變數）
+    affects: [CPO量產時點, 光通訊產品營收占比]
+  - ticker: TSM
+    direction: '+'
+    path: 下一代平台製程節點與封裝需求 → N2 客戶採用與 CoWoS 規格升級
+    lag: 領先 2–4 季
+    sensitivity: 中（節點採用是結構性的，單次時程變動影響有限）
+    affects: [N2進度與客戶採用, CoWoS月產能]
+
+# 平台端（MSFT／GOOG／META）刻意不列入：規格與時程不直接改變它們的損益表科目。
+# 若某次事件確實影響平台端（例如平台延期導致 capex 遞延入帳），那走 hyperscaler-capex，
+# 不要在這裡開一條方向相反的傳導 — 那會讓同一個事實有兩個家。
+# INTU 同樣不列入（AI 應用端，不在硬體鏈上）。
+
+falsifiers:
+  - condition: "下一代平台量產時點遞延超過 __ 季（相對最近一次官方時程）"
+    check_by: __
+    status: 未驗證
+    action: 3324 與 6442 各自 L2，且必須分別判定 — 兩檔的時滯不同
+  - condition: "單機櫃功耗的下一代設計值低於現行世代（散熱需求見頂）"
+    check_by: __
+    status: 未驗證
+    action: 3324 的 thesis 核心前提被推翻 → L3
+  - condition: "CPO 在下一代平台被推遲至再下一代，或改採可插拔光模組"
+    check_by: __
+    status: 未驗證
+    action: 6442 的 CPO量產時點直接失效 → L3
+
+checkpoints:
+  - {date: __, event: "GTC", what_to_watch: "下一代平台規格與量產時程、機櫃功耗、互連世代"}
+  - {date: __, event: "Computex / OCP Global Summit", what_to_watch: "ODM 機櫃設計、液冷方案的標配化程度"}
+  - {date: __, event: "供應鏈驗證進度", what_to_watch: "散熱與光互連的送樣、驗證、量產三階段時點"}
+
+update_cadence: 產業展會與規格發表（不定期），以及每次供應鏈驗證里程碑
+gaps:
+  - {question: "官方時程與供應鏈實際進度的落差（官方通常樂觀）", how_to_close: "ODM／散熱廠法說與供應鏈查證，兩者交叉比對"}
+  - {question: "單機櫃功耗的口徑（滿載／典型／含網通設備）跨來源不一致", how_to_close: "以 OCP 規格文件為準"}
+  - {question: "CPO 與可插拔光模組的實際採用比例", how_to_close: "客戶端驗證結果；廠商通常只揭露有利的一面"}
+
+event_log:
+  - {date: 2026-08-27, level: '—', summary: 建立驅動因子檔（結構先行，數值待 /brief 填入）, delta: 新增}
+
+last_updated: 2026-08-27

@@ -1,0 +1,25 @@
+# 扇出待辦佇列 — /brief 產生，/cta 消費。底線開頭：這不是 driver，驗證腳本會跳過它。
+#
+# 這個檔案只存「指標」，不存「數值」。
+# 任何數字都住在 drivers/<slug>.yaml，這裡只記「哪一檔該去看哪個 driver 的哪次變動」。
+# 若你發現自己想把一個數值寫進 pending，那代表它的家在 driver 層，不在這裡。
+#
+# 它是可變狀態（處理完就移進 done 或刪除），與 append-only 的 reports/ 相反。
+as_of: 2026-08-27
+
+pending: []
+# - ticker: '3324'
+#   driver: accelerator-roadmap
+#   since: 2026-08-27           # 進佇列的日期，用來看待辦積壓多久
+#   brief: reports/2026/08/2026-08-27-brief.md   # 哪一次收錄產生的
+#   prelim_level: L1            # /brief 的初判，正式定級由 /cta 依門檻重做
+#   affects: [液冷滲透率]        # driver 的 transmission 指出該檔要看的變數
+#   why: "一句話：driver 的什麼變動、為何可能打到這檔"
+
+done: []
+# - ticker: '3324'
+#   driver: accelerator-roadmap
+#   since: 2026-08-27
+#   closed: 2026-08-28
+#   level: L0                   # 實際定級（可能與 prelim 不同，那是正常的）
+#   report: null                # L0 不寫報告，記在 driver 的 event_log 即可

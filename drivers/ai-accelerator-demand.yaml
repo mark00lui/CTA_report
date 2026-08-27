@@ -1,0 +1,109 @@
+# 共用驅動因子。這一層存放「多檔標的共用、且不屬於任何單一標的」的變數。
+# 規則：一個共用事實只能有一個家。個股 state 用 driver_refs 引用，不複製數值。
+id: ai-accelerator-demand
+name: AI 加速器實際需求（NVDA／AMD／自研 ASIC）
+what_it_is: 加速器供應端每季實際認列的資料中心營收與下一季 guidance，含各家成分與合計
+why_shared: >
+  這是 hyperscaler-capex 的「實際落地面」。capex guidance 是平台端的支出承諾，
+  加速器營收是那筆錢真正變成出貨的部分 — 兩者可以背離，而背離本身就是訊號。
+  它同時決定 TSM 的投片、3324 的機櫃附載、6442 的互連埠數，不屬於任何單一標的。
+  NVDA 與 AMD 不在覆蓋清單內，正因如此它們的數字只能住在這一層。
+
+current:
+  value: __
+  unit: USD bn（單季資料中心營收合計）
+  as_of: __
+  tier: 缺口
+  source: "__"
+  yoy: "__"
+
+components:
+  - {name: NVIDIA Data Center, value: __, guidance: "__", source: "__", as_of: __}
+  - {name: AMD Data Center,    value: __, guidance: "__", source: "__", as_of: __}
+  - {name: 自研 ASIC（TPU／Trainium／MTIA）, value: __, guidance: "__", source: "__", as_of: __}
+
+history: []   # {as_of, value, note} — 修正的方向與速度比絕對值更有訊息量
+
+# 這個 driver 的主要價值不是絕對金額，而是與 hyperscaler-capex 的交叉驗證
+cross_check:
+  against: hyperscaler-capex
+  logic: >
+    capex guidance（承諾）持續上修、但加速器營收與 guidance 停滯 → 錢沒有流向加速器，
+    可能流向土地廠房電力，硬體鏈的受惠程度低於 capex 金額所暗示的。
+    反之加速器營收超前而 capex guidance 未動 → 平台端的 capex 可能即將上修。
+  action: 兩者連兩季背離 → 硬體端 L2，並在報告中明寫是哪一邊先動
+  status: 未驗證
+
+transmission:
+  - ticker: TSM
+    direction: '+'
+    path: 加速器需求 → GPU/ASIC 投片與 CoWoS 封裝 → 先進製程營收占比與產能利用
+    lag: >
+      注意方向：NVDA/AMD 已認列的營收落後 TSM 投片約 1–2 季（晶片先做出來才賣得掉），
+      因此「已認列營收」對 TSM 是同步偏落後指標；真正領先的是下一季 guidance 與長約。
+      引用時務必分清你用的是哪一個。
+    sensitivity: 高
+    affects: [先進製程營收占比, CoWoS月產能]
+  - ticker: '3324'
+    direction: '+'
+    path: 加速器出貨量 → 伺服器機櫃數 → 液冷附載率與單機價值量
+    lag: 領先 2–3 季（散熱晚於晶片）
+    sensitivity: 高
+    affects: [液冷滲透率, 北美CSP訂單能見度, 產能利用率]
+  - ticker: '6442'
+    direction: '+'
+    path: 加速器出貨量 → 機櫃內外互連埠數 → 光通訊產品需求
+    lag: 領先 2–3 季
+    sensitivity: 中（單一客戶占比高，傳導不純；族群需求對它不等於訂單）
+    affects: [光通訊產品營收占比]
+  - ticker: MSFT
+    direction: '-'
+    path: 加速器採購 → 資產啟用 → 折舊費用 → 營益率
+    lag: 落後 2–4 季（折舊隨資產啟用才入帳）
+    sensitivity: 中（低於 hyperscaler-capex，因本檔只涵蓋 capex 中的加速器部分）
+    affects: [營益率]
+  - ticker: GOOG
+    direction: '-'
+    path: 同上；另因自研 TPU 比重高，外購加速器的傳導強度低於同業
+    lag: 落後 2–4 季
+    sensitivity: 中
+    affects: [資本支出, TPU外部採用進展]
+  - ticker: META
+    direction: '-'
+    path: 同上；Meta 無公有雲直接變現加速器投資，ROI 質疑最強
+    lag: 落後 2–4 季
+    sensitivity: 中
+    affects: [資本支出guidance, 總費用guidance]
+
+# INTU 刻意不列入 transmission：它是 AI 應用端，不在加速器需求鏈上。
+# 它在覆蓋清單裡的作用正是與 capex 因子低相關，把這類事件套到它身上會毀掉那個作用。
+
+falsifiers:
+  - condition: "加速器合計營收連兩季 QoQ 轉負，且非產能或供應因素"
+    check_by: __
+    status: 未驗證
+    action: 硬體端全面 L3；平台端視為折舊壓力緩解（方向相反，須分開處理）
+  - condition: "任一家明確將 guidance 與『客戶消化庫存／需求不足』連結，而非『供應受限』"
+    check_by: __
+    status: 未驗證
+    action: 最早的轉折訊號，優先度高於金額本身
+  - condition: "自研 ASIC 合計占加速器出貨比重超過 __%（外購加速器被實質取代）"
+    check_by: __
+    status: 未驗證
+    action: 對 TSM 中性（都在台積電投片），對加速器 ASP 與 6442 的互連規格是 L2
+
+checkpoints:
+  - {date: __, event: "NVIDIA 季度財報", what_to_watch: "資料中心營收、下一季 guidance、供應受限的措辭是否鬆動、庫存與採購承諾"}
+  - {date: __, event: "AMD 季度財報", what_to_watch: "資料中心 GPU 全年目標是否維持、客戶集中度"}
+  - {date: __, event: "四大 CSP 財報", what_to_watch: "自研 ASIC 的部署比重是否被主動揭露"}
+
+update_cadence: 每季財報；期間僅有供應鏈查證與第三方出貨估計
+gaps:
+  - {question: "各家資料中心營收中『AI 加速器』與其他（網通、專業繪圖）的拆分", how_to_close: "財報 10-Q 分部附註；多數不單獨揭露"}
+  - {question: "自研 ASIC 出貨量無公開揭露，第三方估計口徑差異大", how_to_close: "供應鏈查證；跨來源比較前先確認成分"}
+  - {question: "合計值的成分定義（是否含網通、是否含中國特規版本）", how_to_close: "逐一核對原始報告"}
+
+event_log:
+  - {date: 2026-08-27, level: '—', summary: 建立驅動因子檔（結構先行，數值待 /brief 填入）, delta: 新增}
+
+last_updated: 2026-08-27

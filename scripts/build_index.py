@@ -101,7 +101,8 @@ def main():
 
     index_path = os.path.join(ROOT, "reports", "INDEX.md")
     os.makedirs(os.path.dirname(index_path), exist_ok=True)
-    with open(index_path, "w", encoding="utf-8") as fh:
+    with open(index_path, "w", encoding="utf-8", newline="
+") as fh:
         fh.write("\n".join(out))
 
     print(f"已索引 {len(rows)} 份報告 → reports/INDEX.md")

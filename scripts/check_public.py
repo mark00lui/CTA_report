@@ -111,7 +111,10 @@ def check_yaml_keys(f, text):
 
 
 def check_patterns(f, text):
-    if not f.endswith((".md", ".yaml", ".yml")):
+    # .html 於 2026-08-27 納入：docs/index.html 是 GitHub Pages 的公開門面，
+    # 它把 state 與 drivers 的內容整頁攤開給不會讀 YAML 的人看。
+    # 那是本倉庫洩漏面積最大的一個檔案 —— 掃描器不掃它等於整個規則有個缺口。
+    if not f.endswith((".md", ".yaml", ".yml", ".html")):
         return
     lenient = f in DOC_ALLOWLIST
     lines = text.splitlines()

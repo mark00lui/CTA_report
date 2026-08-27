@@ -34,9 +34,15 @@ drivers/_queue.yaml       扇出待辦佇列 — /brief 產生，/cta 消費；�
 notes/YYYY-MM.md          暫存收件匣 — 還不知道該歸哪裡的觀察
 reports/YYYY/MM/*.md      推論文件 — append-only，不修改已提交的報告
 reports/INDEX.md          自動產生，勿手改
-scripts/                  驗證、索引、倉位資訊掃描
+docs/index.html           GitHub Pages 門面 — 自動產生，勿手改
+scripts/                  驗證、索引、站台、倉位資訊掃描
 .claude/skills/           cta-research skill（分級規則、模板、schema）
 ```
+
+**`docs/index.html` 是洩漏面積最大的檔案。** 它把 state 與 drivers 整頁攤開給不讀 YAML 的人看，
+且掛在 `https://mark00lui.github.io/CTA_report/` 這個比 repo 本身更容易被看到的網址上。
+`check_public.py` 已於 2026-08-27 納入 `.html` —— 在那之前它只掃 `.md`／`.yaml`／`.yml`，
+等於整個規則對這個介面是失效的。改動產生器時務必確認掃描仍然涵蓋輸出。
 
 ## 三層資料模型
 
@@ -80,8 +86,10 @@ scripts/                  驗證、索引、倉位資訊掃描
 
 **commit 前一定跑：**
 ```bash
-python scripts/check_public.py && python scripts/check_append_only.py && python scripts/validate_state.py && python scripts/build_index.py
+python scripts/check_public.py && python scripts/check_append_only.py && python scripts/validate_state.py && python scripts/build_index.py && python scripts/build_site.py
 ```
+`build_index.py` 與 `build_site.py` 都是**單向產生**：輸出被手改會在下次執行時覆蓋，
+且 CI 會用 `git diff --exit-code` 擋下產生器輸出與提交內容不一致的 commit。
 pre-commit hook 會自動跑前三項（`bash scripts/install_hooks.sh` 安裝一次）。
 
 **commit message 格式**（讓 `git log` 本身成為研究日誌），同樣不得含倉位資訊：

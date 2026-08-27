@@ -23,5 +23,10 @@ jobs:
           python scripts/build_index.py
           git diff --exit-code reports/INDEX.md \
             || (echo "reports/INDEX.md 未更新，請在本機跑 build_index.py 後重新提交"; exit 1)
+      - name: 檢查 Pages 站台是最新的
+        run: |
+          python scripts/build_site.py
+          git diff --exit-code docs/index.html \
+            || (echo "docs/index.html 未更新，請在本機跑 build_site.py 後重新提交"; exit 1)
       - name: 列出陳舊變數（僅提示）
         run: python scripts/validate_state.py --stale

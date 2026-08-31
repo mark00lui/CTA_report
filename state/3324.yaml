@@ -197,8 +197,8 @@ gaps:
   how_to_close: 法說 Q&A / 年報分部資訊
 - question: 單機價值量在新平台的變化倍數。⚠ 熱負載倍數（190/142 ≈ 1.34x）不等於營收倍數，不可換算
   how_to_close: 供應鏈查證 / 同業法說交叉比對；需要散熱方案單價與 BOM 結構
-- question: Rubin Ultra 的 600kW 對應何種散熱方案（單相／兩相／浸沒）。若為浸沒，供應商結構與現行水冷板不同，對本檔是另一個故事
-  how_to_close: GTC 2027、OCP 規格文件（已同步列入 accelerator-roadmap 的 gaps）
+- question: ⚠ 2026-08-31 **部分關閉**：Rubin Ultra 的 600kW 散熱方案，證據指向 **direct-to-chip（冷板）路線延續**而非改採浸沒 —— 機房端明載為溫水直接晶片冷卻迴路（warm-water direct-to-chip loops）+ CDU。**這對本檔是好消息**：現有水冷板產品線可延伸，不是供應商結構被換掉。⚠ 但未完全關閉 —— 有報導以 complete liquid immersion with zero fans 描述，該措辭可能指「完全液冷」而非字面浸沒（其後文才把 direct-to-chip 與 immersion 並列為兩種方案）。故判定為「指向冷板延續，但未完全排除浸沒」，不寫成定論
+  how_to_close: GTC 2027、OCP 規格文件、ODM 拆解報告；共用事實住在 drivers/accelerator-roadmap 的 thermal_architecture，不複製進本檔
 # ⚠ 「全部均線未取得」缺口已於 2026-08-31 關閉 —— 來源為 wantgoo 技術指標頁，
 # 同時取得 MACD、KD 與量能均量。取得途徑記於 cta.note，供其餘台股三檔（6442、3008、3037）比照。
 - question: ⚠ RSI 未取得。wantgoo／histock／Yahoo／nstock 四個來源皆提供均線與 MACD、KD，但都沒有 RSI
@@ -224,6 +224,31 @@ notes: 街上目標價的上升來自倍數擴張而非獲利上修 —— FactS
   ｜與 NVDA 的對照：NVDA 的賣方均值目標價幾乎等於該檔的 bull 情境；本檔街上目標價 1,425 落在 base(1,261) 與
   bull(1,878) 之間偏 base 上緣 —— 街上對本檔的樂觀程度低於對 NVDA，即使本檔營收成長率遠高於 NVDA。
 event_log:
+- date: 2026-08-31
+  level: L1
+  summary: driver 扇出（accelerator-roadmap）— Rubin Ultra 散熱方案缺口部分關閉，目標價不變（加權 1,378）
+  delta: >
+    ⚠ **本次是對同日稍早扇出判斷的修正**：2026-08-31 稍早處理 Rubin Ultra 規格時，我把本檔判為
+    L0，理由是「600kW 早已在 current，且時點在 2027 下半、遠在基準年 2026 之外」。
+    使用者指出 Rubin 不只影響半導體、也影響液冷與電力，據此再查後確認**當時判太快**：
+    600kW 相對 GB300 的 132–142kW 是 4.2–4.5 倍，那不是延續而是換代，且本檔 gaps 裡
+    早就記著「600kW 對應何種散熱方案」是關鍵未知 —— 我上一輪等於跳過了自己標記的問題。
+    **新事實**：Kyber 600kW 要求**完全液冷、零風扇**，與現行世代不同（GB300 雖已強制液冷，
+    輔助元件仍保留氣冷）；機房端為溫水直接晶片冷卻迴路 + CDU，水系統需按每機櫃位數百 kW 設計。
+    **對本檔的判讀**：證據指向 direct-to-chip（冷板）路線**延續**而非改採浸沒 ——
+    這是好消息，現有水冷板產品線可延伸，不是供應商結構被換掉。gaps 據此部分關閉。
+    ⚠ 但未完全關閉：來源措辭有歧義（complete liquid immersion with zero fans 可能指
+    「完全液冷」而非字面浸沒），故不寫成定論。
+    ⚠ **模型完全不動，且這是刻意的**：三情境、倍數、加權目標價 1,378 全部不變。
+    本日稍早才把 base 自 22x 調高至 24x（錨自 B 升級為 A）；同一天再因一則 2027 下半的
+    平台消息二度調高倍數，就是 /revalue 警告的「調高 exit multiple 來維持結論」。
+    且 Rubin Ultra 時點在 2027 下半，遠在本檔基準年 2026 之外，EPS 不受影響。
+    本則改變的是**對 thesis 的信心**（液冷從選配轉標配 —— 下一代要求零風扇，是最強形式的佐證），
+    不是任何可計算的數值。
+    ⚠ 順帶：drivers/accelerator-roadmap 的第二條 falsifier（下一代單機櫃功耗低於現行世代 ＝
+    散熱需求見頂）在 600kW 對 142kW 之下，不僅未觸發且距離更遠。
+    ⚠ 共用事實（散熱方案、800VDC）住在 driver 的 thermal_architecture 與 power_architecture，
+    不複製進本檔 —— 一個共用事實只能有一個家。
 - date: 2026-08-31
   level: L2
   summary: 手動全量重估 — 技術面首次完整取得，錨自 B 升級為 A，加權目標價 1,289 → 1,378（+6.9%）

@@ -92,6 +92,34 @@ rubin_ultra_spec:   # 2026-08-31 新增 —— 此前本 driver 對 Rubin Ultra 
     279 bn 且 primarily memory、毛利率因記憶體成本自 74% 滑至 Q4 觸底 71–72%、
     黃仁勳明言 FY2028 +70% 是供給受限。四件事放在一起，
     「NVIDIA 的供給瓶頸有相當部分就是記憶體」這個推論才成立。
+  thermal_architecture: >
+    ⚠ 2026-08-31 補入 —— 此前本 driver 只有 600kW 這個數字，沒有**散熱方案**。
+    Kyber 600kW 機櫃要求**完全液冷、零風扇**（complete elimination of air cooling），
+    這與現行世代不同：GB300 雖已強制液冷，輔助元件仍保留氣冷。
+    機房端的要求為**溫水直接晶片冷卻迴路**（warm-water direct-to-chip loops），
+    CDU 容量成為第一階設計參數，水系統需按每機櫃位數百 kW 規模設計。
+    ⚠ **方案別的判讀，對 3324 是關鍵**：該檔 gaps 一直記著「Rubin Ultra 的 600kW 對應何種
+    散熱方案（單相／兩相／浸沒）。若為浸沒，供應商結構與現行水冷板不同，對本檔是另一個故事」。
+    目前證據指向 **direct-to-chip（冷板）路線延續**而非改採浸沒 —— 機房端明載 warm-water
+    direct-to-chip loops + CDU。⚠ 但來源措辭有歧義：有報導用 complete liquid immersion
+    with zero fans 描述，該句可能指「完全液冷」而非字面的「浸沒式」，因其後文才把
+    direct-to-chip 與 immersion 並列為兩種方案。**故判定為「指向冷板延續，但未完全排除浸沒」**，
+    不寫成定論。這個歧義本身就是 3324 下一步該查證的東西。
+  power_architecture: >
+    ⚠ 2026-08-31 補入 —— 800 VDC 不只是規格細節，是一條本覆蓋清單完全沒有曝險的產業鏈。
+    NVIDIA 明載 **800 VDC 資料中心的全面量產與 Kyber 機櫃同步落在 2027**。
+    物理原因：1 MW 機櫃若沿用 54 V 機內配電，單櫃需高達 **200 公斤銅匯流排**，
+    1 GW 資料中心的機櫃匯流排銅用量可達 20 萬公斤；改用 800 VDC 後**同一銅線可多傳 150% 功率**，
+    TCO 最多降 30%。GTC 2025 已展示為單一 Kyber 機櫃供電 576 顆 Rubin Ultra 的 800V sidecar。
+    ⚠ **NVIDIA 點名的生態夥伴**（這是可追溯的供應鏈線索，非推測）：
+      矽元件：Analog Devices、Infineon、Innoscience、MPS、Navitas、OnSemi、Renesas、
+              ROHM、STMicroelectronics、Texas Instruments
+      **電源系統元件：Delta（台達電）、Flex Power、Lead Wealth、LiteOn（光寶科）、Megmeet**
+      機房電力系統：Eaton、Schneider Electric、Vertiv
+    另透過 OCP 與逾 80 家生態企業合作。
+    ⚠ **覆蓋層含意**：本清單十三檔中沒有任何一檔屬電力／電源，而 NVIDIA 已點名兩家台廠
+    （台達電、光寶科）。這是 common_premise 成立時的一條受惠路徑，目前完全沒有覆蓋 ——
+    已記入 state/coverage.yaml。本 driver 不為此新增 transmission，因為沒有對應的 state 檔。
   gaps: >
     ⚠ 576 顆 domain 的「銅纜 + 直接光連接」中，光連接占多少比例未揭露 ——
     這決定 CPO 在 scale-up 的實際 BOM 價值量。

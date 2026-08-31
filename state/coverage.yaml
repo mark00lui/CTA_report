@@ -117,6 +117,23 @@ common_premise: "13 檔中有 12 檔共用同一前提：AI 資料中心資本�
 # 也沒有像 MSFT／GOOG 那樣的訂閱或廣告基底。若共同前提失效，它不是「跟著受傷」，而是震央。
 # 換句話說：這次新增提高了清單的解析度（多了供應端的第一手視角），但降低了它的分散度。
 
+# ⚠ 2026-08-31 發現的覆蓋缺口：**電力／電源鏈完全沒有曝險，而 NVIDIA 已點名兩家台廠。**
+# NVIDIA 明載 800 VDC 資料中心的全面量產與 Kyber 機櫃同步落在 2027。物理原因是規模所迫：
+# 1 MW 機櫃若沿用 54 V 機內配電，單櫃需高達 200 公斤銅匯流排；改 800 VDC 後同一銅線多傳
+# 150% 功率、TCO 最多降 30%。這不是選配升級，是 600kW 以上機櫃的前提條件。
+#
+# NVIDIA 點名的電源系統元件夥伴含 **Delta（台達電）** 與 **LiteOn（光寶科）**，
+# 另有 Flex Power、Lead Wealth、Megmeet；機房電力系統為 Eaton、Schneider Electric、Vertiv；
+# 矽元件為 ADI、Infineon、MPS、Navitas、OnSemi、TI 等十家。透過 OCP 另有逾 80 家生態企業。
+#
+# ⚠ 本清單十三檔中**沒有任何一檔屬電力或電源**。這是 common_premise 成立時的一條受惠路徑，
+# 且與既有因子的相關性結構不同 —— 它受惠於「機櫃功耗上升」本身，而非「出貨量」或「滲透率」。
+# 換句話說：即使 AI 伺服器出貨量成長減速，只要單櫃功耗續升，這條鏈仍有量。
+# 這是清單目前唯一一條「與出貨量部分脫鉤」的 AI 受惠路徑。
+#
+# ⚠ 但不因此自動新增標的 —— 依 /new-ticker 慣例，建檔需使用者指示。此處只記錄缺口與理由。
+# 共用事實住在 drivers/accelerator-roadmap 的 power_architecture，不複製。
+
 shared_falsifier:
   condition: "任兩家超大型 CSP 在同一季下修資本支出 guidance"
   action: "觸發全覆蓋清單 L3 review，不是單一個股"

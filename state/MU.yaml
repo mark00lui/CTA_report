@@ -11,6 +11,16 @@ factor_tags:
 - ai_capex_hw
 - memory
 - cyclical
+driver_refs:
+- driver: ai-accelerator-demand
+  direction: '+'
+  note: >
+    加速器出貨與供應商採購承諾 → HBM 與伺服器 DRAM 需求 → 合約價與毛利率。領先 1–2 季。
+    ⚠ 2026-08-31 補入 —— 此前本檔在覆蓋清單內卻無任何 driver_refs。促成的證據是
+    NVIDIA 於 2026-08-26 揭露採購承諾自 119 增至 279 bn、明言主要用於記憶體採購。
+    ⚠ 傳導的是**價格**不是數量：加速器廠為鎖料而願意簽更長更貴的約，
+    故本檔的反應應先出現在合約價與毛利率，而非出貨量。
+    ⚠ 同一筆記憶體成本對 NVDA 是毛利率壓縮（Q4 觸底 71–72%），對本檔是漲價 —— 方向相反。
 thesis: 6x 不是便宜而是市場對 FY2028 回歸的提前定價 —— 新產能落在 FY2028 而非基準年，這是低倍數與 EPS 再翻倍能並存的原因
 thesis_since: 2026-08-27
 thesis_history:
@@ -71,7 +81,17 @@ key_variables:
   value: HBM4 已為領先客戶進入高量產，並向多家終端客戶送出認證樣品；HBM4E 開發中，目標 2027 曆年量產。管理層目標為 HBM 市占率接近其 DRAM 市占率
   unit: 質性
   tier: 事實
-  source: FQ3 FY2026 法說會準備稿
+  source: >
+    FQ3 FY2026 法說會準備稿。
+    ⚠ 2026-08-31 新增外部佐證（值未變，信心提高 —— 本次定級 L1）：
+    NVIDIA 於 2026-08-26 揭露對供應商的採購承諾自三個月前的 119 bn 增至 279 bn，
+    CFO Colette Kress 明言增幅 primarily related to the procurement of memory；
+    同時 NVIDIA 自身毛利率因記憶體成本自 Q3 的 74% 降至 Q4 觸底的 71–72%，
+    Kress 稱記憶體成本 exceeded our prior expectations and are headed even higher into next year。
+    這是本檔漲價循環第一個來自**下游客戶財務長**的一手量化證據 ——
+    在此之前的佐證是 Meta／Amazon 的 capex 歸因與 TrendForce 的二手引用。
+    ⚠ 但 279 bn 中記憶體占多少未揭露（只說 primarily），無法換算為本檔的營收金額，
+    故 HBM進度 這一格的**值不變**，僅提高信心。
   updated: 2026-08-27
 - name: 產業供給增速
   value: 曆年 2026 產業 DRAM bit 出貨成長約低至中 20%，Micron 自身供給大致與產業一致；2027 伺服器 DRAM 與 HBM 合計 bit 供給預估 +27%，部分新廠於 2027H2 放量
@@ -177,6 +197,23 @@ notes: 本檔在覆蓋清單中的角色是不對稱的 —— 它既是 AI 需�
   就是全產業最強的擴產誘因，Micron 自己 FY2027 每一季都在調高資本支出。
 
 event_log:
+- date: 2026-08-31
+  level: L1
+  summary: driver 扇出（ai-accelerator-demand）— HBM進度 值不變但信心提高，目標價 1,060 不變
+  delta: >
+    NVIDIA 於 2026-08-26 法說揭露對供應商採購承諾自三個月前的 119 bn 增至 279 bn，
+    CFO Colette Kress 明言增幅主要用於記憶體採購；同時其自身毛利率因記憶體成本自 Q3 的
+    74% 降至 Q4 觸底的 71–72%，Kress 稱成本超出先前預期且明年還會更高。
+    這是本檔漲價循環第一個來自**下游客戶財務長**的一手量化證據 —— 先前三次佐證中，
+    第三次（TrendForce 記憶體占 CSP capex 68%）為二手引用，正是 notes/2026-08.md 於
+    2026-08-27 拒絕晉升該主題為 driver 的理由。
+    ⚠ 三情境、倍數、加權目標價、訊號全部不變。279 bn 中記憶體占多少未揭露（只說 primarily），
+    無法換算為本檔營收金額 —— 用算不出來的數字調模型就是編造。
+    ⚠ 結構修正：本檔與 SNDK 此前在覆蓋清單內卻不在任何 driver 的 transmission。
+    已補入 ai-accelerator-demand 並在 state 補 driver_refs 完成雙向引用。
+    傳導性質寫明為**價格而非數量** —— 加速器廠為鎖料而簽更長更貴的約，
+    故反應應先出現在合約價與毛利率而非出貨量。
+    ⚠ 方向相反：同一筆記憶體成本對本檔是漲價、對 NVDA 是毛利率壓縮。
 - date: 2026-08-27
   level: L1
   summary: 重錨估值 — 目標價不變（加權 1,060），新增循環股正常化對照
@@ -196,4 +233,4 @@ event_log:
   summary: 建檔。FQ3 FY2026（季末約 2026-05）營收 41.46B（+346% YoY、+74% QoQ）、GAAP 毛利率 84.6%、EPS 25.11；FQ4 指引營收 50.0±1.0、毛利率約 86%、EPS 31.00±1.00
   delta: 新增追蹤標的。thesis 已寫定（循環位置而非估值高低）；三情境與訊號留 __，待 /revalue 由使用者指定機率。falsifiers 三條均有數字門檻，其中一條於 2026-09-22 財報即可驗證
 
-last_updated: 2026-08-27
+last_updated: 2026-08-31

@@ -55,6 +55,38 @@ history:
       若以同一基準回推，2026-08 的成分加總為 740，故真實變動為 740→745。
 
 # 與 ai-accelerator-demand 互為交叉驗證：承諾（本檔）vs 落地（加速器實際出貨）
+forward_estimate_2027:   # 2026-08-31 新增 —— 本 driver 第一個 2027 數據點
+  as_of: 2026-08-26
+  source: >
+    NVIDIA Q2 FY2027 法說（2026-08-26），CFO Colette Kress 於會中所述。
+  value_2026: 800
+  value_2027: 1300
+  unit: USD bn（前五大 hyperscaler 曆年資本支出合計）
+  yoy: 約 +63%（800 → 1,300）
+  tier: 推論
+  note: >
+    ⚠ tier 標推論而非事實：這是 NVIDIA 對「客戶會花多少」的估計，不是那五家公司自己的 guidance。
+    供應商對客戶支出的估計有結構性的樂觀傾向 —— 它同時是 NVIDIA 自己 FY2028 營收 +70% 指引的
+    支撐論據，兩者不獨立。
+    ⚠ **口徑與 current 的 745 不同，不可互相取代**：
+      current 745 = 四大 CSP（Amazon 220 + Alphabet 205 + Microsoft 175 + Meta 145）、
+                    2026 曆年、**各公司自行揭露**、tier 事實
+      本值 800   = 前五大 hyperscaler、2026 曆年、**NVIDIA 估計**、tier 推論
+    兩者差約 55，與「多了第五家」的規模一致（黃仁勳另有一句「Amazon、Oracle、Alphabet、
+    Microsoft 四家每年就要花 6,000 億」，暗示第五家可能是 Oracle）。⚠ 但那句的 600 又與
+    本檔四家加總的 745 對不上，**第三個口徑**。三個數字並存，未能完全調和。
+    ⚠ 本值解開了 notes/2026-08.md 於 2026-08-31 記下的口徑矛盾：當時來自影片三手轉述的
+    「1.3 萬億 AI capex」被記為「未來累計、科技巨頭」而無法與 745 比較 ——
+    現在確認它就是**前五大 hyperscaler 的 2027 曆年**數字，出處為 NVIDIA CFO。
+    原以為的三個互不相容數字（745／1.3兆／3兆）中，1.3 兆這一個已歸位；
+    WSJ 的 3 兆（表外承諾、九家公司）仍未調和。
+  why_it_matters: >
+    本 driver 在此之前**只有 2026 的數字**，2027 完全空白 —— 而覆蓋清單十三檔中有十二檔的
+    common_premise 是「AI 資本支出在未來 8 個季度不會出現實質減速」，那個前提正好跨到 2027。
+    本值是第一個把 2027 填上的數據點。它說的是 +63%，即不僅不減速，還加速。
+    ⚠ 但它出自供應商而非支出方。真正的驗證要等各家自己給 2027 guidance
+    （Microsoft、Meta、Alphabet 約 2027-01，Amazon 約 2027-02）——那才是 tier 事實。
+
 cross_check:
   against: ai-accelerator-demand
   logic: >
@@ -226,9 +258,37 @@ gaps:
   - {question: "Amazon 與 Meta 的 capex 是否含融資租賃本金？各家口徑不一致，Meta 明確含、Amazon 稱「現金 capex」，跨家加總存在口徑風險", how_to_close: "各家財報現金流量表與附註"}
 
 event_log:
+  - date: 2026-08-31
+    summary: NVIDIA 法說揭露前五大 hyperscaler capex 2026 約 800 → 2027 約 1,300 bn（+63%）— 本 driver 第一個 2027 數據點
+    delta: >
+      新增 forward_estimate_2027 區塊。current 745 不動 —— 口徑不同不可取代：745 為四大 CSP 自行揭露（tier 事實），800 為前五大、NVIDIA 估計（tier 推論），差約 55 與「多一家」的規模一致。⚠ 本值同時解開 notes/2026-08.md 於 2026-08-31 標記的口徑矛盾：那個三手轉述的「1.3 萬億」就是前五大 hyperscaler 的 2027 曆年數字，出處為 NVIDIA CFO Colette Kress。原本三個互不相容的數字（745／1.3兆／3兆）中，1.3 兆已歸位；WSJ 的 3 兆（表外承諾、九家公司）仍未調和。⚠ 為何重要：本 driver 在此之前只有 2026 的數字、2027 完全空白，而覆蓋清單十三檔中十二檔的 common_premise 正好跨到 2027。但它出自供應商而非支出方，真正的驗證要等各家自己給 2027 guidance（約 2027-01～02）。falsifiers 全數未觸發。
+    fanout: >
+      逐檔定級（扇出的價值在於確認每檔都被檢查過，不在於每檔都產生輸出）：
+      **L1 — MU**：值不變但信心提高。NVIDIA 的 279 bn 採購承諾與 CFO 對記憶體成本的說明，
+        是本檔漲價循環第一個來自下游客戶財務長的一手量化證據。已出變更單。
+      **L0 — TSM／3324／6442／COHR／3037（硬體端，direction +）**：2027 capex 1.3 兆與
+        NVDA FY2028 +70% 都是對既有 base case 的**確認**而非改變，未觸及任何 key_variable 的
+        數值或信心門檻。依定級規則屬 L0，記一行不出報告。
+      **L0 — MSFT／GOOG／META（平台端，direction −）**：2027 capex 較 2026 增約 63% 意味更大的
+        折舊負擔，方向為負且與硬體端相反 —— 但這已在三檔各自的 thesis 內
+        （MSFT 的折舊年限、GOOG 的 205 bn 折舊未入帳、META 的費用剪刀差），未改變任何數值。
+        ⚠ 另有一個尚未量化的新角度：NVDA 明言供給受限而非需求受限，意味平台端的 capex
+        可能不是「想花多少」而是「能買到多少」—— 若成立，capex guidance 的資訊量會下降。
+        本次不改模型，列為觀察。
+      **L0 — SNDK**：間接受惠（NAND 屬資料中心儲存層，不在加速器 BOM 關鍵路徑），
+        強度低於 MU，與 coverage.yaml 對 memory 因子「同向但不等深」的註記一致。
+      **⚠ 不在此處理 — NVDA**：FY2028 +70% 指引、毛利率路徑、279 bn 承諾、資料中心拆解
+        （hyperscaler 48.7 + ACIE 40.3）全部是本檔自身的重大新資訊，且會改變 EPS 假設。
+        依 /driver 規則「個股自己的事件不走這裡」，**需另走 /cta NVDA 或 /revalue NVDA**。
+        本次僅更新共用層，未動 state/NVDA.yaml 的情境或訊號。
+      **n/a — 3017／AMZN**：在 transmission 內但無 state 檔（刻意保留的真實傳導對象）。
+      **不在 transmission — INTU（正確）／3008（⚠ 見下）**。
+      ⚠ 扇出時發現的結構問題：3008 帶 cpo 標籤且其 thesis 完全建立在 CPO 時程上，
+      但它不在 accelerator-roadmap 的 transmission 內，而 6442、COHR 都在。
+      本次未修正 —— 因為促成的證據不是這則消息，硬改會讓變更失去可追溯性。列為待辦。
   - {date: 2026-08-27, level: '—',
      summary: "全面校正三個過時成分並改變 current 的計算基準。Amazon 200→220（真實上修，記憶體成本）、Microsoft 190→175（會計年限口徑，非需求）、Meta 區間 125–145→130–145、Alphabet 區間 175–205→195–205（前版下緣有誤）。合計在新基準下為 745",
      delta: "current 由第三方統計 725 改為公司揭露上限加總 745 並寫死基準；四個成分全部附上公司揭露來源與變動性質；新增 cross_check（對 ai-accelerator-demand）與 equity_gain_distortion 兩節；修正 MSFT／GOOG／META 三筆 affects 的懸空變數名；3017 與 AMZN 條目加註刻意保留；三條 falsifier 補上 evidence，均未觸發；扇出 8 個對象全 L0"}
   - {date: 2026-08-26, level: '—', summary: 建立驅動因子檔，彙整 2026 Q2 後的 guidance, delta: 新增}
 
-last_updated: 2026-08-27
+last_updated: 2026-08-31

@@ -25,15 +25,51 @@ current:
   yoy: "+116%（NVDA +117%、AMD +107%；合計基期約 44.2 = NVDA 約 41.0 + AMD 3.2）"
 
 components:
-  - {name: NVIDIA Data Center, value: 89.0,
-     guidance: "Q3 FY27 總營收 108 ±2%（未單獨拆 DC），且明確假設中國資料中心運算營收為零",
-     source: "NVIDIA Q2 FY27 財報 2026-08-26；+117% YoY、+18% QoQ；毛利率 75.0%，Q3 指引 74.0% ±50bp",
-     as_of: 2026-08-26}
+  - name: NVIDIA Data Center
+    value: 89.0
+    as_of: 2026-08-26
+    source: NVIDIA Q2 FY27 財報與法說 2026-08-26；+117% YoY、+18% QoQ；毛利率 75.0%
+    guidance: >
+      Q3 FY27 總營收 108 ±2%（未單獨拆 DC），且明確假設中國資料中心運算營收為零。
+      ⚠ 2026-08-31 補入法說會揭露 —— 原記錄只有財報數字，以下三項當時全數漏掉：
+      (1) **FY2028 營收成長指引約 +70%**，且明言為供給受限而非需求上限。黃仁勳：
+          Even though our demand is much greater than 70%, our supply allows us to
+          confidently deliver 70%。對一家不慣給遠期指引的公司，這是異常強的前瞻承諾。
+      (2) **毛利率路徑**：Q3 74.0% ±50bp → Q4 觸底 71–72% → FY2028 回到 72–73%
+          （FY2028 Q1 漲價後）。CFO Colette Kress 明確歸因於記憶體成本 exceeded our
+          prior expectations and are headed even higher into next year。
+          ⚠ 這是成本問題不是需求問題 —— 直接決定第二條 falsifier 不觸發。
+      (3) **資料中心營收拆解**（公司自 Q1 FY27 起改變分部揭露）：hyperscaler 48.7 +
+          ACIE（AI clouds／industrial／enterprise）40.3 = 89.0。ACIE YoY +138%，
+          成長快於 hyperscaler —— 需求來源正在分散，對「四大 CSP capex 是唯一上游」
+          的隱含假設是一個反例，也是 cross_check 那條 caveat 的量化版本。
   - {name: AMD Data Center, value: 6.7,
      guidance: "管理層稱資料中心於 2026 下半年加速；Q3 分部指引未於本次取得（見 gaps）",
      source: "AMD Q2 2026 財報 2026-08-04；+107% YoY，占總營收 58%；分部營益 2.1（去年同期虧損 0.155）；MI350 出貨、MI400 系列發表",
      as_of: 2026-08-04}
   - {name: 自研 ASIC（TPU／Trainium／MTIA）, value: __, guidance: "__", source: "__", as_of: __}
+
+supply_commitment:   # 2026-08-31 新增 —— 記憶體需求的第一個一手量化證據
+  as_of: 2026-08-26
+  value: 279
+  prior: 119
+  unit: USD bn（NVIDIA 對供應商的採購承諾）
+  tier: 事實
+  source: >
+    NVIDIA Q2 FY2027 財報與 CFO Colette Kress 說明（2026-08-26）—— 採購承諾自三個月前的
+    119 增至 279（逾一倍），公司明確表示增幅 primarily related to the procurement of memory。
+    另揭露總未來承諾約 366（＝供應承諾 279 + 雲端協議 29 + 長期資料中心租賃與股權投資）。
+  note: >
+    ⚠ 這是「記憶體排擠 capex」主題第一次拿到**一手、量化、且來自公司財務長**的證據。
+    notes/2026-08.md 於 2026-08-27 記下該主題已累積三次佐證卻拒絕晉升為 driver，理由是
+    第三次為 TrendForce 經二手來源引用、未讀到原始報告，而前兩次是公司自己說的。
+    本次補上的正是那個缺口：不是產業機構的推估，是 NVIDIA 自己為鎖定記憶體簽下的
+    279 bn 承諾，以及它對自身毛利率約 3pp 的實際壓縮。
+    ⚠ 方向要看清楚：對記憶體廠（MU／SNDK）這是需求利多，對加速器廠與其下游是成本利空。
+    同一則消息方向相反，是常態不是例外。
+  gap: >
+    ⚠ 279 中記憶體占多少未揭露，只說 primarily。無法據此推算記憶體的絕對採購金額，
+    也就無法與 TrendForce 的「記憶體占 CSP capex 68%」相互驗算。
 
 history:   # 修正的方向與速度比絕對值更有訊息量
   - {as_of: 2026-05, value: 81.0, note: "NVDA Q1 FY27 資料中心 75.2（+92% YoY、+21% QoQ）+ AMD Q1 2026 資料中心 5.8（+57% YoY）"}
@@ -65,6 +101,31 @@ cross_check:
         合計 725 連帶高估。修正後比值會更偏向加速器。
 
 transmission:
+  # ⚠ MU 與 SNDK 於 2026-08-31 補入。此前兩檔在覆蓋清單內卻不在任何 driver 的 transmission，
+  # 是一個結構缺口 —— 而 NVIDIA 於 2026-08-26 揭露採購承諾自 119 增至 279 bn、
+  # 明言 primarily related to the procurement of memory，等於用一手證據證明了這條路徑存在。
+  # 在此之前它只是「看起來應該相關」，沒有可引用的傳導證據，所以沒建。
+  - ticker: MU
+    direction: '+'
+    path: >
+      加速器出貨與供應商採購承諾 → HBM 與伺服器 DRAM 需求 → 合約價與毛利率。
+      ⚠ 與其他硬體端的傳導性質不同：3324／6442／COHR 是「加速器賣得多，我的零件就賣得多」，
+      本檔是「加速器廠為了鎖料，願意用更高的價格簽更長的約」—— 傳導的是**價格**不是數量。
+      因此該 driver 上修時，本檔的反應應先出現在合約價與毛利率，而非出貨量。
+      ⚠ 反向註記：同一筆記憶體成本對 NVDA 是毛利率壓縮（Q4 觸底 71–72%），對本檔是漲價。
+      **方向相反，不可套用同一結論。**
+    lag: 領先 1–2 季（合約價先於出貨認列）
+    sensitivity: 高（HBM 是本檔 thesis 的核心變數）
+    affects: ['HBM進度', '毛利率', '單季營收']
+  - ticker: SNDK
+    direction: '+'
+    path: >
+      加速器出貨 → 資料中心儲存需求 → NAND 合約價。
+      ⚠ 強度低於 MU：NVIDIA 的 279 bn 採購承諾主要指向 HBM／DRAM，NAND 是間接受惠
+      （資料中心建置的儲存層），不在加速器 BOM 的關鍵路徑上。
+    lag: 領先 1–2 季
+    sensitivity: 中（間接傳導，且本檔無 HBM 對等結構）
+    affects: ['資料中心營收成長', '漲價貢獻占季增比重', '毛利率']
   - ticker: '3037'
     direction: '+'
     path: >
@@ -186,7 +247,35 @@ fanout_2026_08_27:
      why: "本檔的主要成分就是 NVDA 的認列營收，對它而言不是外生變數。NVDA 的三情境與訊號另由 /revalue 建立（本次僅補上 driver_refs 完成雙向引用）"}
 
 event_log:
+  - date: 2026-08-31
+    summary: NVIDIA Q2 FY27 法說補入：FY2028 營收指引 +70%（供給受限）、毛利率路徑、採購承諾 119 → 279 bn（主要為記憶體）
+    delta: >
+      current 95.7 不動（同一季，無新季度數據）。新增 supply_commitment 區塊並補齊 NVIDIA 成分的法說揭露 —— 原記錄只有財報數字，FY2028 指引、毛利率路徑、資料中心拆解三項當時全數漏掉。⚠ 第二條 falsifier 的判定關鍵：毛利率下滑是**成本問題不是需求問題**（CFO 明確歸因記憶體成本），且黃仁勳明言 demand is much greater than 70%、是供給受限 —— 措辭為需求側正面，故不觸發。第一條（合計營收連兩季 QoQ 轉負）因 FY2028 +70% 指引而更加遙遠。第三條（自研 ASIC 占比逾 30%）仍無揭露，但本次取得的 hyperscaler 48.7 / ACIE 40.3 拆解是另一個切面，不可代用。⚠ 結構修正：MU 與 SNDK 補入 transmission 並在 state 補上 driver_refs 完成雙向引用 —— 兩檔此前在覆蓋清單內卻不在任何 driver 的 transmission，是結構缺口；促成的一手證據正是 279 bn 採購承諾證明了「加速器需求 → 記憶體」這條路徑存在。⚠ 記憶體主題的證據等級因此升級：notes/2026-08.md 於 2026-08-27 拒絕晉升為 driver 的理由是第三次佐證為二手引用，本次補上的是 NVIDIA 財務長的一手量化揭露。
+    fanout: >
+      逐檔定級（扇出的價值在於確認每檔都被檢查過，不在於每檔都產生輸出）：
+      **L1 — MU**：值不變但信心提高。NVIDIA 的 279 bn 採購承諾與 CFO 對記憶體成本的說明，
+        是本檔漲價循環第一個來自下游客戶財務長的一手量化證據。已出變更單。
+      **L0 — TSM／3324／6442／COHR／3037（硬體端，direction +）**：2027 capex 1.3 兆與
+        NVDA FY2028 +70% 都是對既有 base case 的**確認**而非改變，未觸及任何 key_variable 的
+        數值或信心門檻。依定級規則屬 L0，記一行不出報告。
+      **L0 — MSFT／GOOG／META（平台端，direction −）**：2027 capex 較 2026 增約 63% 意味更大的
+        折舊負擔，方向為負且與硬體端相反 —— 但這已在三檔各自的 thesis 內
+        （MSFT 的折舊年限、GOOG 的 205 bn 折舊未入帳、META 的費用剪刀差），未改變任何數值。
+        ⚠ 另有一個尚未量化的新角度：NVDA 明言供給受限而非需求受限，意味平台端的 capex
+        可能不是「想花多少」而是「能買到多少」—— 若成立，capex guidance 的資訊量會下降。
+        本次不改模型，列為觀察。
+      **L0 — SNDK**：間接受惠（NAND 屬資料中心儲存層，不在加速器 BOM 關鍵路徑），
+        強度低於 MU，與 coverage.yaml 對 memory 因子「同向但不等深」的註記一致。
+      **⚠ 不在此處理 — NVDA**：FY2028 +70% 指引、毛利率路徑、279 bn 承諾、資料中心拆解
+        （hyperscaler 48.7 + ACIE 40.3）全部是本檔自身的重大新資訊，且會改變 EPS 假設。
+        依 /driver 規則「個股自己的事件不走這裡」，**需另走 /cta NVDA 或 /revalue NVDA**。
+        本次僅更新共用層，未動 state/NVDA.yaml 的情境或訊號。
+      **n/a — 3017／AMZN**：在 transmission 內但無 state 檔（刻意保留的真實傳導對象）。
+      **不在 transmission — INTU（正確）／3008（⚠ 見下）**。
+      ⚠ 扇出時發現的結構問題：3008 帶 cpo 標籤且其 thesis 完全建立在 CPO 時程上，
+      但它不在 accelerator-roadmap 的 transmission 內，而 6442、COHR 都在。
+      本次未修正 —— 因為促成的證據不是這則消息，硬改會讓變更失去可追溯性。列為待辦。
   - {date: 2026-08-27, level: '—', summary: "首次填入數值。NVDA Q2 FY27 資料中心 89.0（+117% YoY、+18% QoQ）+ AMD Q2 2026 資料中心 6.7（+107% YoY）＝ 95.7，QoQ +18.1%。三條 falsifier 補上門檻與日期，均未觸發。扇出 7 檔全判 L0，0 份變更單", delta: "current 由缺口 → 95.7（推論，下限）；history 建立兩點序列；cross_check 判定未背離但加速器成長率（+116%）高於 capex（+77%）；transmission 新增 NVDA（direction '+'，內含 ASIC 反向成分）；why_shared 修正因 NVDA 納入覆蓋清單而失效的前提"}
   - {date: 2026-08-27, level: '—', summary: 建立驅動因子檔（結構先行，數值待 /brief 填入）, delta: 新增}
 
-last_updated: 2026-08-27
+last_updated: 2026-08-31

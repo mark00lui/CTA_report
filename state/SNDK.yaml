@@ -13,6 +13,14 @@ factor_tags:
 - ai_capex_hw
 - memory
 - cyclical
+driver_refs:
+- driver: ai-accelerator-demand
+  direction: '+'
+  note: >
+    加速器出貨 → 資料中心儲存需求 → NAND 合約價。領先 1–2 季。
+    ⚠ 2026-08-31 補入。強度低於 MU：NVIDIA 的 279 bn 採購承諾主要指向 HBM／DRAM，
+    NAND 屬間接受惠（資料中心建置的儲存層），不在加速器 BOM 的關鍵路徑上。
+    這與 coverage.yaml 對 memory 因子「同向但不等深」的註記一致。
 thesis: 成長有三分之二來自漲價而非出貨量，那是最容易回歸的一種；7x 是循環峰值定價而非便宜，爭點是 NBM 長約能把價格鎖多久
 thesis_since: 2026-08-27
 valuation_base_year: FY2027   # 可用算術鎖定：forward PE 7.00 × FY2027 共識 EPS 214.10 = 1,498.7，與 8/26 收盤 1,499.37 吻合

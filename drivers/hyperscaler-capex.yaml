@@ -103,6 +103,15 @@ equity_gain_distortion:
   tier: 事實
 
 transmission:
+  - ticker: '3037'
+    direction: '+'
+    path: >
+      capex → GPU/ASIC 投片 → ABF 載板需求。
+      ⚠ 本檔目前供給受限，需求上修不會立即轉為營收，只會轉為漲價與更長交期 ——
+      短期反應在價格不在量，看營收成長率會低估傳導強度，要看毛利率。
+    lag: 領先 2–3 季
+    sensitivity: 高
+    affects: ['ABF載板營收占比與成長', '毛利率']
   - ticker: COHR
     direction: '+'
     path: capex → 資料中心內外光互連埠數 → 收發器與光元件需求

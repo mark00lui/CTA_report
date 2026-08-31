@@ -63,6 +63,15 @@ cpo_layer_note:
   implication: "產業 CPO 放量 ≠ 任一供應商進入 BOM。五家 CPO 供應鏈的成員名單未公開，是本檔對 6442 傳導的最大斷點"
 
 transmission:
+  - ticker: '3037'
+    direction: '+'
+    path: >
+      平台節點與封裝規格 → ABF 載板層數、尺寸與良率要求。
+      ⚠ 本檔與 TSM 在此條 driver 上是**互補而非替代**：TSM 做晶片與 CoWoS，
+      本檔做承載它的載板；單機櫃功耗與晶片面積上行同時推升兩者的規格要求。
+    lag: 領先 3–4 季
+    sensitivity: 高
+    affects: ['ABF供需與漲價幅度', 'ABF載板營收占比與成長']
   - ticker: COHR
     direction: '+'
     path: >

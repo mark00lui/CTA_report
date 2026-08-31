@@ -65,6 +65,14 @@ cross_check:
         合計 725 連帶高估。修正後比值會更偏向加速器。
 
 transmission:
+  - ticker: '3037'
+    direction: '+'
+    path: >
+      加速器出貨 → 載板投片。⚠ 方向要看清楚：已認列的加速器營收對本檔是同步偏落後指標
+      （載板要先做出來），真正領先的是下一季 guidance 與長約 —— 與 TSM 的註記同構。
+    lag: 領先 2–3 季
+    sensitivity: 高
+    affects: ['ABF載板營收占比與成長', '月營收']
   - ticker: COHR
     direction: '+'
     path: >

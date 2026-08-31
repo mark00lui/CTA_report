@@ -1,0 +1,275 @@
+# 事實供給檔（feed）— 由 StockAnalyzer 產生，非 state，不進 state/ 目錄。
+#
+# 本檔只含觀測到的事實與來源鏈。不含論點、不含定級（L0-L3）、不含情境機率、
+# 不含訊號評級、不含價位建議。定級與報告一律由 /cta 執行，判斷責任在作者。
+#
+# 本檔不含任何倉位資訊。
+# 每個區塊的 tier_suggested 為建議值，最終由作者依 SKILL.md 來源階層裁定。
+meta:
+  generator: StockAnalyzer/cta_state_feed
+  contract_version: 1
+  ticker: '3324'
+  market: TW
+  generated_at: 2026-08-27
+  base_commit: d7f21a4
+technical:
+  as_of: 2026-08-27
+  source_chain:
+    origin: TWSE／TPEX 每日收盤行情
+    origin_rank: 1
+    channel: StockAnalyzer 本地日線（每交易日 17:30 更新）
+    tier_suggested: 事實
+  close: 1060.0
+  key_ma:
+    ma5: 1036.8
+    ma20: 1006.5
+    ma60: 995.8
+    ma120: 1014.8
+    ma240: 976.4
+  ma_above:
+  - ma5
+  - ma20
+  - ma60
+  - ma120
+  - ma240
+  ma_below: null
+  ma60_slope_5d: -3.9
+  ma60_direction: 下彎
+  range_52w:
+    high_intraday: 1305.0
+    low_intraday: 641.0
+    high_close: 1280.0
+    low_close: 643.0
+    pct_from_high_intraday: -18.8
+  volume_ratio_20d: 1.51
+  note: 收盤價序列，未還原除權息。還原係數見 corporate_actions。invalidation 與支撐壓力屬規則參數，由作者依本區塊自行選定，本檔不建議價位。
+valuation_percentile:
+  as_of: 2026-08-27
+  source_chain:
+    origin: TWSE 每日本益比／股價淨值比／殖利率
+    origin_rank: 1
+    channel: FinMind TaiwanStockPER（TWSE 序列鏡像，非原始端點）
+    tier_suggested: 推論
+    caveat: trailing 口徑，非 forward。與 state 中 forward 倍數不可直接比較
+  window:
+    start: 2021-06-15
+    end: 2026-08-27
+  per:
+    current: 24.45
+    percentile: 48
+    n: 1267
+    distribution:
+      min: 7.6
+      p10: 10.4
+      p25: 14.4
+      p50: 24.9
+      p75: 36.4
+      p90: 46.9
+      max: 65.5
+      mean: 26.82
+  pbr:
+    current: 7.44
+    percentile: 74
+    n: 1267
+    distribution:
+      min: 2.0
+      p10: 2.7
+      p25: 3.5
+      p50: 5.1
+      p75: 7.5
+      p90: 9.3
+      max: 11.8
+      mean: 5.65
+quarterly_financials:
+  source_chain:
+    origin: 公開資訊觀測站季報
+    origin_rank: 1
+    channel: FinMind TaiwanStockFinancialStatements
+    tier_suggested: 推論
+    caveat: 鏡像取得。若需 tier 事實，須回溯公開資訊觀測站原始報表
+  unit:
+    revenue: 億元新台幣
+    margin: '%'
+    eps: 元
+  series:
+  - quarter: 2025Q1
+    revenue: 44.15
+    gross_margin: 27.36
+    operating_margin: 12.76
+    eps: 5.66
+  - quarter: 2025Q2
+    revenue: 53.06
+    gross_margin: 26.13
+    operating_margin: 11.94
+    eps: 1.75
+  - quarter: 2025Q3
+    revenue: 59.58
+    gross_margin: 29.77
+    operating_margin: 16.66
+    eps: 10.66
+  - quarter: 2025Q4
+    revenue: 75.97
+    gross_margin: 26.37
+    operating_margin: 14.07
+    eps: 10.13
+  - quarter: 2026Q1
+    revenue: 85.52
+    gross_margin: 29.66
+    operating_margin: 17.77
+    eps: 12.61
+  - quarter: 2026Q2
+    revenue: 87.0
+    gross_margin: 28.42
+    operating_margin: 15.98
+    eps: 10.41
+  trailing_4q_eps: 43.81
+monthly_revenue:
+  source_chain:
+    origin: 公開資訊觀測站月營收公告
+    origin_rank: 1
+    channel: FinMind TaiwanStockMonthRevenue
+    tier_suggested: 推論
+  unit: 億元新台幣
+  derivation: rev 為一手金額；yoy／mom 為本檔導出值，基期金額一併列出以便逐項核對。若與既有 state 的 YoY 不符，請以能追溯基期的一方為準，勿直接覆蓋
+  series_complete: true
+  series:
+  - month: 2026-01
+    rev: 30.42
+    yoy: 121.58
+    yoy_base_month: 2025-01
+    yoy_base_rev: 13.73
+    mom: 7.81
+  - month: 2026-02
+    rev: 21.78
+    yoy: 66.95
+    yoy_base_month: 2025-02
+    yoy_base_rev: 13.05
+    mom: -28.39
+  - month: 2026-03
+    rev: 33.29
+    yoy: 91.73
+    yoy_base_month: 2025-03
+    yoy_base_rev: 17.36
+    mom: 52.83
+  - month: 2026-04
+    rev: 28.42
+    yoy: 40.9
+    yoy_base_month: 2025-04
+    yoy_base_rev: 20.17
+    mom: -14.62
+  - month: 2026-05
+    rev: 31.39
+    yoy: 93.75
+    yoy_base_month: 2025-05
+    yoy_base_rev: 16.2
+    mom: 10.43
+  - month: 2026-06
+    rev: 27.18
+    yoy: 62.13
+    yoy_base_month: 2025-06
+    yoy_base_rev: 16.76
+    mom: -13.41
+  - month: 2026-07
+    rev: 37.65
+    yoy: 116.7
+    yoy_base_month: 2025-07
+    yoy_base_rev: 17.38
+    mom: 38.54
+corporate_actions:
+  source_chain:
+    origin: TWSE／TPEX 除權除息公告
+    origin_rank: 1
+    channel: StockAnalyzer 公司行為事件表
+    tier_suggested: 事實
+  events:
+  - date: 2026-06-17
+    before_price: 1050.0
+    reference_price: 1038.1
+    value_cut: 11.9
+    factor: 0.988667
+    source: reference
+  note: 240 日均線窗口內若含除息，未還原時長天期均線會被低估相應幅度
+chips:
+  source_chain:
+    origin: TWSE／TPEX 三大法人買賣超與信用交易統計
+    origin_rank: 1
+    channel: StockAnalyzer 籌碼面板
+    tier_suggested: 事實
+  institutional_net:
+    as_of: 2026-08-26
+    unit: 股
+    cum_5d:
+      foreign: 976349
+      trust: 696000
+      dealer: 295238
+      total: 1967587
+    cum_20d:
+      foreign: 3576200
+      trust: 695319
+      dealer: 805839
+      total: 5077358
+  margin:
+    as_of: 2026-08-21
+    unit: 交易單位
+    balance: 5172
+    change_20d: -13
+    short_balance: 34
+  sbl:
+    as_of: 2026-08-21
+    unit: 股
+    sell_balance: 5302958
+    change_20d: -1736042
+calendar:
+  source_chain:
+    origin: 券商彙整之公司法說公告
+    origin_rank: 5
+    channel: StockAnalyzer 法說日曆（LLM 萃取）
+    tier_suggested: 推論
+    caveat: 二手彙整，原始表曾有重複列。寫入 checkpoints 前須回溯公司公告確認
+  events:
+  - date: '2026-06-01'
+    type: 法說會
+    confidence: 85
+    source: moneylink
+    status: 已發生
+  - date: '2026-08-19'
+    type: 法說會
+    confidence: 85
+    source: moneylink
+    status: 已發生
+state_diff:
+  compared_against: state/3324.yaml @ d7f21a4
+  note: 機械欄位對照，不含定級判斷。base commit 之後 state 若已更新，本區塊即過期
+  fields:
+  - field: cta.key_ma
+    state_value: __
+    observed: 五條均線齊備（見 technical.key_ma）
+  - field: cta.price
+    state_value: 1080
+    state_price_kind: 盤中或盤前（依 state 註記）
+    observed: 1060.0
+    observed_kind: 收盤
+    diff_pct: -1.85
+  - field: key_variables.液冷滲透率
+    state_value: 35.5
+    state_period: 2025Q3
+    state_tier: 事實
+    observed: 2026Q2 財報已可取得（見 quarterly_financials）
+    observed_period: 2026Q2
+  - field: key_variables.毛利率
+    state_value: 29.66
+    state_period: 2026Q1
+    state_tier: 事實
+    observed: 2026Q2 毛利率 28.42%
+    observed_period: 2026Q2
+  - field: monthly_revenue
+    state_value: 已填金額 ['2026-04', '2026-07']；序列項 ['2026-04', '2026-07']
+    observed:
+    - month: 2026-05
+      rev: 31.39
+      yoy: 93.75
+      mom: 10.43
+    - month: 2026-06
+      rev: 27.18
+      yoy: 62.13
+      mom: -13.41

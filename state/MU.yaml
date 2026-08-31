@@ -92,6 +92,18 @@ key_variables:
     在此之前的佐證是 Meta／Amazon 的 capex 歸因與 TrendForce 的二手引用。
     ⚠ 但 279 bn 中記憶體占多少未揭露（只說 primarily），無法換算為本檔的營收金額，
     故 HBM進度 這一格的**值不變**，僅提高信心。
+    ⚠ **2026-08-31 再補，且方向相反的兩件事同時出現**（值仍不變，本次亦為 L1）：
+    (+) 記憶體短缺獲得**最強形式的確認** —— NVIDIA 為此**重新設計產品**：Rubin Ultra 的 HBM 配置
+        自原本單一的 12-high HBM4E 擴大為 8-high HBM4E／12-high HBM4／8-high HBM4 等備案，
+        測試組態低至 192GB。一手報導（Tom's Hardware）明指原因為 as memory shortage bites back。
+        客戶願意犧牲規格來遷就供給，比任何價格數據都直接。
+    (−) **三星取得 NVIDIA 自訂記憶體 NVHBM 的早期領先**，正開發 8 層 HBM4E，
+        NVIDIA 訂的速度規格為 17–18 Gbps。NVHBM 將記憶體控制器移入 HBM base die，
+        相對標準 HBM4E 可達 +30% 頻寬、−15% 功耗，首次實作即在 Rubin Ultra（2027 下半）。
+        ⚠ 這對本欄記載的「管理層目標為 HBM 市占率接近其 DRAM 市占率」是直接的競爭訊息 ——
+        下一代自訂記憶體的首發夥伴不是本檔。
+    ⚠ 「早期領先」不等於獨家，SK 海力士與本檔的 NVHBM 進度均未取得，列入 gaps。
+    兩個訊號方向相反且都無法量化，故值不變、僅記錄。
   updated: 2026-08-27
 - name: 產業供給增速
   value: 曆年 2026 產業 DRAM bit 出貨成長約低至中 20%，Micron 自身供給大致與產業一致；2027 伺服器 DRAM 與 HBM 合計 bit 供給預估 +27%，部分新廠於 2027H2 放量
@@ -203,6 +215,11 @@ notes: 本檔在覆蓋清單中的角色是不對稱的 —— 它既是 AI 需�
   就是全產業最強的擴產誘因，Micron 自己 FY2027 每一季都在調高資本支出。
 
 event_log:
+- date: 2026-08-31
+  level: L1
+  summary: driver 扇出（accelerator-roadmap）— 兩個方向相反的訊號同時出現，目標價不變
+  delta: >
+    (+) 記憶體短缺獲最強確認：NVIDIA 為此**重新設計產品** —— Rubin Ultra 的 HBM 配置自原本單一 12-high HBM4E 擴大為 8-high HBM4E／12-high HBM4／8-high HBM4，測試組態低至 192GB，一手報導（Tom's Hardware）明指原因為 as memory shortage bites back。客戶願意犧牲規格遷就供給，比任何價格數據都直接。(−) 三星取得 NVIDIA 自訂記憶體 NVHBM 早期領先，開發 8 層 HBM4E、NVIDIA 訂速度規格 17–18 Gbps；NVHBM 將記憶體控制器移入 HBM base die，達 +30% 頻寬、−15% 功耗，首次實作即 Rubin Ultra（2027 下半）。⚠ 本檔 key_variable 記著「管理層目標為 HBM 市占率接近其 DRAM 市占率」—— 下一代自訂記憶體的首發夥伴不是本檔。⚠ 框架陷阱已記錄：引發本次更新的中文二手報導把同一件事寫成「設計哲學選擇」（主動少用記憶體），那與「供給受限」的投資含意**完全相反**（前者對本檔偏空、後者偏多）。採後者，因與 NVIDIA 法說三項揭露印證。⚠ 模型不動：兩個訊號方向相反且都無法量化 —— 短缺程度沒數字、三星領先幅度也沒有。「早期領先」不等於獨家，SK 海力士與本檔的 NVHBM 進度均未取得，已列 gaps，檢驗點為 2026-09-30 財報。
 - date: 2026-08-31
   level: L1
   summary: 全清單重估 — 更新現價與技術面，三情境與加權目標價未變

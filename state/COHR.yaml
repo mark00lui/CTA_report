@@ -143,6 +143,16 @@ key_variables:
     供 CPO 用的超高功率連續波雷射已投片，供 12 月當季出貨。
     ⚠ 這組時程是覆蓋清單中唯一的第一手 CPO 座標，可用以交叉驗證 6442 與 3008 的
     CPO 假設 —— 兩檔的時程目前都只有各自管理層的說法，沒有外部對照。
+    ⚠ **2026-08-31：本檔自己的時程也拿到外部驗證了，方向一致**（本次定級 L1，值不變）。
+    NVIDIA 下一代 Rubin Ultra NVL576 排定 **2027 下半**出貨，其 576 顆單一 NVLink domain
+    明載為 copper **and direct optical connections** —— 光學首次進入 scale-up 域。
+    而本檔管理層稱 scale-up 型 CPO 自**曆年 2027 下半**開始貢獻營收。
+    **兩個獨立來源的時點吻合**：一個是供應商自述，一個是客戶端的產品 roadmap。
+    ⚠ 這修正了 drivers/accelerator-roadmap 原本的記載 —— 該檔 cpo_layer_note 原寫
+    「scale_up 仍為銅，CPO 尚未進入 scale-up 域」，那在 Rubin 世代成立、在 Rubin Ultra 世代
+    不成立，已一併更正。
+    ⚠ 但仍有一個關鍵未知：576 顆 domain 中「銅纜 + 直接光連接」的光學占比未揭露，
+    這決定 CPO 在 scale-up 的實際 BOM 價值量 —— 時點對上了，金額還沒。
   updated: 2026-08-27
 - name: 訂單能見度
   value: FY2027 實質售罄；客戶訂單延伸至曆年 2028；長約至本十年末，含逐年遞增的 take-or-pay 最低採購量
@@ -292,6 +302,11 @@ notes: >
   的情形，下次修訂應補上。
   ｜Beta（5年）2.11 為覆蓋清單最高。共同前提若鬆動，本檔的反應會被放大。
 event_log:
+- date: 2026-08-31
+  level: L1
+  summary: driver 扇出（accelerator-roadmap）— CPO 時程首獲客戶端 roadmap 外部驗證，目標價不變
+  delta: >
+    NVIDIA Rubin Ultra NVL576 排定 2027 下半出貨，其 576 顆單一 NVLink domain 明載為 copper and direct optical connections —— 光學首次進入 scale-up 域。而本檔管理層稱 scale-up 型 CPO 自曆年 2027 下半開始貢獻營收。**兩個獨立來源的時點吻合**：一個是供應商自述，一個是客戶端產品 roadmap。建檔時本檔的研究價值被寫成「唯一能提供第一手 CPO 時程、可交叉驗證 6442 與 3008」，本次是反過來 —— 本檔自己的說法拿到了外部座標。⚠ 順帶更正 drivers/accelerator-roadmap 的 cpo_layer_note：原記「scale_up 仍為銅，CPO 尚未進入 scale-up 域」在 Rubin 世代成立、在 Rubin Ultra 世代不成立，已改為「銅光並用」並註明時點須分開講。⚠ 模型完全不動：576 顆 domain 中光學占比未揭露 —— 時點對上了，金額還沒，而 BOM 價值量才是能進模型的東西。信心維持低，建檔時的四個理由一個都沒被解決。⚠ 第三條 falsifier（CPO 初期營收未於 2026 年 12 月當季認列）不受影響 —— 那是 scale-out，本則講 scale-up，不同產品層。
 - date: 2026-08-31
   level: L1
   summary: 全清單重估 — 更新現價與技術面，三情境與加權目標價未變

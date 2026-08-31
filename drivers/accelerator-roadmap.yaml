@@ -57,10 +57,51 @@ history:   # 時程類變數看的是「延期或提前的次數與幅度」，�
 # 不是 GPU 機櫃內的 scale-up 互連 —— Rubin 的 NVLink 6 仍是銅。
 # 兩者的埠數量級、供應商結構、驗證門檻都不同。
 # 引用本檔支撐任何 CPO 論點前，先確認你指的是哪一層；混用會高估可及市場。
+rubin_ultra_spec:   # 2026-08-31 新增 —— 此前本 driver 對 Rubin Ultra 只有「排定 2027、約 600kW」
+  as_of: 2026-08-31
+  tier: 推論
+  platform: Vera Rubin Ultra NVL576（Kyber 機櫃架構）
+  timing: 2027 下半（較前記的「排定 2027」更精確；相對最近一次官方時程未遞延，第一條 falsifier 不觸發）
+  scale_up_domain: >
+    自 Rubin NVL144 的 144 顆擴大至 **576 顆**單一 NVLink domain（相對 GB300 NVL72 為 8 倍）。
+    由 8 個 MGX NVL 機櫃（各 72 顆）組成，採兩層 all-to-all NVLink 拓撲。
+  power_and_rack: >
+    600kW／櫃（與前記一致）。Kyber 架構將運算刀鋒旋轉 90 度改為垂直配置，
+    4 個 pod × 18 刀鋒，每刀 8 顆 Rubin Ultra GPU 搭配 Vera CPU。
+    供電自機房到機櫃改為 800 VDC，同一銅線可多傳 150% 功率。
+  compute_and_memory: >
+    15 EF FP4 推論／5 EF FP8 訓練，較 GB300 NVL72 提升 14 倍；HBM 頻寬 4.6 PB/s、
+    fast memory 365TB。單 GPU 為 4 顆光罩尺寸晶片、最高 100 PFLOPs FP4、
+    1TB HBM4 跨 16 個 HBM sites。
+  nvhbm: >
+    NVIDIA 自訂記憶體 NVHBM：將記憶體控制器移入 HBM base die，騰出 XPU 面積，
+    相對標準 HBM4E 可達 +30% 頻寬、−15% 功耗。首次實作即在 Rubin Ultra。
+    三星電子取得早期領先，正開發 8 層 HBM4E，NVIDIA 訂的速度規格為 17–18 Gbps
+    （較三星初期 HBM4E 樣品的 14.4 Gbps 高約 20%）。
+  memory_config_options: >
+    ⚠ 這一項的因果關係，引發本次更新的二手中文報導寫反了，必須記正確。
+    NVIDIA 將 Rubin Ultra 的 HBM 配置自原本單一的 12-high HBM4E，擴大為多個備案：
+    8-high HBM4E、12-high HBM4、8-high HBM4，測試中的組態低至 192GB。
+    該中文報導把它寫成設計哲學選擇（「優先提升傳輸速度而非堆疊層數，接受單 GPU 容量下降，
+    靠多 GPU 互連補回算力」）。但一手英文報導（Tom's Hardware）的標題是
+    as memory shortage bites back —— 原因是記憶體短缺，不是設計偏好。
+    兩種框架的投資含意相反：
+    設計選擇 → NVIDIA 主動選擇少用記憶體 → 單 GPU 記憶體含量結構性下降 → 對記憶體廠偏空；
+    供給受限 → NVIDIA 買不到足夠記憶體 → 需求大於供給 → 對記憶體價格偏多，但壓抑 NVIDIA 出貨。
+    採後者。理由：它與 2026-08-26 NVIDIA 法說的三項揭露互相印證 —— 採購承諾自 119 增至
+    279 bn 且 primarily memory、毛利率因記憶體成本自 74% 滑至 Q4 觸底 71–72%、
+    黃仁勳明言 FY2028 +70% 是供給受限。四件事放在一起，
+    「NVIDIA 的供給瓶頸有相當部分就是記憶體」這個推論才成立。
+  gaps: >
+    ⚠ 576 顆 domain 的「銅纜 + 直接光連接」中，光連接占多少比例未揭露 ——
+    這決定 CPO 在 scale-up 的實際 BOM 價值量。
+    ⚠ 8 層與 12 層的最終選擇未定，NVIDIA 仍在測試多個備案。
+    ⚠ 三星「早期領先」不等於獨家；SK 海力士與美光的 NVHBM 進度未取得。
+
 cpo_layer_note:
   scale_out: {status: 已量產, detail: "Spectrum-X Ethernet Photonics 全面量產、2026 秋出貨；Quantum-X InfiniBand 2026 年內", tier: 推論}
-  scale_up:  {status: 仍為銅, detail: "Rubin 採 NVLink 6 銅纜；CPO 尚未進入 scale-up 域", tier: 推論}
-  implication: "產業 CPO 放量 ≠ 任一供應商進入 BOM。五家 CPO 供應鏈的成員名單未公開，是本檔對 6442 傳導的最大斷點"
+  scale_up:  {status: "⚠ 2026-08-31 修正：自「仍為銅」改為「銅光並用，光學開始進入」", detail: "現行 Rubin 採 NVLink 6 銅纜，該部分不變。但下一代 Rubin Ultra NVL576（2027 下半）的 576 顆單一 NVLink domain 明載為 copper and direct optical connections —— 光學已進入 scale-up 域，非仍為純銅。前一版寫「CPO 尚未進入 scale-up 域」在 Rubin 世代成立、在 Rubin Ultra 世代不成立，時點必須分開講。", tier: 推論}
+  implication: "產業 CPO 放量 ≠ 任一供應商進入 BOM。五家 CPO 供應鏈的成員名單未公開，是本檔對 6442 傳導的最大斷點。⚠ 2026-08-31 新增一條交叉驗證：COHR 管理層稱 scale-up 型 CPO 自曆年 2027 下半開始貢獻營收，而 Rubin Ultra NVL576（需要光學進入 scale-up）排定 2027 下半 —— 兩個獨立來源的時點吻合。這是覆蓋清單中 cpo 三檔（6442／3008／COHR）第一次拿到來自客戶端 roadmap 的外部座標，而非只有各自管理層的說法。"
 
 transmission:
   - ticker: '3037'
@@ -168,9 +209,54 @@ fanout_2026_08_27:
      why: "Rubin 換代是 NVDA 自己的時程，非外生變數。其 Q3 毛利率指引 75.0%→74.0% 與 Rubin 開始出貨落在同一季，換代爬坡是該下行的候選解釋之一 —— 但這是待驗證的推論，屬 /revalue NVDA 的工作，不在本次扇出改任何值"}
 
 event_log:
+  - date: 2026-08-31
+    summary: 新增 Rubin Ultra NVL576 完整規格；⚠ 更正 cpo_layer_note 的 scale_up 狀態（仍為銅 → 銅光並用）；⚠ 更正二手報導寫反的因果關係
+    delta: >
+      此前本 driver 對 Rubin Ultra 只有「排定 2027、約 600kW」。本次補齊：
+      scale-up domain 自 144 顆擴大至 576 顆（相對 GB300 NVL72 為 8 倍）、Kyber 垂直刀鋒架構、
+      800 VDC 供電（同銅線多傳 150% 功率）、15 EF FP4／5 EF FP8（較 GB300 NVL72 提升 14 倍）、
+      單 GPU 為 4 顆光罩尺寸晶片與 1TB HBM4 跨 16 個 HBM sites、NVHBM 將記憶體控制器移入
+      HBM base die（+30% 頻寬、−15% 功耗）、三星取得早期領先開發 8 層 HBM4E、
+      NVIDIA 訂速度規格 17–18 Gbps。時點自「2027」精確為「2027 下半」，未遞延，第一條 falsifier 不觸發。
+      ⚠ **本次最重要的實質修正**：cpo_layer_note 的 scale_up 原記「仍為銅，CPO 尚未進入 scale-up 域」。
+      Rubin Ultra NVL576 的 576 顆單一 NVLink domain 明載為 copper **and direct optical connections** ——
+      光學已進入 scale-up 域。原記述在 Rubin 世代成立、在 Rubin Ultra 世代不成立，時點必須分開講。
+      ⚠ **二手報導的因果關係寫反了**：引發本次更新的中文報導把「HBM 配置自單一 12-high 擴大為
+      8-high HBM4E／12-high HBM4／8-high HBM4，測試低至 192GB」寫成設計哲學選擇（優先速度而非層數）。
+      一手英文報導（Tom's Hardware）的標題是 as memory shortage bites back —— 原因是記憶體短缺。
+      兩種框架對記憶體廠的投資含意**相反**（主動少用 = 偏空；買不到 = 偏多）。採後者，
+      因為它與 2026-08-26 NVIDIA 法說的三項揭露互相印證：279 bn 採購承諾 primarily memory、
+      毛利率因記憶體成本觸底 71–72%、黃仁勳明言 +70% 是供給受限。
+      這是今日第四次抓到二手來源的問題（前三次：3413/3189 代號、NVDA 分部湊等式、成長率並列）。
+    fanout: >
+      逐檔定級：
+      **L1 — COHR**：本 driver 的時點與該檔管理層說法**互相驗證**。COHR 稱 scale-up 型 CPO 自曆年
+        2027 下半開始貢獻，而 Rubin Ultra NVL576（需光學進入 scale-up）排定 2027 下半 ——
+        兩個獨立來源吻合。這是 cpo 三檔第一次拿到來自**客戶端 roadmap** 的外部座標。已出變更單。
+      **L1 — MU**：兩個方向相反的訊號同時出現。(+) 記憶體短缺經客戶重新設計產品而確認，
+        比任何價格數據都直接；(−) 三星取得 NVHBM 早期領先，而本檔 key_variable HBM進度 記著
+        「管理層目標為 HBM 市占率接近其 DRAM 市占率」—— NVIDIA 自訂記憶體的首發夥伴不是本檔。
+        已出變更單。
+      **L0 — 6442／3008**：同屬 cpo 因子，方向與 COHR 一致（光學進入 scale-up 是利多），
+        但兩檔都缺乏可對照的自身時程揭露 —— 6442 只有管理層說法、3008 的 CPO 尚未貢獻營收。
+        沒有可更新的 key_variable 數值或可驗證的信心變化，故 L0。
+        ⚠ 3008 仍不在本 driver 的 transmission 內（2026-08-31 稍早已標記為待辦，本次仍未修正，
+        理由同前：促成的證據不是這則消息）。
+      **L0 — 3324**：600kW 與 Kyber 架構確認散熱需求續增，但 600kW 早已在 current，
+        且時點在 2027 下半、遠在本檔基準年 2026 之外。第二條 falsifier（下一代功耗低於現行）
+        更加不觸發。
+      **L0 — TSM**：4 顆光罩尺寸晶片與 16 個 HBM sites 意味先進封裝需求續增，方向已在模型內。
+      **L0 — 3037**：4 顆光罩尺寸晶片使載板面積大增，對本檔是實質利多 —— 但時點 2027 下半，
+        遠在基準年 2026 之外，且無可量化的單位價值量揭露。記一行。
+      **L0 — NVDA**：記憶體短缺迫使產品組態下修（測試低至 192GB），這解釋了「+70% 是供給受限」
+        的來源。⚠ 但本日稍早已完成 NVDA 全量重估，且我在該次把 FY2028 +70% 指引當成調高倍數的
+        理由之一 —— 本則沒有推翻它（Jensen 說的 70% 已內含供給限制），但增加一個風險：
+        記憶體若進一步惡化，70% 會鬆動。已在此記錄，不重跑模型。
+      **L0 — MSFT／GOOG／META**：記憶體短缺推升單位算力成本，屬既有的「記憶體排擠 capex」主題，
+        未改變任何數值。**L0 — SNDK**：NAND 非 HBM，本則不涉及。**L0 — INTU**：不相關。
   - {date: 2026-08-27, level: '—',
      summary: "首次填入數值。現行 GB300 NVL72 132–142kW；Vera Rubin 全面量產、Q3 FY27 出貨、NVL144 約 190kW；Rubin Ultra 2027 約 600kW。scale-out CPO 已量產，scale-up 仍為銅。三條 falsifier 補上門檻與日期，均未觸發",
      delta: "current 由缺口 → 質性描述（推論）；四個 components 全部填值並逐項標 tier；新增 cpo_layer_note 區分 scale-out 與 scale-up；transmission 新增 NVDA 並於 TSM 條目補上 TSMC COUPE 路徑；扇出 3324 L1、6442 L1、TSM L0、NVDA L0"}
   - {date: 2026-08-27, level: '—', summary: 建立驅動因子檔（結構先行，數值待 /brief 填入）, delta: 新增}
 
-last_updated: 2026-08-27
+last_updated: 2026-08-31

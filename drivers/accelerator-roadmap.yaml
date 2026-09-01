@@ -132,6 +132,17 @@ cpo_layer_note:
   implication: "產業 CPO 放量 ≠ 任一供應商進入 BOM。五家 CPO 供應鏈的成員名單未公開，是本檔對 6442 傳導的最大斷點。⚠ 2026-08-31 新增一條交叉驗證：COHR 管理層稱 scale-up 型 CPO 自曆年 2027 下半開始貢獻營收，而 Rubin Ultra NVL576（需要光學進入 scale-up）排定 2027 下半 —— 兩個獨立來源的時點吻合。這是覆蓋清單中 cpo 三檔（6442／3008／COHR）第一次拿到來自客戶端 roadmap 的外部座標，而非只有各自管理層的說法。"
 
 transmission:
+  - ticker: '6239'
+    direction: '+'
+    path: >
+      先進封裝規格世代 → FOPLP 與 DDR5 TSV 的導入時點。
+      公司目標 2027 年中前成為全球第一家量產面板級扇出型封裝 AI 應用的專業封測廠；
+      DDR5 的 TSV 互連已完成試產、2026 Q4 量產，為 HBM 技術累積基礎。
+      ⚠ 與 TSM 在先進封裝上是**不同層級**：TSM 做 CoWoS 等晶圓級，本檔是 OSAT 的
+      面板級與記憶體封裝，兩者不直接競爭。
+    lag: 領先 3–4 季
+    sensitivity: 高（FOPLP 與 TSV 是本檔 thesis 的核心路徑）
+    affects: ['FOPLP與DDR5_TSV進度', '資本支出強度']
   - ticker: '8046'
     direction: '+'
     path: >

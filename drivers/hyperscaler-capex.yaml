@@ -135,6 +135,15 @@ equity_gain_distortion:
   tier: 事實
 
 transmission:
+  - ticker: '8046'
+    direction: '+'
+    path: >
+      capex → GPU/ASIC 投片 → ABF 載板需求。⚠ 與 3037 同為供給受限，需求上修先反映在漲價
+      與交期而非出貨量。但本檔有一個 3037 沒有的槓桿：稼動率僅逾八成，量能尚未滿載，
+      漲價與稼動率可同時上行，傳導強度理論上高於 3037。
+    lag: 領先 2–3 季
+    sensitivity: 高
+    affects: ['IC載板營收占比', '毛利率', '產能稼動率']
   - ticker: '3037'
     direction: '+'
     path: >

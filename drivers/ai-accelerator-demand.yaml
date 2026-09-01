@@ -157,6 +157,14 @@ cross_check:
         合計 725 連帶高估。修正後比值會更偏向加速器。
 
 transmission:
+  - ticker: '8046'
+    direction: '+'
+    path: >
+      加速器出貨 → 載板投片。⚠ 已認列的加速器營收對本檔是同步偏落後指標（載板要先做出來），
+      真正領先的是下一季 guidance 與長約 —— 與 TSM、3037 的註記同構。
+    lag: 領先 2–3 季
+    sensitivity: 高
+    affects: ['IC載板營收占比', '月營收']
   # ⚠ MU 與 SNDK 於 2026-08-31 補入。此前兩檔在覆蓋清單內卻不在任何 driver 的 transmission，
   # 是一個結構缺口 —— 而 NVIDIA 於 2026-08-26 揭露採購承諾自 119 增至 279 bn、
   # 明言 primarily related to the procurement of memory，等於用一手證據證明了這條路徑存在。

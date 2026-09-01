@@ -132,6 +132,15 @@ cpo_layer_note:
   implication: "產業 CPO 放量 ≠ 任一供應商進入 BOM。五家 CPO 供應鏈的成員名單未公開，是本檔對 6442 傳導的最大斷點。⚠ 2026-08-31 新增一條交叉驗證：COHR 管理層稱 scale-up 型 CPO 自曆年 2027 下半開始貢獻營收，而 Rubin Ultra NVL576（需要光學進入 scale-up）排定 2027 下半 —— 兩個獨立來源的時點吻合。這是覆蓋清單中 cpo 三檔（6442／3008／COHR）第一次拿到來自客戶端 roadmap 的外部座標，而非只有各自管理層的說法。"
 
 transmission:
+  - ticker: '8046'
+    direction: '+'
+    path: >
+      平台節點與封裝規格 → ABF 載板層數、尺寸與良率要求。⚠ Rubin Ultra 的單 GPU 為 4 顆
+      光罩尺寸晶片、1TB HBM4 跨 16 個 HBM sites，載板面積與層數需求大增 ——
+      但時點在 2027 下半，遠在本檔基準年之外。
+    lag: 領先 3–4 季
+    sensitivity: 高
+    affects: ['ABF與BT漲價幅度', 'IC載板營收占比']
   - ticker: '3037'
     direction: '+'
     path: >

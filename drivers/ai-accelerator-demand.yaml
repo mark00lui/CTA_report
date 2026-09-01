@@ -51,7 +51,7 @@ components:
           教訓：**兩個數字剛好對得上，不代表它們是同一個東西的兩種寫法**；
           在把加總關係寫成事實之前，要先檢查它是否有第三個成分被漏掉。
   - {name: AMD Data Center, value: 6.7,
-     guidance: "管理層稱資料中心於 2026 下半年加速；Q3 分部指引未於本次取得（見 gaps）",
+     guidance: "管理層稱資料中心於 2026 下半年加速；Q3 分部指引未於本次取得（見 gaps）。⚠ 2026-09-01 補入一則具體部署證據（值不變，屬 guidance 的佐證非新數字）：AMD 於 2026-08-31 官方新聞稿宣布，沙烏地 HUMAIN（PIF 旗下公司）以 AMD Instinct MI355X GPU 搭配 EPYC CPU、Cisco Silicon One 網路（N9000 系列互連）的 AI 算力已在沙烏地投產，採 GPU-as-a-Service 模式。下一階段自 2027 年起部署最多 250 MW，2030 年目標最多 1 GW。這是本 driver 首次記錄到 AMD 在主權 AI 案的具體落地，而非僅有分部營收合計。⚠ 但未揭露金額、GPU 數量與交付排程，故無法換算為任一季營收，不進 current。",
      source: "AMD Q2 2026 財報 2026-08-04；+107% YoY，占總營收 58%；分部營益 2.1（去年同期虧損 0.155）；MI350 出貨、MI400 系列發表",
      as_of: 2026-08-04}
   - {name: 自研 ASIC（TPU／Trainium／MTIA）, value: __, guidance: "__", source: "__", as_of: __}
@@ -132,6 +132,20 @@ cross_check:
     加速器合計 +116% YoY，四大 CSP capex +77% YoY。若口徑可比，這意味 capex 中
     流向運算的比重正在上升 —— 對硬體端而言是「每一元 capex 的含金量提高」，屬正面。
   caveats: >
+    ⚠ 2026-09-01 補：第 (1) 條的 caveat 首次拿到**具體實例** —— 沙烏地 HUMAIN（PIF 旗下）的
+    AMD MI355X 算力已投產，2027 年起擴至最多 250 MW、2030 年目標最多 1 GW。它既不在四大 CSP
+    capex 的分母裡，也不在 NVDA 的營收裡（用的是 AMD）。此前這條 caveat 只有 NVDA 的 ACIE
+    分部總數（40.3、+138%），沒有可指認的個案。
+    ⚠ 兩個延伸觀察：
+    (a) 主權 AI 的資金來源是主權基金而非企業現金流，因此它對 hyperscaler-capex 的 falsifier
+        （任兩家 CSP 同季下修 capex）**免疫** —— 共同前提失效時這一塊不會同步縮手。
+        這是覆蓋清單 common_premise 之外的一條需求，也是目前唯一被記錄到的一條。
+    (b) ⚠ 在供給受限的環境下（NVDA 已明言 FY2028 +70% 為供給上限），新增的主權買家是與平台端
+        **競爭同一批產能** —— 對 MSFT／GOOG／META 是邊際負面。但無法量化，僅記錄。
+    ⚠ 另記一個計量方式的轉變：本案的規模以 **MW** 表述（250 MW／1 GW），不是 GPU 顆數也不是
+    金額。對照同期的 NVIDIA Rubin Ultra（600kW／櫃、800 VDC），**MW 正在成為 AI 算力的共同
+    計量單位**。這對 accelerator-roadmap 的 power_architecture 與 coverage.yaml 記錄的
+    「電力鏈零曝險」缺口是同一條線索。
     上述比較有兩個口徑問題，未解決前不得當成結論，只能列為觀察：
     (1) 分子涵蓋範圍大於分母。NVDA 的客戶不限於四大 CSP —— 其 AI Clouds／
         Industrial & Enterprise 營收 +138% YoY 至 40.3（含主權、AI-native、企業），
@@ -289,6 +303,43 @@ fanout_2026_08_27:
      why: "本檔的主要成分就是 NVDA 的認列營收，對它而言不是外生變數。NVDA 的三情境與訊號另由 /revalue 建立（本次僅補上 driver_refs 完成雙向引用）"}
 
 event_log:
+  - date: 2026-09-01
+    summary: 沙烏地 HUMAIN 的 AMD MI355X 算力投產（2027 起 250 MW、2030 目標 1 GW）— current 不變，補上主權 AI 需求的首個具體實例
+    delta: >
+      current 95.7 不動 —— 本則是**部署投產**不是營收揭露，且未揭露金額、GPU 數量與交付排程，
+      無法換算為任一季營收。三條 falsifier 均未觸發。
+      事實（來源為 AMD 官方新聞稿 2026-08-31，非二手轉述）：HUMAIN（PIF 旗下公司）以
+      AMD Instinct MI355X GPU + EPYC CPU + Cisco Silicon One 網路（N9000 系列互連）
+      的 AI 算力已在沙烏地投產，採 GPU-as-a-Service 模式；下一階段自 2027 年起部署最多
+      250 MW，2030 年目標最多 1 GW。
+      ⚠ **本則的價值不在數字，在於它填上了 cross_check 一個標了 caveat 卻沒有實例的洞。**
+      該條 caveat 原文為「分子涵蓋範圍大於分母：NVDA 客戶不限四大 CSP（其 ACIE 營收
+      +138% YoY 至 40.3，含主權與 AI-native），這些不在四大 capex 的分母裡」——
+      此前只有分部總數，沒有可指認的個案。HUMAIN 正是那個個案，而且**用的是 AMD 不是 NVDA**，
+      連分子那一半都不在 NVDA 的營收裡。
+      ⚠ 兩個延伸觀察已寫入 cross_check：
+      (a) 主權 AI 的資金來源是**主權基金而非企業現金流**，對 hyperscaler-capex 的 falsifier
+          （任兩家 CSP 同季下修 capex）**免疫** —— 共同前提失效時這一塊不會同步縮手。
+          這是覆蓋清單 common_premise 之外目前唯一被記錄到的一條需求。
+      (b) 在供給受限環境下，新增的主權買家與平台端**競爭同一批產能**，對 MSFT／GOOG／META
+          是邊際負面 —— 方向與硬體端相反，但無法量化，僅記錄。
+      ⚠ 另記一個計量方式的轉變：本案規模以 **MW** 表述（250 MW／1 GW），不是 GPU 顆數也不是
+      金額。對照同期的 NVIDIA Rubin Ultra（600kW／櫃、800 VDC），MW 正在成為 AI 算力的共同
+      計量單位。這與 accelerator-roadmap 的 power_architecture、以及 coverage.yaml 記錄的
+      「電力鏈零曝險」缺口是同一條線索。
+    fanout: >
+      逐檔定級：**全數 L0，無任何標的達 L1，不出個股報告。**
+      本則沒有改變任何 key_variable 的數值 —— 未揭露金額、顆數與排程。
+      **NVDA**：這是競爭對手拿下的主權案。NVDA 的 ACIE 分部（40.3、+138%）本就含主權，
+        本案只是流向 AMD 的一件。不改任何數值，記一行。
+      **TSM**：⚠ 值得指出的一點 —— AMD MI355X 同樣在台積電投片，**加速器供應商之間的
+        競爭移轉對本檔是中性的**。這與本 driver 第三條 falsifier 的 action 欄所寫
+        「對 TSM 中性（都在台積電投片）」一致，本案是該判斷的第一個實例。
+      **3324／6442／COHR／3037**：MI355X 系統需散熱、光互連與載板，但未揭露供應商，
+        且 Cisco 網路不必然採 CPO。無可更新的數值。
+      **MSFT／GOOG／META**：見上方 (b)，方向為邊際負面但無法量化。
+      **MU／SNDK**：加速器部署增加對記憶體是邊際正面，量級不明。
+      **INTU／3008**：不相關。
   - date: 2026-08-31
     summary: 週事件節錄補入 — 更正上一輪的分部拆解錯誤；新增 AWS 200 萬顆 GPU、季增金額收斂的反向訊號、以及記憶體供給側的大摩警告
     delta: >
@@ -351,4 +402,4 @@ event_log:
   - {date: 2026-08-27, level: '—', summary: "首次填入數值。NVDA Q2 FY27 資料中心 89.0（+117% YoY、+18% QoQ）+ AMD Q2 2026 資料中心 6.7（+107% YoY）＝ 95.7，QoQ +18.1%。三條 falsifier 補上門檻與日期，均未觸發。扇出 7 檔全判 L0，0 份變更單", delta: "current 由缺口 → 95.7（推論，下限）；history 建立兩點序列；cross_check 判定未背離但加速器成長率（+116%）高於 capex（+77%）；transmission 新增 NVDA（direction '+'，內含 ASIC 反向成分）；why_shared 修正因 NVDA 納入覆蓋清單而失效的前提"}
   - {date: 2026-08-27, level: '—', summary: 建立驅動因子檔（結構先行，數值待 /brief 填入）, delta: 新增}
 
-last_updated: 2026-08-31
+last_updated: 2026-09-01

@@ -33,6 +33,10 @@ MIN_FALSIFIERS = 2
 VALID_TIERS = {"事實", "推論", "假設", "缺口"}
 VALID_SIGNAL = {"偏多", "中性", "偏空"}
 VALID_CONVICTION = {"高", "中", "低"}
+VALID_QUADRANT = {"Q1", "Q2", "Q3", "Q4"}
+# 象限判準見 .claude/skills/cta-research/references/valuation-map.md 第二部分。
+# Q1 盈餘倍數／Q2 現金流與企業價值／Q3 資產與循環／Q4 營收與選擇權。
+FRAME_REVIEW_DAYS = 120   # 象限與方法組合超過這個天數沒複核就提示
 
 errors, warns, notes = [], [], []
 
@@ -121,6 +125,56 @@ def check_thesis(path, d):
         notes.append(f"{path}: thesis 尚未寫定")
     elif len(str(t)) > 120:
         warns.append(f"{path}: thesis 超過 120 字 — 寫不成一句話代表論點還沒想清楚")
+
+
+def check_valuation_frame(path, d):
+    """估值方法組合（象限＋族群＋方法）是否宣告且近期複核過。
+
+    刻意只發 NOTE 不發 ERROR：這一欄是 2026-09-01 才引入的，
+    既有檔案本來就沒有，用 ERROR 會一次擋下全部 commit。
+    但它必須每次執行都出現在輸出裡 —— 看不見的無知會被當成判斷使用。
+    """
+    vf = d.get("valuation_frame")
+    if not isinstance(vf, dict) or not vf:
+        notes.append(
+            f"{path}: 未宣告 valuation_frame（象限／族群／方法組合）"
+            " — 見 references/valuation-map.md"
+        )
+        return
+
+    q = vf.get("quadrant")
+    if is_placeholder(q):
+        notes.append(f"{path}: valuation_frame.quadrant 未填")
+    elif str(q) not in VALID_QUADRANT:
+        warns.append(
+            f"{path}: valuation_frame.quadrant「{q}」不在 {sorted(VALID_QUADRANT)}"
+        )
+
+    methods = vf.get("methods") or {}
+    if not methods.get("primary") or is_placeholder(methods.get("primary")):
+        notes.append(f"{path}: valuation_frame.methods.primary 未填")
+    if not methods.get("secondary") or is_placeholder(methods.get("secondary")):
+        notes.append(
+            f"{path}: valuation_frame.methods.secondary 未填"
+            " — 單一方法無法交錯驗證"
+        )
+
+    # 至少要跨一個軸，否則兩個方法會因為同一個理由一起失效
+    axes = vf.get("axes_crossed") or []
+    if not axes:
+        notes.append(
+            f"{path}: valuation_frame.axes_crossed 未填"
+            " — 兩個方法若因同一理由失效，交錯驗證是假的"
+        )
+
+    r = as_date(vf.get("reviewed"))
+    if r is None:
+        notes.append(f"{path}: valuation_frame.reviewed 未填或格式非 YYYY-MM-DD")
+    elif (date.today() - r).days > FRAME_REVIEW_DAYS:
+        warns.append(
+            f"{path}: 估值方法組合已 {(date.today() - r).days} 天未複核"
+            f"（門檻 {FRAME_REVIEW_DAYS} 天）— 象限會漂移，方法要跟著換"
+        )
 
 
 def count_gaps(d, prefix=""):
@@ -279,6 +333,7 @@ def main():
         check_scenarios(rel, d)
         check_key_vars(rel, d)
         check_falsifiers(rel, d)
+        check_valuation_frame(rel, d)
 
         lu = as_date(d.get("last_updated"))
         if lu is None:

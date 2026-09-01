@@ -63,3 +63,47 @@ bear 與 bull 錨在「市場實際付過的價」是好做法（52 週低點當
 平台端與硬體端不是分散，是**同一條產業鏈的兩端**：capex 縮手時兩邊一起受傷，只是時序不同。
 
 `state/coverage.yaml` 的因子分析以**等權覆蓋**為基準（每檔 1/n）。那是覆蓋清單的結構描述，與任何實際配置無關 — 本倉庫不記錄配置。
+
+## `valuation_frame` — 估值方法組合
+
+**建檔時決定，每次 `/revalue` 複核。** 判準與處方見 `references/valuation-map.md`。
+
+```yaml
+valuation_frame:
+  quadrant: Q3
+  quadrant_basis: "capex／營收 50%（2026 計畫 500 億元 ÷ 營收預估 998 億元）；每股自由現金流 -14.78 元；cyclical"
+  quadrant_since: 2026-09-01
+  peer_group: 封測 OSAT
+  peers: ["日月光 3711", "京元電 2449", "超豐 2441（⚠ 本檔子公司）"]
+  rank_metrics: [先進封裝營收占比, 客戶層級, 資本支出強度與 FCF]
+  methods:
+    primary: 同業中位數 forward PE（官股投顧同一份報告 23.8／28／42x）
+    secondary: 自身歷史 trailing PE（3 年平均 16.5x，現況 28.11x）
+    check: Gordon 合理 PB（(ROE-g)/(r-g)）
+  axes_crossed: [參照]
+  excluded: "⚠ 不做 DCF（Q3 循環股，中週期 FCF 拿不到）；不算 PEG（g 在循環兩端趨近 ±∞）"
+  reviewed: 2026-09-01
+```
+
+**欄位語意**
+
+| 欄位 | 意義 | ⚠ 常見錯誤 |
+|---|---|---|
+| `quadrant` | Q1–Q4，決定用哪一類方法 | 建檔後就沒再看過。**象限會漂移** |
+| `quadrant_basis` | 判準**要指名數值** | 寫「資本密集」而不寫 capex／營收是多少 |
+| `quadrant_since` | 進入該象限的日期 | 漂移時忘了改，於是漂移這件事沒有留下痕跡 |
+| `peers` | 可比同業 | **多數族群在覆蓋清單內只有 1–2 檔，必須從清單外取** |
+| `rank_metrics` | 2–3 個排序指標 | **事後**挑指標來支持已想好的答案 |
+| `methods.secondary` | 副錨 | 留 `__` —— 單一方法無法交錯驗證 |
+| `axes_crossed` | 主副錨跨了哪些軸 | 兩個方法都只看自身歷史，**軸④沒動** |
+| `excluded` | 該象限**不可用**的方法 | 只寫該用什麼，沒寫不該用什麼 |
+| `reviewed` | 最近複核日 | 超過 120 天 `validate_state.py` 會警告 |
+
+⚠ **為何要把「不可以用什麼」也寫下來**：估值方法的誤用多半不是「選錯了主錨」，
+而是「順手用了一個這個象限本來就不適用的方法」——
+例如對循環股算 PEG、對選擇權價值做 forward-DCF、對 fabless 看 PB。
+`excluded` 讓這些禁令跟著檔案走，而不是靠記憶。
+
+⚠ **這一欄是 2026-09-01 引入的，既有檔案本來就沒有。**
+`validate_state.py` 對缺漏只發 **NOTE 不發 ERROR**（發 ERROR 會一次擋下全部 commit），
+但它每次執行都會列出來——**看不見的無知會被當成判斷使用。**

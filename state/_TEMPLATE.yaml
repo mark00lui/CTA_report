@@ -5,6 +5,20 @@ ticker: __
 name: __
 market: __            # TW / US
 factor_tags: []
+valuation_frame:   # 估值方法組合 — 建檔時決定，每次 /revalue 複核。見 references/valuation-map.md
+  quadrant: __            # Q1 盈餘倍數／Q2 現金流與企業價值／Q3 資產與循環／Q4 營收與選擇權
+  quadrant_basis: __      # ⚠ 判準要指名數值：capex／營收（15% 門檻）、折舊占比、淨負債、循環位置、分母是否趨零
+  quadrant_since: __      # 進入這個象限的日期。⚠ 象限漂移比倍數變動嚴重 —— 它代表整套方法要換
+  peer_group: __          # 族群名稱
+  peers: []               # ⚠ 多數族群在覆蓋清單內只有 1–2 檔，同業必須從清單外取
+  rank_metrics: []        # 2–3 個排序指標，**事先**寫定。事後挑指標來支持已想好的答案是這一層的自欺
+  methods:
+    primary: __           # 主錨 — 依象限的處方選
+    secondary: __         # 副錨 — 單一方法無法交錯驗證
+    check: __             # 檢查器（PEG／Gordon PB／P/FCF 等），可留 __
+  axes_crossed: []        # 主錨與副錨跨了哪些軸：分母／層級／時間／參照。⚠ 至少一個，最好兩個
+  excluded: __            # ⚠ 明寫這個象限「不可以用」哪些方法，以及為什麼（例：Q3 不做 DCF、不算 PEG）
+  reviewed: __            # 最近一次複核日期。超過 120 天 validate_state.py 會警告
 thesis: "__"          # 一句話，且必須可否證
 thesis_since: __
 

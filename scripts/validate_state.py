@@ -39,6 +39,7 @@ VALID_QUADRANT = {"Q1", "Q2", "Q3", "Q4"}
 FRAME_REVIEW_DAYS = 120   # 象限與方法組合超過這個天數沒複核就提示
 
 errors, warns, notes = [], [], []
+stale_notes = []   # 只放「陳舊變數」，供 --stale 使用；與一般 notes 分開
 
 
 def is_placeholder(v):
@@ -103,7 +104,9 @@ def check_key_vars(path, d):
             warns.append(f"{path}: 變數「{name}」有值但沒有 source")
         u = as_date(kv.get("updated"))
         if u and (today - u).days > STALE_DAYS:
-            notes.append(f"{path}: 變數「{name}」已 {(today - u).days} 天未更新")
+            msg = f"{path}: 變數「{name}」已 {(today - u).days} 天未更新"
+            notes.append(msg)
+            stale_notes.append(msg)
 
 
 def check_falsifiers(path, d):
@@ -343,7 +346,7 @@ def main():
 
     if only_stale:
         print("=== 陳舊變數 (>%d 天) ===" % STALE_DAYS)
-        print("\n".join(notes) if notes else "無")
+        print("\n".join(stale_notes) if stale_notes else "無")
         return 0
 
     if only_gaps:

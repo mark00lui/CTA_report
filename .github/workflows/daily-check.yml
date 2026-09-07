@@ -1,0 +1,53 @@
+name: daily-check
+
+# 每日機械檢查。只讀不寫 —— 不改 state/、drivers/、reports/，也不 commit。
+# 產出是一份 GitHub Issue，供人或 /auto-cycle 決定要不要動模型。
+#
+# ⚠ 這個 workflow 刻意不做「收集」。收集需要外部來源與可能的憑證，
+#    且摘要階段是錯誤最集中的地方（2026-09-01 實測：六個錯誤有四個錯在摘要）。
+#    收集另建 collect-inbox.yml，且只存原文不做摘要。
+
+on:
+  schedule:
+    - cron: "0 22 * * 1-5"     # UTC 22:00 = 台北 06:00（週一至週五）
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pyyaml
+
+      - name: 每日機械檢查
+        id: check
+        run: |
+          python scripts/daily_check.py > /tmp/report.md
+          echo "alerts=$(python scripts/daily_check.py --json | python -c 'import json,sys; print(len(json.load(sys.stdin)["alerts"]))')" >> "$GITHUB_OUTPUT"
+          cat /tmp/report.md
+
+      - name: 陳舊變數（>90 天）
+        run: python scripts/validate_state.py --stale >> /tmp/report.md
+
+      - name: 開 Issue
+        if: steps.check.outputs.alerts != '0'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const body = fs.readFileSync('/tmp/report.md', 'utf8');
+            const title = `每日機械檢查 ${new Date().toISOString().slice(0,10)} — ${{ steps.check.outputs.alerts }} alert`;
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title,
+              body: body.slice(0, 60000),
+              labels: ['daily-check'],
+            });

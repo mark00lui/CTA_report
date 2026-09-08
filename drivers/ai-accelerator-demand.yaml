@@ -157,6 +157,24 @@ cross_check:
         合計 725 連帶高估。修正後比值會更偏向加速器。
 
 transmission:
+  - ticker: 'AVGO'
+    direction: '+'
+    path: >
+      ⚠⚠ **建立這一條的同時暴露了本 driver 的一個實質口徑缺口，必須在這裡記下。**
+      本 driver 的 `current` 明寫口徑為
+      「單季資料中心營收合計；NVDA + AMD，**不含**自研 ASIC」。
+      **而 AVGO 的 AI 半導體營收正是被排除的那一塊** ——
+      **FY2026 Q3 已達 16.7B、Q4 指引 21.7B、年增 221%（AVGO 8-K，2026-09-02）。**
+      → **本 driver 的現值因此系統性低估加速器總需求，
+      且低估的幅度正在以三位數年增率擴大。**
+      ⚠ **這不是 AVGO 的問題，是本 driver 的口徑問題。**
+      **應走 `/driver` 檢討是否併入自研 ASIC —— 但併入會改變本檔全部 transmission 的解讀，
+      故不在扇出時順手改，須單獨處理。** 已列入 AVGO 的 gaps。
+      ⚠ **成分上 AVGO 與 NVDA 在「自研 ASIC 對商用 GPU」這一題上是替代關係**，
+      方向雖同為 `+`，但兩者可能此消彼長。見 hyperscaler-capex 的對應條目。
+    lag: 領先 1–2 季（AVGO 的認列與 NVDA／AMD 的認列大致同步，略早於整機出貨）
+    sensitivity: 高（AI 已占 AVGO 總營收 56.4%）
+    affects: ['AI半導體營收與占比']
   - ticker: '6239'
     direction: '+'
     path: >

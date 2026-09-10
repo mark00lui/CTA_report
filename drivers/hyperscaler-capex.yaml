@@ -256,6 +256,23 @@ transmission:
     lag: 領先 2–3 季
     sensitivity: 高
     affects: ['ABF載板營收占比與成長', '毛利率']
+  - ticker: '3533'
+    direction: '+'
+    path: >
+      CSP 資本支出 → 伺服器建置 → 高速連接器與 CPU 插槽。
+      ⚠⚠ **傳導強度明確弱於本清單其餘任何一檔伺服器供應鏈標的，理由必須寫死，
+      否則下一輪會被當成保守而調高**：
+      **該檔的伺服器營收（2026 Q2 佔 55.36%、年增 +71%）主要來自一般用途伺服器的 CPU 插槽，
+      不是 AI 加速器的建置。** 直接與 AI 相關的 QDS **目前佔營收約 1%**（下半年估 2–3%）、
+      SOCAMM 剛於下半年量產；**管理層明言 GPU／AI 晶片專案的「採用與導入時間不確定」。**
+      ⚠⚠ **真正驅動該檔的是 Intel Oak Stream 與 AMD Venice 的平台世代切換**
+      （管理層估 2026 Q4 或 2027 初放量）—— **本 driver 記的是 CSP 的資本支出承諾，
+      而平台世代切換的時點由 Intel／AMD 決定，兩者不同步。**
+      ⚠ **這是本 driver 第三次遇到「解釋不了某檔的主要營收」**
+      （前兩次：CEG 的用電量、AAOI 的 DOCSIS 升級循環）。
+      **建議新增 `server-platform-cycle` driver，而不是把 CPU 平台週期硬掛在本 driver 上。**
+    lag: 落後 2–4 季（⚠ 且與平台世代切換的時點不同步，見 path）
+    sensitivity: 低（AI 直接曝險目前僅約營收 1%；伺服器 55.36% 主要為一般用途 CPU 插槽）
   - ticker: AAOI
     direction: '+'
     path: >

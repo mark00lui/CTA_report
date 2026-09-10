@@ -227,6 +227,16 @@ transmission:
     lag: 領先 3–4 季
     sensitivity: 高
     affects: ['ABF供需與漲價幅度', 'ABF載板營收占比與成長']
+  - ticker: AXTI
+    direction: '+'
+    path: >
+      互連規格世代與機櫃功率密度 → 每加速器的光埠數 → **InP 基板片數**。
+      ⚠⚠ **但本檔對這個 driver 的曝險比 COHR／LITE／6442／3008 都低，而那是好事**：
+      **InP 基板同時供給可插拔光模組與 CPO 兩條路徑，本檔不依賴 CPO 這個特定前提成立。**
+      **這是清單裡第一檔光通訊標的不放大 cpo 前提依賴的** —— 故 factor_tags 刻意未標 `cpo`。
+      ⚠ 真正會打到本檔的是 `cpo_layer_note` 記的**光埠密度**，不是 CPO 對可插拔的勝負。
+    lag: 領先 3–5 季（基板要先於雷射與模組備料）
+    sensitivity: 中（規格路線之爭對本檔多半是同向抵銷，量的成長才是變數）
   - ticker: LITE
     direction: '+'
     path: >

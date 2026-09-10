@@ -228,6 +228,18 @@ transmission:
     lag: 領先 2–3 季
     sensitivity: 高
     affects: ['ABF載板營收占比與成長', '月營收']
+  - ticker: AXTI
+    direction: '+'
+    path: >
+      加速器實際出貨 → 收發器掛載量 → 雷射晶片 → **InP 基板**。
+      ⚠⚠ **本檔對本 driver 的曝險原則上最可量化，但當下量化不了** ——
+      需要「每加速器的光埠數」與「每埠的 InP 面積」兩個係數，**兩個都未取得**（見 state 的 gaps）。
+      ⚠ **扇出時必須明寫「無法量化」而非「無影響」** —— 這兩句在報告裡看起來很像，意思完全相反。
+      ⚠ 另記一條與本 driver 的 `cross_check` 有關的性質：**本檔是承諾與出貨之間的第三個觀測點**。
+      承諾住在 hyperscaler-capex、出貨住在本 driver，
+      **而基板出貨比兩者都早 —— 它可以用來檢驗這兩個 driver 何時開始背離。**
+    lag: 領先 2–4 季
+    sensitivity: 未定（⚠ 兩個換算係數皆缺，不得填一個看起來合理的等級）
   - ticker: LITE
     direction: '+'
     path: >

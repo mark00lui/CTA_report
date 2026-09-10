@@ -97,6 +97,7 @@ def collect():
             # 但報告 front-matter 用的是字串。型別不一致不會讓頁面壞掉，
             # 卻會讓任何想把 tickers 與 reports 對起來的程式安靜失敗。
             d["ticker"] = str(d.get("ticker", ""))
+            # event_log 在此保留供 timeline 使用，投影會在稍後才做。
             tickers.append(d)
 
     cov = clean(load_yaml(os.path.join(ROOT, "state", "coverage.yaml")))
@@ -170,7 +171,39 @@ def collect():
 
     timeline.sort(key=lambda x: (x["date"], x["kind"]), reverse=True)
 
-    return {"tickers": tickers, "coverage": cov, "drivers": drivers,
+    # ⚠ 投影：只把畫面真的會渲染的欄位送進 payload。
+    #
+    # 為什麼這件事重要，而且不只是效能問題 ——
+    # CLAUDE.md：「docs/index.html 是洩漏面積最大的檔案。它把 state 與 drivers
+    # 整頁攤開給不讀 YAML 的人看，且掛在一個比 repo 本身更容易被看到的網址上。」
+    # 實測（2026-09-10）：投影前 tickers 佔 486,905 字元，其中 **52.3% 的欄位
+    # 從未被前端渲染**（event_log 135K、valuation_frame 43K、notes 21K…）——
+    # 那些內容仍然完整地躺在公開頁面的原始碼裡，只是沒有畫出來。
+    # **沒被畫出來不等於沒被送出去。**
+    #
+    # ⚠ 投影名單要對照前端維護。新增欄位到卡片時，必須同步加進 TICKER_FIELDS，
+    # 否則畫面會安靜地顯示「未填」—— 那是最難查的一種壞法。
+    TICKER_FIELDS = (
+        "ticker", "name", "market", "thesis", "valuation_base_year",
+        "last_updated", "factor_tags", "driver_refs",
+        "key_variables", "falsifiers", "scenarios", "cta", "signal",
+        # ⚠ 以下兩項此前被送出但未渲染。本次選擇「渲染它們」而非「砍掉」——
+        # 理由是本倉庫的核心紀律：看不見的無知會被當成判斷使用。
+        # 缺口與檢驗點正是不確定性的所在，把它們藏起來的介面比醜的介面糟。
+        "gaps", "checkpoints",
+    )
+    slim = []
+    for t in tickers:
+        o = {k: t[k] for k in TICKER_FIELDS if k in t}
+        # valuation_frame 整塊很大且多半是推導過程（屬 repo 的內容），
+        # 但象限與複核日期是讀者該看到的兩個字，單獨留下。
+        vf = t.get("valuation_frame") or {}
+        if isinstance(vf, dict):
+            o["quadrant"] = vf.get("quadrant")
+            o["frame_reviewed"] = vf.get("reviewed")
+        slim.append(o)
+
+    return {"tickers": slim, "coverage": cov, "drivers": drivers,
             "reports": reports, "timeline": timeline}
 
 
@@ -246,6 +279,18 @@ details>div{padding-top:10px}
 .tl .m{font-size:12px;color:var(--muted);margin-top:2px}
 .lvl{font-family:var(--mono);font-size:11px;border:1px solid var(--line);
   border-radius:4px;padding:0 5px;color:var(--muted);margin-left:6px}
+.sum{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 18px}
+.sum .s{background:var(--panel);border:1px solid var(--line);border-radius:8px;
+  padding:9px 13px;display:flex;align-items:baseline;gap:8px}
+.sum .s b{font-family:var(--mono);font-size:19px;font-variant-numeric:tabular-nums;color:var(--ink)}
+.sum .s span{font-size:12px;color:var(--muted)}
+.sum .s.hl{border-left:3px solid var(--gold)}
+.sum .s.hl b{color:var(--gold)}
+.gapn{font-family:var(--mono);font-size:11px;color:var(--gold);
+  border:1px solid var(--line);border-radius:3px;padding:1px 5px;margin-left:6px}
+.q{margin:0 0 10px;font-size:13.5px;line-height:1.6}
+.q .how{display:block;color:var(--dim);font-size:12.5px;margin-top:2px}
+.sig-mark{font-family:var(--mono);margin-right:4px}
 .prem{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--gold);
   border-radius:0 8px 8px 0;padding:16px 18px;margin:0 0 16px}
 footer{margin-top:72px;padding-top:22px;border-top:1px solid var(--line);
@@ -298,6 +343,7 @@ def build_html(data):
 </header>
 
 <h2>覆蓋清單</h2>
+<div class="sum" id="summary" aria-label="覆蓋清單摘要"></div>
 <p class="secnote">
   每張卡片是該標的當下的最佳判斷（<span class="num">state/&lt;ticker&gt;.yaml</span>）。
   情境機率合計恆為 1.00。顏色沿用台股慣例：<span class="sig-long">紅＝偏多</span>、
@@ -339,6 +385,9 @@ def build_html(data):
 <script>
 const D = JSON.parse(document.getElementById('data').textContent);
 const SC = {{'偏多':'sig-long','中性':'sig-flat','偏空':'sig-short'}};
+// ⚠ 訊號不可只用顏色區分 —— 紅綠色盲讀者看不出偏多偏空。
+//    顏色沿用台股慣例（紅漲綠跌），符號是它的無障礙備援，兩者並存。
+const SM = {{'偏多':'\u25b2','中性':'\u25cf','偏空':'\u25bc'}};
 const E = s => String(s ?? '').replace(/[&<>"']/g, c => (
   {{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}}[c]));
 const n = v => (v === null || v === undefined || v === '') ? '<span class="dim">未填</span>' : E(v);
@@ -366,6 +415,29 @@ function scenTable(sc) {{
   return bar + `<div class="scroll"><table><thead><tr><th>情境</th><th>機率</th><th>EPS</th><th>倍數</th><th>目標價</th></tr></thead><tbody>${{rows}}</tbody></table></div>`;
 }}
 
+(function renderSummary() {{
+  const ts = D.tickers || [];
+  const cnt = r => ts.filter(t => (t.signal||{{}}).rating === r).length;
+  // ⚠ 「目標價落在現價 ±5% 內」的檔數要放在最前面 ——
+  //    references/valuation.md 明訂多檔落在該區間時不得聚合成「清單沒有明顯定價錯誤」，
+  //    把它顯示出來，讀者才知道要對「大致合理定價」這個印象打折。
+  let near = 0, gaps = 0, priced = 0;
+  ts.forEach(t => {{
+    const tp = (t.scenarios||{{}}).weighted_tp, px = (t.cta||{{}}).price;
+    gaps += (t.gaps||[]).length;
+    if (typeof tp === 'number' && typeof px === 'number' && px > 0) {{
+      priced++;
+      if (Math.abs(tp/px - 1) <= 0.05) near++;
+    }}
+  }});
+  const box = (v, l, hl) => `<div class="s${{hl?' hl':''}}"><b>${{v}}</b><span>${{l}}</span></div>`;
+  document.getElementById('summary').innerHTML =
+    box(ts.length, '覆蓋標的') +
+    box(cnt('偏多'), '偏多') + box(cnt('中性'), '中性') + box(cnt('偏空'), '偏空') +
+    box(near + '/' + priced, '目標價落在現價 ±5% 內', true) +
+    box(gaps, '已列缺口', true);
+}})();
+
 document.getElementById('tickers').innerHTML = D.tickers.map(t => {{
   const sig = t.signal || {{}};
   const cls = SC[sig.rating] || 'sig-flat';
@@ -378,14 +450,15 @@ document.getElementById('tickers').innerHTML = D.tickers.map(t => {{
   const refs = (t.driver_refs || []).map(r =>
     `<span class="tag">${{E(r.driver)}} ${{E(r.direction || '')}}</span>`).join(' ');
   return `<article class="card">
-    <div class="card-hd"><div><span class="tk">${{E(t.ticker)}}</span> <span class="nm">${{E(t.name)}}</span></div>
-      <span class="badge ${{cls}}">${{E(sig.rating || '未評級')}}</span></div>
+    <div class="card-hd"><div><span class="tk">${{E(t.ticker)}}</span> <span class="nm">${{E(t.name)}}</span>${{(t.gaps||[]).length ? `<span class="gapn" title="已列缺口數">缺口 ${{(t.gaps||[]).length}}</span>` : ''}}</div>
+      <span class="badge ${{cls}}" aria-label="訊號 ${{E(sig.rating || '未評級')}}"><span class="sig-mark" aria-hidden="true">${{SM[sig.rating] || '\u25cb'}}</span>${{E(sig.rating || '未評級')}}</span></div>
     <div class="tags">${{(t.factor_tags||[]).map(x=>`<span class="tag">${{E(x)}}</span>`).join('')}}</div>
     <p class="thesis">${{t.thesis ? E(t.thesis) : '<span class="dim">論點尚未寫定</span>'}}</p>
     <dl class="kv">
       <dt>加權目標價</dt><dd>${{n(sc.weighted_tp)}}</dd>
       <dt>現價</dt><dd>${{n(cta.price)}}</dd>
       <dt>基準年</dt><dd>${{n(t.valuation_base_year)}}</dd>
+      <dt>象限</dt><dd>${{n(t.quadrant)}}</dd>
       <dt>信心度</dt><dd>${{n(sig.conviction)}}</dd>
       <dt>更新</dt><dd>${{n(t.last_updated)}}</dd>
     </dl>
@@ -394,6 +467,14 @@ document.getElementById('tickers').innerHTML = D.tickers.map(t => {{
     <details><summary>關鍵變數（${{(t.key_variables||[]).length}}）</summary><div class="scroll">
       <table><thead><tr><th>變數</th><th>值</th><th>tier</th></tr></thead><tbody>${{kvs}}</tbody></table></div></details>
     <details><summary>否證點（${{(t.falsifiers||[]).length}}）</summary><div>${{fxs}}</div></details>
+    <details><summary>缺口 —— 已知的未知（${{(t.gaps||[]).length}}）</summary><div>
+      ${{(t.gaps||[]).length
+        ? (t.gaps||[]).map(g => `<p class="q">${{E(g.question)}}${{g.how_to_close ? '<span class="how">取得途徑：'+E(g.how_to_close)+'</span>' : ''}}</p>`).join('')
+        : '<p class="dim">未列缺口</p>'}}</div></details>
+    <details><summary>未來檢驗點（${{(t.checkpoints||[]).length}}）</summary><div class="scroll">
+      <table><thead><tr><th>日期</th><th>事件</th><th>看什麼</th></tr></thead><tbody>
+      ${{(t.checkpoints||[]).map(c => `<tr><td class="num">${{E(c.date)}}</td><td>${{E(c.event)}}</td><td class="dim" style="text-align:left">${{E(c.what_to_watch||'')}}</td></tr>`).join('')}}
+      </tbody></table></div></details>
     <details><summary>CTA 位階與訊號依據</summary><div>
       <dl class="kv"><dt>位階</dt><dd style="text-align:left">${{n(cta['位階'])}}</dd>
       <dt>關鍵均線</dt><dd>${{n(cta.key_ma)}}</dd>

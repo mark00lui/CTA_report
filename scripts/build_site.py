@@ -229,11 +229,25 @@ a{color:var(--gold)}
 .num{font-family:var(--mono);font-variant-numeric:tabular-nums}
 .sub{color:var(--muted);font-size:14px;margin:0}
 .dim{color:var(--dim)}
-header{border-bottom:1px solid var(--line);padding:48px 0 28px;margin-bottom:8px}
-.lede{color:var(--muted);max-width:70ch;margin:14px 0 0}
-.disc{margin:22px 0 0;padding:14px 16px;border-left:3px solid var(--gold);
-  background:var(--panel);color:var(--muted);font-size:13.5px;border-radius:0 6px 6px 0}
-.disc strong{color:var(--ink)}
+header{border-bottom:1px solid var(--line);padding:48px 0 30px;margin-bottom:8px}
+.meta{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 20px;margin:6px 0 0}
+.meta span{display:inline-flex;align-items:baseline;gap:5px}
+.meta b{font-family:var(--mono);font-variant-numeric:tabular-nums;
+  font-size:15px;font-weight:600;color:var(--ink)}
+.meta i{font-style:normal;font-size:12.5px;color:var(--dim)}
+.lede{color:var(--ink);font-size:clamp(15px,1.7vw,17px);max-width:60ch;margin:18px 0 0}
+.prov{color:var(--muted);font-size:14px;max-width:66ch;margin:7px 0 0}
+.prov b{color:var(--gold);font-weight:600}
+.disc{margin:26px 0 0;padding:16px 18px;border-left:3px solid var(--gold);
+  background:var(--panel);color:var(--muted);font-size:13.5px;border-radius:0 8px 8px 0}
+.disc h2{font-family:var(--serif);font-size:16px;color:var(--gold);
+  margin:0 0 9px;font-weight:600;line-height:1.4}
+.disc ul{margin:0;padding:0;list-style:none}
+.disc li{position:relative;padding-left:15px;margin:0 0 5px}
+.disc li::before{content:"—";position:absolute;left:0;color:var(--dim)}
+.disc strong{color:var(--ink);font-weight:600}
+.disc .fine{margin:10px 0 0;padding-top:9px;border-top:1px solid var(--line);
+  color:var(--dim);font-size:12.5px}
 .secnote{color:var(--muted);font-size:14px;margin:0 0 20px;max-width:74ch}
 .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(330px,1fr))}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px}
@@ -326,20 +340,26 @@ def build_html(data):
 
 <header>
   <h1>CTA 推論專案</h1>
-  <p class="sub num">as_of {as_of} ｜ 覆蓋 {n_tick} 檔 ｜ 驅動因子 {n_drv} 個 ｜ 推論文件 {n_rep} 份</p>
-  <p class="lede">
-    增量式個股研究倉庫。每則新資訊只產生一份差分推論，不重建整份報告。
-    本頁由 <span class="num">scripts/build_site.py</span> 自 <span class="num">state/</span> 與
-    <span class="num">drivers/</span> 直接產生，是輸出不是輸入 —— 內容永遠與倉庫一致。
+  <p class="meta">
+    <span><b>{as_of}</b><i>as_of</i></span>
+    <span><b>{n_tick}</b><i>覆蓋標的</i></span>
+    <span><b>{n_drv}</b><i>驅動因子</i></span>
+    <span><b>{n_rep}</b><i>推論文件</i></span>
   </p>
-  <div class="disc">
-    <strong>本倉庫不含任何倉位資訊。</strong>
-    沒有成本、張數、配置比重、Kelly、損益，也不揭露作者是否持有任何標的。
-    追蹤清單是<strong>研究覆蓋範圍</strong>，不是持有清單；因子分布以等權為基準，
-    那是清單的結構描述，與任何實際配置無關。
-    訊號評級（偏多／中性／偏空）是<strong>研究結論，不是交易建議</strong>。
-    本頁所有內容僅供研究記錄與自我校準，非投資建議。
-  </div>
+  <p class="lede">增量式個股研究倉庫。每則新資訊只產生一份差分推論，不重建整份報告。</p>
+  <p class="prov"><b>這一頁是輸出，不是輸入。</b>
+    內容由 <span class="num">scripts/build_site.py</span> 自 <span class="num">state/</span> 與
+    <span class="num">drivers/</span> 直接產生 —— 永遠與倉庫一致，沒有另一份手寫版本。</p>
+  <aside class="disc" aria-labelledby="nopos">
+    <h2 id="nopos">本倉庫不含任何倉位資訊 —— 這是設計主張，不是免責樣板</h2>
+    <ul role="list">
+      <li>沒有成本、張數、配置比重、Kelly、損益，也<strong>不揭露作者是否持有任何標的</strong>。</li>
+      <li>追蹤清單是<strong>研究覆蓋範圍</strong>，不是持有清單；因子分布以等權為基準，
+        那是清單的結構描述，與任何實際配置無關。</li>
+      <li>訊號評級（偏多／中性／偏空）是<strong>研究結論，不是交易建議</strong>。</li>
+    </ul>
+    <p class="fine">本頁所有內容僅供研究記錄與自我校準，非投資建議。</p>
+  </aside>
 </header>
 
 <h2>覆蓋清單</h2>

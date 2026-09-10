@@ -256,6 +256,17 @@ transmission:
     lag: 領先 2–3 季
     sensitivity: 高
     affects: ['ABF載板營收占比與成長', '毛利率']
+  - ticker: LITE
+    direction: '+'
+    path: >
+      capex → 資料中心內外光互連埠數 → 收發器與光元件需求。
+      ⚠ **與 COHR 同鏈同向，但本檔缺一個 COHR 有的緩衝**：
+      COHR 的 FY2027 已實質售罄且長約含 take-or-pay 最低採購量，
+      **本檔未取得對等的訂單能見度揭露** —— capex 的短期波動對本檔可能傳導得更直接。
+      ⚠ **這是推論不是事實**：本檔的訂單能見度本輪未取得，已列該檔 gaps。
+    lag: 領先 2–3 季
+    sensitivity: 中（⚠ 應為高，但訂單能見度未取得，無法確認緩衝的有無，故保守記中）
+    affects: ['營收成長與拐點', '分部別營收占比']
   - ticker: COHR
     direction: '+'
     path: capex → 資料中心內外光互連埠數 → 收發器與光元件需求

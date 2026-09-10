@@ -227,6 +227,18 @@ transmission:
     lag: 領先 3–4 季
     sensitivity: 高
     affects: ['ABF供需與漲價幅度', 'ABF載板營收占比與成長']
+  - ticker: LITE
+    direction: '+'
+    path: >
+      互連規格世代 → CPO 導入時點與埠數 → 產品組合與毛利結構。
+      ⚠⚠ **本檔與 COHR 在此條上的關鍵差別是「揭露程度」而非「曝險程度」**：
+      COHR 給出了第一手時程（初期營收 2026-12 當季、scale-up 曆年 2027 下半），
+      **本檔的 CPO 料號進度完全未取得**（已列該檔 gaps 與 rank_metrics 第三項）。
+      ⚠ **故本 driver 對本檔的傳導目前無法驗證** ——
+      **不是傳導不存在，是我沒有可對照的座標。扇出時應明寫「無法判定」而非「無影響」。**
+    lag: 領先 3–4 季
+    sensitivity: 中（曝險應為高，但因缺乏自身時程揭露而無法確認，故保守記中）
+    affects: ['CPO進度與時程', '毛利率']
   - ticker: COHR
     direction: '+'
     path: >

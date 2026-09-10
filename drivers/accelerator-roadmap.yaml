@@ -227,6 +227,17 @@ transmission:
     lag: 領先 3–4 季
     sensitivity: 高
     affects: ['ABF供需與漲價幅度', 'ABF載板營收占比與成長']
+  - ticker: AAOI
+    direction: '+'
+    path: >
+      互連規格世代 → 800G 到 1.6T 的切換時點與每埠單價 → 產品組合與毛利率。領先 2–3 季。
+      ⚠⚠ **該檔在本 driver 上有一個必須分開看的性質**：
+      **它是可插拔收發器廠，產能目標明寫為「800G 與 1.6T 產品」，故未標 `cpo`。**
+      **因此它在「CPO 對可插拔誰贏」上是中性的，但在「1.6T 何時放量」上是高度敏感的。**
+      **這兩者不是同一件事，扇出時不可混用 —— 本 driver 的 cpo_layer_note 若有變動，
+      對 COHR／LITE／6442／3008 與對該檔的意義不同。**
+    lag: 領先 2–3 季
+    sensitivity: 中高（對 1.6T 時程高，對 CPO 路線之爭中性）
   - ticker: AXTI
     direction: '+'
     path: >

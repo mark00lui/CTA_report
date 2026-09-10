@@ -400,6 +400,17 @@ transmission:
     lag: 領先 1–2 季（晶片先於整機）
     sensitivity: 高
     affects: [先進製程營收占比, CoWoS月產能]
+  - ticker: '6531'
+    direction: '+'
+    path: >
+      CSP 資本支出 → AI 加速器建置 → 高頻寬記憶體的規格與採用。
+      ⚠ **敏感度記「低」，而且理由是時程不是幅度**：
+      **VHM 與 VHMStack 要到 2027–2028 才全面量產，該檔現在的營收由 IoTRAM 撐。**
+      ⚠ **在那之前，本 driver 對該檔唯一可量化的痕跡是研發費用率 ——
+      客製化記憶體的護城河就是研發，而研發費用率是它在報表上唯一的代理變數。**
+      **該檔的研發費用率本輪未取得，列其 gaps。**
+    lag: 未定（產品時程 2027–2028）
+    sensitivity: 低
   - ticker: '3583'
     direction: '+'
     path: >

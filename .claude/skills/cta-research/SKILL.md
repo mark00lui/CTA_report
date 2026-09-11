@@ -259,5 +259,6 @@ tier 管的是「這個值有多可信」，來源等級管的是「這個值是
 - `references/state-schema.md` — state 檔各欄位定義與填寫規則。建檔或不確定欄位語意時讀它。
 - `references/valuation.md` — **exit multiple 的錨從哪裡來、基準年怎麼定、錨的五欄規格、循環性檢查的正確順序。跑三情境前讀它。**
 - `references/valuation-map.md` — 象限分類、族群序位、方法配對。**選方法時讀它（在讀 valuation.md 之前）。**
+- `references/forward-estimates.md` — **FY+1／FY+2 共識的取得通道（台股與美股不同）、基準年的選擇規則、倍數與 EPS 的年度必須一致、月營收作為共識的否證器。跑成長股的三情境前讀它 —— 2308 實測基準年錯一年的影響（+50%）是三情境 EPS 全距（±14%）的三倍以上。**
 - `references/report-templates.md` — 變更單（L1/L2）、全量報告（L3）、週報組合 review 三份模板，以及 dashboard 設計規範。產出前讀它。
 - `state/_TEMPLATE.yaml` — 新增追蹤標的時複製這份。

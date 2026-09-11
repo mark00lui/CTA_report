@@ -411,6 +411,27 @@ transmission:
       **該檔的研發費用率本輪未取得，列其 gaps。**
     lag: 未定（產品時程 2027–2028）
     sensitivity: 低
+  - ticker: INTC
+    direction: '+'
+    path: >
+      CSP 資本支出 → **資料中心 CPU 與 AI 加速器的採購**，以及 → **代工訂單**。
+      一手佐證：**2026 Q2 的 Data Center & AI 部門營收年增 **59%**
+      （三部門全數成長：Client Computing & Physical AI +13%、DCAI +59%、
+      Intel Foundry +31%）。**
+      ⚠⚠⚠ **而該檔在本 driver 上的位置是覆蓋清單此前沒有的：它同時在三個位子上。**
+      **(a) 賣 CPU 給 CSP —— 與清單上賣硬體的標的同向；**
+      **(b) 賣代工產能給 AI 晶片設計商（已知 Microsoft 的 18A 客製晶片、
+      Amazon 的 AI fabric 晶片，Broadcom 與 Nvidia 為客戶）—— 那一層是 TSM 的位子；**
+      **(c) ⚠ 同時是 NVDA 在資料中心運算上的競爭者。**
+      **三個位子方向不同，扇出時必須分開算。**
+      ⚠⚠⚠ **而最重要的一條：本 driver 上修對該檔的代工那一層是利多，
+      但對 TSM 不必然是利空、也不必然是利多 —— 要看訂單是新增的還是轉移的。**
+      **若是轉移（例如 Apple 自 TSMC 移至 Intel 18A），兩檔零和；
+      若是新增（整體晶圓需求擴大），兩檔同向。**
+      **這個區分必須在 driver 層保留，不可預設其中一種 ——
+      這是「零和」這個標記第一次需要附帶條件。**
+    lag: 同步至落後 1 季（CPU 與伺服器同批部署）；代工那一層領先 4–8 季（製程定案早於投片）
+    sensitivity: 中（⚠ 三個通道方向不同，見 path）
   - ticker: '2317'
     direction: '+'
     path: >

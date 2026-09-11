@@ -32,7 +32,7 @@ state/coverage.yaml       覆蓋清單的因子結構與共同前提
 drivers/<slug>.yaml       共用驅動因子 — 跨標的變數的唯一真實來源
 drivers/_queue.yaml       扇出待辦佇列 — /brief 產生，/cta 消費；只存指標不存數值
 notes/YYYY-MM.md          暫存收件匣 — 還不知道該歸哪裡的觀察
-reports/YYYY/MM/*.md      推論文件 — append-only，不修改已提交的報告
+reports/YYYY/MM/*.md      推論文件與沿革檔 — append-only，不修改已提交的報告
 reports/INDEX.md          自動產生，勿手改
 docs/index.html           GitHub Pages 門面 — 自動產生，勿手改
 scripts/                  驗證、索引、站台、倉位資訊掃描
@@ -83,6 +83,14 @@ scripts/                  驗證、索引、站台、倉位資訊掃描
 **state 則相反：原地修改。** 一份檔案代表當下最佳判斷，歷史由 git diff 保存。這是兩種物件的分工——報告不可變、state 可變且被版控。
 
 **state 可寫，但每次改動必須有對應報告。** 沒有報告佐證的 state 變動不該存在。若 state 與 reports 不一致，以 reports 為準並補寫修正報告。
+
+**`reports/` 也放沿革檔，而它不是推論文件。** 沿革檔只做一件事：把某個 state 欄位累積的歷史判讀逐字搬過來，原文一個字不改、不刪、不摘要。front-matter 的 `level` 填 `L0`，`signal`／`conviction`／`tp_*` 一律 `n/a`——**因為它不新增、不修改、不撤回任何判斷，只搬動文字。**
+
+⚠⚠ **搬到 `reports/` 的理由不是瘦身，是上面那條 append-only 規則本身。** 歷史判讀留在一個**可變的** state 檔裡，本來就有被事後修飾的空間；而 `reports/` 由 `check_append_only.py` 機械強制不可改。**所以搬過去之後它們才真正不可改——校準價值是變強，不是變弱。** 這一點反直覺，但它正是「報告不可變、state 可變」那個分工要處理的情況：**當 state 裡的某個欄位開始承擔「記錄歷史」的職責時，它就站錯地方了。**
+
+⚠ **不放 `notes/`：** 那裡是「還不知道該歸哪裡的觀察」，而沿革檔的歸屬非常明確。
+
+⚠⚠⚠ **而沿革檔之所以會需要，通常是因為某個 state 欄位長成了 prepend-only 的 append-log——那本身是要避免的形狀。** `state/coverage.yaml` 的 `equal_weight_factor_mix[].note` 曾每次新增標的就把新判讀疊在字串最前面、舊的用「原註：」串在後面全留，到 39 檔時 `ai_capex_hw` 一格已 7,051 字／22 段，且**會隨覆蓋清單無上限成長**。**state 的一個欄位代表「當下最佳判斷」，不是一條日誌——歷史由 git diff 與報告保存。** 發現自己在往某個欄位前面疊字串時，停下來：該寫的是新報告，不是更長的字串。
 
 **commit 前一定跑：**
 ```bash

@@ -382,6 +382,61 @@ FY2027 則是 59.0 對 60.06（+1.8%），分布較對稱。
 
 ---
 
+### ⚠⚠⚠ 美股的官方通道（2026-09-12 實測）—— 與台股 §2 ⑥ 同一個原則：去源頭
+
+台股那一輪的結論是「交易所自己有公開 API」。**美股的對應物不是交易所，是 SEC 與財政部。**
+
+| 用途 | 端點 | 實測 |
+|---|---|---|
+| **結構化財報（XBRL 單一科目逐期序列）** | `data.sec.gov/api/xbrl/companyconcept/CIK<10 碼>/us-gaap/<tag>.json` | ✓ MSFT `Revenues` 回完整序列 |
+| **全部科目一次取** | `data.sec.gov/api/xbrl/companyfacts/CIK<10 碼>.json` | — |
+| **申報索引與基本資料** | `data.sec.gov/submissions/CIK<10 碼>.json` | ✓ 回 name／tickers／exchanges／**fiscalYearEnd**，最新申報至 2026-09-11 |
+| **美國公債殖利率曲線（每日、全年期）** | `home.treasury.gov/resource-center/data-chart-center/interest-rates/daily-treasury-rates.csv/<年>/all?type=daily_treasury_yield_curve&_format=csv` | ✓ 175 列，**2026-09-11：2Y 4.63／10Y 4.96／30Y 5.35** |
+
+**⚠ 操作細節：`data.sec.gov` 要求帶 `User-Agent`（含聯絡方式），否則拒絕。免帳號、免 key。**
+
+⚠⚠ **`submissions` 回的 `fiscalYearEnd` 直接解掉 source-verifier 清單上的「曆年 vs 財年」陷阱** ——
+MSFT 回 `0630`，亦即它的「FY2026」結束於 2026 年 6 月。
+**那個口徑分岔此前只能靠記憶，現在有一手欄位可查。**
+
+⚠⚠⚠ **而財政部那條修正了本文件 §2 ② 的一個錯誤的兩半**：
+該處原寫 2308（台股）的折現率可用「4.97% 無風險利率」錨定。
+**2026-09-12 查證：美國 10Y 當日是 4.96% —— 所以那個數字本身是個正當的美國利率，
+錯的只有國別**（台幣 10Y 是 1.94%，差 **3.02pp**）。
+**「數字是對的、用錯了地方」比「數字是錯的」更難發現，因為它經得起一次數值核對。**
+
+### ⚠ 已審核並決定不採用的通道
+
+**`github.com/AI-Hub-Admin/finance-agent-mcp-server`（2026-09-12 審核）。**
+**結論：不安裝。不是因為有惡意程式碼 —— 逐行讀過，沒有。**
+
+**逐行審核的結果（`server.py` 4.9KB ＋ PyPI `financeagent` 0.0.6 的 31KB wheel 全部拆開讀）：**
+- ✓ **無** `eval`／`exec`／`pickle`／`subprocess`／`os.system`／`__import__`
+- ✓ **無** proxy 設定、**無**讀取環境變數或 `.env`、**無**憑證存取
+- ✓ 10 個外連主機全是 README 宣告的資料源（hkex、zacks、marketbeat、stockanalysis、
+  xueqiu、morningstar、moneycontrol、nasdaq）—— **無遙測、無作者自有端點**
+- ⚠ README 宣稱「data fetched from website with **proxy settings**」，**而程式碼裡沒有任何 proxy**；
+  `server.py` 的 `load_dotenv` 是從未被呼叫的死碼。**宣稱與實作不符，兩個方向都要記。**
+
+**不採用的四個理由，全部與「它現在做什麼」無關：**
+1. ⚠⚠⚠ **依賴未鎖版本**：`financeagent>=0.0.1`，而 PyPI 後設資料**完全匿名**
+   （無作者、無 email、無 home page、**無授權**）。**今天的 0.0.6 乾淨；明天的 0.0.7 以我的權限執行，而我不會看到。**
+   **風險不在程式碼是什麼，在於沒有任何東西約束它會變成什麼。**
+2. ⚠⚠ **兩邊都沒有授權條款**（MCP 倉庫與 PyPI 套件的 `license` 皆為 `None`）——
+   沒有授權就沒有使用許可，而這是一個公開倉庫。
+3. ⚠ **時序不對**：MCP 包裝最後推送 **2025-10-23**，而它會裝到 **2026-03-30** 發布的 0.0.6 ——
+   作者自己沒測過的組合。
+4. ⚠⚠ **它只有一個工具**（`get_stock_price_global_market`，回即時價／PE／市值），
+   而那些我用 WebFetch 打 `stockanalysis.com` 就有（上櫃 404 的問題只在台股）。
+   **零新增能力，對上一條看不見的供應鏈。**
+
+⚠⚠ **而它的資料源（morningstar／zacks／marketbeat）正是本文件反覆記錄的那一類中間層** ——
+本輪所有資料錯誤都出自中間層。**作者自己也寫：「not responsible for proxy or any data correctness related issues」。**
+
+**→ 規則：審核第三方資料套件時，「有沒有惡意程式碼」只是第一題，而且通常答案是沒有。
+第二題才是決定性的：它的依賴鎖不鎖、維護者具不具名、授權在不在、以及它換來什麼。
+一個零新增能力的套件，任何非零風險都不值得。**
+
 ## 9b. 2026-09-11 連續作業累積的檢查（七檔實測）
 
 ⚠ **本節是 2026-09-11 那一批（七檔）的產出。2026-09-12 完成的台股 24 檔全量作業另立 §9c —— 刻意不併入本節，因為兩批的樣本數不同，而 §9c 的第一條正好是「用子集合下全集合的結論會出錯」。**

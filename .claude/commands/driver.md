@@ -32,7 +32,7 @@ argument-hint: <driver-slug> <連結或原文>
 6. 更新 driver 檔的 `event_log` 與 `last_updated`，以及各受影響 state 的
    `key_variables` 與 `updated`。
 
-7. 跑 `check_public.py` → `check_append_only.py` → `validate_state.py` → `build_index.py`，commit：
+7. 跑 `check_public.py` → `check_append_only.py` → `validate_state.py` → `cross_check.py` → `build_index.py` → `build_site.py`，commit：
    `driver(<slug>): <一句話> → 扇出 N 檔`
 
 ## 注意

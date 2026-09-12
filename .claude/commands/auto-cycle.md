@@ -100,8 +100,8 @@ python scripts/daily_check.py
 
 ```bash
 python scripts/check_public.py && python scripts/check_append_only.py \
-  && python scripts/validate_state.py && python scripts/build_index.py \
-  && python scripts/build_site.py
+  && python scripts/validate_state.py && python scripts/cross_check.py \
+  && python scripts/build_index.py && python scripts/build_site.py
 ```
 
 任一失敗 → **中止並保留現場**，不要試圖繞過。

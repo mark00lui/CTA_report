@@ -20,6 +20,9 @@ description: 產生週報 — 事件流回顧、因子曝險檢核、未來兩�
    卻總是判 L0，代表該 driver 的 `sensitivity` 或 `lag` 設得太敏感，該修的是 driver。
 9. 列出超過 90 天未更新的變數（`python scripts/validate_state.py --stale`）。
 10. 寫到 `reports/YYYY/MM/YYYY-MM-DD-coverage-weekly.md`，套用 SKILL.md 的週報模板。
-11. 跑 `check_public.py` → `validate_state.py` → `build_index.py`，再 commit：`coverage: 週報 YYYY-Www`。
+11. 跑 `check_public.py` → `check_append_only.py` → `validate_state.py` → `cross_check.py` → `build_index.py` → `build_site.py`，再 commit：`coverage: 週報 YYYY-Www`。
+
+    ⚠ **週報要寫「首見／最高／最低」之前，先看 `cross_check.py`（不帶參數）印出的序數排名區塊。**
+    覆蓋層的報告最容易犯「拿子集合下全集合的結論」那個錯——週報正是它的高風險位置。
 
 結尾寫「本週最重要的一個判斷」。若沒有值得寫的就寫「無」— 硬湊觀點是雜訊來源。

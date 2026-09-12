@@ -23,7 +23,13 @@ argument-hint: <ticker> <連結或原文>
 5. 依級做對應深度的修正。需要現價、月營收、財報數字就去查，標來源與日期。
 6. 寫報告到 `reports/YYYY/MM/YYYY-MM-DD-<ticker>-L<n>-<slug>.md`，套用 `templates/report.md` 的 front-matter 與變更單模板。
 7. 更新 `state/<ticker>.yaml`（論點、情境、變數、否證點、CTA 位階、訊號），追加 `event_log` 一筆並更新 `last_updated`。
-8. 跑 `python scripts/check_public.py && python scripts/check_append_only.py && python scripts/validate_state.py && python scripts/build_index.py`。
+8. 跑完整驗證鏈（⚠ 2026-09-12 補齊 `cross_check.py` 與 `build_site.py`——前者已在 pre-commit 閘門，後者漏跑會讓 CI 的 `git diff --exit-code` 擋下 commit）：
+
+   ```bash
+   python scripts/check_public.py && python scripts/check_append_only.py && python scripts/validate_state.py && python scripts/cross_check.py && python scripts/build_index.py && python scripts/build_site.py
+   ```
+
+   確認 **0 block / 0 error**，且 `build_site.py` 連跑兩次的 md5 相同。
 9. Commit：`cta(<ticker>): L<n> <一句話> → <關鍵影響>`。commit message 同樣不得含倉位資訊。
 
 寫報告時逐句自問：這行能不能被拿來推論持倉？訊號寫「偏多」不寫「加碼」；

@@ -91,7 +91,7 @@ sources:
 ### 5. 驗證與 commit
 
 ```bash
-python scripts/check_public.py && python scripts/check_append_only.py && python scripts/validate_state.py && python scripts/build_index.py
+python scripts/check_public.py && python scripts/check_append_only.py && python scripts/validate_state.py && python scripts/cross_check.py && python scripts/build_index.py && python scripts/build_site.py
 ```
 
 commit：`brief(YYYY-MM-DD): <一句話> → 佇列 N 檔`

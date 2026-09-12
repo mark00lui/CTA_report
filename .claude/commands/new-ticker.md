@@ -32,4 +32,7 @@ argument-hint: <ticker> <名稱>
 7. 至少 2 條有數字門檻的 falsifiers，其中至少 1 條在未來 6 個月可驗證。
 8. 更新 `state/coverage.yaml` 的 coverage 清單與等權因子分布，
    並指出新增這檔是否加深既有的因子集中。
-9. 跑 `check_public.py` 與 `validate_state.py`，再 commit：`state(<ticker>): 新增追蹤標的`。
+9. 跑 `check_public.py` → `check_append_only.py` → `validate_state.py` → `cross_check.py` → `build_index.py` → `build_site.py`，再 commit：`state(<ticker>): 新增追蹤標的`。
+
+   ⚠ **新建檔的三情境多半還是 `__`，`cross_check.py` 的 E2／E3 會自動略過**
+   （它只在 `eps`、`exit_multiple`、`tp` 都是數值時才比對）——**不要為了讓它有東西可查而填數字。**

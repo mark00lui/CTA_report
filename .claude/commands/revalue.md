@@ -89,11 +89,55 @@ argument-hint: <ticker>
    - L1（變動 < 5%）**不寫報告**，只更新 state 的變數與 `updated` 日期。
      沒有實質變化的報告是雜訊，會稀釋索引的訊噪比。
 
+8b. ⚠⚠ **L2／L3 必須送 `source-verifier` 查核，L1 不必（它不寫報告）。**
+
+   用 Agent 工具起一個 `source-verifier`，給它**草稿路徑**與**一份逐筆的數值清單**
+   （每筆：數值、單位、口徑、宣稱來源、宣稱日期、tier）。
+
+   ⚠⚠⚠ **不要把你的推理過程給它。** 它的價值完全來自「沒有你寫報告時的那份記憶」——
+   你一旦附上「我是這樣想的所以這個數字應該對」，它就會沿著你的框架去確認，
+   而那正是單一 agent 自我檢查一定會通過的原因。**只給數字與來源宣稱。**
+
+   它回傳七種判定（`已核實`／`口徑不符`／`數值不符`／`過期`／`單一二手`／`無法取得`／`tier 標錯`），
+   沒有「大致正確」這個中間狀態。依判定處置：
+
+   | 判定 | 處置 |
+   |---|---|
+   | `已核實` | 無動作 |
+   | `數值不符`／`口徑不符`／`tier 標錯`／`過期` | **改草稿。** 報告尚未 commit，此時改不違反 append-only |
+   | `無法取得`／`單一二手` | **移進 `gaps`** 並填 `how_to_close`；草稿裡該數字降 tier 或刪除 |
+
+   ⚠⚠ **報告還沒 commit 之前改稿是唯一的時機。** 一旦 commit，`check_append_only.py`
+   就會擋下任何修改，錯的數字只能靠另寫一份 `supersedes` 報告修正——那份修正會留在索引裡。
+   **所以這一步省下來的不是時間，是校準記錄的乾淨度。**
+
+   ⚠⚠⚠ **不得在它回報之前就往下走，也不得替它編造結果。**
+   它是背景執行的，結果會以通知送回來。等。
+
+   ⚠ **若你不同意它的某一筆判定，必須在報告裡寫下來**（判定、你的理由、最後採用哪個值）。
+   **安靜地覆蓋查核官的判定，等於沒查。** 這一條是這個步驟唯一的防線——
+   它沒有機械強制，所以它只能靠寫下來。
+
+   ⚠ **它改不了檔案**（工具只有 Read／Grep／Glob／WebFetch／WebSearch），所以所有修正由你執行。
+
 9. 更新 `state/<ticker>.yaml`，追加 `event_log` 一筆（`summary: 手動重估`），更新 `last_updated`
    與 **`valuation_frame.reviewed`**。若象限或方法組合有變動，`event_log` 的 `delta` 必須寫出
    **從哪一象限／哪組方法換到哪一組，以及觸發的判準數值**。
 
-10. 跑 `python scripts/check_public.py && python scripts/validate_state.py && python scripts/build_index.py`，然後 commit：`revalue(<ticker>): 加權目標價 X → Y（±Z%）`。
+10. 跑完整驗證鏈（⚠ 這裡原本只列三支，已於 2026-09-12 補齊——
+    `check_append_only.py` 與 `cross_check.py` 都已在 pre-commit 閘門裡，
+    而 `build_site.py` 漏跑會讓 CI 的 `git diff --exit-code` 擋下 commit）：
+
+    ```bash
+    python scripts/check_public.py && python scripts/check_append_only.py && \
+    python scripts/validate_state.py && python scripts/cross_check.py && \
+    python scripts/build_index.py && python scripts/build_site.py
+    ```
+
+    確認 **0 block / 0 error**，且 `build_site.py` 連跑兩次的 md5 相同。
+    ⚠ `cross_check.py` 不帶參數會印出**序數排名區塊**——
+    **報告裡要寫「首見／最高／最低」的話，先看那一塊**（`--gate` 模式不印它）。
+    然後 commit：`revalue(<ticker>): 加權目標價 X → Y（±Z%）`。
 
 ## 注意
 

@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "tw-stock": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "ghcr.io/twjackysu/twsemcpserver:latest"
+      ]
+    }
+  }
+}

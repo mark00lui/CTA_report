@@ -14,7 +14,19 @@
 | `thesis_since` | date | 論點成立日，用來看論點壽命 |
 | `scenarios` | map | `bear` / `base` / `bull`，各含 `p`、`p_basis`、關鍵財務假設、`eps`、`exit_multiple`、**`multiple_basis`**、`tp`（目標價）、`narrative`（一句話） |
 | `key_variables` | list | 決定論點成立與否的變數，**上限 6 個**。每個含 `name` / `value` / `unit` / `tier` / `source` / `updated` |
-| `cta` | map | `位階`（右側確認／整理／破線）、`key_ma`、`support`、`resistance`、`invalidation`（技術面失效價位）、`confirm_trigger`、`updated` |
+| `cta` | map | `位階`（右側確認／整理／破線）、`key_ma`、`support`、`resistance`、`atr20` ＋ `atr20_basis`、`invalidation`（技術面失效價位）＋ `invalidation_basis`、`thesis_review_trigger`、`confirm_trigger`、`price` ＋ `price_basis`、`updated` |
+
+⚠⚠ **`invalidation` 與 `thesis_review_trigger` 是兩個不同的物件，受不同的約束**（2026-09-12 於 8046 分開）：
+
+| 欄位 | 問的是 | 距離約束 |
+|---|---|---|
+| `invalidation` | 技術位階是否失效 | **必須可被觸發** —— 距現價 ≥2 倍 ATR（下界，擋雜訊）且 ≤20%（上界，擋「太遠所以永遠不會發生」）|
+| `thesis_review_trigger` | 論點所依賴的前提是否還成立 | **必須夠深才有意義** —— 不受 ±20% 上界約束 |
+
+**把一個距現價 41% 的價位（8046 的 MA240）塞進 `invalidation`，會讓 ±20% 上界看起來太嚴；真正的問題是那個欄位裝了兩種用途的東西。**
+
+⚠ **`atr20` 是雙邊規則的分母，不可用單日振幅代替** —— 單日振幅的偏誤方向不固定（8299 虛增 2.15 倍、3211 虛增 2.62 倍、3131 虛減 2.69 倍）。
+⚠ **下界可由「週收盤」這個時間濾網替代**：週的真實區間約為日 ATR 的 √5 ≈ 2.24 倍，故「週收盤跌破距離 d 的位階」等效於「日收盤跌破距離 2.24d」（2308 的 MA240 1.59 → 3.56 倍；8046 的 MA120 1.30 → 2.91 倍）。
 | `signal` | map | `rating`（偏多/中性/偏空）、`conviction`（高/中/低）、`basis`、`changes_if` |
 | `falsifiers` | list | 否證點。**可驗證、有日期、有數字門檻**。觸發即強制 L3。 |
 | `checkpoints` | list | 未來已知的資訊節點（法說、財報、月營收、產業展會、政策日期），含 `date` / `event` / `what_to_watch` |

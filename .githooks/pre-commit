@@ -15,4 +15,14 @@ python scripts/check_append_only.py || exit 1
 echo "→ 驗證 state 結構…"
 python scripts/validate_state.py || exit 1
 
+# 三情境的算術自洽。E1（機率合計）與 validate_state 重複，
+# 但 E2（weighted_tp 與三格不符）與 E3（tp ≠ eps × 倍數）在此之前沒有任何機械檢查。
+# --gate 只印硬錯：旗標 F1–F7 有 27 檔會觸發，每次 commit 印一遍會洗掉真正要看的行。
+echo "→ 檢查三情境算術自洽…"
+python scripts/cross_check.py --gate || {
+    echo ""
+    echo "✗ commit 已中止。情境的算術不自洽 — 先修數字，不要改檢查。"
+    exit 1
+}
+
 echo "✓ 通過"

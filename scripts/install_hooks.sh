@@ -5,4 +5,5 @@ cd "$(dirname "$0")/.."
 git config core.hooksPath .githooks
 chmod +x .githooks/*
 echo "✓ hooks 已安裝（core.hooksPath = .githooks）"
-echo "  每次 commit 前會自動跑 check_public.py --staged 與 validate_state.py"
+echo "  每次 commit 前會自動跑 check_public.py --staged、check_append_only.py、"
+echo "  validate_state.py 與 cross_check.py --gate"

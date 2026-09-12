@@ -22,11 +22,17 @@
     python scripts/cross_check.py            # 全部標的
     python scripts/cross_check.py --tw       # 只看台股 24 檔
     python scripts/cross_check.py --quiet    # 只印硬錯與旗標，不印總表
+    python scripts/cross_check.py --gate     # pre-commit 閘門：只印硬錯，旗標收成一行
 
 硬錯（exit 1）—— 這些是算術不自洽，不是判斷問題：
     E1  三情境機率合計 ≠ 1.00
     E2  weighted_tp 欄位 ≠ 由三格算出來的值
     E3  某格的 tp ≠ eps × exit_multiple（eps 為數值時才檢）
+
+⚠ E1 與 validate_state.py 的機率合計檢查重複（刻意保留：這支腳本要能獨立跑）。
+  **E2 與 E3 在 2026-09-12 併入 .githooks/pre-commit 之前沒有任何機械檢查 ——
+  那就是把它併進閘門的理由。** 旗標 F1–F7 不擋 commit，且在閘門模式下收成一行：
+  27 檔的旗標每次 commit 都印一遍，會洗掉真正要看的那幾行。
 
 旗標（exit 0，僅報告）—— 這些是要被看見的結構特徵，不是錯：
     F1  算術與幾何加權跨越零  → thesis 近乎二元，加權平均描述一個不會發生的中間狀態
@@ -38,6 +44,14 @@
     F7  反推分母非單調遞增      → eps 為 __ 時 E3 查不到，改由 tp ÷ 倍數反推並檢查方向
 """
 import io, os, sys, glob, math, argparse
+
+# 與 validate_state.py / check_public.py 同樣的理由，而這支腳本是在 pre-commit hook 裡
+# 實測發現的：hook 的環境沒有 PYTHONIOENCODING，Windows 主控台用 cp950，
+# 於是硬錯訊息印成亂碼。看不懂的錯誤訊息等於半個閘門。
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+except (AttributeError, OSError):
+    pass
 
 try:
     import yaml
@@ -167,7 +181,11 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--tw', action='store_true', help='只看台股 24 檔')
     ap.add_argument('--quiet', action='store_true', help='不印總表')
+    ap.add_argument('--gate', action='store_true',
+                    help='pre-commit 閘門：只印硬錯，旗標收成一行')
     a = ap.parse_args()
+    if a.gate:
+        a.quiet = True
 
     paths = []
     for f in sorted(glob.glob(os.path.join(ROOT, 'state', '*.yaml'))):
@@ -220,7 +238,7 @@ def main():
             n('spread', lambda v: v >= 3), n('spread', lambda v: v >= 5)))
         print()
 
-    if all_flag:
+    if all_flag and not a.gate:
         print('--- 旗標（僅報告，不擋 commit）---')
         for tk, fl in all_flag:
             for s in fl:
@@ -234,7 +252,12 @@ def main():
                 print('  [%s] %s' % (tk, s))
         print('\n有 %d 檔算術不自洽。' % len(all_err))
         return 1
-    print('✓ 算術自洽：%d 檔無硬錯（%d 檔帶旗標）' % (len(rows), len(all_flag)))
+    if a.gate:
+        print('  ✓ %d 檔三情境算術自洽（E1–E3）；%d 檔帶旗標 —— '
+              '細節跑 python scripts/cross_check.py'
+              % (len(rows), len(all_flag)))
+    else:
+        print('✓ 算術自洽：%d 檔無硬錯（%d 檔帶旗標）' % (len(rows), len(all_flag)))
     return 0
 
 

@@ -94,11 +94,25 @@ scripts/                  驗證、索引、站台、倉位資訊掃描
 
 **commit 前一定跑：**
 ```bash
-python scripts/check_public.py && python scripts/check_append_only.py && python scripts/validate_state.py && python scripts/build_index.py && python scripts/build_site.py
+python scripts/check_public.py && python scripts/check_append_only.py && python scripts/validate_state.py && python scripts/cross_check.py && python scripts/build_index.py && python scripts/build_site.py
 ```
 `build_index.py` 與 `build_site.py` 都是**單向產生**：輸出被手改會在下次執行時覆蓋，
 且 CI 會用 `git diff --exit-code` 擋下產生器輸出與提交內容不一致的 commit。
-pre-commit hook 會自動跑前三項（`bash scripts/install_hooks.sh` 安裝一次）。
+pre-commit hook 會自動跑前四項（`bash scripts/install_hooks.sh` 安裝一次）。
+
+`cross_check.py` 是**跨清單重算**：把每一項聚合檢查對「全部」標的跑一次，而不是只對剛改的那幾檔。
+它擋下三種算術不自洽 —— E1 機率合計 ≠ 1.00、**E2 `weighted_tp` 與三格算出的值不符、
+E3 某格 `tp` ≠ `eps × exit_multiple`**；後兩項在它併入閘門之前沒有任何機械檢查。
+另有七條**不擋 commit** 的旗標（F1 算術與幾何加權跨越零／F2 全距 ≥5x／
+F3 倍數段佔對數全距 ≥70%／F4 base 落在現價 ±5% 內／F5 |加權 − base| ≤2pp／
+F6 三情境分母完全相同／F7 反推分母非單調遞增）。
+hook 裡用 `--gate` 只印硬錯；**要看旗標與序數排名就自己跑一次不帶參數的版本**。
+
+⚠⚠ **它存在的理由是一類實際犯過的錯：拿子集合下全集合的結論。**
+「首見／最高／最低」是這份研究記錄標示方法層演進的主要標記，而我三次把它下錯 ——
+兩次是只對「檢查建立之後處理的標的」算過，一次是把機率硬寫成眾數 0.25/0.50/0.25
+而沒去讀那三檔非標準的值。**所以下任何序數結論之前，先跑一次不帶參數的 `cross_check.py`，
+看它印出來的排名區塊。** 可機械化的檢查不要留給紀律。
 
 **commit message 格式**（讓 `git log` 本身成為研究日誌），同樣不得含倉位資訊：
 ```

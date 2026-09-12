@@ -38,6 +38,8 @@
     F1  算術與幾何加權跨越零  → thesis 近乎二元，加權平均描述一個不會發生的中間狀態
     F2  全距 ≥ 5 倍            → 門檻自 3 倍提高而來（3 倍在 24 檔裡觸發 18 檔，不是篩子）
     F3  倍數段佔對數全距 ≥ 70% → 寬度集中在倍數，模型在賭重評價而非賭盈餘
+    F8  倍數段佔對數全距 > 100% → 算術上不可能，故 exit_multiple 不是全公司倍數
+        （E3／F6／F7 對該檔不適用）
     F4  base 落在現價 ±5% 內   → 可能是結論，也可能是沒有獨立意見的產物，報告必須分清
     F5  |加權 − base| ≤ 2pp    → 兩翼對頭條幾乎沒有貢獻（只貢獻寬度，而頭條不報寬度）
     F6  三情境分母完全相同      → 不是三情境，是對同一個盈餘的三種市場願付價格
@@ -141,6 +143,18 @@ def analyse(tk, d):
         flags.append('F2 全距 %.2f 倍 ≥ 5' % row['spread'])
     if row.get('mul_share') and row['mul_share'] >= 0.70:
         flags.append('F3 倍數段佔對數全距 %.0f%% ≥ 70%%' % (row['mul_share'] * 100))
+    # F8：倍數段佔比 > 100% —— 這在「tp ＝ 共同 eps × 倍數」的分解下是算術上不可能的，
+    #     因為兩段相加恰等於全距。所以它證明 exit_multiple 不是全公司的倍數。
+    #     2026-09-12（INTC）實測 149%：該檔的目標價是三個分部加總，而 exit_multiple
+    #     只記了 Intel Foundry 一個分部的市值／PPE。當時 F7 照樣誤報了，
+    #     而 F3 的 149% 本來就能攔下它 —— 只是它被當成一個「偏向倍數」的旗標而非偵測器。
+    #     ⚠ 本條只報告，不自動抑制 E3／F6／F7：抑制會改變其他檔的行為，
+    #       需要逐檔確認哪些是反算型的倍數，屬覆蓋層工作。
+    if row.get('mul_share') and row['mul_share'] > 1.0:
+        flags.append(
+            'F8 倍數段佔對數全距 %.0f%% > 100%% —— 在「tp ＝ 共同 eps × 倍數」下算術上不可能，'
+            '故此檔的 exit_multiple 不是全公司倍數；E3／F6／F7 對它不適用，讀 multiple_basis'
+            % (row['mul_share'] * 100))
     if row.get('base_up') is not None and abs(row['base_up']) <= 0.05:
         flags.append('F4 base 落在現價 %+.1f%%（±5%% 內）→ 報告須分清是結論還是沒有獨立意見' % (row['base_up'] * 100))
     if a is not None and row.get('base_up') is not None and abs(a - row['base_up']) <= 0.02:

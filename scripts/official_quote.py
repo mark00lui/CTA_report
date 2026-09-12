@@ -107,8 +107,12 @@ def detect_market(tk):
     return None
 
 
+SKIPPED = []
+
+
 def bars(tk, market, months):
-    """回傳 [(iso_date, open, high, low, close)]，依日期遞增。"""
+    """回傳 [(iso_date, open, high, low, close)]，依日期遞增。
+    ⚠ 無法解析 OHLC 的列（零成交日）會被記進 SKIPPED 並在輸出中報告，不靜默丟棄。"""
     out = []
     for y, m in month_list(months):
         if market == "上櫃":
@@ -123,6 +127,11 @@ def bars(tk, market, months):
             o, h, l, c = num(r[3]), num(r[4]), num(r[5]), num(r[6])
             if None not in (o, h, l, c):
                 out.append((roc_to_iso(r[0]), o, h, l, c))
+            else:
+                # ⚠ 2026-09-12（3665 實測）：零成交日的 OHLC 是 "--"，初版靜默跳過，
+                #   結果根數少一根而長均線窗口往前多含一天 —— 使用者看不到這件事發生。
+                #   零成交通常代表暫停交易，那本身是 CTA 相關的事實，必須報出來。
+                SKIPPED.append((roc_to_iso(r[0]), r[1], r[2]))
     out.sort(key=lambda x: x[0])
     return out
 
@@ -179,6 +188,12 @@ def report(tk, months, refresh):
     print("%s（%s）  官方收盤 %.2f  日期 %s  共 %d 根（%s ~ %s）"
           % (tk, market, px, b[-1][0], len(b), b[0][0], b[-1][0]))
     print("=" * 66)
+    if SKIPPED:
+        print("⚠⚠ 有 %d 個交易日無法解析 OHLC（零成交，通常代表暫停交易）——"
+              " 它們不在上面的根數裡，所以長均線的窗口會往前多含同樣天數：" % len(SKIPPED))
+        for d0, vol, amt in SKIPPED:
+            print("   %s  成交股數 %s  成交金額 %s" % (d0, vol, amt))
+        print()
     print("當日 開 %.2f  高 %.2f  低 %.2f  收 %.2f" % (b[-1][1], b[-1][2], b[-1][3], px))
     print("ATR20 %.2f ＝ 收盤的 %.2f%%" % (a, a / px * 100))
     print("當日振幅 %.2f%%（＝ ATR 的 %.2f 倍）⚠ 單日振幅不得當門檻分母，偏誤方向不固定"

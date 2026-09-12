@@ -114,6 +114,18 @@ def analyse(tk, d):
 
     # ---- 聚合量 ----
     row = {'tk': tk, 'px': px, 'w': wf}
+    # ⚠⚠⚠ 2026-09-12：把 ATR20 占收盤比納入排名。
+    #   理由是一個實際犯過的錯：TSM 那一輪我宣稱「ATR 2.377% 是台股 24 檔與美股 15 檔合計裡最低」，
+    #   而當時只有 27/39 檔算過 ATR —— MSFT 的 1.953% 在一檔之內就推翻它。
+    #   CLAUDE.md 已記著同類錯誤犯過三次，而那條紀律說「下序數結論前先跑 cross_check」——
+    #   但 ATR 不在 cross_check 的輸出裡，所以那條紀律對 ATR 型結論完全沒有覆蓋。
+    #   ⚠ 排名區塊會印出「已算出 N 檔」，因為分母本身就是那個錯誤的來源。
+    atr = (d.get('cta') or {}).get('atr20')
+    if atr and px:
+        try:
+            row['atr_ratio'] = float(atr) / float(px)
+        except (TypeError, ValueError):
+            pass
     # ⚠ 2026-09-12 實測：我上一輪的跨清單重算把權重硬寫成 0.25/0.50/0.25（24 檔裡 21 檔是那樣），
     #   結果 2308（實際 0.30/0.50/0.20）的幾何加權算成 +1.1% 而非 -3.6% —— 漏掉一個跨越零的實例，
     #   而它是整個作業的第 1 輪。機率是使用者指定的，不得假設。把它印出來，讓偏離無法安靜通過。
@@ -240,6 +252,11 @@ def main():
                 r.get('pnote', '')))
         print()
         print('--- 序數結論（下「首見／最高／最低」之前看這裡）---')
+        rank(rows, 'atr_ratio', 'ATR20 占收盤比', fmt='%.3f%%', mul=100)
+        _na = [r['tk'] for r in rows if r.get('atr_ratio') is None]
+        if _na:
+            print('  %-22s 已算出 %d 檔；未算 %d 檔：%s'
+                  % ('　（ATR 的分母）', len(rows) - len(_na), len(_na), ' '.join(sorted(_na))))
         rank(rows, 'spread', '全距', fmt='%.2fx')
         rank(rows, 'mul_share', '倍數段佔對數全距', fmt='%.0f%%', mul=100)
         rank(rows, 'arith', '算術加權上檔', fmt='%+.0f%%', mul=100)

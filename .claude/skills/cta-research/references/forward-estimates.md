@@ -393,6 +393,26 @@ FY2027 則是 59.0 對 60.06（+1.8%），分布較對稱。
 | **申報索引與基本資料** | `data.sec.gov/submissions/CIK<10 碼>.json` | ✓ 回 name／tickers／exchanges／**fiscalYearEnd**，最新申報至 2026-09-11 |
 | **美國公債殖利率曲線（每日、全年期）** | `home.treasury.gov/resource-center/data-chart-center/interest-rates/daily-treasury-rates.csv/<年>/all?type=daily_treasury_yield_curve&_format=csv` | ✓ 175 列，**2026-09-11：2Y 4.63／10Y 4.96／30Y 5.35** |
 
+### ⚠⚠⚠ 把 XBRL 用在 EPS 水準上 —— 它能裁決互相矛盾的前瞻共識
+
+`companyconcept` 端點取 `us-gaap/EarningsPerShareDiluted` 會回**官方實際稀釋 EPS 的逐年序列**，
+而那是任何第三方前瞻共識的合理性檢查。**2026-09-12（GOOG）第一次這樣用，而它一次裁決了三個數字：**
+
+| 來源 | 值 | 隱含對 FY2025 實績 10.81 的成長 | 判斷 |
+|---|---|---|---|
+| state 的 base | 13.5 | +24.9%（一年）| ✓ **與已實現的 FY2024→FY2025 +34.5% 同一量級** |
+| stockanalysis「FY2026」| 20.60 | **+90.6%（一年）** | ✗ 不合理 |
+| Zacks FY2027 | 11.51 | **+6.5%（兩年）** | ✗ 不合理 |
+
+官方序列：FY2020 2.93 / FY2021 5.61 / FY2022 4.56 / FY2023 5.80 / FY2024 8.04 / **FY2025 10.81**。
+
+> **→ 有了官方錨，「三個平等的數字互相矛盾」就變成「兩個不合理、一個合理」。**
+> **而這比「記下一個未調和的衝突」強得多 —— 後者會一直留在 gaps 裡，前者可以收掉。**
+
+⚠ **取法**：`10-K` ＋ `fp=FY` ＋ `start` 為 01-01、`end` 為 12-31 的那些列才是曆年全年值
+（非曆年公司要改用 `fiscalYearEnd` 對應的起訖）。⚠ **它是 GAAP，而共識多半是 non-GAAP ——
+所以它判斷的是「量級合不合理」，不是「數字對不對」。**
+
 **⚠ 操作細節：`data.sec.gov` 要求帶 `User-Agent`（含聯絡方式），否則拒絕。免帳號、免 key。**
 
 ⚠⚠ **`submissions` 回的 `fiscalYearEnd` 直接解掉 source-verifier 清單上的「曆年 vs 財年」陷阱** ——

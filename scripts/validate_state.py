@@ -57,6 +57,42 @@ def as_date(v):
         return None
 
 
+def check_dup_keys(path, text):
+    """掃出同一層級重複的 YAML 鍵。
+
+    ⚠ PyYAML 預設保留**最後**一個同名鍵且不發任何警告，所以較早的那個
+    對每一個讀者都不存在 —— 這是一種靜默的資料遺失，而整條驗證鏈
+    在 2026-09-12 之前完全看不到它。實測六處，其中 2308 的 `changes_if`
+    （否證條件）與 hyperscaler-capex 的 `affects`（扇出要更新哪些變數）
+    都是功能性損失，不只是註解。
+    """
+    class Dup(yaml.SafeLoader):
+        pass
+
+    found = []
+
+    def ctor(loader, node, deep=False):
+        seen = {}
+        for k, _v in node.value:
+            key = loader.construct_object(k, deep=deep)
+            line = k.start_mark.line + 1
+            if key in seen:
+                found.append((key, line, seen[key]))
+            seen[key] = line
+        return yaml.SafeLoader.construct_mapping(loader, node, deep)
+
+    Dup.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, ctor)
+    try:
+        yaml.load(text, Loader=Dup)
+    except yaml.YAMLError:
+        return
+    for key, line, prev in found:
+        warns.append(
+            f"{path}: 第 {line} 行的鍵「{key}」與第 {prev} 行重複 — "
+            "PyYAML 只保留最後一個，前者被靜默丟棄"
+        )
+
+
 def check_scenarios(path, d):
     """三情境機率合計必須為 1.00 — 這是最容易在手改時弄錯的地方。"""
     sc = d.get("scenarios") or {}
@@ -209,6 +245,7 @@ def check_driver_integrity(root):
         if os.path.basename(path).startswith("_"):
             continue
         rel = os.path.relpath(path, root)
+        check_dup_keys(rel, open(path, encoding="utf-8").read())
         try:
             d = yaml.safe_load(open(path, encoding="utf-8"))
         except yaml.YAMLError as e:
@@ -332,6 +369,7 @@ def main():
                 "沒有翻轉條件的評級無法被檢驗"
             )
 
+        check_dup_keys(rel, open(path, encoding="utf-8").read())
         check_thesis(rel, d)
         check_scenarios(rel, d)
         check_key_vars(rel, d)

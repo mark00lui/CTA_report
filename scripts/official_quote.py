@@ -186,9 +186,16 @@ def report(tk, months, refresh):
     print()
     print("區間高 %.2f（%s）  區間低 %.2f（%s）  高低比 %.2f 倍" % (hi, hid, lo, lod, hi / lo))
     print("現價距區間高 %+.2f%%   在區間低之上 %+.2f%%" % ((px / hi - 1) * 100, (px / lo - 1) * 100))
-    print("區間低距現價 %.2f%% ＝ %.2f 倍 ATR%s"
-          % ((px - lo) / px * 100, ((px - lo) / px) / (a / px),
-             "" if ((px - lo) / px) / (a / px) >= ATR_MIN_RATIO else "  ⚠ 未過 2 倍下界"))
+    # ⚠ 雙邊規則對非均線位階同樣適用 —— 初版只檢下界，3211 實測漏掉上界（區間低距現價 23.07%）。
+    d_lo = (px - lo) / px
+    r_lo = d_lo / (a / px)
+    if r_lo >= ATR_MIN_RATIO and d_lo <= MAX_DISTANCE:
+        verd_lo = "✓ 可作 invalidation 候選"
+    elif r_lo < ATR_MIN_RATIO:
+        verd_lo = "✗ 未過 2 倍下界"
+    else:
+        verd_lo = "✗ 超出 ±20% 上界"
+    print("區間低距現價 %.2f%% ＝ %.2f 倍 ATR   %s" % (d_lo * 100, r_lo, verd_lo))
     print()
     c = [x[4] for x in b]
     print("均線                 值    價格相對位置   距現價    倍 ATR   可作 invalidation？")

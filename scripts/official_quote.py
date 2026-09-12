@@ -190,15 +190,31 @@ def report(tk, months, refresh):
     d_lo = (px - lo) / px
     r_lo = d_lo / (a / px)
     if r_lo >= ATR_MIN_RATIO and d_lo <= MAX_DISTANCE:
-        verd_lo = "✓ 可作 invalidation 候選"
+        verd_lo = "✓ 可作 invalidation 候選（在價格下方）"
     elif r_lo < ATR_MIN_RATIO:
         verd_lo = "✗ 未過 2 倍下界"
     else:
         verd_lo = "✗ 超出 ±20% 上界"
     print("區間低距現價 %.2f%% ＝ %.2f 倍 ATR   %s" % (d_lo * 100, r_lo, verd_lo))
+    # ⚠ 2026-09-12（2308 實測）：上面的「區間」是抓到多少根就算多少根，不等於 52 週。
+    #   --months 14 給的是約 13.4 個月，而 2308 的最低點剛好落在窗口第一天（窗口外的一天）——
+    #   把它寫成「52 週低」會錯 1.8%（821 對 556 差 48%）。所以另外算一個真正的 52 週。
+    cutoff = "%04d-%02d-%02d" % (int(b[-1][0][:4]) - 1, int(b[-1][0][5:7]), int(b[-1][0][8:10]))
+    w52 = [x for x in b if x[0] >= cutoff]
+    if len(w52) >= 200 and w52[0][0] > b[0][0]:
+        h52 = max(x[2] for x in w52)
+        l52 = min(x[3] for x in w52)
+        d52 = (px - l52) / px
+        print("真 52 週（自 %s，%d 根）高 %.2f（%s）低 %.2f（%s）高低比 %.2f 倍；"
+              "低距現價 %.2f%% ＝ %.2f 倍 ATR"
+              % (cutoff, len(w52), h52, [x[0] for x in w52 if x[2] == h52][0],
+                 l52, [x[0] for x in w52 if x[3] == l52][0], h52 / l52,
+                 d52 * 100, d52 / (a / px)))
+    elif len(w52) >= 200:
+        print("真 52 週：窗口起點即資料起點，上面的區間就是 52 週（未被截斷）")
     print()
     c = [x[4] for x in b]
-    print("均線                 值    價格相對位置   距現價    倍 ATR   可作 invalidation？")
+    print("均線                 值    價格相對位置   距現價    倍 ATR   判定（⚠ 方向決定它是哪一種）")
     for n in (5, 10, 20, 60, 120, 240):
         if len(c) < n:
             print("MA%-4d  （需 %d 根，目前 %d 根 —— 加 --months 取更多）" % (n, n, len(c)))
@@ -209,14 +225,18 @@ def report(tk, months, refresh):
         ratio = dist / (a / px)
         ok_lo = ratio >= ATR_MIN_RATIO
         ok_hi = dist <= MAX_DISTANCE
+        below = ma < px
         if ok_lo and ok_hi:
-            verd = "✓ 可用"
+            # ⚠ 2026-09-12（2308 實測）：雙邊規則只管距離，不管方向 —— 但方向決定這個位階是哪一種。
+            #   invalidation 是「失效價位」，必須在價格下方；價格上方的合格位階是 confirm_trigger 的候選。
+            #   初版兩者都印「✓ 可用」，會讓人把一條壓力線寫進 invalidation。
+            verd = "✓ 可作 invalidation" if below else "✓ 可作 confirm_trigger（在價格上方）"
         elif not ok_lo and not ok_hi:
             verd = "✗ 下界與上界都沒過"
         elif not ok_lo:
             verd = "✗ 未過 2 倍下界（與雜訊分不開）"
         else:
-            verd = "✗ 超出 ±20% 上界（太遠，不構成有意義的失效點）"
+            verd = "✗ 超出 ±20% 上界（太遠，不構成有意義的位階）"
         print("MA%-4d %10.2f   %s %5.2f%%   %6.2f%%   %6.2f   %s"
               % (n, ma, "在價格上方" if ma > px else "在價格下方", abs(rel) * 100,
                  dist * 100, ratio, verd))

@@ -98,6 +98,20 @@ python scripts/check_public.py && python scripts/check_append_only.py && python 
 ```
 `build_index.py` 與 `build_site.py` 都是**單向產生**：輸出被手改會在下次執行時覆蓋，
 且 CI 會用 `git diff --exit-code` 擋下產生器輸出與提交內容不一致的 commit。
+
+**`scripts/build_db.py` 是第三個產生器，但它不在這條鏈上**：
+它把 `state/`、`drivers/`、`reports/` 攤平成 `.cache/research.sqlite`（**不進版控**），
+用來回答來源層答不出來的問題 —— 跨標的比較、依日期排序、把散文條件與數值條件做交集
+（例：「base 的 `multiple_basis` 提到同業的有哪幾檔」「訊號偏多但沒有合格失效價位的有哪幾檔」）。
+
+⚠⚠ **它是衍生層，不是真相，而那個分界要守住。**
+來源真相是 `state/*.yaml`（可變、當下最佳判斷）與 `reports/**/*.md`（不可改、append-only）。
+資料庫每次執行都整個砍掉重建，**在裡面做的任何修改都會消失**。
+
+⚠ **這也是「要不要改用 markdown database」的答案：不要。**
+那種做法要把來源真相換成 front-matter ＋ 查詢語法，
+**會失去 `check_append_only.py` 的機械不可變性與 `git blame` 的逐行可追溯性 —— 淨損。**
+正確的做法是來源真相一個字不動，在旁邊長一層可以隨時砍掉重建的索引。
 pre-commit hook 會自動跑前四項（`bash scripts/install_hooks.sh` 安裝一次）。
 
 `cross_check.py` 是**跨清單重算**：把每一項聚合檢查對「全部」標的跑一次，而不是只對剛改的那幾檔。

@@ -8,3 +8,6 @@ venv/
 *.local.yaml
 *.local.md
 scratch/
+
+# 衍生索引 —— scripts/build_db.py 每次執行都砍掉重建，不是真相的一部分
+.cache/

@@ -88,6 +88,8 @@ checkpoints:
 gaps:
   - {question: "__", how_to_close: "__"}
 
-event_log: []          # {date, level, summary, delta} — 只留最近 20 筆
+event_log: []          # {date, level, summary} — 只留最近 20 筆
+                       # ⚠ 不得有 delta：事件的細節寫在該事件的報告裡，不要抄第二份回 state。
+                       # state 是當下最佳判斷，不是日誌。validate_state.py 會擋下。
 
 last_updated: __

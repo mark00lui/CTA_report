@@ -271,6 +271,29 @@ def check_key_vars(path, d):
                 stale_notes.append(msg)
 
 
+def check_event_log(path, d):
+    """state 的 event_log 不得帶 delta —— 那是歷史，歷史住在 reports/。
+
+    ⚠ 依據是 schema 自己寫的「delta（一行）」，而實際做出來的是平均 1,636 字元、
+      最長 4,057（MU 2026-09-12），超出規定約 27 倍。
+      CLAUDE.md 已為 coverage.yaml 的同一個形狀裁決過：
+      「當 state 裡的某個欄位開始承擔『記錄歷史』的職責時，它就站錯地方了」。
+      2026-09-13 全部 39 檔搬進 reports/2026/09/2026-09-13-<tk>-event-log-archive.md，
+      本檢查防的是它長回來。
+    """
+    el = d.get("event_log") or []
+    if not isinstance(el, list):
+        return
+    bad = [str(e.get("date")) for e in el
+           if isinstance(e, dict) and not is_placeholder(e.get("delta"))]
+    if bad:
+        errors.append(
+            f"{path}: event_log 有 {len(bad)} 筆帶 delta（{', '.join(bad[:3])}…）— "
+            "事件的細節寫在該事件的報告裡，不要寫回 state。"
+            "state 是當下最佳判斷，不是日誌"
+        )
+
+
 def check_cta(path, d):
     """`cta.invalidation` 的兩種空值必須分得開。
 
@@ -526,6 +549,7 @@ def main():
         check_scenarios(rel, d)
         check_key_vars(rel, d)
         check_cta(rel, d)
+        check_event_log(rel, d)
         check_falsifiers(rel, d)
         check_valuation_frame(rel, d)
 

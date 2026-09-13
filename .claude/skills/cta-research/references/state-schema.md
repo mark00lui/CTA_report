@@ -31,8 +31,41 @@
 | `falsifiers` | list | 否證點。**可驗證、有日期、有數字門檻**。觸發即強制 L3。 |
 | `checkpoints` | list | 未來已知的資訊節點（法說、財報、月營收、產業展會、政策日期），含 `date` / `event` / `what_to_watch` |
 | `gaps` | list | 已知的未知。含 `question` / `how_to_close`（取得途徑） |
-| `event_log` | list | 事件流水。含 `date` / `level` / `summary` / `delta`（一行）。只留最近 20 筆，更早的壓成月摘要。 |
+| `event_log` | list | 事件流水。含 `date` / `level` / `summary`。⚠ **不得有 `delta`** —— 2026-09-13 起由 `validate_state.py` 擋下，理由見下方專節。只留最近 20 筆，更早的壓成月摘要。 |
 | `last_updated` | date | |
+
+## `event_log` 不得有 `delta`（2026-09-13 S5）
+
+⚠⚠⚠ **這一條的依據是 schema 自己原本就寫著的「`delta`（一行）」。**
+
+實際做出來的是：**39 檔、250 筆事件、`delta` 合計 409,089 字元，
+平均 1,636 字元、最長 4,057（MU 2026-09-12）—— 超出「一行」約 27 倍。**
+`event_log` 整體佔 state 檔字元數的中位 **23.8%**（最高 MU 30.1%）。
+
+**而 CLAUDE.md 已經為 `coverage.yaml` 的 `equal_weight_factor_mix[].note`
+裁決過完全相同的形狀**：
+
+> 當 state 裡的某個欄位開始承擔「記錄歷史」的職責時，它就站錯地方了。
+
+處置也相同：**搬到 `reports/`，因為只有那裡由 `check_append_only.py` 機械強制不可改。**
+⚠ **這一點反直覺但關鍵：搬過去之後它才真正不可改，校準價值是變強，不是變弱。**
+
+### 現在的分工
+
+| 東西 | 住哪裡 |
+|---|---|
+| 「這次改了什麼」的**一句話** | `state` 的 `event_log[].summary` |
+| 「為什麼這樣改」的**完整推論** | **該事件自己的那份報告** |
+| 2026-09-13 之前已寫成 `delta` 的歷史 | `reports/2026/09/2026-09-13-<ticker>-event-log-archive.md`（39 份沿革檔，原文逐字） |
+
+**事件的細節本來就寫在該事件的報告裡 —— `delta` 是把它抄了第二份，
+而那第二份住在一個可以被事後修飾的檔案裡。**
+
+### 沿革檔的規格
+
+`level: L0`，`signal`／`conviction`／`tp_*` 一律 `n/a` ——
+**因為它不新增、不修改、不撤回任何判斷，只搬動文字。**
+原文一個字不改、不刪、不摘要。
 
 ## `key_variables` 的型別契約（2026-09-13 S3a）
 

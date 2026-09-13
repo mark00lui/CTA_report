@@ -242,7 +242,8 @@ key_variables:
 - name: 毛利率
   kind: 量化
   value: 37.50
-  unit: '%（TTM）'
+  unit: '%'
+  period: TTM
   tier: 事實
   source: >
     TTM 37.50%（stockanalysis／S&P Global，2026-08-27）。FY2027 Q1 指引 39.5–41.5%，

@@ -379,7 +379,8 @@ key_variables:
 - name: TTM 每股盈餘
   kind: 量化
   value: -1.18
-  unit: 元（近四季）
+  unit: 元
+  period: 近四季
   tier: 事實
   source: >
     財報狗：**2026 年第 2 季 EPS **-0.22 元**（季增 +80%、年減 -225%），

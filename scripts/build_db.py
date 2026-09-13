@@ -26,7 +26,7 @@
 
     tickers        一檔一列：論點、訊號、象限、加權目標價、現價、ATR
     scenarios      一檔三列：bear/base/bull 的機率、EPS、倍數、目標價、**倍數的錨**
-    key_variables  型別化後的變數（kind／value／qualifier／unit／tier／as-of）
+    key_variables  型別化後的變數（kind／value／qualifier／unit／period／tier／as-of）
     kv_series      時間序列型變數的每一個 (period, value)
     kv_components  多值型變數的每一個 (name, value)
     events         event_log 的 date/level/summary（delta 已於 2026-09-13 搬進沿革檔）
@@ -75,7 +75,7 @@ CREATE TABLE scenarios (
 CREATE TABLE key_variables (
   ticker TEXT, name TEXT, kind TEXT, value TEXT, value_num REAL,
   value_qualifier TEXT, value_low REAL, value_high REAL,
-  unit TEXT, tier TEXT, updated TEXT, source TEXT
+  unit TEXT, period TEXT, tier TEXT, updated TEXT, source TEXT
 );
 CREATE TABLE kv_series     (ticker TEXT, name TEXT, seq INTEGER, period TEXT, value REAL);
 CREATE TABLE kv_components (ticker TEXT, name TEXT, seq INTEGER, part TEXT, value REAL);
@@ -153,12 +153,12 @@ def build(con):
                          s(c.get("narrative"))))
 
         for kv in d.get("key_variables") or []:
-            cur.execute("INSERT INTO key_variables VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+            cur.execute("INSERT INTO key_variables VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
                         (tk, s(kv.get("name")), s(kv.get("kind")),
                          s(kv.get("value")), as_num(kv.get("value")),
                          s(kv.get("value_qualifier")),
                          as_num(kv.get("value_low")), as_num(kv.get("value_high")),
-                         s(kv.get("unit")), s(kv.get("tier")),
+                         s(kv.get("unit")), s(kv.get("period")), s(kv.get("tier")),
                          s(kv.get("updated")), s(kv.get("source"))))
 
             for i, x in enumerate(kv.get("series") or []):

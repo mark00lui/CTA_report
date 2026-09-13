@@ -133,7 +133,8 @@ key_variables:
 - name: 遠期本益比
   kind: 量化
   value: 7.00
-  unit: x (FY2027)
+  unit: x
+  period: FY2027
   tier: 推論
   source: 2026-08-26 收盤 1,499.37 ÷ FY2027 共識 EPS 214.10 = 7.004。此值可精確驗證，故基準年為 FY2027 而非 NTM
   updated: 2026-08-27

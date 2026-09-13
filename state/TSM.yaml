@@ -119,7 +119,8 @@ key_variables:
   value_qualifier: 區間
   value_low: 60
   value_high: 64
-  unit: 十億美元（2026 全年）
+  unit: 十億美元
+  period: 2026 全年
   tier: 事實
   source: >
     ⚠ **2026-09-07 更新：state 原記 52–56，已過期兩代。**

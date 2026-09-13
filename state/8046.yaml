@@ -163,7 +163,8 @@ key_variables:
 - name: 毛利率
   kind: 量化
   value: 24.75
-  unit: '%（2026 Q2）'
+  unit: '%'
+  period: 2026 Q2
   tier: 事實
   source: >
     2026 Q2 毛利率 24.75%、營益率 21.36%，**雙創近 13 季高**；
@@ -187,7 +188,8 @@ key_variables:
 - name: 月營收
   kind: 量化
   value: 54.40
-  unit: 億元新台幣（2026-07）
+  unit: 億元新台幣
+  period: 2026-07
   tier: 事實
   source: >
     2026-07 月營收 54.40 億元，**YoY +50.24%、MoM +16.13%**。

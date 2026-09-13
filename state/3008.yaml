@@ -136,7 +136,8 @@ key_variables:
 - name: 月營收
   kind: 量化
   value: 50.12
-  unit: 億元新台幣（2026-08）
+  unit: 億元新台幣
+  period: 2026-08
   tier: 事實
   source: >
     ⚠ **2026-08 月營收 50.12 億元，月增 +2.76%、年減 16.23%** ——
@@ -170,7 +171,8 @@ key_variables:
 - name: 本業營業利益成長
   kind: 量化
   value: 5.5
-  unit: '% YoY（2026 H1）'
+  unit: '% YoY'
+  period: 2026 H1
   tier: 事實
   source: >
     2026 H1 營業利益成長約 +5.5%，而同期營收 +11%（另一來源記 +17%，口徑待釐清）、

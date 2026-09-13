@@ -178,7 +178,8 @@ key_variables:
 - name: 毛利率
   kind: 量化
   value: 20.65
-  unit: '%（2026 H1）'
+  unit: '%'
+  period: 2026 H1
   tier: 事實
   source: >
     2026 H1 毛利率 20.65%，較去年同期的 16.44% 跳升 4.21pp。
@@ -203,7 +204,8 @@ key_variables:
 - name: 月營收
   kind: 量化
   value: 82.70
-  unit: 億元新台幣（2026-07）
+  unit: 億元新台幣
+  period: 2026-07
   tier: 事實
   source: >
     2026-07 月營收 82.70 億元，YoY **+29.37%**、MoM +8.49%。

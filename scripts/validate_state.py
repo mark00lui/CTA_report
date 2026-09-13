@@ -27,6 +27,10 @@ except ImportError:
     sys.exit("需要 PyYAML： pip install pyyaml")
 
 PLACEHOLDER = "__"
+# ⚠⚠ `__` 曾同時代表「不知道，去查」與「已量化，結論是沒有東西合格」——
+# 兩個相反的知識狀態共用一個 token，於是 count_gaps 把結論算成缺口。
+# MEASURED_NONE 只用於後者：它是一個**被量化的結論**，必須有 basis 佐證。
+MEASURED_NONE = "none_qualifies"
 STALE_DAYS = 90
 MAX_KEY_VARS = 6
 MIN_FALSIFIERS = 2
@@ -206,6 +210,32 @@ def check_key_vars(path, d):
                        + ("" if prec == "day" else f"（{label}精度，下界）"))
                 notes.append(msg)
                 stale_notes.append(msg)
+
+
+def check_cta(path, d):
+    """`cta.invalidation` 的兩種空值必須分得開。
+
+    `__`             —— 還沒量化過，是真缺口
+    `none_qualifies` —— 已用雙邊規則量化過，沒有位階同時滿足 ≥2 倍 ATR 與 ≤20%
+
+    後者是結論不是缺口，所以**必須**有 invalidation_basis 寫出量到了什麼。
+    """
+    cta = d.get("cta") or {}
+    if not isinstance(cta, dict):
+        return
+    iv = cta.get("invalidation")
+    basis = cta.get("invalidation_basis")
+    if iv == MEASURED_NONE:
+        if is_placeholder(basis):
+            errors.append(
+                f"{path}: cta.invalidation 標為 {MEASURED_NONE} 但 invalidation_basis 未填 — "
+                "「已量化且無位階合格」是一個結論，沒有依據就只是缺口換個寫法"
+            )
+    elif is_placeholder(iv):
+        warns.append(
+            f"{path}: cta.invalidation 為 `__` — 若已用雙邊規則量化過且無位階合格，"
+            f"應改用 {MEASURED_NONE}；否則這是尚未量化的真缺口"
+        )
 
 
 def check_falsifiers(path, d):
@@ -436,6 +466,7 @@ def main():
         check_thesis(rel, d)
         check_scenarios(rel, d)
         check_key_vars(rel, d)
+        check_cta(rel, d)
         check_falsifiers(rel, d)
         check_valuation_frame(rel, d)
 
@@ -470,8 +501,13 @@ def main():
         print(f"{sum(gap_counts.values()):4d}  合計")
         return 0
 
-    for label, items in (("ERROR", errors), ("WARN", warns), ("NOTE", notes),
-                         ("COARSE", coarse_notes)):
+    # ⚠ COARSE 不逐筆印在預設輸出裡 —— 21 行會把真正要看的 ERROR/WARN 洗掉，
+    #   與 hook 對 cross_check 用 --gate 的理由完全相同。完整清單跑 --stale。
+    if coarse_notes:
+        print("[COARSE] as-of 精度不足 %d 筆（合法；陳舊判定取期間第一天）— "
+              "完整清單：python scripts/validate_state.py --stale" % len(coarse_notes))
+
+    for label, items in (("ERROR", errors), ("WARN", warns), ("NOTE", notes)):
         for m in items:
             print(f"[{label}] {m}")
 

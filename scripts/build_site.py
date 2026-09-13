@@ -865,6 +865,14 @@ function scenBlock(sc) {
 const CTA_SHOWN = ['位階', 'price', 'updated', 'key_ma', 'support', 'resistance',
                    'invalidation', 'confirm_trigger'];
 
+// `none_qualifies` 是資料層的 token（機器可辨），這裡譯成讀者看得懂的標籤。
+// 它與 `__` 的差別是：前者已經量過了，後者還沒 —— 兩者在頁面上必須分得開。
+function invalidationLabel(v) {
+  if (v === 'none_qualifies')
+    return '**無合格位階（已量化）** — 雙邊規則下沒有任何位階同時滿足「距現價 ≥2 倍 ATR」與「≤20%」。這是結論，不是尚未查證的缺口；依據見下方。';
+  return v;
+}
+
 function detail(t) {
   const sig = t.signal || {}, cta = t.cta || {}, sc = t.scenarios || {};
   const kvs = (t.key_variables || []).map(k =>
@@ -934,7 +942,7 @@ function detail(t) {
       + '<dl class="kv"><dt>關鍵均線</dt><dd style="text-align:left">' + md(cta.key_ma) + '</dd>'
       + '<dt>支撐</dt><dd style="text-align:left">' + md(cta.support) + '</dd>'
       + '<dt>壓力</dt><dd style="text-align:left">' + md(cta.resistance) + '</dd>'
-      + '<dt>失效價位</dt><dd style="text-align:left">' + md(cta.invalidation) + '</dd>'
+      + '<dt>失效價位</dt><dd style="text-align:left">' + md(invalidationLabel(cta.invalidation)) + '</dd>'
       + '<dt>確認條件</dt><dd style="text-align:left">' + md(cta.confirm_trigger) + '</dd></dl>' + extra + '</div>'
     + '<div class="blk"><h4>關鍵變數<span class="sub2">tier 事實／推論／假設 —— 看得見才不會被當成事實使用</span></h4>'
       + '<div class="scroll"><table><thead><tr><th>變數</th><th>值</th><th>tier</th><th>更新</th></tr></thead>'

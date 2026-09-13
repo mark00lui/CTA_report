@@ -13,7 +13,7 @@
 | `thesis` | str | **一句話**論點。寫不成一句話代表論點還沒想清楚。 |
 | `thesis_since` | date | 論點成立日，用來看論點壽命 |
 | `scenarios` | map | `bear` / `base` / `bull`，各含 `p`、`p_basis`、關鍵財務假設、`eps`、`exit_multiple`、**`multiple_basis`**、`tp`（目標價）、`narrative`（一句話） |
-| `key_variables` | list | 決定論點成立與否的變數，**上限 6 個**。每個含 `name` / `value` / `unit` / `tier` / `source` / `updated` |
+| `key_variables` | list | 決定論點成立與否的變數，**上限 6 個**。每個含 `name` / `value` / `unit` / `tier` / `source` / `updated`。⚠ `updated` 的契約見下方專節 —— 有值卻沒有 as-of 會擋 commit |
 | `cta` | map | `位階`（右側確認／整理／破線）、`key_ma`、`support`、`resistance`、`atr20` ＋ `atr20_basis`、`invalidation`（技術面失效價位）＋ `invalidation_basis`、`thesis_review_trigger`、`confirm_trigger`、`price` ＋ `price_basis`、`updated` |
 
 ⚠⚠ **`invalidation` 與 `thesis_review_trigger` 是兩個不同的物件，受不同的約束**（2026-09-12 於 8046 分開）：
@@ -33,6 +33,46 @@
 | `gaps` | list | 已知的未知。含 `question` / `how_to_close`（取得途徑） |
 | `event_log` | list | 事件流水。含 `date` / `level` / `summary` / `delta`（一行）。只留最近 20 筆，更早的壓成月摘要。 |
 | `last_updated` | date | |
+
+## `key_variables[].updated` —— as-of 的契約（2026-09-13 嚴格化）
+
+⚠⚠⚠ **在此之前，`validate_state.py` 的 `as_date()` 對解析不出來的值回 `None`，
+而呼叫端一律寫成 `if u and ...` —— 於是「填了一個不合法的日期」與「根本沒填」
+都變成「跳過」，在輸出上完全看不見。**
+**實測 43/232（18.5%）落在這個分支，寬鬆補算後其中 11 筆已逾 90 天，
+最舊者 3583「對台積電機台銷貨收入」的 `updated: 2024` 已 986 天 ——
+而 `--stale` 在 2026-09-12 回報的是「無陳舊變數」。**
+
+**空白讀起來像「都很新」。一個會靜默跳過的檢查比沒有檢查更危險，因為它讓人以為查過了。**
+
+### 允許的三種形式
+
+| 形式 | 例 | 陳舊判定取的日期 |
+|---|---|---|
+| 日精度（**預設，YAML 原生 date**） | `updated: 2026-09-11` | 該日 |
+| 月精度（字串） | `updated: '2026-08'` | **2026-08-01** |
+| 年精度（字串） | `updated: '2024'` | **2024-01-01** |
+
+⚠ **精度不足時一律取該期間的第一天，而那是刻意的下界** ——
+它讓陳舊判定偏保守（寧可多報，不可漏報），
+**而不是把一個不知道的日子補成看起來比較新的樣子**。
+月／年精度合法但會被列進 `COARSE` 區塊，應逐步收斂為日精度。
+
+### 兩條 error（會擋 commit）
+
+1. **`updated` 填了但不是上述任何一種形式** → error。
+2. **`value` 有值但 `updated` 未填** → error。
+   **沒有 as-of 的數字無法判斷是否過期，等於一個永遠不會被檢查的數字。**
+   `value` 也是空的（真正的缺口）則不需要 as-of。
+
+### `--stale` 一定會印涵蓋率
+
+```
+涵蓋率：key_variables 共 232 筆，其中 215 筆有 as-of 可判定、17 筆無值且無 as-of（不需判定）
+```
+
+⚠ **這一行存在的唯一理由是：讓「涵蓋不全」這件事本身不可能再靜默發生。**
+分母對不上時腳本會另外印一行要求去看 ERROR。
 
 ## 叢集規則：判準是「整體跨幅」，不是「相鄰間距」
 

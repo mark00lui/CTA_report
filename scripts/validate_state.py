@@ -40,6 +40,8 @@ FRAME_REVIEW_DAYS = 120   # 象限與方法組合超過這個天數沒複核就�
 
 errors, warns, notes = [], [], []
 stale_notes = []   # 只放「陳舊變數」，供 --stale 使用；與一般 notes 分開
+coarse_notes = []  # updated 只有月／年精度者 —— 合法但應收斂
+kv_total, kv_dated, kv_undated = [], [], []   # --stale 的涵蓋率分母，見 main()
 
 
 def is_placeholder(v):
@@ -55,6 +57,42 @@ def as_date(v):
         return datetime.strptime(str(v), "%Y-%m-%d").date()
     except ValueError:
         return None
+
+
+# ⚠⚠⚠ as_date() 對解析不出來的值回 None，而呼叫端一律寫成 `if u and ...`，
+# 於是「填了一個不合法的日期」與「根本沒填」都變成「跳過」，在輸出上完全看不見。
+# 2026-09-13 實測：key_variables.updated 有 43/232（18.5%）落在這個分支，
+# 寬鬆補算後其中 11 筆已逾 90 天，最舊者 3583 的 `updated: 2024` 已 986 天 ——
+# 而 --stale 在 2026-09-12 回報的是「無陳舊變數」。
+# → parse_updated() 把三種結果分開，讓呼叫端無法再把它們混為一談。
+UPDATED_FORMATS = (
+    ("%Y-%m-%d", "day"),
+    ("%Y-%m", "month"),
+    ("%Y", "year"),
+)
+
+
+def parse_updated(v):
+    """解析 as-of 欄位。回傳 (date_or_None, precision, ok)。
+
+    precision: 'day' / 'month' / 'year' / 'none'
+    ok=False   填了東西但不是任何一種合法形式 —— 呼叫端應報 error
+
+    ⚠ 精度不足時一律取該期間的**第一天**（2026-08 → 2026-08-01、2026 → 2026-01-01）。
+      這是刻意的下界：它讓陳舊判定偏保守（寧可多報，不可漏報），
+      而不是把一個不知道的日子補成看起來比較新的樣子。
+    """
+    if is_placeholder(v):
+        return None, "none", True
+    if isinstance(v, date):
+        return v, "day", True
+    s = str(v).strip()
+    for fmt, prec in UPDATED_FORMATS:
+        try:
+            return datetime.strptime(s, fmt).date(), prec, True
+        except ValueError:
+            continue
+    return None, "none", False
 
 
 def check_dup_keys(path, text):
@@ -138,11 +176,36 @@ def check_key_vars(path, d):
             warns.append(f"{path}: 變數「{name}」已有值但 tier 仍是「缺口」")
         if val_filled and is_placeholder(kv.get("source")):
             warns.append(f"{path}: 變數「{name}」有值但沒有 source")
-        u = as_date(kv.get("updated"))
-        if u and (today - u).days > STALE_DAYS:
-            msg = f"{path}: 變數「{name}」已 {(today - u).days} 天未更新"
-            notes.append(msg)
-            stale_notes.append(msg)
+        raw = kv.get("updated")
+        u, prec, ok = parse_updated(raw)
+        kv_total.append(1)
+        if not ok:
+            errors.append(
+                f"{path}: 變數「{name}」的 updated={raw!r} 不是日期 — "
+                "只接受 YYYY-MM-DD / YYYY-MM / YYYY"
+            )
+        elif prec == "none":
+            # 值是空的就不必有 as-of；有值卻沒有 as-of 則這一格無法被引用，也無法陳舊。
+            if val_filled:
+                errors.append(
+                    f"{path}: 變數「{name}」有值但沒有 as-of 日期（updated 未填）— "
+                    "沒有 as-of 的數字無法判斷是否過期"
+                )
+            else:
+                kv_undated.append(f"{path}: 變數「{name}」")
+        else:
+            kv_dated.append(1)
+            if prec != "day":
+                label = {"month": "月", "year": "年"}[prec]
+                coarse_notes.append(
+                    f"{path}: 變數「{name}」的 updated 只有{label}精度（{raw}）— "
+                    f"陳舊判定以 {u} 計（該期間第一天，偏保守）"
+                )
+            if (today - u).days > STALE_DAYS:
+                msg = (f"{path}: 變數「{name}」已 {(today - u).days} 天未更新"
+                       + ("" if prec == "day" else f"（{label}精度，下界）"))
+                notes.append(msg)
+                stale_notes.append(msg)
 
 
 def check_falsifiers(path, d):
@@ -383,8 +446,21 @@ def main():
     check_driver_integrity(root)
 
     if only_stale:
+        # ⚠ 涵蓋率一定要印。2026-09-12 的「無陳舊變數」是在 189/232 上下的結論，
+        #   而那件事在舊版輸出裡完全看不見 —— 空白讀起來像「都很新」。
+        n_tot, n_dated, n_undated = len(kv_total), len(kv_dated), len(kv_undated)
         print("=== 陳舊變數 (>%d 天) ===" % STALE_DAYS)
+        print("涵蓋率：key_variables 共 %d 筆，其中 %d 筆有 as-of 可判定、"
+              "%d 筆無值且無 as-of（不需判定）" % (n_tot, n_dated, n_undated))
+        if n_dated + n_undated != n_tot:
+            print("⚠ 分母對不上 —— 有 %d 筆既不可判定也不屬於免判定，"
+                  "去看 ERROR" % (n_tot - n_dated - n_undated))
+        print("-" * 60)
         print("\n".join(stale_notes) if stale_notes else "無")
+        if coarse_notes:
+            print()
+            print("=== as-of 精度不足（合法，但陳舊判定取下界）%d 筆 ===" % len(coarse_notes))
+            print("\n".join(coarse_notes))
         return 0
 
     if only_gaps:
@@ -394,7 +470,8 @@ def main():
         print(f"{sum(gap_counts.values()):4d}  合計")
         return 0
 
-    for label, items in (("ERROR", errors), ("WARN", warns), ("NOTE", notes)):
+    for label, items in (("ERROR", errors), ("WARN", warns), ("NOTE", notes),
+                         ("COARSE", coarse_notes)):
         for m in items:
             print(f"[{label}] {m}")
 

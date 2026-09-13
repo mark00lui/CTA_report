@@ -267,6 +267,7 @@ scenarios:
   #   報告：reports/2026/09/2026-09-11-3661-revaluation.md
 key_variables:
 - name: 2026 年 8 月營收
+  kind: 量化
   value: 87.76
   unit: 億元
   tier: 事實
@@ -279,6 +280,7 @@ key_variables:
     **單月金額 2 月 8.27 億元、8 月 87.76 億元 —— 相差 10.6 倍，同一年。**
   updated: 2026-09-10
 - name: Q1 2026 毛利率
+  kind: 量化
   value: 50.16
   unit: '%'
   tier: 事實
@@ -289,6 +291,7 @@ key_variables:
     **50.16% 是這個組合的產物，不是可外推的水準。這是 thesis 的起點。**
   updated: 2026-05
 - name: Q2 2026 營收與淨利的背離
+  kind: 量化
   value: 21.4
   unit: '%（Q2 淨利率，自 Q1 的約 34.8% 下降）'
   tier: 推論
@@ -302,6 +305,7 @@ key_variables:
     **tier 為推論，因為匯率換算與 Q1 美元營收皆為推算值。**
   updated: 2026-08
 - name: 市營比的分母歧異
+  kind: 量化
   value: 3.4
   unit: 倍（12.02x 對約 3.5x 的比值）
   tier: 推論
@@ -313,6 +317,7 @@ key_variables:
     ⚠ **年化 run-rate 只是起點不是答案** —— 7–8 月是量產爬坡的前兩個月。
   updated: 2026-09-09
 - name: 近四季 EPS
+  kind: 量化
   value: 66.06
   unit: 元
   tier: 推論
@@ -326,6 +331,7 @@ key_variables:
     有多少來自估值、有多少來自兩家落在專案週期的不同相位 —— 在調到同一相位之前無法分辨。**
   updated: 2026-09-09
 - name: 股東權益週轉率
+  kind: 量化
   value: 0.56
   unit: 倍
   tier: 推論

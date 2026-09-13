@@ -226,6 +226,7 @@ scenarios:
 
 key_variables:
 - name: 對同業的forward PE溢價
+  kind: 量化
   value: 67.0
   unit: '%（對族群中位數 14.50x）'
   tier: 事實
@@ -269,6 +270,7 @@ key_variables:
     **多少只是折現率在動。**
   updated: 2026-09-08
 - name: 資本密集度
+  kind: 量化
   value: 49.2
   unit: '%（capex／EBITDA，TTM 至 2026-06-30）'
   tier: 事實
@@ -284,6 +286,7 @@ key_variables:
     **但那三檔的營收沒有轉手性質，可直接比；本檔不行。跨檔比較資本密集度時必須先對齊分母。**
   updated: 2026-09-08
 - name: 自由現金流
+  kind: 量化
   value: 295
   unit: 百萬美元（TTM 至 2026-06-30）
   tier: 事實
@@ -301,6 +304,7 @@ key_variables:
     而本檔的自由現金流轉換率僅 **3.7%（295／7,950）** —— **這是第四條 falsifier 的判定對象。**
   updated: 2026-09-08
 - name: FY2026共識EPS與錨寬度
+  kind: 量化
   value: 12.12
   unit: 美元（Adjusted，22 位分析師）
   tier: 推論
@@ -324,6 +328,7 @@ key_variables:
     **日後若再看到「上調財測」的標題，不得當成本格之外的新資訊。**
   updated: 2026-09-08
 - name: 核能占自有發電比重
+  kind: 量化
   value: 58.6
   unit: '%（6M 2026，GWh 口徑）'
   tier: 事實
@@ -349,6 +354,7 @@ key_variables:
     **不得以新聞的框架取代 10-Q 的揭露。**
   updated: 2026-09-08
 - name: 未實現評價損益占盈餘比重
+  kind: 量化
   value: 37
   unit: '%（6M 2026，稅後估算對淨利）'
   tier: 事實

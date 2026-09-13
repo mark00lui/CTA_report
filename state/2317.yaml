@@ -317,6 +317,7 @@ scenarios:
   #   報告：reports/2026/09/2026-09-11-2317-revaluation.md
 key_variables:
 - name: 稅後淨利對營業利益的轉換率
+  kind: 量化
   value: 64.5
   unit: '%（2026 H1；去年同期約 83.7%）'
   tier: 推論
@@ -337,6 +338,7 @@ key_variables:
     而那會直接改變本益比 16.61 該不該給。** 列 gaps。
   updated: 2026-08-12
 - name: 三個獲利層級的方向（2026 Q2）
+  kind: 量化
   value: 3.75
   unit: '%（營業利益率；毛利率 6.12%、淨利率約 2.37%）'
   tier: 事實
@@ -353,6 +355,7 @@ key_variables:
     這正是 rank_metric 選營業利益率而非毛利率的理由。**
   updated: 2026-08-12
 - name: 雲端網路產品營收占比
+  kind: 量化
   value: 50
   unit: '%（2026 Q2 首度突破五成）'
   tier: 事實
@@ -368,6 +371,7 @@ key_variables:
     ⚠ **四大產品線的個別營收與營業利益率全部未取得，副錨（分部別）因此只有這一個數字。**
   updated: 2026-08-12
 - name: 2026 年 8 月營收
+  kind: 量化
   value: 9217.66
   unit: 億元
   tier: 事實
@@ -384,6 +388,7 @@ key_variables:
     而法說載 21,195 億元 —— 差約 0.5%，屬自結與查核後的正常差異，但比較時要同源。**
   updated: 2026-09-05
 - name: 資本支出的變動率
+  kind: 量化
   value: 30
   unit: '%（年增三成以上；⚠ 絕對金額與 capex／營收未取得）'
   tier: 事實
@@ -402,6 +407,7 @@ key_variables:
     **Y 軸目前靠結構（EMS 以組裝與人力為主）與股東權益週轉率 5.28 倍判低。** 列 gaps。
   updated: 2026-08-12
 - name: 推算股數（兩路互證）
+  kind: 量化
   value: 140.76
   unit: 億股
   tier: 推論

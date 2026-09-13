@@ -215,6 +215,7 @@ key_variables:
 #    新增 `半導體與先進封裝應用占比`；`分析師覆蓋` **併入** `對同業的估值折價`。
 #    併入而非刪除的理由寫在該格 —— 無覆蓋是折價的具名成因之一，本來就屬於那一格。
 - name: 毛利率與營益率
+  kind: 量化
   value: 59.10
   unit: '%（TTM 至 2026 Q2 的毛利率）'
   tier: 事實
@@ -246,6 +247,7 @@ key_variables:
     這也是 valuation_frame 明訂不以 PEG 為錨的理由。
   updated: 2026-09-08
 - name: 半導體與先進封裝應用占比
+  kind: 量化
   value: 10
   unit: '%（約數，公司說法）'
   tier: 事實
@@ -269,6 +271,7 @@ key_variables:
     **這些是產品發表，不是訂單，更不是營收。** 依證據分層屬事實（已發表）但不可推導營收。
   updated: 2026-09-08
 - name: 對同業的估值折價
+  kind: 量化
   value: 64.1
   unit: '%（PE 折價，對致茂 2360，270 收盤口徑）'
   tier: 事實
@@ -299,6 +302,7 @@ key_variables:
     **爭點不是「該不該折價」，是「64.1%（營業利益口徑 70.9%）是不是折過頭」。**
   updated: 2026-09-08
 - name: 季度EPS與成長率
+  kind: 量化
   value: 8.87
   unit: 元（2026 年前七月累計 EPS）
   tier: 事實
@@ -331,6 +335,7 @@ key_variables:
     ⚠ **這兩個數字不是三情境，也不構成目標價。** 它們是推導值，見 scenarios 為何仍不建。
   updated: 2026-09-08
 - name: 月營收
+  kind: 量化
   value: 10.33
   unit: 億元新台幣（2026-07）
   tier: 事實
@@ -347,6 +352,7 @@ key_variables:
     ⚠ 2026-08 月營收尚未取得（台股每月 10 日前公告，今日為 9/8）。
   updated: 2026-09-08
 - name: 資本支出強度
+  kind: 量化
   value: __
   unit: '%（capex／營收）'
   tier: 缺口

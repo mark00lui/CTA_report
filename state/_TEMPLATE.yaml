@@ -53,7 +53,15 @@ scenarios:
   weighted_tp: __
 
 key_variables:         # 上限 6 個
-  - {name: __, value: __, unit: __, tier: 缺口, source: "", updated: __}
+  # kind 必填：量化 → value 只能是數值或 __；質性 → value 是散文且 unit 必須寫「質性」。
+  # 「這一格該不該是數字」要寫下來，不能靠讀的人自己判斷。
+  - {name: __, kind: 量化, value: __, unit: __, tier: 缺口, source: "", updated: __}
+  # 帶修飾語時加 value_qualifier：點值／區間／下界（逾）／上界（近）／約值。
+  # 區間必須同時有 value_low 與 value_high，value 取中點（衍生值，兩端未失）：
+  # - {name: __, kind: 量化, value: 62, value_qualifier: 區間, value_low: 60, value_high: 64,
+  #    unit: USD bn, tier: 事實, source: "", updated: __}
+  # 質性變數：
+  # - {name: __, kind: 質性, value: "一句話", unit: 質性, tier: 推論, source: "", updated: __}
 
 cta:
   位階: __             # 右側確認 / 整理 / 破線 / 左側觀察

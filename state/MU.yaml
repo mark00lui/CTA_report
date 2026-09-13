@@ -97,18 +97,21 @@ scenarios:
 
 key_variables:
 - name: 毛利率
+  kind: 量化
   value: 84.6
   unit: '%'
   tier: 事實
   source: FQ3 FY2026 財報（季末約 2026-05）— GAAP 毛利率 84.6%，去年同期 37.7%；FQ4 指引約 86.0%
   updated: 2026-08-27
 - name: 單季營收
+  kind: 量化
   value: 41.46
   unit: USD bn
   tier: 事實
   source: FQ3 FY2026 — +346% YoY（去年同期 9.30）、+74% QoQ；FQ4 指引 50.0 ±1.0、EPS 指引 31.00 ±1.00（FQ3 實際 EPS 25.11）
   updated: 2026-08-27
 - name: HBM進度
+  kind: 質性
   value: HBM4 已為領先客戶進入高量產，並向多家終端客戶送出認證樣品；HBM4E 開發中，目標 2027 曆年量產。管理層目標為 HBM 市占率接近其 DRAM 市占率
   unit: 質性
   tier: 事實
@@ -137,18 +140,21 @@ key_variables:
     兩個訊號方向相反且都無法量化，故值不變、僅記錄。
   updated: 2026-08-27
 - name: 產業供給增速
+  kind: 質性
   value: 曆年 2026 產業 DRAM bit 出貨成長約低至中 20%，Micron 自身供給大致與產業一致；2027 伺服器 DRAM 與 HBM 合計 bit 供給預估 +27%，部分新廠於 2027H2 放量
   unit: 質性
   tier: 推論
   source: FQ3 FY2026 法說與第三方彙整，2026-08-27 取得。⚠ 這是判斷循環長度的核心變數，卻是推論而非公司逐項揭露
   updated: 2026-08-27
 - name: 自身資本支出
+  kind: 量化
   value: 27
   unit: USD bn
   tier: 事實
   source: FY2026 全年約 27；FY2027 預期各季逐季增加，逾半數增額投向無塵室與廠務建設 —— 即「未來產能」而非當期產出
   updated: 2026-08-27
 - name: 遠期本益比
+  kind: 量化
   value: 6.53
   unit: x
   tier: 推論

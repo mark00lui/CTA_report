@@ -318,6 +318,7 @@ scenarios:
 
 key_variables:
 - name: 近三季 capex／營收
+  kind: 量化
   value: __
   unit: '%'
   tier: 缺口
@@ -335,6 +336,7 @@ key_variables:
     資本支出集中於 2025–2026，預計 2027 Q2／下半年起貢獻產能，估可提升前端產能 25–30%。**
   updated: 2026-09-11
 - name: Q2 2026 毛利率
+  kind: 量化
   value: 57.45
   unit: '%'
   tier: 事實
@@ -351,6 +353,7 @@ key_variables:
     這個問題該被問的地方。**
   updated: 2026-09-11
 - name: 折舊占營收比重
+  kind: 量化
   value: 7.8
   unit: '%'
   tier: 推論
@@ -365,6 +368,7 @@ key_variables:
     而我建檔時只取了支持現有敘事的那一種解釋。** 見 excluded 第一項。
   updated: 2026-09-11
 - name: 2026 年 8 月營收
+  kind: 量化
   value: 5.20
   unit: 億元
   tier: 事實
@@ -377,6 +381,7 @@ key_variables:
     **這與同日 3017 的情況正好相反（那一檔的年增率減速幾乎全是基期造成的）。**
   updated: 2026-09-05
 - name: Datacom 營收占比
+  kind: 量化
   value: 82.5
   unit: '%（區間 80–85）'
   tier: 事實
@@ -389,6 +394,7 @@ key_variables:
     **多波長的製程難度與單價顯著更高**，在 3.2T 等高速應用具差異化。
   updated: 2026-08-12
 - name: 2027 年產能目標
+  kind: 量化
   value: 2.5
   unit: 倍（相對目前，年增 +150%）
   tier: 事實

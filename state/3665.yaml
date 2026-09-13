@@ -255,6 +255,7 @@ scenarios:
   #   報告：reports/2026/09/2026-09-11-3665-revaluation.md
 key_variables:
 - name: HPC 營收占比
+  kind: 量化
   value: 45
   unit: '%（1Q26；1Q25 為 27%）'
   tier: 事實
@@ -267,6 +268,7 @@ key_variables:
     ⚠ **另約 55% 在電動車、工業、醫療與電器等非 AI 應用，其內部組成與各自毛利率未取得。**
   updated: 2026-05
 - name: Q1 2026 毛利率
+  kind: 量化
   value: 28.77
   unit: '%'
   tier: 事實
@@ -280,6 +282,7 @@ key_variables:
     ⚠ **Q2 的毛利率未取得** —— 只有推算的淨利率（見下）。列 gaps。
   updated: 2026-05
 - name: 單季淨利率（Q1 對 Q2）
+  kind: 量化
   value: 12.79
   unit: '%（2026 Q2；Q1 約 10.88%）'
   tier: 推論
@@ -295,6 +298,7 @@ key_variables:
     **所有推算的淨利率與 ROE 都建立在這個數字上。** 列 gaps。
   updated: 2026-09-09
 - name: 2026 年 8 月營收
+  kind: 量化
   value: 88.92
   unit: 億元
   tier: 事實
@@ -313,6 +317,7 @@ key_variables:
     不足以製造這麼大的轉折 —— 亦即轉折是真的。**
   updated: 2026-09-05
 - name: 股東權益報酬率（TTM 推算）
+  kind: 量化
   value: 21.0
   unit: '%'
   tier: 推論
@@ -330,6 +335,7 @@ key_variables:
     **本檔用兩倍的營收換到一半的利潤率，那是商業模式的差異不是估值的差異。**
   updated: 2026-09-09
 - name: Q2 2026 毛利率
+  kind: 量化
   value: __
   unit: '%'
   tier: 缺口

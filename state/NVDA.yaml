@@ -102,36 +102,42 @@ scenarios:
 
 key_variables:
 - name: 毛利率
+  kind: 量化
   value: 75.0
   unit: '%'
   tier: 事實
   source: NVIDIA Q2 FY27 財報 2026-08-26（GAAP 與 non-GAAP 同為 75.0%；Q1 FY27 74.9%，去年同期 72.4%）；Q3 指引 74.0% ±50bp
   updated: 2026-08-27
 - name: 下季總營收指引
+  kind: 量化
   value: 108.0
   unit: USD bn
   tier: 事實
   source: NVIDIA Q3 FY27 展望 2026-08-26（±2%，即 105.84–110.16；較 Q2 實際 96.2 為 +12% QoQ）
   updated: 2026-08-27
 - name: 中國曝險
+  kind: 質性
   value: Q2 FY27 Hopper 對中國出貨低於資料中心營收的 1%；Q3 指引假設中國資料中心運算營收為零
   unit: 質性
   tier: 事實
   source: NVIDIA Q2 FY27 財報與展望 2026-08-26
   updated: 2026-08-27
 - name: 下季營業費用指引
+  kind: 量化
   value: 9.0
   unit: USD bn (non-GAAP)
   tier: 事實
   source: NVIDIA Q3 FY27 展望 2026-08-26（Q2 實際 8.2，QoQ +10%；GAAP 口徑 9.2）
   updated: 2026-08-27
 - name: 遠期本益比
+  kind: 量化
   value: 23.2  # ⚠ 基準 FY2027 EPS 9.27；同期 stockanalysis 記 19.10（隱含 EPS 12.06，疑為 FY2028 口徑）
   unit: x (FY2027)
   tier: 推論
   source: 2026-08-26 收盤 209.66 ÷ FY2027 共識 EPS 9.02（stockanalysis.com，61 位分析師）。⚠ 站上另引用的 19.08x 為 NTM 口徑（跨 FY27H2／FY28H1），與單一會計年度共識對不上，2026-08-27 修正
   updated: 2026-08-27
 - name: 客戶集中度
+  kind: 量化
   value: __
   unit: '%'
   tier: 缺口

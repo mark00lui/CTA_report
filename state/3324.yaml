@@ -186,6 +186,7 @@ scenarios:
   # 不自行編造區間 —— 共識區間本身可得時，用它比用想像更可檢驗。
 key_variables:
 - name: 液冷滲透率
+  kind: 量化
   value: 35.5
   unit: '%'
   tier: 事實
@@ -199,30 +200,35 @@ key_variables:
     ⚠ 但仍未解決逐季揭露的問題 —— 35% 是 2025 Q3 的單點，公司未逐季公布，
     故 falsifier 只能等 2026 年報才驗證。
 - name: 單機液冷價值量
+  kind: 量化
   value: __
   unit: USD
   tier: 缺口
   source: ''
   updated: __
 - name: 毛利率
+  kind: 量化
   value: 29.66
   unit: '%'
   tier: 事實
   source: 2026Q1 財報（季增 3.27pp、年增 2.3pp）；管理層稱 2026「有信心站穩三成」。註：高盛等多家於 2026-08 上調目標價同時下修毛利率預估
   updated: 2026-08-27
 - name: 北美CSP訂單能見度
+  kind: 量化
   value: __
   unit: 季
   tier: 缺口
   source: ''
   updated: __
 - name: 產能利用率
+  kind: 量化
   value: __
   unit: '%'
   tier: 缺口
   source: ''
   updated: __
 - name: 對主要競爭者相對市佔
+  kind: 量化
   value: __
   unit: '%'
   tier: 缺口

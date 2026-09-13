@@ -93,30 +93,38 @@ scenarios:
   weighted_tp: 642
 key_variables:
 - name: 廣告營收成長
+  kind: 量化
   value: 27
   unit: '% YoY'
   tier: 事實
   source: Meta Q2 2026 財報 2026-07-29；曝光量 +14%、平均每則廣告價格 +12%；Family DAP 36.0 億（2026-06 平均、+3%）
   updated: 2026-08-27
 - name: ARPU
+  kind: 量化
   value: 16.89
   unit: USD/季
   tier: 推論
   source: 由 Q2 營收 60.80B ÷ Family DAP 36.0 億推算。⚠ 公司未直接揭露，與其口徑（ARPP）可能不同
   updated: 2026-08-27
 - name: 總成本費用成長
+  kind: 量化
   value: 55
   unit: '% YoY'
   tier: 事實
   source: Meta Q2 2026 財報 — 總成本費用 42.03B，含 2.40B 法律訴訟費用與 1.18B 遣散費（2026-05 裁員）。營收同期 +28%，費用成長為營收成長的兩倍
   updated: 2026-08-27
 - name: 總費用guidance
-  value: 165-169
+  kind: 量化
+  value: 167
+  value_qualifier: 區間
+  value_low: 165
+  value_high: 169
   unit: USD bn
   tier: 事實
   source: Meta Q2 2026 法說 — 2026 全年總費用指引；同時 2026 capex 指引由 125–145 收窄為 130–145
   updated: 2026-08-27
 - name: Reality Labs虧損
+  kind: 量化
   value: 4.619
   unit: USD bn (單季)
   tier: 事實

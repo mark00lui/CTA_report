@@ -91,20 +91,24 @@ scenarios:
 
 key_variables:
 - name: 毛利率
+  kind: 量化
   value: 84.6
   unit: '%'
   tier: 事實
   source: FQ4 FY2026 財報 2026-08-05
   updated: 2026-08-27
 - name: 單季營收
+  kind: 量化
   value: 8965
   unit: USD mn
   tier: 事實
   source: FQ4 FY2026 — +372% YoY、+51% QoQ，高於指引區間 7,750–8,250；FQ1 FY2027 指引 10,300–10,800、non-GAAP EPS 44.00–46.00（FQ4 實際 non-GAAP EPS 39.25、GAAP 43.97）
   updated: 2026-08-27
 - name: 漲價貢獻占季增比重
-  value: 約三分之二
-  unit: 質性
+  kind: 量化
+  value: 66.7
+  value_qualifier: 約值
+  unit: '%'
   tier: 事實
   source: >
     FQ4 FY2026 法說 —— 季增約三分之一來自出貨量、三分之二來自漲價。這是本檔 thesis 的核心變數，
@@ -113,18 +117,21 @@ key_variables:
     主流 TLC/QLC 停滯 —— 這個引擎正在減速，且不是預測而是已發生。
   updated: 2026-08-27
 - name: 資料中心營收成長
+  kind: 量化
   value: 437
   unit: '% YoY'
   tier: 事實
   source: FQ4 FY2026 —— 營收超出指引主因是往高價值客戶的組合移轉加上漲價
   updated: 2026-08-27
 - name: NBM長約進度
+  kind: 質性
   value: 10 份協議、8 家客戶；最低預期營收 939 億美元（以底價計）；底價約 0.29 美元／GB；FY2027 逾半數 bit 已被覆蓋
   unit: 質性
   tier: 事實
   source: FQ4 FY2026 法說
   updated: 2026-08-27
 - name: 遠期本益比
+  kind: 量化
   value: 7.00
   unit: x (FY2027)
   tier: 推論

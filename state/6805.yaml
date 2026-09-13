@@ -319,6 +319,7 @@ scenarios:
 
 key_variables:
 - name: AI 伺服器相關應用營收占比
+  kind: 量化
   value: 55.7
   unit: '%'
   tier: 事實
@@ -331,6 +332,7 @@ key_variables:
     只有「液冷快接頭產能已逼近滿載」這句定性陳述。列 gaps。
   updated: 2026-08-04
 - name: H1 2026 每股盈餘
+  kind: 量化
   value: 25.77
   unit: 元
   tier: 事實
@@ -344,6 +346,7 @@ key_variables:
     **本檔的市值沒有單位問題**（對照同日 2345／3017／3081 皆少一個數量級）。
   updated: 2026-08-04
 - name: Q2 2026 營收季減幅
+  kind: 量化
   value: -10.08
   unit: '%'
   tier: 事實
@@ -356,6 +359,7 @@ key_variables:
     ⚠ 交叉驗證：月營收合計 Q2 ＝ 13.53 ＋ 11.80 ＋ 12.06 ＝ **37.39 億元** ✓。
   updated: 2026-08-04
 - name: 2026 年 8 月營收
+  kind: 量化
   value: 15.28
   unit: 億元
   tier: 事實
@@ -369,6 +373,7 @@ key_variables:
     判斷動能要看環比與絕對金額 —— 環比已連兩月為正（+12.75%、+12.37%）。**
   updated: 2026-09-09
 - name: 股東權益報酬率（TTM 推算）
+  kind: 量化
   value: 38.4
   unit: '%'
   tier: 推論
@@ -391,6 +396,7 @@ key_variables:
     ⚠ **這不等於淨負債**（還缺現金），但它讓 Y 軸不再完全靠兩個比率推。
   updated: 2026-09-11
 - name: 毛利率
+  kind: 量化
   value: 34.05
   unit: '%'
   tier: 事實

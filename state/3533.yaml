@@ -227,6 +227,7 @@ scenarios:
   #   報告：reports/2026/09/2026-09-11-3533-revaluation.md
 key_variables:
 - name: Q2 2026 毛利率
+  kind: 量化
   value: 45.47
   unit: '%'
   tier: 事實
@@ -238,6 +239,7 @@ key_variables:
     改善時點：「需等油價回穩與新產品放量，預計 2026 Q4 或 2027 初」。
   updated: 2026-08-13
 - name: 伺服器營收占比
+  kind: 量化
   value: 55.36
   unit: '%'
   tier: 事實
@@ -249,6 +251,7 @@ key_variables:
     直接 AI 相關的 QDS 目前僅約 1%。**這是本檔未標 `ai_capex_hw` 的直接理由。**
   updated: 2026-08-13
 - name: 2026 年 8 月營收
+  kind: 量化
   value: 31.98
   unit: 億元
   tier: 事實
@@ -261,6 +264,7 @@ key_variables:
     組合在改善但規模沒有跟上。這兩個數字要一起讀。**
   updated: 2026-09-08
 - name: 近四季 EPS
+  kind: 量化
   value: 82.02
   unit: 元
   tier: 事實
@@ -273,6 +277,7 @@ key_variables:
     而 FY2025 全年 70.17），列 gaps。
   updated: 2026-09-10
 - name: 原物料佔 COGS 比重
+  kind: 量化
   value: 65
   unit: '%'
   tier: 事實
@@ -282,6 +287,7 @@ key_variables:
     **而它是成本面的、外生的，不是需求面的。**
   updated: 2026-08-13
 - name: QDS 營收占比
+  kind: 量化
   value: 1
   unit: '%（下半年估 2–3%）'
   tier: 事實

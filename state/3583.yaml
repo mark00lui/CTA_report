@@ -271,6 +271,7 @@ scenarios:
   #   報告：reports/2026/09/2026-09-11-3583-revaluation.md
 key_variables:
 - name: 單季淨利率（近四季）
+  kind: 量化
   value: 14.0
   unit: '%（2026 Q2；近四季為 24.5 → 8.2 → 11.1 → 14.0）'
   tier: 推論
@@ -289,6 +290,7 @@ key_variables:
     **這是本檔 thesis 的全部內容：獲利的變異幾乎全部來自組合，不是量。**
   updated: 2026-09-10
 - name: H1 2026 每股盈餘
+  kind: 量化
   value: 9.16
   unit: 元
   tier: 事實
@@ -302,6 +304,7 @@ key_variables:
     FY2025 約 18.20 元 —— 亦即 TTM 低於 FY2025，獲利方向是往下的。**
   updated: 2026-08
 - name: 2026 年 8 月營收
+  kind: 量化
   value: 10.68
   unit: 億元
   tier: 事實
@@ -317,6 +320,7 @@ key_variables:
     月營收在本檔幾乎不含獲利的資訊，故已明文禁用它判斷獲利動能。**
   updated: 2026-09-09
 - name: 對台積電機台銷貨收入（2024）
+  kind: 量化
   value: 20.36
   unit: 億元（2023 年為 9.29 億元）
   tier: 事實
@@ -331,6 +335,7 @@ key_variables:
     且分母（該年總營收）未同時取得，故占比未知。** 列 gaps。
   updated: '2024'
 - name: 自製設備與再生晶圓的合計營收占比
+  kind: 量化
   value: 50
   unit: '%（公司稱 2026 年可望首度超過一半）'
   tier: 假設
@@ -344,6 +349,7 @@ key_variables:
     取決於自製與再生晶圓各佔多少、各自的毛利率是多少 —— 三個數字一個都沒有。**
   updated: 2026-09-10
 - name: 股東權益報酬率（TTM 推算）
+  kind: 量化
   value: 13.6
   unit: '%'
   tier: 推論

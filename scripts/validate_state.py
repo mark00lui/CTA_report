@@ -35,6 +35,20 @@ STALE_DAYS = 90
 MAX_KEY_VARS = 6
 MIN_FALSIFIERS = 2
 VALID_TIERS = {"事實", "推論", "假設", "缺口"}
+# ⚠ `value` 曾有 52/232（22%）裝散文，而「這一格該不該是數字」沒有任何地方寫著 ——
+#   於是那既不算違規也不會被發現。`kind` 就是把那件事寫下來。
+VALID_KINDS = {"量化", "質性"}
+# value_qualifier 的詞彙。設計原則是：**它必須能完整表達原字串的語意**，
+# 否則轉型就是有損的，而有損的轉型會把「約 90」變成「90」這種假精確。
+VALID_QUALIFIERS = {
+    "點值",       # 沒有修飾語
+    "區間",       # 需同時有 value_low / value_high；value 為中點（衍生值）
+    "下界",       # 「逾／超過／以上」
+    "上界",       # 「近／不到／以下」
+    "約值",       # 「約」
+    "未型別化",   # ⚠ 已知債務：unit 是量化的但 value 仍是散文，需 series／components 才轉得動
+}
+UNTYPED = "未型別化"
 VALID_SIGNAL = {"偏多", "中性", "偏空"}
 VALID_CONVICTION = {"高", "中", "低"}
 VALID_QUADRANT = {"Q1", "Q2", "Q3", "Q4"}
@@ -46,6 +60,7 @@ errors, warns, notes = [], [], []
 stale_notes = []   # 只放「陳舊變數」，供 --stale 使用；與一般 notes 分開
 coarse_notes = []  # updated 只有月／年精度者 —— 合法但應收斂
 kv_total, kv_dated, kv_undated = [], [], []   # --stale 的涵蓋率分母，見 main()
+kv_untyped = []    # kind 量化但 value 仍是散文者 —— 已知債務，可數
 
 
 def is_placeholder(v):
@@ -175,6 +190,50 @@ def check_key_vars(path, d):
         tier = kv.get("tier")
         if not is_placeholder(tier) and tier not in VALID_TIERS:
             errors.append(f"{path}: 變數「{name}」的 tier={tier!r} 不在 {VALID_TIERS}")
+
+        # ---- 型別契約（2026-09-13 S3a）----
+        kind = kv.get("kind")
+        qual = kv.get("value_qualifier")
+        raw_v = kv.get("value")
+        v_num = isinstance(raw_v, (int, float)) and not isinstance(raw_v, bool)
+        v_blank = is_placeholder(raw_v)
+        if kind not in VALID_KINDS:
+            errors.append(
+                f"{path}: 變數「{name}」的 kind={kind!r} 不在 {VALID_KINDS} — "
+                "「這一格該不該是數字」必須寫下來，不能靠讀的人自己判斷"
+            )
+        elif kind == "量化":
+            if qual == UNTYPED:
+                kv_untyped.append(f"{path}: 變數「{name}」")
+            elif not (v_num or v_blank):
+                errors.append(
+                    f"{path}: 變數「{name}」kind=量化 但 value 不是數值也不是 `__` — "
+                    f"得到 {str(raw_v)[:40]!r}"
+                )
+        else:   # 質性
+            if "質性" not in str(kv.get("unit") or ""):
+                errors.append(
+                    f"{path}: 變數「{name}」kind=質性 但 unit={kv.get('unit')!r} — "
+                    "質性變數的 unit 應標「質性」，否則單位在騙人"
+                )
+            if qual is not None:
+                errors.append(f"{path}: 變數「{name}」kind=質性 不應有 value_qualifier")
+
+        if qual is not None and qual not in VALID_QUALIFIERS:
+            errors.append(f"{path}: 變數「{name}」的 value_qualifier={qual!r} 不在 {VALID_QUALIFIERS}")
+        if qual == "區間":
+            lo, hi = kv.get("value_low"), kv.get("value_high")
+            ok = all(isinstance(x, (int, float)) and not isinstance(x, bool) for x in (lo, hi))
+            if not ok:
+                errors.append(f"{path}: 變數「{name}」標為區間但 value_low／value_high 未填數值")
+            elif not (lo <= hi):
+                errors.append(f"{path}: 變數「{name}」的 value_low {lo} > value_high {hi}")
+            elif v_num and not (lo <= raw_v <= hi):
+                errors.append(f"{path}: 變數「{name}」的 value {raw_v} 不在 [{lo}, {hi}] 之內")
+        elif qual in ("value_low", "value_high"):
+            pass
+        elif kv.get("value_low") is not None or kv.get("value_high") is not None:
+            errors.append(f"{path}: 變數「{name}」有 value_low／value_high 但 value_qualifier 不是區間")
         val_filled = not is_placeholder(kv.get("value"))
         if val_filled and tier == "缺口":
             warns.append(f"{path}: 變數「{name}」已有值但 tier 仍是「缺口」")
@@ -503,6 +562,12 @@ def main():
 
     # ⚠ COARSE 不逐筆印在預設輸出裡 —— 21 行會把真正要看的 ERROR/WARN 洗掉，
     #   與 hook 對 cross_check 用 --gate 的理由完全相同。完整清單跑 --stale。
+    if kv_untyped:
+        print("[UNTYPED] key_variables 型別化未完成 %d 筆（kind=量化 但 value 仍是散文）："
+              % len(kv_untyped))
+        for m in kv_untyped:
+            print("          " + m)
+
     if coarse_notes:
         print("[COARSE] as-of 精度不足 %d 筆（合法；陳舊判定取期間第一天）— "
               "完整清單：python scripts/validate_state.py --stale" % len(coarse_notes))

@@ -138,18 +138,21 @@ scenarios:
   #   報告：reports/2026/09/2026-09-11-INTU-revaluation.md
 key_variables:
 - name: Online Ecosystem成長(ex-Mailchimp)
+  kind: 量化
   value: 23
   unit: '% YoY'
   tier: 事實
   source: Intuit FY26 Q4 財報／法說 2026-08-25（Q4 +20%；FY27 GBS 指引 +13–14%）
   updated: 2026-08-26
 - name: TurboTax付費件數
+  kind: 量化
   value: 2
   unit: '% YoY'
   tier: 事實
   source: Intuit FY26 Q4 法說 2026-08-25（總件數 -2%，ARPU +11%）
   updated: 2026-08-26
 - name: 自由現金流與FCF殖利率
+  kind: 量化
   value: 5.652
   unit: USD bn（FY2026 扣 SBC 且扣一次性稅利益後的乾淨值）；FY2027 指引推算 6.581
   tier: 事實
@@ -180,18 +183,21 @@ key_variables:
     不符 schema 的 key_variable 判準，已移入 gaps。
   updated: 2026-09-11
 - name: 中小企業客戶淨增
+  kind: 質性
   value: QuickBooks Free/Lite 首月逾 20,000 戶；new-to-franchise 客戶增逾 30%
   unit: 質性
   tier: 事實
   source: Intuit FY26 Q4 法說 2026-08-25
   updated: 2026-08-26
 - name: Non-GAAP營益率(FY27指引)
+  kind: 量化
   value: 34.6
   unit: '%'
   tier: 推論
   source: 由 FY27 指引 $8.063–8.145B ÷ $23.279–23.512B 推算，2026-08-25
   updated: 2026-08-26
 - name: 中型企業成長
+  kind: 量化
   value: 39
   unit: '% YoY (Q4)'
   tier: 事實

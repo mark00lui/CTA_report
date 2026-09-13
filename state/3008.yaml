@@ -127,12 +127,14 @@ scenarios:
 
 key_variables:
 - name: CPO進度
+  kind: 質性
   value: 已取得首張訂單；量產客戶正式規格文件已收到、2026-07 送樣；若驗證順利最快 2026Q3 試產，2027 年中開始放量。市場另傳已自 FA、PMLA 切入下游 FAU 光纖陣列模組，最快 2027H2 量產
   unit: 質性
   tier: 事實
   source: 2026-07-09 Q2 法說會（董事長林恩平）。⚠ FAU 部分為市場傳聞非公司揭露，tier 應視為推論
   updated: 2026-08-27
 - name: 月營收
+  kind: 量化
   value: 50.12
   unit: 億元新台幣（2026-08）
   tier: 事實
@@ -149,12 +151,14 @@ key_variables:
     ⚠ 公司說法：9 月拉貨動能優於 8 月，Q3 仍屬旺季，林恩平稱 **Q4 為全年最旺季**。
   updated: 2026-09-08
 - name: 毛利率
+  kind: 量化
   value: 49.41
   unit: '%'
   tier: 事實
   source: 2026 上半年。2026-04 法說已提及「毛利跌破五成」，需追蹤是否為趨勢而非單期
   updated: 2026-08-27
 - name: 累計EPS
+  kind: 量化
   value: 96.29
   unit: 元（1-7 月自結累計）
   tier: 事實
@@ -164,6 +168,7 @@ key_variables:
 # 依 schema 的判準「該變數變動 20%，目標價會不會動 10% 以上？」——不會。
 # 它是產能承諾的可觀測代理，不是估值驅動因子。事實保留於 notes。
 - name: 本業營業利益成長
+  kind: 量化
   value: 5.5
   unit: '% YoY（2026 H1）'
   tier: 事實
@@ -178,6 +183,7 @@ key_variables:
     用含業外的 EPS 乘上倍數，等於給利息與匯兌收益同樣的估值倍數。
   updated: 2026-08-27
 - name: 市場共識與目標價序列
+  kind: 量化
   value: 185.03
   unit: 元（2026 EPS 共識均值，19 位分析師）
   tier: 推論

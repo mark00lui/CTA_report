@@ -290,6 +290,7 @@ scenarios:
   #   報告：reports/2026/09/2026-09-11-2337-revaluation.md
 key_variables:
 - name: 三個本益比（同一個價格）
+  kind: 量化
   value: 29.98
   unit: 倍（TTM；H1 年化約 13.1 倍、Q2 年化約 8.1 倍）
   tier: 推論
@@ -311,6 +312,7 @@ key_variables:
     也是第一個三個數字全部算得出來的。**
   updated: 2026-09-09
 - name: 2026 Q2 毛利率
+  kind: 量化
   value: 64.4
   unit: '%'
   tier: 事實
@@ -328,6 +330,7 @@ key_variables:
     → Q2 約 **40.6%**（3.91 × 19.818 ÷ 191.25）。
   updated: 2026-07-28
 - name: 2026 年 8 月營收
+  kind: 量化
   value: 81.45
   unit: 億元
   tier: 事實
@@ -344,6 +347,7 @@ key_variables:
     與法說載的 191.25 億元**完全一致** —— 本輪少見的乾淨。**
   updated: 2026-09-05
 - name: 股東權益週轉率與 ROE（TTM 推算）
+  kind: 量化
   value: 0.90
   unit: 倍（股東權益週轉率；ROE 約 13.5%）
   tier: 推論
@@ -364,6 +368,7 @@ key_variables:
     而分母（淨值）還沒被這一輪的獲利灌大 —— 下一輪它會自動變低。**
   updated: 2026-09-09
 - name: NOR／NAND／eMMC 的漲價與供需
+  kind: 量化
   value: 4
   unit: 季（公司預期第四季漲價動能仍在）
   tier: 假設
@@ -382,6 +387,7 @@ key_variables:
     **兩者的時間結構不同，判讀時不可混用。**
   updated: 2026-07-28
 - name: 自由現金流對營收比
+  kind: 量化
   value: __
   unit: '%'
   tier: 缺口

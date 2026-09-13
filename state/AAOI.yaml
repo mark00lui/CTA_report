@@ -264,6 +264,7 @@ scenarios:
 
 key_variables:
 - name: capex／營收（TTM）
+  kind: 量化
   value: 128.97
   unit: '%'
   tier: 事實
@@ -283,6 +284,7 @@ key_variables:
     ⚠⚠ **對照 D&A／營收僅 5.92%** —— 正在蓋的資產尚未投入服務、尚未開始折舊。
   updated: 2026-06-30
 - name: 營業利益（TTM）
+  kind: 量化
   value: -67.41
   unit: 百萬美元
   tier: 事實
@@ -292,6 +294,7 @@ key_variables:
     自 -41.35 擴大到 -67.41。** 營業利益率 -19.00% → -11.31%，四個期間無一接近零。
   updated: 2026-06-30
 - name: Q2 2026 分部營收（資料中心／CATV）
+  kind: 量化
   value: 107.7
   unit: 百萬美元（CATV 另為 80.6）
   tier: 事實
@@ -301,6 +304,7 @@ key_variables:
     ⚠⚠ **CATV 佔 42.0% 且與 AI 無關 —— 這是本檔與清單其餘光通訊標的最大的結構差異。**
   updated: 2026-08-06
 - name: 在外股數年增率
+  kind: 量化
   value: 49.26
   unit: '%'
   tier: 事實
@@ -311,6 +315,7 @@ key_variables:
     ⚠⚠ **營收年增 61.85% ÷ 股數年增 49.26% = 0.80 → 每股營收成長僅 +8.4%。**
   updated: 2026-09-10
 - name: Q3 2026 營收指引
+  kind: 量化
   value: 272.5
   unit: 百萬美元（區間 255–290）
   tier: 事實
@@ -322,6 +327,7 @@ key_variables:
     公司自己的指引就內含進一步稀釋。**
   updated: 2026-08-06
 - name: 分析師目標價錨寬度
+  kind: 量化
   value: 101.8
   unit: '%'
   tier: 事實

@@ -204,6 +204,7 @@ scenarios:
 
 key_variables:
 - name: AI半導體營收與占比
+  kind: 量化
   value: 56.4
   unit: '%（占總營收，FY2026 Q3）'
   tier: 事實
@@ -239,6 +240,7 @@ key_variables:
     **但具體集中度本輪未由一手文件確認**，列 gaps。**在確認之前不得以任何形式量化該風險。**
   updated: 2026-09-08
 - name: 盈餘與目標價的分歧倍數
+  kind: 量化
   value: 69.1
   unit: 倍（目標價錨寬度 ÷ EPS 錨寬度）
   tier: 事實
@@ -258,6 +260,7 @@ key_variables:
     評等：49 位中 **37 強力買進／8 買進／4 中立／0 賣出**。
   updated: 2026-09-08
 - name: 對同業的EV倍數位置
+  kind: 量化
   value: 40.1
   unit: 倍（EV／營業利益，TTM）
   tier: 事實
@@ -278,6 +281,7 @@ key_variables:
     **在 run-rate 口徑下本檔可能反而最便宜，但同業的對應數字本輪未取得，無法一致比較。** 列 gaps。
   updated: 2026-09-08
 - name: 資本密集度
+  kind: 量化
   value: 1.40
   unit: '%（capex／營收，TTM 至 2026-08-02）'
   tier: 事實
@@ -292,6 +296,7 @@ key_variables:
     —— **三家都是無廠，Y 軸一致為低，這一軸在本族群不具區辨力。**
   updated: 2026-09-08
 - name: 自由現金流與股份基礎給付
+  kind: 量化
   value: 44.2
   unit: '%（FCF 利潤率，TTM）'
   tier: 事實
@@ -306,6 +311,7 @@ key_variables:
     ⚠ **對照 NVDA**：FCF 127.01B（本檔的 3.2 倍），capex 7.35B。
   updated: 2026-09-08
 - name: 客戶集中度
+  kind: 量化
   value: __
   unit: '%（最大客戶占營收比重）'
   tier: 缺口

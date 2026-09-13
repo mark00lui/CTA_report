@@ -329,6 +329,7 @@ scenarios:
 
 key_variables:
 - name: 光纖跳線佔營收比重
+  kind: 量化
   value: 76
   unit: '%'
   tier: 事實
@@ -343,6 +344,7 @@ key_variables:
     同業不用這個切法而改列於此。**
   updated: '2026'
 - name: FAU 三年累計營收自估
+  kind: 量化
   value: 70
   unit: 億元（2026–2028 累計）
   tier: 假設
@@ -360,6 +362,7 @@ key_variables:
     ＝ 6.48 倍。這個數字可以拿去問同業。**
   updated: '2026'
 - name: 資本支出計畫（2026 至 2027 Q2）
+  kind: 量化
   value: 15.38
   unit: 億元（其中 FAU 生產機台約 10.8 億元）
   tier: 事實
@@ -374,6 +377,7 @@ key_variables:
     **淨現金／淨負債未取得，列 gaps。**
   updated: 2026-09
 - name: TTM 每股盈餘
+  kind: 量化
   value: -1.18
   unit: 元（近四季）
   tier: 事實
@@ -391,6 +395,7 @@ key_variables:
     而 -1.32 才是累計數。** 已列 gaps 待查證。
   updated: 2026-08-06
 - name: 2026 年 8 月營收
+  kind: 量化
   value: 2.045
   unit: 億元
   tier: 事實
@@ -409,6 +414,7 @@ key_variables:
     而跳線本業佔 76%。8 月落在 Q3 之內，所以兩種解釋都還說得通。**
   updated: 2026-09-05
 - name: 每股淨值與推算股數
+  kind: 量化
   value: 50.13
   unit: 元（推算股數約 1.1364 億股，淨值約 56.97 億元）
   tier: 推論

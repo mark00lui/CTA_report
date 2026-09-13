@@ -366,6 +366,7 @@ scenarios:
 
 key_variables:
 - name: Foundry 外部客戶營收
+  kind: 量化
   value: 293
   unit: 百萬美元（2026 Q2；約該部門營收 $5.8B 的 5%）
   tier: 事實
@@ -385,6 +386,7 @@ key_variables:
     「Intel 自己用更多產能」會讓占比下降而非上升。**
   updated: 2026-07-23
 - name: Foundry 部門營業利益率
+  kind: 量化
   value: -36.2
   unit: '%（2026 Q2；2025 Q2 為 -71.7%）'
   tier: 事實
@@ -403,6 +405,7 @@ key_variables:
     （EPS $0.42 × 5.25B 股）—— 產品端賺的約 $4.3B 被吃掉一半。**
   updated: 2026-07-23
 - name: 非控制權益
+  kind: 量化
   value: 15601
   unit: 百萬美元（占股東權益 $103,143M 的 15.1%）
   tier: 事實
@@ -422,6 +425,7 @@ key_variables:
     三個候選解釋之一就是非控制權益，而我沒拿到數字。本檔拿到了，而它是 15.1%。**
   updated: 2026-06-27
 - name: 資本支出對營收比
+  kind: 量化
   value: 35.1
   unit: '%（2026 指引 $20B+ ÷ TTM 營收 $57.03B）'
   tier: 推論
@@ -439,6 +443,7 @@ key_variables:
     ⚠ **這個數字同時是 rank_metric ③，刻意共用。**
   updated: 2026-07-23
 - name: 三把估值尺的現值
+  kind: 量化
   value: 60.13
   unit: 倍（forward PE；trailing PE 為 n/a、EV/Sales 9.88 倍、市值／PPE 4.99 倍）
   tier: 推論
@@ -460,6 +465,7 @@ key_variables:
     本檔不引用該百分比，只引用市值絕對值。**
   updated: 2026-09-10
 - name: 2026 Q2 財報
+  kind: 量化
   value: 16.1
   unit: 十億美元（營收；EPS $0.42、非 GAAP 毛利率 41.8%）
   tier: 事實

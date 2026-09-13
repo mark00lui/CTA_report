@@ -143,6 +143,7 @@ scenarios:
   #   報告：reports/2026/09/2026-09-11-3037-revaluation.md
 key_variables:
 - name: 產地標示司法案範圍
+  kind: 質性
   value: 檢調告知主因為刑法「妨害農工商罪」的產地標示爭議；公司重訊稱範圍為 PCB 因應客戶需求調度產能的認定爭議，非 ABF 載板業務，營運正常、對財務業務無重大影響
   unit: 質性
   tier: 事實
@@ -158,6 +159,7 @@ key_variables:
     會過度加權；但它是第一條 falsifier，且是本檔目前最可能改變一切的單一變數。
   updated: 2026-08-31
 - name: ABF載板營收占比與成長
+  kind: 量化
   value: 52
   unit: '%（2026 Q2 占總營收）'
   tier: 事實
@@ -171,6 +173,7 @@ key_variables:
     ⚠ 6 月載板三雄營收年增率：本檔 +51.41% 領先景碩（3189）+34.58%、南電（8046）+27.45%。
   updated: 2026-08-31
 - name: 毛利率
+  kind: 量化
   value: 24.8
   unit: '%（2026 Q2）'
   tier: 事實
@@ -182,6 +185,7 @@ key_variables:
     看營收成長率會低估傳導強度。
   updated: 2026-08-31
 - name: 月營收
+  kind: 量化
   value: 162.54
   unit: 億元新台幣（2026-07）
   tier: 事實
@@ -200,6 +204,7 @@ key_variables:
 
   updated: 2026-09-08
 - name: 資本支出與自由現金流
+  kind: 量化
   value: 537
   unit: 億元新台幣（2026 全年 capex 計畫）
   tier: 事實
@@ -228,7 +233,11 @@ key_variables:
 
   updated: 2026-09-08
 - name: ABF供需與漲價幅度
-  value: 15-20
+  kind: 量化
+  value: 17.5
+  value_qualifier: 區間
+  value_low: 15
+  value_high: 20
   unit: '%（2026 年 ABF 載板漲價幅度預估）'
   tier: 推論
   source: >

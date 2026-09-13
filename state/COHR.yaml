@@ -229,6 +229,7 @@ scenarios:
   #   報告：reports/2026/09/2026-09-11-COHR-revaluation.md
 key_variables:
 - name: 資料中心營收成長
+  kind: 量化
   value: 58.6
   unit: '% YoY（FY26 Q4）'
   tier: 事實
@@ -239,6 +240,7 @@ key_variables:
     全季總營收 20.5 億美元（+34% YoY，優於共識 19.9 億），FY2026 全年 71.2 億美元（+22.5%）。
   updated: 2026-08-27
 - name: 毛利率
+  kind: 量化
   value: 37.50
   unit: '%（TTM）'
   tier: 事實
@@ -248,6 +250,7 @@ key_variables:
     驅動因子：六吋磷化銦相對三吋為 4 倍產出、一半成本。
   updated: 2026-08-27
 - name: 自由現金流與資本支出
+  kind: 量化
   value: -1.02
   unit: USD bn（TTM 自由現金流）
   tier: 事實
@@ -285,6 +288,7 @@ key_variables:
     且 beta 2.10 是 5 年期歷史值，對一檔 52 週 +225% 的股票是否仍代表前瞻風險是另一個問題。**
   updated: 2026-09-11
 - name: InP產能擴張進度
+  kind: 量化
   value: 80
   unit: '% YoY（FY26 Q4 雷射產出）'
   tier: 事實
@@ -296,6 +300,7 @@ key_variables:
     而非市場准入」。因此本格比任何需求指標更接近本檔的真正瓶頸。
   updated: 2026-08-27
 - name: CPO進度與時程
+  kind: 質性
   value: 初期營收預計於 2026 年 12 月當季（FY2027 Q1）認列；scale-up 型 CPO 預計自曆年 2027 下半開始貢獻
   unit: 質性
   tier: 事實
@@ -317,6 +322,7 @@ key_variables:
     這決定 CPO 在 scale-up 的實際 BOM 價值量 —— 時點對上了，金額還沒。
   updated: 2026-08-27
 - name: 訂單能見度
+  kind: 質性
   value: FY2027 實質售罄；客戶訂單延伸至曆年 2028；長約至本十年末，含逐年遞增的 take-or-pay 最低採購量
   unit: 質性
   tier: 事實

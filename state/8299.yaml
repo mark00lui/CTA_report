@@ -270,6 +270,7 @@ scenarios:
   #   報告：reports/2026/09/2026-09-11-8299-revaluation.md
 key_variables:
 - name: Q2 2026 毛利率
+  kind: 量化
   value: 65.31
   unit: '%'
   tier: 事實
@@ -284,6 +285,7 @@ key_variables:
     獲利的增幅主要來自率，不是量。**
   updated: 2026-08
 - name: 近四季 EPS
+  kind: 量化
   value: 218.14
   unit: 元
   tier: 事實
@@ -297,6 +299,7 @@ key_variables:
     「循環頂（低 PE 看似便宜）」在本檔是字面意義上的。**
   updated: 2026-09-09
 - name: 2026 年 8 月營收
+  kind: 量化
   value: 282.76
   unit: 億元
   tier: 事實
@@ -313,6 +316,7 @@ key_variables:
     **故 4 月以後的年增率可以直接讀，1–3 月的則被低基期放大。**
   updated: 2026-09-09
 - name: 當期股東權益報酬率
+  kind: 量化
   value: 47.3
   unit: '%'
   tier: 推論
@@ -325,6 +329,7 @@ key_variables:
     而那個荒謬本身就是提醒 —— 必須先正常化。**
   updated: 2026-09-09
 - name: 市營比
+  kind: 量化
   value: 2.38
   unit: 倍
   tier: 事實
@@ -337,6 +342,7 @@ key_variables:
     股價淨值比 **4.52**、每股淨值約 **461.28 元**。
   updated: 2026-09-09
 - name: 存貨周轉天數
+  kind: 量化
   value: __
   unit: 天
   tier: 缺口

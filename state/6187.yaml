@@ -280,6 +280,7 @@ scenarios:
   #   報告：reports/2026/09/2026-09-11-6187-revaluation.md
 key_variables:
 - name: 單季淨利率（Q1 對 Q2）
+  kind: 量化
   value: 35.6
   unit: '%（Q2 2026；Q1 約 23.4%）'
   tier: 推論
@@ -296,6 +297,7 @@ key_variables:
     而兩檔管理層給的解釋是同一個：專案組合。**
   updated: 2026-09-09
 - name: H1 2026 每股盈餘
+  kind: 量化
   value: 11.9
   unit: 元
   tier: 事實
@@ -310,6 +312,7 @@ key_variables:
     ⚠ 交叉驗證：月營收合計的 H1 為 **37.66 億元**，與法說所載完全一致。
   updated: 2026-08
 - name: 訂單能見度
+  kind: 量化
   value: 2027
   unit: 年 Q2（管理層明言）
   tier: 事實
@@ -321,6 +324,7 @@ key_variables:
     ⚠ **但它沒有金額**：**可以用來設 falsifier 的時點，不可以用來填分子。**
   updated: 2026-08
 - name: 2026 年 8 月營收
+  kind: 量化
   value: 11.09
   unit: 億元
   tier: 事實
@@ -335,6 +339,7 @@ key_variables:
     **三個維度都可讀 —— 這在本輪十四檔中只有本檔與 3081 做得到。**
   updated: 2026-09-09
 - name: 股東權益報酬率（TTM 推算）
+  kind: 量化
   value: 22.0
   unit: '%'
   tier: 推論
@@ -348,6 +353,7 @@ key_variables:
     三項都明顯高於本檔（22.0%／15.83／0.89 倍）。**
   updated: 2026-09-09
 - name: 產品組合的營收占比
+  kind: 量化
   value: __
   unit: '%'
   tier: 缺口

@@ -86,31 +86,39 @@ scenarios:
   weighted_tp: 434
 key_variables:
 - name: 先進製程營收占比
+  kind: 量化
   value: __
   unit: '%'
   tier: 缺口
   source: ⚠ 未取得。HPC 平台占營收 66%（2026Q2）是「平台別」不是「製程節點別」，不可代用 — 第三條 falsifier 因此沒有基期無法起算
   updated: __
 - name: CoWoS月產能
+  kind: 質性
   value: 絕對月產能未揭露；CoWoS+SoIC 先進封裝產能至 2027 年前每年擴張逾 80%，5.5 倍光罩尺寸 CoWoS 良率 >98%
   unit: 質性
   tier: 推論
   source: TSMC 2026 技術論壇（第三方報導彙整），2026-08-27 取得
   updated: 2026-08-27
 - name: 毛利率
+  kind: 量化
   value: 67.7
   unit: '%'
   tier: 事實
   source: 2026Q2 財報；Q3 指引 65–67%、營益率 56–58%
   updated: 2026-08-27
 - name: N2進度與客戶採用
+  kind: 質性
   value: 2025Q4 如期量產；高雄量產、良率約 70%；2026 年底月產能目標逾 10 萬片；2026 年 5 座 2nm 廠啟動量產；2026–2028 產能 CAGR 約 70%
   unit: 質性
   tier: 推論
   source: TSMC 2026 技術論壇與第三方報導，2026-08-27 取得（量產時點為公司揭露，良率與產能目標為第三方）
   updated: 2026-08-27
 - name: 全年資本支出guidance
-  value: 60-64
+  kind: 量化
+  value: 62
+  value_qualifier: 區間
+  value_low: 60
+  value_high: 64
   unit: 十億美元（2026 全年）
   tier: 事實
   source: >
@@ -124,6 +132,7 @@ key_variables:
     結論沒錯，但那是運氣好，不是檢查有效。**
   updated: 2026-09-07
 - name: 新台幣匯率
+  kind: 量化
   value: 32.3
   unit: TWD/USD
   tier: 事實

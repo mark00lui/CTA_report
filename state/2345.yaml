@@ -267,6 +267,7 @@ scenarios:
   #   報告：reports/2026/09/2026-09-11-2345-revaluation.md
 key_variables:
 - name: 2026 年 8 月營收
+  kind: 量化
   value: 408.73
   unit: 億元
   tier: 事實
@@ -278,6 +279,7 @@ key_variables:
     **這是 thesis 把「量」列為前提而非爭點的直接依據。**
   updated: 2026-09-08
 - name: Q2 2026 毛利率
+  kind: 量化
   value: 19.7
   unit: '%'
   tier: 事實
@@ -287,6 +289,7 @@ key_variables:
     而 ODM 的估值折價幾乎全部來自這一行。**
   updated: 2026-08
 - name: 近四季 EPS
+  kind: 量化
   value: 63.65
   unit: 元
   tier: 事實
@@ -299,6 +302,7 @@ key_variables:
     Q2 2026 **19.78**（季增 +33%、年增 **+120%**）、近四季 EPS 年增 **+98.58%**。
   updated: 2026-09-10
 - name: 2026 年共識 EPS（Factset 中位數）
+  kind: 量化
   value: 73.8
   unit: 元
   tier: 推論
@@ -310,6 +314,7 @@ key_variables:
     測的是分析師的樂觀程度而非公司的表現**（與 3533 同樣的處理）。
   updated: 2026-09-10
 - name: 股東權益報酬率（TTM 推算）
+  kind: 量化
   value: 52.9
   unit: '%'
   tier: 推論
@@ -323,6 +328,7 @@ key_variables:
     但它足以排除「高資本密集」。
   updated: 2026-09-10
 - name: 已公告擴產投資金額
+  kind: 量化
   value: 40
   unit: 億元新台幣（量級）
   tier: 推論

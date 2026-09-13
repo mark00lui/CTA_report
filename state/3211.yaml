@@ -295,6 +295,7 @@ scenarios:
   #   報告：reports/2026/09/2026-09-11-3211-revaluation.md
 key_variables:
 - name: 非 IT（BBU 為核心）營收占比
+  kind: 量化
   value: 27.5
   unit: '%（Q2 2026 區間 25–30）'
   tier: 事實
@@ -309,6 +310,7 @@ key_variables:
     ⚠ **且 Q2 的營收成長來自 IT 產品，不是 BBU —— 敘事與該季的數字方向相反。**
   updated: 2026-08
 - name: Q2 2026 毛利率
+  kind: 量化
   value: 13.8
   unit: '%'
   tier: 事實
@@ -322,6 +324,7 @@ key_variables:
     不是一條平滑的成長曲線。**
   updated: 2026-08
 - name: 近四季 EPS
+  kind: 量化
   value: 7.41
   unit: 元
   tier: 推論
@@ -336,6 +339,7 @@ key_variables:
     對照同日 8299 的本益比 9.55 倍而 EPS 創 40 季新高。兩者是同一個陷阱的兩端。**
   updated: 2026-09-09
 - name: A7 土地宣稱潛在價值
+  kind: 量化
   value: 100
   unit: 億元（管理層稱「逾百億」）
   tier: 假設
@@ -349,6 +353,7 @@ key_variables:
     **它是主錨（選擇權拆分）的一半，而它目前只有一個沒有佐證的數字。**
   updated: 2026-05
 - name: 2026 年 8 月營收
+  kind: 量化
   value: 16.77
   unit: 億元
   tier: 事實
@@ -365,6 +370,7 @@ key_variables:
     → 21.80 → 21.66 → **20.90%**。
   updated: 2026-09-09
 - name: 營業利益率
+  kind: 量化
   value: __
   unit: '%'
   tier: 缺口

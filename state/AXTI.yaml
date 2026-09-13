@@ -242,12 +242,14 @@ scenarios:
 
 key_variables:
 - name: Q2 2026 非 GAAP 毛利率
+  kind: 量化
   value: 45.0
   unit: '%'
   tier: 事實
   source: "AXT Q2 2026 財報與法說（2026-08-03）；去年同期 8.2%，GAAP 為 44.9% 對 8.0%"
   updated: 2026-08-03
 - name: Q3 2026 營收指引
+  kind: 量化
   value: 66.0
   unit: 百萬美元
   tier: 事實
@@ -256,6 +258,7 @@ key_variables:
     出口許可是營收的閘門，不是背景風險。非 GAAP EPS 指引 0.30–0.32，股數約 6,650 萬。
   updated: 2026-08-03
 - name: 目標季產能（2027 年底）
+  kind: 量化
   value: 130
   unit: 百萬美元
   tier: 假設
@@ -265,6 +268,7 @@ key_variables:
     2026 年底的 60，兩者不可能同屬一個口徑。**這是本檔最高優先的缺口。**
   updated: 2026-08-03
 - name: 已被預付款鎖定的金額
+  kind: 量化
   value: 47.7
   unit: 百萬美元
   tier: 事實
@@ -274,6 +278,7 @@ key_variables:
     **僅覆蓋單季目標產能（130）的 36.7%** —— 需求被證明的是一部分，不是全部。
   updated: 2026-08-03
 - name: 淨現金
+  kind: 量化
   value: 315.67
   unit: 百萬美元
   tier: 事實
@@ -283,6 +288,7 @@ key_variables:
     在外股數年增 **19.54%**（約 5,371 萬 → 6,420 萬股），推得平均約 60 美元／股（該推算為推論非事實）。
   updated: 2026-06-30
 - name: 分析師目標價錨寬度
+  kind: 量化
   value: 127.3
   unit: '%'
   tier: 事實

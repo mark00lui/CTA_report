@@ -253,6 +253,7 @@ scenarios:
 
 key_variables:
 - name: 營收成長與拐點
+  kind: 量化
   value: 83.22
   unit: '% YoY（FY2026，截至 2026-06）'
   tier: 事實
@@ -264,6 +265,7 @@ key_variables:
     來源：Lumentum FY2026 Q4 財報與相關報導，2026-09-10 取得。
   updated: 2026-09-10
 - name: 毛利率
+  kind: 量化
   value: 50.4
   unit: '%（非 GAAP，Q4 FY2026）'
   tier: 事實
@@ -276,6 +278,8 @@ key_variables:
     無法判斷 50.4% 有多少來自 AI 產品、多少來自舊業務的組合改善。列 gaps。
   updated: 2026-09-10
 - name: GAAP淨損的成因
+  kind: 量化
+  value_qualifier: 未型別化
   value: >
     **-6,935M（FY2026），EPS -92.96 —— 但它是一次性、非現金的債務清償費用，不是營運虧損。**
     同期**營業利益 +536.2M**（FY25 為 -192.2M），Q4 調整後 EPS **+3.23**（優於預期 2.97）。
@@ -295,6 +299,7 @@ key_variables:
     **「淨損是假的」與「倍數是貴的」兩件事同時為真。**
   updated: 2026-09-10
 - name: 資本支出強度
+  kind: 量化
   value: 14.97
   unit: '%（capex／營收，FY2026）'
   tier: 事實
@@ -309,6 +314,7 @@ key_variables:
     **這與本檔 FY2026 的債務清償費用是同一件事的兩面，判讀時須合看。**
   updated: 2026-09-10
 - name: 分部別營收占比
+  kind: 量化
   value: __
   unit: '%'
   tier: 缺口
@@ -327,6 +333,7 @@ key_variables:
     現在只能對 Fabrinet 的 11.99%（代工）與中際旭創的淨利率 31.3%（口徑不同）比。**
   updated: __
 - name: CPO進度與時程
+  kind: 質性
   value: __
   unit: 質性
   tier: 缺口

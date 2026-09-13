@@ -262,6 +262,7 @@ scenarios:
   #   報告：reports/2026/09/2026-09-11-6531-revaluation.md
 key_variables:
 - name: Q2 2026 EPS 的季增與年增
+  kind: 量化
   value: 1
   unit: '%（季增；同期年增為 +224%）'
   tier: 事實
@@ -275,6 +276,7 @@ key_variables:
     **年增 +224% 與季增 +1% 同時為真，而它們指向相反的方向 —— 這就是 thesis。**
   updated: 2026-08
 - name: Q1 2026 毛利率
+  kind: 量化
   value: 46
   unit: '%'
   tier: 事實
@@ -288,6 +290,7 @@ key_variables:
     ⚠ **Q2 的毛利率未取得**（只有推算的淨利率 28.8%），列 gaps。
   updated: 2026-03
 - name: 2026 年 8 月營收
+  kind: 量化
   value: 10.31
   unit: 億元
   tier: 事實
@@ -324,6 +327,7 @@ key_variables:
     若淨利率自 28.8% 下滑，營收 +35.5% 不等於 EPS +35.5%。**
   updated: 2026-09-11
 - name: VHM 與 VHMStack 的全面量產時程
+  kind: 量化
   value: 2027
   unit: 年（管理層稱延伸至 2027–2028）
   tier: 假設
@@ -339,6 +343,7 @@ key_variables:
     **AI 資料中心的當期營收實質上是零。**
   updated: '2026'
 - name: 股東權益報酬率與週轉率（TTM 推算）
+  kind: 量化
   value: 22.5
   unit: '%（ROE；股東權益週轉率約 0.69 倍）'
   tier: 推論
@@ -354,6 +359,7 @@ key_variables:
     **若屬實，選擇權拆分的分母要先扣掉它，整個算法會不同。** 列 gaps。
   updated: 2026-09-10
 - name: 研發費用率
+  kind: 量化
   value: __
   unit: '%'
   tier: 缺口

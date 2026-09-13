@@ -867,6 +867,20 @@ const CTA_SHOWN = ['位階', 'price', 'updated', 'key_ma', 'support', 'resistanc
 
 // `none_qualifies` 是資料層的 token（機器可辨），這裡譯成讀者看得懂的標籤。
 // 它與 `__` 的差別是：前者已經量過了，後者還沒 —— 兩者在頁面上必須分得開。
+// value_qualifier 必須看得見：把「區間 60–64 的中點 62」顯示成裸的 62，
+// 等於在頁面上製造原始資料沒有的精確度。
+function kvQual(k) {
+  const q = k.value_qualifier;
+  if (!q) return '';
+  if (q === '區間' && k.value_low != null && k.value_high != null)
+    return ' <span class="dim">(' + k.value_low + '–' + k.value_high + ' 中點)</span>';
+  if (q === '下界') return ' <span class="dim">(逾)</span>';
+  if (q === '上界') return ' <span class="dim">(近)</span>';
+  if (q === '約值') return ' <span class="dim">(約)</span>';
+  if (q === '未型別化') return ' <span class="dim">(型別化未完成)</span>';
+  return '';
+}
+
 function invalidationLabel(v) {
   if (v === 'none_qualifies')
     return '**無合格位階（已量化）** — 雙邊規則下沒有任何位階同時滿足「距現價 ≥2 倍 ATR」與「≤20%」。這是結論，不是尚未查證的缺口；依據見下方。';
@@ -876,7 +890,7 @@ function invalidationLabel(v) {
 function detail(t) {
   const sig = t.signal || {}, cta = t.cta || {}, sc = t.scenarios || {};
   const kvs = (t.key_variables || []).map(k =>
-    '<tr><td>' + clip(k.name, 48) + '</td><td class="n">' + num(k.value)
+    '<tr><td>' + clip(k.name, 48) + '</td><td class="n">' + num(k.value) + kvQual(k)
     + (k.unit && k.value !== null ? ' <span class="dim">' + clip(k.unit, 26) + '</span>' : '')
     + '</td><td class="dim">' + n(k.tier) + '</td><td class="n dim">' + n(k.updated) + '</td></tr>').join('');
   const kvSrcN = (t.key_variables || []).filter(k => k.source).length;

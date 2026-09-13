@@ -255,6 +255,7 @@ scenarios:
   #   報告：reports/2026/09/2026-09-11-3017-revaluation.md
 key_variables:
 - name: Q2 2026 毛利率（對 FY2025 全年 25.79% 的基期）
+  kind: 量化
   value: 32.57
   unit: '%'
   tier: 事實
@@ -266,6 +267,7 @@ key_variables:
     不需要另外相信誰的說法；而五倍產能擴充能不能守住它，是還沒被證明的部分。**
   updated: 2026-08-12
 - name: 2026 年 8 月營收
+  kind: 量化
   value: 194.81
   unit: 億元
   tier: 事實
@@ -279,6 +281,7 @@ key_variables:
     **減速的主因是基期，不是需求 —— 見下一個變數。**
   updated: 2026-09-08
 - name: ASIC 營收佔比（管理層前瞻）
+  kind: 量化
   value: 50
   unit: '%（2027 年「有機會超越 GPU」，即 >50%）'
   tier: 假設
@@ -296,6 +299,7 @@ key_variables:
     ⚠ **這是建檔時漏讀的 —— 它就在同一場 2026-08-12 的法說裡。**
   updated: 2026-09-11
 - name: 年度資本支出
+  kind: 量化
   value: 150
   unit: 億元
   tier: 事實
@@ -308,6 +312,7 @@ key_variables:
     2345、3533 的 Y 軸都只能靠 ROE／股價淨值比等間接證據。
   updated: 2026-08-12
 - name: 水冷板月產能目標
+  kind: 量化
   value: 100
   unit: 萬套／月（自 20 萬套擴充）
   tier: 事實
@@ -319,6 +324,7 @@ key_variables:
     滲透率跟得上就是規模效益，跟不上就是折舊與稼動率同時打在毛利率上。**
   updated: 2026-08-12
 - name: 2026 年法人共識稅後純益
+  kind: 量化
   value: 397.22
   unit: 億元
   tier: 推論

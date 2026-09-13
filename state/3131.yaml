@@ -264,6 +264,7 @@ scenarios:
   #   報告：reports/2026/09/2026-09-11-3131-revaluation.md
 key_variables:
 - name: 單季淨利率（Q1 對 Q2）
+  kind: 量化
   value: 18.9
   unit: '%（Q2 2026；Q1 約 29.5%）'
   tier: 推論
@@ -279,6 +280,7 @@ key_variables:
     **EPS 因此季減 31% —— 那不是需求問題，是組成問題。**
   updated: 2026-09-09
 - name: 近四季 EPS
+  kind: 量化
   value: 54.77
   unit: 元
   tier: 推論
@@ -289,6 +291,7 @@ key_variables:
     ⚠ **tier 為推論** —— 未取得財報狗或其他來源的獨立近四季值互相驗證，列 gaps。
   updated: 2026-09-09
 - name: 2026 年 8 月營收
+  kind: 量化
   value: 6.81
   unit: 億元
   tier: 事實
@@ -304,6 +307,7 @@ key_variables:
     **亦即月營收與累計都沒有訊號，只有季度有 —— 第一條 falsifier 因此用季度營收。**
   updated: 2026-09-09
 - name: 3D 設備營收占比的時點
+  kind: 量化
   value: 2027
   unit: 年（管理層稱 2027–2028 顯著提升）
   tier: 假設
@@ -316,6 +320,7 @@ key_variables:
     還撐不撐得住 —— 公司自己沒有回答那一段。**
   updated: '2026'
 - name: 客戶結構
+  kind: 量化
   value: 3
   unit: 類（晶圓代工／封測代工／HBM，皆為前三大客戶）
   tier: 事實
@@ -329,6 +334,7 @@ key_variables:
     ⚠ **前三大客戶的合計營收占比未取得**（公司自己用了「集中」這個詞卻沒給數字），列 gaps。
   updated: '2026'
 - name: 股東權益報酬率（TTM 推算）
+  kind: 量化
   value: 51.4
   unit: '%'
   tier: 推論

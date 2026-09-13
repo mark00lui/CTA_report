@@ -176,6 +176,7 @@ scenarios:
 
 key_variables:
 - name: 毛利率
+  kind: 量化
   value: 20.65
   unit: '%（2026 H1）'
   tier: 事實
@@ -200,6 +201,7 @@ key_variables:
     **差 16.87 億元、占合併淨利的 17.6% 為少數股東權益（超豐等）。**
   updated: 2026-09-01
 - name: 月營收
+  kind: 量化
   value: 82.70
   unit: 億元新台幣（2026-07）
   tier: 事實
@@ -223,6 +225,7 @@ key_variables:
     這對 ai-accelerator-demand 的傳導強度是往下修正的（不是往上）。
   updated: 2026-09-01
 - name: FOPLP與DDR5_TSV進度與競爭格局
+  kind: 質性
   value: DDR5 的 TSV 互連已完成試產、2026 Q4 量產；FOPLP 目標 2027 年中前成為全球第一家量產面板級扇出型封裝 AI 應用的專業封測廠。⚠ 2026-09-01 併入競爭格局：本檔面板 510×515mm、P11 月產 6,000 片；日月光 600×600mm 但時程落後約一年；產業預期 600×600 成主流
   unit: 質性
   tier: 事實
@@ -279,6 +282,7 @@ key_variables:
     這是 state 已記的「OSAT 是服務業、定價權有限」的外部佐證。
   updated: 2026-09-01
 - name: 資本支出強度
+  kind: 量化
   value: 500
   unit: 億元新台幣（2026 上修後；2026-28 合計 1,200）
   tier: 事實
@@ -305,6 +309,7 @@ key_variables:
     **淨負債只會再上升**，故這個 13.4% 的折算率本身會惡化。
   updated: 2026-09-01
 - name: 自由現金流
+  kind: 量化
   value: -14.78
   unit: 元／股（近四季自由現金流）
   tier: 事實
@@ -329,6 +334,8 @@ key_variables:
     但不把它一路推到底，因為分歧點（這筆錢是投資還是消耗）要等折舊入帳與 2027 的實際支出才知道。
   updated: 2026-09-01
 - name: 市場共識與目標價
+  kind: 量化
+  value_qualifier: 未型別化
   value: 2026 EPS 三個估值 10.9／12.96／14.26（離散度 31%）；目標價 FactSet 335（11 位）、官股投顧 400
   unit: 元
   tier: 推論

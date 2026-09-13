@@ -93,24 +93,29 @@ scenarios:
   weighted_tp: 512
 key_variables:
 - name: Azure成長率
+  kind: 量化
+  value_qualifier: 未型別化
   value: Q4 FY26 +43%；FY26 全年 +41%（年營收首破 $100B）；Q1 FY27 指引 +45% cc（共識 41.4%）
   unit: '% YoY'
   tier: 事實
   source: Microsoft FY26 Q4 財報／法說 2026-07-29。註：Q4 的 +43% 來源未區分報導值或 cc
   updated: 2026-08-26
 - name: 營益率
+  kind: 量化
   value: 46.8
   unit: '%'
   tier: 事實
   source: FY26 營業利益 $155.2B ÷ 營收 $331.8B，2026-07-29；Q4 為 45.1%（$40.6B ÷ $90.0B）
   updated: 2026-08-26
 - name: RPO與成長
+  kind: 量化
   value: 678
   unit: USD bn
   tier: 事實
   source: Microsoft FY26 Q4 財報 2026-07-29；+84% YoY，排除 OpenAI 承諾後仍 +25%
   updated: 2026-08-26
 - name: 自由現金流與FCF殖利率
+  kind: 量化
   value: 66.99
   unit: USD bn（TTM）；FCF 殖利率 1.82%、P/FCF 55.02x
   tier: 事實
@@ -133,12 +138,14 @@ key_variables:
     → 2027 -144B。MSFT 是其中唯一維持為正者，那是相對優勢但不是絕對安全。
   updated: 2026-08-27
 - name: OpenAI關係結構
+  kind: 質性
   value: non-GAAP 排除 OpenAI 投資損益；Q4 為 +$480M 利益（每股 $0.07），去年同期 -$1.6B 損失；RPO 的 +84% 含 OpenAI 承諾，排除後 +25%
   unit: 質性
   tier: 事實
   source: Microsoft FY26 Q4 財報 2026-07-29
   updated: 2026-08-26
 - name: 折舊年限假設
+  kind: 質性
   value: 資料中心耐用年限 15→25 年，未來租賃由融資改列營業；曆年 2026 capex 口徑因此由 ~190 降至 ~175。管理層稱對 FY27 營益「minimal benefit」，未經附註驗證
   unit: 質性
   tier: 事實

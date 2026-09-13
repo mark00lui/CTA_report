@@ -16,6 +16,10 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LEVEL_ORDER = {"L3": 0, "L2": 1, "L1": 2, "L0": 3}
 
 
+# 有 front-matter 但解析失敗者 —— 2026-09-13 起是 error，不再只是「未納入索引」。
+broken = []
+
+
 def parse_front_matter(path):
     with open(path, encoding="utf-8") as fh:
         text = fh.read()
@@ -26,12 +30,22 @@ def parse_front_matter(path):
         return None
     try:
         fm = yaml.safe_load(parts[1])
-    except yaml.YAMLError:
+    except yaml.YAMLError as e:
+        # ⚠ 最常見的成因是雙引號純量裡的反斜線（`\s` 會噴 unknown escape character）。
+        #   在此之前這裡只是 return None，於是整條驗證鏈 0 block / 0 error 通過，
+        #   而那份報告不進索引、不被 E4 對照、也不進衍生索引 —— 三處都安靜地少一筆。
+        broken.append((path, str(e).split("\n")[0]))
         return None
-    return fm if isinstance(fm, dict) else None
+    if not isinstance(fm, dict):
+        broken.append((path, "front-matter 不是 mapping"))
+        return None
+    return fm
 
 
 def main():
+    # --check：只驗證 front-matter，不寫 INDEX.md。供 pre-commit 使用 ——
+    # 直接在 hook 裡跑完整的 build_index 會改動未 staged 的 INDEX.md。
+    check_only = "--check" in sys.argv
     rows, skipped = [], []
     pattern = os.path.join(ROOT, "reports", "**", "*.md")
     for path in sorted(glob.glob(pattern, recursive=True)):
@@ -99,14 +113,24 @@ def main():
             out.append(f"- `{s}`")
         out.append("")
 
-    index_path = os.path.join(ROOT, "reports", "INDEX.md")
-    os.makedirs(os.path.dirname(index_path), exist_ok=True)
-    with open(index_path, "w", encoding="utf-8") as fh:
-        fh.write("\n".join(out))
+    if not check_only:
+        index_path = os.path.join(ROOT, "reports", "INDEX.md")
+        os.makedirs(os.path.dirname(index_path), exist_ok=True)
+        with open(index_path, "w", encoding="utf-8") as fh:
+            fh.write("\n".join(out))
 
-    print(f"已索引 {len(rows)} 份報告 → reports/INDEX.md")
+    print(("已檢查 %d 份報告的 front-matter（--check，未寫檔）" % len(rows))
+          if check_only else f"已索引 {len(rows)} 份報告 → reports/INDEX.md")
     if skipped:
         print(f"⚠ {len(skipped)} 份缺少 front-matter，未納入索引")
+    if broken:
+        print("")
+        for path, msg in broken:
+            print(f"[ERROR] {os.path.relpath(path, ROOT)}: front-matter 解析失敗 — {msg}")
+        print(f"\n有 {len(broken)} 份報告的 front-matter 壞了。"
+              "它們不會進索引、不會被 cross_check 的 E4 對照、也不會進衍生索引 —— "
+              "三處都只是安靜地少一筆，所以這裡擋下。")
+        return 1
     return 0
 
 

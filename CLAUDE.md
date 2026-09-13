@@ -112,7 +112,15 @@ python scripts/check_public.py && python scripts/check_append_only.py && python 
 那種做法要把來源真相換成 front-matter ＋ 查詢語法，
 **會失去 `check_append_only.py` 的機械不可變性與 `git blame` 的逐行可追溯性 —— 淨損。**
 正確的做法是來源真相一個字不動，在旁邊長一層可以隨時砍掉重建的索引。
-pre-commit hook 會自動跑前四項（`bash scripts/install_hooks.sh` 安裝一次）。
+pre-commit hook 會自動跑前四項，外加 `build_index.py --check`（`bash scripts/install_hooks.sh` 安裝一次）。
+
+⚠⚠ **2026-09-13 起 `build_index.py` 對 front-matter 解析失敗是 error，不再只是提示。**
+在此之前它 `return None` 就算了，於是整條驗證鏈 0 block／0 error 通過，而那份報告**不進索引、不被 `cross_check` 的 E4 對照、也不進 `build_db` 的衍生索引**——
+**三處都只是安靜地少一筆。** `--check` 只驗證不寫檔，所以可以放進 hook 而不會動到未 staged 的 `INDEX.md`。
+
+⚠⚠ **同日 `validate_state.py` 的重複鍵檢查自 WARN 升為 ERROR。**
+理由是 2308 的實測：`cta.price_basis` 有兩段，第一段是 2026-09-11 的重錨（與 `cta.price` 的 1,620 一致），第二段是 09-09 的舊討論 —— **而 PyYAML 保留最後一個，所以生效的是第二段。檔案裡的現價是 09-11 的，描述它的依據卻是 09-09 的，而檔案看起來完全正常。**
+**一個會讓「檔案內容」與「程式讀到的內容」不一致的缺陷，不該只是提示。**
 
 `cross_check.py` 是**跨清單重算**：把每一項聚合檢查對「全部」標的跑一次，而不是只對剛改的那幾檔。
 它擋下四種不自洽 —— E1 機率合計 ≠ 1.00、**E2 `weighted_tp` 與三格算出的值不符、

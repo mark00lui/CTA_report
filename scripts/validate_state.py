@@ -153,9 +153,14 @@ def check_dup_keys(path, text):
     except yaml.YAMLError:
         return
     for key, line, prev in found:
-        warns.append(
+        # ⚠⚠ 2026-09-13 自 WARN 升為 ERROR。理由是 2308 的實測：
+        #   cta.price_basis 有兩段，第一段是 2026-09-11 的重錨（與 cta.price 的 1,620 一致），
+        #   第二段是 09-09 的舊討論 —— 而生效的是第二段。
+        #   **檔案裡的現價是 09-11 的，描述它的依據卻是 09-09 的，而檔案看起來完全正常。**
+        #   一個會讓「檔案內容」與「程式讀到的內容」不一致的缺陷，不該只是提示。
+        errors.append(
             f"{path}: 第 {line} 行的鍵「{key}」與第 {prev} 行重複 — "
-            "PyYAML 只保留最後一個，前者被靜默丟棄"
+            "PyYAML 只保留最後一個，前者被靜默丟棄（程式讀到的與檔案看起來的不一樣）"
         )
 
 

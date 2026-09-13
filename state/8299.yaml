@@ -622,8 +622,7 @@ gaps:
 - question: ⚠⚠ **整個 EPS 階梯系統性低於共識 35–53%，而 bull（300）≈ 共識中位（308.27）** —— bear 60 對共識低 127.58 為 -53.0%、base 200 對中位 308.27 為 -35.1%、bull 300 對高 618.00 為 -51.5%。⚠ **且 state 的 FY2027 base 200 低於街上的 FY2028 中位 243.73（-17.9%）—— 模型在下行方向比街上快約一年半。** ⚠⚠ **這是本輪第三個「bull 低於街上基準」的實例（2308、8046、本檔），是一個該系統性檢查的形態。**
   how_to_close: 若要維持階梯，需把「下行速度是共識 2.5 倍」這件事的機制寫成可否證的門檻；否則應把 bull 拉到共識中位之上
 - question: ✓ **已關閉 2026-09-12** —— **價格通道。** 原問題：`stockanalysis.com/quote/tpe/8299/` 與 `/quote/tpo/8299/` 皆 HTTP 404，goodinfo 回 403，本檔與 3081、3363 同屬 stockanalysis 不覆蓋的一類。**解法是改走交易所自己的公開 API：`tpex.org.tw/openapi/v1/tpex_mainboard_daily_close_quotes`（全市場日收盤）與 `tpex.org.tw/www/zh-tw/afterTrading/tradingStock`（個股逐日 OHLC）—— 免帳號、一手、覆蓋上櫃。** ⚠ **並因此取得 ATR20 ＝ 91.25（4.59%）與 MA5/10/20/60，以及三個月區間高低（2,835／1,445）。**
-  how_to_close: ✓ 見 .claude/skills/cta-research/references/forward-estimates.md §2 ⑥ 與 reports/2026/09/2026-09-12-coverage-exchange-openapi.md
-  how_to_close: 測試 wantgoo／財報狗／富果 Fugle／公開資訊觀測站的可抓取性
+  how_to_close: ✓ 見 .claude/skills/cta-research/references/forward-estimates.md §2 ⑥ 與 reports/2026/09/2026-09-12-coverage-exchange-openapi.md（原取得途徑：測試 wantgoo／財報狗／富果 Fugle／公開資訊觀測站的可抓取性 —— 2026-09-13 合併，此前這兩行是重複鍵，而生效的是尚未執行的那一行）
 - question: ⚠ **state 內部的價格不只一個值** —— `base.multiple_basis` 用 **2,065**、`cta.price` 是 **2,085**（差 1.0%）。與 6531 那一輪（1,045／1,030／984）同類。
   how_to_close: ✓ 本輪已在 multiple_basis 註明以 2,085 為準；記下此事以免再犯
 - question: >

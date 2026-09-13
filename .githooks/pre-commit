@@ -18,6 +18,15 @@ python scripts/validate_state.py || exit 1
 # 三情境的算術自洽。E1（機率合計）與 validate_state 重複，
 # 但 E2（weighted_tp 與三格不符）與 E3（tp ≠ eps × 倍數）在此之前沒有任何機械檢查。
 # --gate 只印硬錯：旗標 F1–F7 有 27 檔會觸發，每次 commit 印一遍會洗掉真正要看的行。
+echo "→ 檢查報告 front-matter 是否可解析…"
+# 壞掉的 front-matter 不會進索引、不會被 E4 對照、也不會進衍生索引 ——
+# 三處都只是安靜地少一筆。--check 只驗證不寫檔。
+python scripts/build_index.py --check || {
+    echo ""
+    echo "✗ commit 已中止。front-matter 壞掉的報告等於沒寫。"
+    exit 1
+}
+
 echo "→ 檢查三情境算術自洽…"
 python scripts/cross_check.py --gate || {
     echo ""

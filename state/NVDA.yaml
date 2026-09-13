@@ -111,7 +111,7 @@ key_variables:
 - name: 下季總營收指引
   kind: 量化
   value: 108.0
-  unit: USD bn
+  unit: '十億美元'
   tier: 事實
   source: NVIDIA Q3 FY27 展望 2026-08-26（±2%，即 105.84–110.16；較 Q2 實際 96.2 為 +12% QoQ）
   updated: 2026-08-27
@@ -125,14 +125,15 @@ key_variables:
 - name: 下季營業費用指引
   kind: 量化
   value: 9.0
-  unit: USD bn (non-GAAP)
+  unit: '十億美元'
+  unit_note: '(non-GAAP)'
   tier: 事實
   source: NVIDIA Q3 FY27 展望 2026-08-26（Q2 實際 8.2，QoQ +10%；GAAP 口徑 9.2）
   updated: 2026-08-27
 - name: 遠期本益比
   kind: 量化
   value: 23.2  # ⚠ 基準 FY2027 EPS 9.27；同期 stockanalysis 記 19.10（隱含 EPS 12.06，疑為 FY2028 口徑）
-  unit: x
+  unit: '倍'
   period: FY2027
   tier: 推論
   source: 2026-08-26 收盤 209.66 ÷ FY2027 共識 EPS 9.02（stockanalysis.com，61 位分析師）。⚠ 站上另引用的 19.08x 為 NTM 口徑（跨 FY27H2／FY28H1），與單一會計年度共識對不上，2026-08-27 修正

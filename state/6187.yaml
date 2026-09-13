@@ -282,7 +282,8 @@ key_variables:
 - name: 單季淨利率（Q1 對 Q2）
   kind: 量化
   value: 35.6
-  unit: '%（Q2 2026；Q1 約 23.4%）'
+  unit: '%'
+  unit_note: '（Q2 2026；Q1 約 23.4%）'
   tier: 推論
   source: >
     ⚠ **推算式與輸入全部寫出來以便查錯**：
@@ -314,7 +315,8 @@ key_variables:
 - name: 訂單能見度
   kind: 量化
   value: 2027
-  unit: 年 Q2（管理層明言）
+  unit: '年'
+  unit_note: 'Q2（管理層明言）'
   tier: 事實
   source: >
     2026 年 8 月法說：**「產能利用率高，依客戶需求與專案規劃，訂單能見度直達 2027 年 Q2」**，
@@ -326,7 +328,7 @@ key_variables:
 - name: 2026 年 8 月營收
   kind: 量化
   value: 11.09
-  unit: 億元
+  unit: '億元新台幣'
   tier: 事實
   source: >
     公開資訊觀測站月營收：8 月 **11.09 億元**（月增 **+5.13%**、年增 **+103.06%**），

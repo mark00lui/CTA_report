@@ -253,7 +253,7 @@ key_variables:
 - name: 2026 年 8 月營收
   kind: 量化
   value: 31.98
-  unit: 億元
+  unit: '億元新台幣'
   tier: 事實
   source: >
     公開資訊觀測站月營收（2026-09-08 公告）：8 月 **31.98 億元**（月減 5.06%、年增 **19.58%**），
@@ -289,7 +289,8 @@ key_variables:
 - name: QDS 營收占比
   kind: 量化
   value: 1
-  unit: '%（下半年估 2–3%）'
+  unit: '%'
+  unit_note: '（下半年估 2–3%）'
   tier: 事實
   source: >
     嘉澤 2026 Q2 法說會（2026-08-13）：QDS 已切入一家 CSP 客戶與一家品牌客戶，

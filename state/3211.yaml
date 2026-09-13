@@ -297,7 +297,8 @@ key_variables:
 - name: 非 IT（BBU 為核心）營收占比
   kind: 量化
   value: 27.5
-  unit: '%（Q2 2026 區間 25–30）'
+  unit: '%'
+  unit_note: '（Q2 2026 區間 25–30）'
   tier: 事實
   source: >
     順達 2026 法說：**Q2 2026 的非 IT 產品營收占比降至 25%–30%**；
@@ -341,7 +342,8 @@ key_variables:
 - name: A7 土地宣稱潛在價值
   kind: 量化
   value: 100
-  unit: 億元（管理層稱「逾百億」）
+  unit: '億元新台幣'
+  unit_note: '（管理層稱「逾百億」）'
   tier: 假設
   source: >
     順達 2026-05 法說：「**A7 土地潛值逾百億**」。
@@ -355,7 +357,7 @@ key_variables:
 - name: 2026 年 8 月營收
   kind: 量化
   value: 16.77
-  unit: 億元
+  unit: '億元新台幣'
   tier: 事實
   source: >
     公開資訊觀測站月營收：8 月 **16.77 億元**（月增 **+36.47%**、年增 **+17.34%**，

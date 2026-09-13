@@ -296,7 +296,8 @@ key_variables:
 - name: Q2 2026 分部營收（資料中心／CATV）
   kind: 量化
   value: 107.7
-  unit: 百萬美元（CATV 另為 80.6）
+  unit: '百萬美元'
+  unit_note: '（CATV 另為 80.6）'
   tier: 事實
   source: >
     AAOI Q2 2026 財報（2026-08-06）：資料中心 **107.7**（Q2 2025 為 44.8，**+140%**）／
@@ -317,7 +318,8 @@ key_variables:
 - name: Q3 2026 營收指引
   kind: 量化
   value: 272.5
-  unit: 百萬美元（區間 255–290）
+  unit: '百萬美元'
+  unit_note: '（區間 255–290）'
   tier: 事實
   source: >
     AAOI Q2 2026 財報（2026-08-06）：營收 **255–290**（中值年增約 **+130%**）、

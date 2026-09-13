@@ -154,7 +154,8 @@ key_variables:
 - name: 自由現金流與FCF殖利率
   kind: 量化
   value: 5.652
-  unit: USD bn（FY2026 扣 SBC 且扣一次性稅利益後的乾淨值）；FY2027 指引推算 6.581
+  unit: '十億美元'
+  unit_note: '（FY2026 扣 SBC 且扣一次性稅利益後的乾淨值）；FY2027 指引推算 6.581'
   tier: 事實
   source: >
     FY2026（截至 2026-07-31）營業現金流 8.838B、資本支出僅 221M（占營收 1.0%）、
@@ -199,7 +200,8 @@ key_variables:
 - name: 中型企業成長
   kind: 量化
   value: 39
-  unit: '% YoY (Q4)'
+  unit: '% YoY'
+  unit_note: '(Q4)'
   tier: 事實
   source: Intuit FY26 Q4 法說 2026-08-25；Intuit Enterprise Suite 年化營收逾 $145M，YoY 4x
   updated: 2026-08-26

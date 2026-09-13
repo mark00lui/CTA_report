@@ -177,7 +177,8 @@ key_variables:
   kind: 量化
   value: 80
   value_qualifier: 下界
-  unit: '%（樹林、錦興、昆山三廠平均）'
+  unit: '%'
+  unit_note: '（樹林、錦興、昆山三廠平均）'
   tier: 事實
   source: >
     樹林、錦興、昆山三座廠區平均稼動率均達逾八成，公司持續透過廠區改造去瓶頸擴增產能。
@@ -204,7 +205,8 @@ key_variables:
   components:
   - {name: ABF 載板售價漲幅, value: 50}
   - {name: BT 載板售價漲幅, value: 70}
-  unit: '%（2026 全年售價漲幅預估）'
+  unit: '%'
+  unit_note: '（2026 全年售價漲幅預估）'
   tier: 推論
   source: >
     日系外資預估 2026 年 ABF 及 BT 載板售價將分別上漲 50% 與 70%，理由為 ABF 需求超乎預期，
@@ -219,7 +221,8 @@ key_variables:
 - name: 市場共識的分散度
   kind: 量化
   value: 35.7
-  unit: '%（錨寬度，2026 口徑）'
+  unit: '%'
+  unit_note: '（錨寬度，2026 口徑）'
   tier: 推論
   source: >
     ⚠ **2026-09-08 首次取得完整的共識分布，而它顯示整個區間往上移了。**

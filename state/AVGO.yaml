@@ -206,7 +206,8 @@ key_variables:
 - name: AI半導體營收與占比
   kind: 量化
   value: 56.4
-  unit: '%（占總營收，FY2026 Q3）'
+  unit: '%'
+  unit_note: '（占總營收，FY2026 Q3）'
   tier: 事實
   source: >
     ⚠ **這一格是 thesis 的判定對象，也是本檔與清單其餘標的最不同的地方。**
@@ -242,7 +243,8 @@ key_variables:
 - name: 盈餘與目標價的分歧倍數
   kind: 量化
   value: 69.1
-  unit: 倍（目標價錨寬度 ÷ EPS 錨寬度）
+  unit: '倍'
+  unit_note: '（目標價錨寬度 ÷ EPS 錨寬度）'
   tier: 事實
   source: >
     ⚠⚠ **這一格就是 thesis 本身，而它是本倉庫至今最極端的一個對比。**
@@ -262,7 +264,8 @@ key_variables:
 - name: 對同業的EV倍數位置
   kind: 量化
   value: 40.1
-  unit: 倍（EV／營業利益，TTM）
+  unit: '倍'
+  unit_note: '（EV／營業利益，TTM）'
   tier: 事實
   source: >
     ⚠ **本格記的是「換一個分母，結論就換一個」，這是建檔時最有價值的一次交叉。**
@@ -283,7 +286,8 @@ key_variables:
 - name: 資本密集度
   kind: 量化
   value: 1.40
-  unit: '%（capex／營收，TTM 至 2026-08-02）'
+  unit: '%'
+  unit_note: '（capex／營收，TTM 至 2026-08-02）'
   tier: 事實
   source: >
     TTM capex **1,250M** ／營收 **89,104M** = **1.40%**；Q3 單季 532M／29,591M = **1.80%**
@@ -298,7 +302,8 @@ key_variables:
 - name: 自由現金流與股份基礎給付
   kind: 量化
   value: 44.2
-  unit: '%（FCF 利潤率，TTM）'
+  unit: '%'
+  unit_note: '（FCF 利潤率，TTM）'
   tier: 事實
   source: >
     TTM 營運現金流 **40,653M**、資本支出 **1,250M**、**自由現金流 39,403M**
@@ -313,7 +318,8 @@ key_variables:
 - name: 客戶集中度
   kind: 量化
   value: __
-  unit: '%（最大客戶占營收比重）'
+  unit: '%'
+  unit_note: '（最大客戶占營收比重）'
   tier: 缺口
   source: ⚠ **未取得，而它是本檔最大的單一風險，也是 thesis「持續期」那一問的核心。** 自研 ASIC 的性質決定了 AI 營收高度集中於少數超大規模客戶，**但具體集中度本輪未由一手文件確認**。⚠ **在確認之前不得以任何形式量化該風險，也不得引用任何未經一手文件證實的客戶名稱**
   updated: __

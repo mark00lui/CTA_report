@@ -228,7 +228,8 @@ key_variables:
 - name: 對同業的forward PE溢價
   kind: 量化
   value: 67.0
-  unit: '%（對族群中位數 14.50x）'
+  unit: '%'
+  unit_note: '（對族群中位數 14.50x）'
   tier: 事實
   source: >
     ⚠⚠ **2026-09-08 更名並換口徑，而換口徑的理由是建檔時的判斷被本輪推翻了一半。**
@@ -272,7 +273,8 @@ key_variables:
 - name: 資本密集度
   kind: 量化
   value: 49.2
-  unit: '%（capex／EBITDA，TTM 至 2026-06-30）'
+  unit: '%'
+  unit_note: '（capex／EBITDA，TTM 至 2026-06-30）'
   tier: 事實
   source: >
     ⚠ **本格刻意不用 valuation-map 預設的 capex／營收，理由要寫清楚。**
@@ -288,7 +290,8 @@ key_variables:
 - name: 自由現金流
   kind: 量化
   value: 295
-  unit: 百萬美元（TTM 至 2026-06-30）
+  unit: '百萬美元'
+  unit_note: '（TTM 至 2026-06-30）'
   tier: 事實
   source: >
     ⚠ **這是本檔最刺眼的一個數字**：TTM 自由現金流僅 **295M**，
@@ -306,7 +309,8 @@ key_variables:
 - name: FY2026共識EPS與錨寬度
   kind: 量化
   value: 12.12
-  unit: 美元（Adjusted，22 位分析師）
+  unit: '美元'
+  unit_note: '（Adjusted，22 位分析師）'
   tier: 推論
   source: >
     22 位分析師（S&P Global），FY2026 EPS **低 11.77／均 12.12／高 12.45**
@@ -330,7 +334,8 @@ key_variables:
 - name: 核能占自有發電比重
   kind: 量化
   value: 58.6
-  unit: '%（6M 2026，GWh 口徑）'
+  unit: '%'
+  unit_note: '（6M 2026，GWh 口徑）'
   tier: 事實
   source: >
     ⚠⚠ **2026-09-08 由 10-Q 首度取得。這是我兩度標為最高優先的那個缺口，
@@ -356,7 +361,8 @@ key_variables:
 - name: 未實現評價損益占盈餘比重
   kind: 量化
   value: 37
-  unit: '%（6M 2026，稅後估算對淨利）'
+  unit: '%'
+  unit_note: '（6M 2026，稅後估算對淨利）'
   tier: 事實
   source: >
     ⚠⚠ **2026-09-08 由 10-Q 首度取得。這是我列的第二個缺口，也是象限 X 軸歧義的解。**

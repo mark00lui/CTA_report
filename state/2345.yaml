@@ -269,7 +269,7 @@ key_variables:
 - name: 2026 年 8 月營收
   kind: 量化
   value: 408.73
-  unit: 億元
+  unit: '億元新台幣'
   tier: 事實
   source: >
     公開資訊觀測站月營收：8 月 **408.73 億元**（月增 3.55%、年增 **59.42%**），
@@ -330,7 +330,8 @@ key_variables:
 - name: 已公告擴產投資金額
   kind: 量化
   value: 40
-  unit: 億元新台幣（量級）
+  unit: '億元新台幣'
+  unit_note: '（量級）'
   tier: 推論
   source: >
     董事會通過四項投資案合計**逾 20 億元新台幣**；竹北廠擴產 **2,490 萬美元**；

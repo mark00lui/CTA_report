@@ -231,7 +231,8 @@ key_variables:
 - name: 資料中心營收成長
   kind: 量化
   value: 58.6
-  unit: '% YoY（FY26 Q4）'
+  unit: '% YoY'
+  unit_note: '（FY26 Q4）'
   tier: 事實
   source: >
     Coherent FY2026 Q4（截至 2026-06）— 資料中心與通訊營收 16.2 億美元，YoY +58.6%、
@@ -253,7 +254,8 @@ key_variables:
 - name: 自由現金流與資本支出
   kind: 量化
   value: -1.02
-  unit: USD bn（TTM 自由現金流）
+  unit: '十億美元'
+  unit_note: '（TTM 自由現金流）'
   tier: 事實
   source: >
     FY2026 營業現金流僅 7,950 萬美元、資本支出 11.0 億美元 ⇒ 自由現金流 -10.2 億美元。
@@ -291,7 +293,8 @@ key_variables:
 - name: InP產能擴張進度
   kind: 量化
   value: 80
-  unit: '% YoY（FY26 Q4 雷射產出）'
+  unit: '% YoY'
+  unit_note: '（FY26 Q4 雷射產出）'
   tier: 事實
   source: >
     磷化銦雷射產出於 2026 年 6 月當季 YoY +80%。管理層計畫於當季（2026 年 9 月）底前

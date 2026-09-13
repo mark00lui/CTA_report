@@ -106,7 +106,7 @@ key_variables:
 - name: 單季營收
   kind: 量化
   value: 41.46
-  unit: USD bn
+  unit: '十億美元'
   tier: 事實
   source: FQ3 FY2026 — +346% YoY（去年同期 9.30）、+74% QoQ；FQ4 指引 50.0 ±1.0、EPS 指引 31.00 ±1.00（FQ3 實際 EPS 25.11）
   updated: 2026-08-27
@@ -149,14 +149,14 @@ key_variables:
 - name: 自身資本支出
   kind: 量化
   value: 27
-  unit: USD bn
+  unit: '十億美元'
   tier: 事實
   source: FY2026 全年約 27；FY2027 預期各季逐季增加，逾半數增額投向無塵室與廠務建設 —— 即「未來產能」而非當期產出
   updated: 2026-08-27
 - name: 遠期本益比
   kind: 量化
   value: 6.53
-  unit: x
+  unit: '倍'
   tier: 推論
   source: 2026-08-26 收盤 938.40 ÷ 隱含遠期 EPS 約 143.7（站上引用值反推）。⚠ 口徑與對應年度未經原始來源確認，見 gaps
   updated: 2026-08-27

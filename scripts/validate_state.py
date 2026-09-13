@@ -56,7 +56,17 @@ UNTYPED = "未型別化"
 #   其餘 81 筆的括號裡混著口徑、額外數據甚至序列點，逐筆都要判斷 ——
 #   機械拆會犯下把數字摘要掉的錯，所以只統計、不自動處理。
 import re as _re
-UNIT_IMPURE = _re.compile(r"[（(]")
+# ⚠ 2026-09-13 S3d：unit 自 108 種相異值收斂為 20 種受控詞彙。
+#   收斂的方式是**無損切分** —— 括號裡的東西原樣搬進 unit_note，一個字都不丟。
+#   在此之前 `unit` 同時裝著單位、期間與口徑，三者都無法被驗證。
+VALID_UNITS = {
+    "%", "% YoY", "倍", "質性",
+    "元", "元／股", "億元新台幣", "億股", "TWD/USD",
+    "美元", "美元／股", "美元／季", "百萬美元", "十億美元",
+    "年", "季", "天", "類", "萬套／月", "新台幣元／櫃",
+}
+# unit_note 裡還含數字者 —— 那些多半是 series 的點或另一個量，是下一批待拆的。
+UNIT_NOTE_HAS_NUM = _re.compile(r"\d")
 VALID_SIGNAL = {"偏多", "中性", "偏空"}
 VALID_CONVICTION = {"高", "中", "低"}
 VALID_QUADRANT = {"Q1", "Q2", "Q3", "Q4"}
@@ -69,7 +79,7 @@ stale_notes = []   # 只放「陳舊變數」，供 --stale 使用；與一般 n
 coarse_notes = []  # updated 只有月／年精度者 —— 合法但應收斂
 kv_total, kv_dated, kv_undated = [], [], []   # --stale 的涵蓋率分母，見 main()
 kv_untyped = []    # kind 量化但 value 仍是散文者 —— 已知債務，可數
-kv_impure_unit = []  # unit 仍夾帶期間或口徑者 —— 已知債務，可數
+kv_note_num = []   # unit_note 裡仍含數字者 —— 多半是 series 點或另一個量，可數
 
 
 def is_placeholder(v):
@@ -233,8 +243,14 @@ def check_key_vars(path, d):
             if qual is not None:
                 errors.append(f"{path}: 變數「{name}」kind=質性 不應有 value_qualifier")
 
-        if UNIT_IMPURE.search(str(kv.get("unit") or "")):
-            kv_impure_unit.append(f"{path}: 變數「{name}」unit={kv.get('unit')!r}")
+        unit = str(kv.get("unit") or "")
+        if unit and unit not in VALID_UNITS:
+            errors.append(
+                f"{path}: 變數「{name}」的 unit={unit!r} 不在受控詞彙裡 — "
+                "期間寫進 period、口徑寫進 unit_note，unit 只放單位"
+            )
+        if UNIT_NOTE_HAS_NUM.search(str(kv.get("unit_note") or "")):
+            kv_note_num.append(f"{path}: 變數「{name}」unit_note={kv.get('unit_note')!r}")
 
         if qual is not None and qual not in VALID_QUALIFIERS:
             errors.append(f"{path}: 變數「{name}」的 value_qualifier={qual!r} 不在 {VALID_QUALIFIERS}")
@@ -675,9 +691,9 @@ def main():
         for m in kv_untyped:
             print("          " + m)
 
-    if kv_impure_unit:
-        print("[UNIT] unit 仍夾帶期間或口徑 %d 筆（純期間者已於 2026-09-13 拆入 period；"
-              "其餘混著口徑與額外數據，逐筆都要判斷）" % len(kv_impure_unit))
+    if kv_note_num:
+        print("[UNIT] unit_note 裡仍含數字 %d 筆（unit 本身已收斂為 20 種受控詞彙）— "
+              "那些多半是 series 的點或另一個量，是下一批待拆的" % len(kv_note_num))
 
     if coarse_notes:
         print("[COARSE] as-of 精度不足 %d 筆（合法；陳舊判定取期間第一天）— "

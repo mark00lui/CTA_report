@@ -269,7 +269,7 @@ key_variables:
 - name: 2026 年 8 月營收
   kind: 量化
   value: 87.76
-  unit: 億元
+  unit: '億元新台幣'
   tier: 事實
   source: >
     公開資訊觀測站月營收（2026-09-10 公告）：8 月 **87.76 億元**
@@ -293,7 +293,8 @@ key_variables:
 - name: Q2 2026 營收與淨利的背離
   kind: 量化
   value: 21.4
-  unit: '%（Q2 淨利率，自 Q1 的約 34.8% 下降）'
+  unit: '%'
+  unit_note: '（Q2 淨利率，自 Q1 的約 34.8% 下降）'
   tier: 推論
   source: >
     法說：Q2 2026 營收 **2.417 億美元（季增 +82.6%）**、稅後淨利 **5,180 萬美元
@@ -307,7 +308,8 @@ key_variables:
 - name: 市營比的分母歧異
   kind: 量化
   value: 3.4
-  unit: 倍（12.02x 對約 3.5x 的比值）
+  unit: '倍'
+  unit_note: '（12.02x 對約 3.5x 的比值）'
   tier: 推論
   source: >
     ⚠⚠ **這是本檔最重要的一個「變數」，而它是一個口徑問題而不是一個數字。**

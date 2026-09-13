@@ -100,7 +100,7 @@ key_variables:
 - name: 單季營收
   kind: 量化
   value: 8965
-  unit: USD mn
+  unit: '百萬美元'
   tier: 事實
   source: FQ4 FY2026 — +372% YoY、+51% QoQ，高於指引區間 7,750–8,250；FQ1 FY2027 指引 10,300–10,800、non-GAAP EPS 44.00–46.00（FQ4 實際 non-GAAP EPS 39.25、GAAP 43.97）
   updated: 2026-08-27
@@ -133,7 +133,7 @@ key_variables:
 - name: 遠期本益比
   kind: 量化
   value: 7.00
-  unit: x
+  unit: '倍'
   period: FY2027
   tier: 推論
   source: 2026-08-26 收盤 1,499.37 ÷ FY2027 共識 EPS 214.10 = 7.004。此值可精確驗證，故基準年為 FY2027 而非 NTM

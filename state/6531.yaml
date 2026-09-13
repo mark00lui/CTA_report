@@ -264,7 +264,8 @@ key_variables:
 - name: Q2 2026 EPS 的季增與年增
   kind: 量化
   value: 1
-  unit: '%（季增；同期年增為 +224%）'
+  unit: '%'
+  unit_note: '（季增；同期年增為 +224%）'
   tier: 事實
   source: >
     Q2 2026 EPS **4.18 元**（**季增 +1%**、**年增 +224%**）；
@@ -292,7 +293,7 @@ key_variables:
 - name: 2026 年 8 月營收
   kind: 量化
   value: 10.31
-  unit: 億元
+  unit: '億元新台幣'
   tier: 事實
   source: >
     公開資訊觀測站月營收：8 月 **10.31 億元**（月減 **6.61%**、年增 **+150.82%**），
@@ -329,7 +330,8 @@ key_variables:
 - name: VHM 與 VHMStack 的全面量產時程
   kind: 量化
   value: 2027
-  unit: 年（管理層稱延伸至 2027–2028）
+  unit: '年'
+  unit_note: '（管理層稱延伸至 2027–2028）'
   tier: 假設
   source: >
     法說：公司推進 **IoTRAM、S-SiCap™、VHM™（客製化記憶體）、
@@ -345,7 +347,8 @@ key_variables:
 - name: 股東權益報酬率與週轉率（TTM 推算）
   kind: 量化
   value: 22.5
-  unit: '%（ROE；股東權益週轉率約 0.69 倍）'
+  unit: '%'
+  unit_note: '（ROE；股東權益週轉率約 0.69 倍）'
   tier: 推論
   source: >
     ⚠ **推算式**：推算股數 ＝ 市值 **1,701.75 億元** ÷ 現價 **1,045** ＝ 約 **1.6285 億股**；

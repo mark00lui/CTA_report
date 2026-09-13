@@ -266,7 +266,8 @@ key_variables:
 - name: 單季淨利率（Q1 對 Q2）
   kind: 量化
   value: 18.9
-  unit: '%（Q2 2026；Q1 約 29.5%）'
+  unit: '%'
+  unit_note: '（Q2 2026；Q1 約 29.5%）'
   tier: 推論
   source: >
     ⚠ **推算式與輸入全部寫出來以便查錯**：
@@ -293,7 +294,7 @@ key_variables:
 - name: 2026 年 8 月營收
   kind: 量化
   value: 6.81
-  unit: 億元
+  unit: '億元新台幣'
   tier: 事實
   source: >
     公開資訊觀測站月營收：8 月 **6.81 億元**（月減 **14.07%**、年增 **+43.35%**），
@@ -309,7 +310,8 @@ key_variables:
 - name: 3D 設備營收占比的時點
   kind: 量化
   value: 2027
-  unit: 年（管理層稱 2027–2028 顯著提升）
+  unit: '年'
+  unit_note: '（管理層稱 2027–2028 顯著提升）'
   tier: 假設
   source: >
     法說：「**預期 2027 至 2028 年 3D 設備的營收佔比將顯著提升，
@@ -322,7 +324,8 @@ key_variables:
 - name: 客戶結構
   kind: 量化
   value: 3
-  unit: 類（晶圓代工／封測代工／HBM，皆為前三大客戶）
+  unit: '類'
+  unit_note: '（晶圓代工／封測代工／HBM，皆為前三大客戶）'
   tier: 事實
   source: >
     法說自述：「**前三大客戶集中於半導體先進封裝領域，涵蓋晶圓代工、封測代工及 HBM 客戶**」。

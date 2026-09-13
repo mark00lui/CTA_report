@@ -255,7 +255,8 @@ key_variables:
 - name: 營收成長與拐點
   kind: 量化
   value: 83.22
-  unit: '% YoY（FY2026，截至 2026-06）'
+  unit: '% YoY'
+  unit_note: '（FY2026，截至 2026-06）'
   tier: 事實
   source: >
     FY2026 營收 **3,014M**（FY25 1,645M，+83.22%）；
@@ -267,7 +268,8 @@ key_variables:
 - name: 毛利率
   kind: 量化
   value: 50.4
-  unit: '%（非 GAAP，Q4 FY2026）'
+  unit: '%'
+  unit_note: '（非 GAAP，Q4 FY2026）'
   tier: 事實
   source: >
     **Q4 FY2026 非 GAAP 毛利率 50.4%，年增 1,260 個基點。**
@@ -302,7 +304,8 @@ key_variables:
 - name: 資本支出強度
   kind: 量化
   value: 14.97
-  unit: '%（capex／營收，FY2026）'
+  unit: '%'
+  unit_note: '（capex／營收，FY2026）'
   tier: 事實
   source: >
     FY2026 資本支出 **451.3M**（FY25 231M，近乎倍增）÷ 營收 3,014M ＝ **14.97%**；

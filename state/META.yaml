@@ -102,7 +102,7 @@ key_variables:
 - name: ARPU
   kind: 量化
   value: 16.89
-  unit: USD/季
+  unit: '美元／季'
   tier: 推論
   source: 由 Q2 營收 60.80B ÷ Family DAP 36.0 億推算。⚠ 公司未直接揭露，與其口徑（ARPP）可能不同
   updated: 2026-08-27
@@ -119,14 +119,15 @@ key_variables:
   value_qualifier: 區間
   value_low: 165
   value_high: 169
-  unit: USD bn
+  unit: '十億美元'
   tier: 事實
   source: Meta Q2 2026 法說 — 2026 全年總費用指引；同時 2026 capex 指引由 125–145 收窄為 130–145
   updated: 2026-08-27
 - name: Reality Labs虧損
   kind: 量化
   value: 4.619
-  unit: USD bn (單季)
+  unit: '十億美元'
+  unit_note: '(單季)'
   tier: 事實
   source: Meta Q2 2026 財報 — RL 營收 431M、營業虧損 4,619M，年化約 18B。同期 Family of Apps 營業利益 23,394M
   updated: 2026-08-27

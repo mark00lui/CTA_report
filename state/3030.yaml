@@ -217,7 +217,8 @@ key_variables:
 - name: 毛利率與營益率
   kind: 量化
   value: 59.10
-  unit: '%（TTM 至 2026 Q2 的毛利率）'
+  unit: '%'
+  unit_note: '（TTM 至 2026 Q2 的毛利率）'
   tier: 事實
   source: >
     ⚠ **本檔建檔時最重要的空白，本輪關閉，而答案不是我預設的那個。**
@@ -249,7 +250,8 @@ key_variables:
 - name: 半導體與先進封裝應用占比
   kind: 量化
   value: 10
-  unit: '%（約數，公司說法）'
+  unit: '%'
+  unit_note: '（約數，公司說法）'
   tier: 事實
   source: >
     ⚠ **本輪首次取得，而它是 rank_metrics 的第二項** ——
@@ -273,7 +275,8 @@ key_variables:
 - name: 對同業的估值折價
   kind: 量化
   value: 64.1
-  unit: '%（PE 折價，對致茂 2360，270 收盤口徑）'
+  unit: '%'
+  unit_note: '（PE 折價，對致茂 2360，270 收盤口徑）'
   tier: 事實
   source: >
     ⚠ **本輪兩處實質更正，且兩處都是我自己的錯，不是資料變了。**
@@ -304,7 +307,8 @@ key_variables:
 - name: 季度EPS與成長率
   kind: 量化
   value: 8.87
-  unit: 元（2026 年前七月累計 EPS）
+  unit: '元'
+  unit_note: '（2026 年前七月累計 EPS）'
   tier: 事實
   source: >
     ⚠⚠ **2026-09-08 重估時取得季度序列，據此更正同日稍早的一項歸因 —— 更正的是我自己，不是資料。**
@@ -355,7 +359,8 @@ key_variables:
 - name: 資本支出強度
   kind: 量化
   value: __
-  unit: '%（capex／營收）'
+  unit: '%'
+  unit_note: '（capex／營收）'
   tier: 缺口
   source: ⚠ **仍未取得，而它是象限判準的一半** —— valuation_frame 本輪把本檔自 Q4 改判 Q1，改的是 X 軸（盈餘代表性）；**Y 軸的「低資本密集」仍由 PB 6.55 與 ROE 32.0% 推論得出，非直接證據**。若 capex／營收意外高於 15%，象限須再自 Q1 重判為 Q2
   updated: __

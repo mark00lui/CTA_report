@@ -251,7 +251,8 @@ key_variables:
     ±400V 架構 **2026 年量產出貨**；800VDC **2027 年第二季開始放量**。
     ⚠ 本檔為 **NVIDIA 明確點名的 800VDC 電源系統元件夥伴**之一
     （另含 Flex Power、Lead Wealth、光寶科 LiteOn、Megmeet）。
-  unit: 質性（時程）
+  unit: '質性'
+  unit_note: '（時程）'
   tier: 推論
   source: >
     ⚠ **本格混了兩個證據層級，取較低者標 tier**：
@@ -265,7 +266,8 @@ key_variables:
 - name: 單櫃電源價值量
   kind: 量化
   value: __
-  unit: 新台幣元／櫃 或 美元／kW
+  unit: '新台幣元／櫃'
+  unit_note: '或 美元／kW —— 單位取決於哪一個口徑先取得（本格為缺口）'
   tier: 缺口
   source: >
     ⚠ **無公開揭露，而它正是 thesis 的核心量。** thesis 主張重評價來自「單櫃價值量與營益率
@@ -276,7 +278,8 @@ key_variables:
 - name: FY2027共識EPS與離散度
   kind: 量化
   value: 59.00
-  unit: TWD（FactSet 中位數）；平均 60.06、高 80.91、低 41.08 → 全距 1.97 倍；23 位
+  unit: '元'
+  unit_note: '（FactSet 中位數）；平均 60.06、高 80.91、低 41.08 → 全距 1.97 倍；23 位'
   tier: 推論
   source: >
     ⚠⚠⚠ **2026-09-11 新增，取代原「非AI業務營收成長」（value 與 updated 皆為 `__`，

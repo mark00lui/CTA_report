@@ -370,7 +370,7 @@ key_variables:
 - name: 2026 年 8 月營收
   kind: 量化
   value: 5.20
-  unit: 億元
+  unit: '億元新台幣'
   tier: 事實
   source: >
     公開資訊觀測站月營收：8 月 **5.20 億元**（月增 3.84%、**年增 180.90%**），
@@ -383,7 +383,8 @@ key_variables:
 - name: Datacom 營收占比
   kind: 量化
   value: 82.5
-  unit: '%（區間 80–85）'
+  unit: '%'
+  unit_note: '（區間 80–85）'
   tier: 事實
   source: >
     2026 Q2 法說：**Datacom 占 80–85%**（主要為矽光子用的 **CW 連續波雷射**）、
@@ -396,7 +397,8 @@ key_variables:
 - name: 2027 年產能目標
   kind: 量化
   value: 2.5
-  unit: 倍（相對目前，年增 +150%）
+  unit: '倍'
+  unit_note: '（相對目前，年增 +150%）'
   tier: 事實
   source: >
     2026 Q2 法說：**2027 年產能拉到目前的 2.5 倍（年增 +150%）**，2028 維持高速擴產節奏，

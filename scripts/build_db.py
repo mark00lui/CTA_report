@@ -75,7 +75,7 @@ CREATE TABLE scenarios (
 CREATE TABLE key_variables (
   ticker TEXT, name TEXT, kind TEXT, value TEXT, value_num REAL,
   value_qualifier TEXT, value_low REAL, value_high REAL,
-  unit TEXT, period TEXT, tier TEXT, updated TEXT, source TEXT
+  unit TEXT, unit_note TEXT, period TEXT, tier TEXT, updated TEXT, source TEXT
 );
 CREATE TABLE kv_series     (ticker TEXT, name TEXT, seq INTEGER, period TEXT, value REAL);
 CREATE TABLE kv_components (ticker TEXT, name TEXT, seq INTEGER, part TEXT, value REAL);
@@ -153,12 +153,12 @@ def build(con):
                          s(c.get("narrative"))))
 
         for kv in d.get("key_variables") or []:
-            cur.execute("INSERT INTO key_variables VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            cur.execute("INSERT INTO key_variables VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                         (tk, s(kv.get("name")), s(kv.get("kind")),
                          s(kv.get("value")), as_num(kv.get("value")),
                          s(kv.get("value_qualifier")),
                          as_num(kv.get("value_low")), as_num(kv.get("value_high")),
-                         s(kv.get("unit")), s(kv.get("period")), s(kv.get("tier")),
+                         s(kv.get("unit")), s(kv.get("unit_note")), s(kv.get("period")), s(kv.get("tier")),
                          s(kv.get("updated")), s(kv.get("source"))))
 
             for i, x in enumerate(kv.get("series") or []):

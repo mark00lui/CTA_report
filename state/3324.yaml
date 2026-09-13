@@ -202,7 +202,7 @@ key_variables:
 - name: 單機液冷價值量
   kind: 量化
   value: __
-  unit: USD
+  unit: '美元'
   tier: 缺口
   source: ''
   updated: __

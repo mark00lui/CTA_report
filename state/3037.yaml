@@ -161,7 +161,8 @@ key_variables:
 - name: ABF載板營收占比與成長
   kind: 量化
   value: 52
-  unit: '%（2026 Q2 占總營收）'
+  unit: '%'
+  unit_note: '（2026 Q2 占總營收）'
   tier: 事實
   source: >
     2026 Q2 ABF 載板營收占總營收 52%、YoY +51%。這是本檔的價值來源，也是產地標示案
@@ -208,7 +209,8 @@ key_variables:
 - name: 資本支出與自由現金流
   kind: 量化
   value: 537
-  unit: 億元新台幣（2026 全年 capex 計畫）
+  unit: '億元新台幣'
+  unit_note: '（2026 全年 capex 計畫）'
   tier: 事實
   source: >
     董事會核准 2026 資本支出自原訂 340 億元上修至 537 億元（+197 億），逾 80% 投入 ABF 擴產。
@@ -240,7 +242,8 @@ key_variables:
   value_qualifier: 區間
   value_low: 15
   value_high: 20
-  unit: '%（2026 年 ABF 載板漲價幅度預估）'
+  unit: '%'
+  unit_note: '（2026 年 ABF 載板漲價幅度預估）'
   tier: 推論
   source: >
     2026 年 ABF 載板漲價幅度預估 15–20%，公司採滾動式調漲策略。

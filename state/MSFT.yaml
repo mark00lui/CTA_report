@@ -117,14 +117,15 @@ key_variables:
 - name: RPO與成長
   kind: 量化
   value: 678
-  unit: USD bn
+  unit: '十億美元'
   tier: 事實
   source: Microsoft FY26 Q4 財報 2026-07-29；+84% YoY，排除 OpenAI 承諾後仍 +25%
   updated: 2026-08-26
 - name: 自由現金流與FCF殖利率
   kind: 量化
   value: 66.99
-  unit: USD bn（TTM）；FCF 殖利率 1.82%、P/FCF 55.02x
+  unit: '十億美元'
+  unit_note: '（TTM）；FCF 殖利率 1.82%、P/FCF 55.02x'
   tier: 事實
   source: >
     FY2026 營業現金流 182.94B（Q4 單季 55.4B、+30%）、資本支出 115.95B（+79.6%）、

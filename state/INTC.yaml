@@ -368,7 +368,8 @@ key_variables:
 - name: Foundry 外部客戶營收
   kind: 量化
   value: 293
-  unit: 百萬美元（2026 Q2；約該部門營收 $5.8B 的 5%）
+  unit: '百萬美元'
+  unit_note: '（2026 Q2；約該部門營收 $5.8B 的 5%）'
   tier: 事實
   source: >
     10-Q 與法說：**Intel Foundry 的外部（非 Intel）營收仍僅 **$293M**，
@@ -388,7 +389,8 @@ key_variables:
 - name: Foundry 部門營業利益率
   kind: 量化
   value: -36.2
-  unit: '%（2026 Q2；2025 Q2 為 -71.7%）'
+  unit: '%'
+  unit_note: '（2026 Q2；2025 Q2 為 -71.7%）'
   tier: 事實
   source: >
     法說與部門資訊：**Foundry 部門 2026 Q2 營收 **$5.8B**、
@@ -407,7 +409,8 @@ key_variables:
 - name: 非控制權益
   kind: 量化
   value: 15601
-  unit: 百萬美元（占股東權益 $103,143M 的 15.1%）
+  unit: '百萬美元'
+  unit_note: '（占股東權益 $103,143M 的 15.1%）'
   tier: 事實
   source: >
     合併資產負債表（2026-06-27）：**股東權益 **$103,143M**、
@@ -427,7 +430,8 @@ key_variables:
 - name: 資本支出對營收比
   kind: 量化
   value: 35.1
-  unit: '%（2026 指引 $20B+ ÷ TTM 營收 $57.03B）'
+  unit: '%'
+  unit_note: '（2026 指引 $20B+ ÷ TTM 營收 $57.03B）'
   tier: 推論
   source: >
     **2026 資本支出指引自 $17B **上調至超過 $20B**，公司稱係強勁客戶需求訊號所致；
@@ -445,7 +449,8 @@ key_variables:
 - name: 三把估值尺的現值
   kind: 量化
   value: 60.13
-  unit: 倍（forward PE；trailing PE 為 n/a、EV/Sales 9.88 倍、市值／PPE 4.99 倍）
+  unit: '倍'
+  unit_note: '（forward PE；trailing PE 為 n/a、EV/Sales 9.88 倍、市值／PPE 4.99 倍）'
   tier: 推論
   source: >
     ⚠⚠⚠ **本檔的當期估值有四個讀數，而它們之間的落差就是 thesis**：
@@ -467,7 +472,8 @@ key_variables:
 - name: 2026 Q2 財報
   kind: 量化
   value: 16.1
-  unit: 十億美元（營收；EPS $0.42、非 GAAP 毛利率 41.8%）
+  unit: '十億美元'
+  unit_note: '（營收；EPS $0.42、非 GAAP 毛利率 41.8%）'
   tier: 事實
   source: >
     2026-07-23 公布：**營收 **$16.1B**（超指引中點 $1.8B；市場預期 $14.42B）、

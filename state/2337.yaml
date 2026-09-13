@@ -292,7 +292,8 @@ key_variables:
 - name: 三個本益比（同一個價格）
   kind: 量化
   value: 29.98
-  unit: 倍（TTM；H1 年化約 13.1 倍、Q2 年化約 8.1 倍）
+  unit: '倍'
+  unit_note: '（TTM；H1 年化約 13.1 倍、Q2 年化約 8.1 倍）'
   tier: 推論
   source: >
     ⚠⚠⚠ **本檔最重要的一組數字，而它是算出來的，所以推算式全部寫出來**：
@@ -332,7 +333,7 @@ key_variables:
 - name: 2026 年 8 月營收
   kind: 量化
   value: 81.45
-  unit: 億元
+  unit: '億元新台幣'
   tier: 事實
   source: >
     公開資訊觀測站月營收：8 月 **81.45 億元**（月增 **+5.44%**、年增 **+218.53%**），
@@ -349,7 +350,8 @@ key_variables:
 - name: 股東權益週轉率與 ROE（TTM 推算）
   kind: 量化
   value: 0.90
-  unit: 倍（股東權益週轉率；ROE 約 13.5%）
+  unit: '倍'
+  unit_note: '（股東權益週轉率；ROE 約 13.5%）'
   tier: 推論
   source: >
     ⚠ **推算式**：推算股數 ＝ 市值 **2,507.05 億元** ÷ 現價 **126.50** ＝ 約 **19.818 億股**；
@@ -370,7 +372,8 @@ key_variables:
 - name: NOR／NAND／eMMC 的漲價與供需
   kind: 量化
   value: 4
-  unit: 季（公司預期第四季漲價動能仍在）
+  unit: '季'
+  unit_note: '（公司預期第四季漲價動能仍在）'
   tier: 假設
   source: >
     法說與後續報導：**營收已連續三個月維持高檔；隨著 NAND Flash、SLC NAND 及 eMMC

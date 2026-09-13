@@ -95,7 +95,41 @@
 | `下界` | 「逾／超過／以上」 | |
 | `上界` | 「近／不到／以下」 | |
 | `約值` | 「約」 | |
-| `未型別化` | ⚠ **已知債務** | unit 是量化的但 `value` 仍是散文 —— 需 `series`／`components` 才轉得動 |
+| `序列最新` | 一格裝了時間序列 | **必須**有 `series`；`value` 等於 `series[0].value`（最新的排第一） |
+| `多值` | 一格裝了同時存在的多個量 | **必須**有 `components`；`value` 若為數值必須等於其中之一，否則填 `__` |
+| `未型別化` | ⚠ **已知債務** | unit 是量化的但 `value` 仍是散文。**2026-09-13 已清為 0**，保留供未來標記 |
+
+### `series` 與 `components`
+
+```yaml
+- name: Azure成長率            # 時間序列
+  kind: 量化
+  value: 43
+  value_qualifier: 序列最新
+  series:
+  - {period: Q4 FY26, value: 43}       # 最新的排第一，value 就是它
+  - {period: FY26 全年, value: 41}
+  - {period: Q1 FY27 指引, value: 45}
+  unit: '% YoY'
+
+- name: ABF與BT漲價幅度         # 同時存在的多個量，沒有單一代表值
+  kind: 量化
+  value: __
+  value_qualifier: 多值
+  components:
+  - {name: ABF 載板售價漲幅, value: 50}
+  - {name: BT 載板售價漲幅, value: 70}
+  unit: '%（2026 全年售價漲幅預估）'
+```
+
+⚠⚠ **搬移原則：原字串裡的每一個數字都要有去處，不是被摘要掉。**
+去處只有三種：**(a)** 進 `series`／`components`；**(b)** 本來就已經在 `source` 裡；
+**(c)** 兩者皆非 → **明寫進 `source` 並註明是型別化時搬過去的**。
+2026-09-13 的七筆遷移逐筆按此處理，其中四筆動用了 (c)。
+
+⚠ **`value: __` ＋ `多值` 是一個結論，不是一個沒查到的數字** ——
+它說的是「這一格該拆成兩個變數」。8046 的 `key_variables` 已達上限 6，
+拆分需先汰換一項，所以它暫時以 `components` 承載。
 
 ### ⚠ `未型別化` 是刻意可數的債務，不是分類
 

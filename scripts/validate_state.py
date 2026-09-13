@@ -46,7 +46,9 @@ VALID_QUALIFIERS = {
     "下界",       # 「逾／超過／以上」
     "上界",       # 「近／不到／以下」
     "約值",       # 「約」
-    "未型別化",   # ⚠ 已知債務：unit 是量化的但 value 仍是散文，需 series／components 才轉得動
+    "序列最新",   # 需 series；value 等於 series[0].value（最新的排第一）
+    "多值",       # 需 components；value 若為數值必須等於其中之一，否則填 `__`
+    "未型別化",   # ⚠ 已知債務：unit 是量化的但 value 仍是散文。2026-09-13 已清為 0，保留供未來標記
 }
 UNTYPED = "未型別化"
 VALID_SIGNAL = {"偏多", "中性", "偏空"}
@@ -234,6 +236,44 @@ def check_key_vars(path, d):
             pass
         elif kv.get("value_low") is not None or kv.get("value_high") is not None:
             errors.append(f"{path}: 變數「{name}」有 value_low／value_high 但 value_qualifier 不是區間")
+
+        # ---- series / components（2026-09-13 S3b）----
+        ser, comp = kv.get("series"), kv.get("components")
+        if qual == "序列最新":
+            if not isinstance(ser, list) or not ser:
+                errors.append(f"{path}: 變數「{name}」標為序列最新但沒有 series")
+            else:
+                bad = [x for x in ser if not (isinstance(x, dict)
+                                              and x.get("period") is not None
+                                              and isinstance(x.get("value"), (int, float))
+                                              and not isinstance(x.get("value"), bool))]
+                if bad:
+                    errors.append(f"{path}: 變數「{name}」的 series 有 {len(bad)} 筆缺 period 或 value 非數值")
+                elif v_num and abs(ser[0]["value"] - raw_v) > 1e-9:
+                    errors.append(
+                        f"{path}: 變數「{name}」的 value {raw_v} ≠ series 第一筆 {ser[0]['value']} — "
+                        "序列的第一筆必須是最新的那一筆，而 value 就是它"
+                    )
+        elif ser is not None:
+            errors.append(f"{path}: 變數「{name}」有 series 但 value_qualifier 不是序列最新")
+
+        if qual == "多值":
+            if not isinstance(comp, list) or not comp:
+                errors.append(f"{path}: 變數「{name}」標為多值但沒有 components")
+            else:
+                bad = [x for x in comp if not (isinstance(x, dict)
+                                               and x.get("name")
+                                               and isinstance(x.get("value"), (int, float))
+                                               and not isinstance(x.get("value"), bool))]
+                if bad:
+                    errors.append(f"{path}: 變數「{name}」的 components 有 {len(bad)} 筆缺 name 或 value 非數值")
+                elif v_num and all(abs(x["value"] - raw_v) > 1e-9 for x in comp):
+                    errors.append(
+                        f"{path}: 變數「{name}」的 value {raw_v} 不等於任何一個 component — "
+                        "多值的代表值必須是其中之一，否則它是憑空多出來的第三個數"
+                    )
+        elif comp is not None and qual != "約值":
+            errors.append(f"{path}: 變數「{name}」有 components 但 value_qualifier 不是多值")
         val_filled = not is_placeholder(kv.get("value"))
         if val_filled and tier == "缺口":
             warns.append(f"{path}: 變數「{name}」已有值但 tier 仍是「缺口」")

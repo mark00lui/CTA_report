@@ -27,6 +27,8 @@
     tickers        一檔一列：論點、訊號、象限、加權目標價、現價、ATR
     scenarios      一檔三列：bear/base/bull 的機率、EPS、倍數、目標價、**倍數的錨**
     key_variables  型別化後的變數（kind／value／qualifier／unit／tier／as-of）
+    kv_series      時間序列型變數的每一個 (period, value)
+    kv_components  多值型變數的每一個 (name, value)
     events         event_log 的 date/level/summary（delta 已於 2026-09-13 搬進沿革檔）
     gaps           已知的未知
     driver_refs    個股 → driver 的引用與方向
@@ -75,6 +77,8 @@ CREATE TABLE key_variables (
   value_qualifier TEXT, value_low REAL, value_high REAL,
   unit TEXT, tier TEXT, updated TEXT, source TEXT
 );
+CREATE TABLE kv_series     (ticker TEXT, name TEXT, seq INTEGER, period TEXT, value REAL);
+CREATE TABLE kv_components (ticker TEXT, name TEXT, seq INTEGER, part TEXT, value REAL);
 CREATE TABLE events (ticker TEXT, date TEXT, level TEXT, summary TEXT);
 CREATE TABLE gaps (ticker TEXT, question TEXT, how_to_close TEXT);
 CREATE TABLE driver_refs (ticker TEXT, driver TEXT, direction TEXT, note TEXT);
@@ -157,6 +161,15 @@ def build(con):
                          s(kv.get("unit")), s(kv.get("tier")),
                          s(kv.get("updated")), s(kv.get("source"))))
 
+            for i, x in enumerate(kv.get("series") or []):
+                if isinstance(x, dict):
+                    cur.execute("INSERT INTO kv_series VALUES (?,?,?,?,?)",
+                                (tk, s(kv.get("name")), i, s(x.get("period")), as_num(x.get("value"))))
+            for i, x in enumerate(kv.get("components") or []):
+                if isinstance(x, dict):
+                    cur.execute("INSERT INTO kv_components VALUES (?,?,?,?,?)",
+                                (tk, s(kv.get("name")), i, s(x.get("name")), as_num(x.get("value"))))
+
         for e in events:
             cur.execute("INSERT INTO events VALUES (?,?,?,?)",
                         (tk, s(e.get("date")), s(e.get("level")), s(e.get("summary"))))
@@ -208,6 +221,8 @@ CANNED = [
     ("key_variables", "SELECT COUNT(*) FROM key_variables"),
     ("　├ 量化", "SELECT COUNT(*) FROM key_variables WHERE kind='量化'"),
     ("　└ 質性", "SELECT COUNT(*) FROM key_variables WHERE kind='質性'"),
+    ("　　序列點", "SELECT COUNT(*) FROM kv_series"),
+    ("　　分量", "SELECT COUNT(*) FROM kv_components"),
     ("事件", "SELECT COUNT(*) FROM events"),
     ("缺口", "SELECT COUNT(*) FROM gaps"),
     ("driver 引用", "SELECT COUNT(*) FROM driver_refs"),

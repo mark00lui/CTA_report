@@ -94,11 +94,18 @@ scenarios:
 key_variables:
 - name: Azure成長率
   kind: 量化
-  value_qualifier: 未型別化
-  value: Q4 FY26 +43%；FY26 全年 +41%（年營收首破 $100B）；Q1 FY27 指引 +45% cc（共識 41.4%）
+  value: 43
+  value_qualifier: 序列最新
+  series:
+  - {period: Q4 FY26, value: 43}
+  - {period: FY26 全年, value: 41}
+  - {period: Q1 FY27 指引, value: 45}
   unit: '% YoY'
   tier: 事實
-  source: Microsoft FY26 Q4 財報／法說 2026-07-29。註：Q4 的 +43% 來源未區分報導值或 cc
+  source: >
+    Microsoft FY26 Q4 財報／法說 2026-07-29。註：Q4 的 +43% 來源未區分報導值或 cc
+    ⚠ 2026-09-13 型別化：原 value 另含兩項脈絡，記在這裡以免遺失 ——
+    FY26 全年營收首破 $100B；Q1 FY27 指引的 +45% 為 cc 口徑，市場共識為 41.4%。
   updated: 2026-08-26
 - name: 營益率
   kind: 量化

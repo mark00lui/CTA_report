@@ -389,8 +389,12 @@ key_variables:
 - name: Foundry 部門營業利益率
   kind: 量化
   value: -36.2
+  value_qualifier: 序列最新
+  series:
+  - {period: '2026 Q2', value: -36.2}
+  - {period: '2025 Q2', value: -71.7}
   unit: '%'
-  unit_note: '（2026 Q2；2025 Q2 為 -71.7%）'
+  period: '2026 Q2'
   tier: 事實
   source: >
     法說與部門資訊：**Foundry 部門 2026 Q2 營收 **$5.8B**、

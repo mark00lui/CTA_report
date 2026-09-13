@@ -282,8 +282,12 @@ key_variables:
 - name: 單季淨利率（Q1 對 Q2）
   kind: 量化
   value: 35.6
+  value_qualifier: 序列最新
+  series:
+  - {period: '2026 Q2', value: 35.6}
+  - {period: '2026 Q1', value: 23.4}
   unit: '%'
-  unit_note: '（Q2 2026；Q1 約 23.4%）'
+  period: '2026 Q2'
   tier: 推論
   source: >
     ⚠ **推算式與輸入全部寫出來以便查錯**：

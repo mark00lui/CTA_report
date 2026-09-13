@@ -297,8 +297,11 @@ key_variables:
 - name: 非 IT（BBU 為核心）營收占比
   kind: 量化
   value: 27.5
+  value_qualifier: 區間
+  value_low: 25
+  value_high: 30
   unit: '%'
-  unit_note: '（Q2 2026 區間 25–30）'
+  period: '2026 Q2'
   tier: 事實
   source: >
     順達 2026 法說：**Q2 2026 的非 IT 產品營收占比降至 25%–30%**；

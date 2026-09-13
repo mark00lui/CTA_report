@@ -318,8 +318,11 @@ key_variables:
 - name: Q3 2026 營收指引
   kind: 量化
   value: 272.5
+  value_qualifier: 區間
+  value_low: 255
+  value_high: 290
   unit: '百萬美元'
-  unit_note: '（區間 255–290）'
+  period: '2026 Q3'
   tier: 事實
   source: >
     AAOI Q2 2026 財報（2026-08-06）：營收 **255–290**（中值年增約 **+130%**）、

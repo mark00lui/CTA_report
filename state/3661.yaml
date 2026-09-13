@@ -293,8 +293,13 @@ key_variables:
 - name: Q2 2026 營收與淨利的背離
   kind: 量化
   value: 21.4
+  value_qualifier: 序列最新
+  series:
+  - {period: '2026 Q2', value: 21.4}
+  - {period: '2026 Q1', value: 34.8}
   unit: '%'
-  unit_note: '（Q2 淨利率，自 Q1 的約 34.8% 下降）'
+  period: '2026 Q2'
+  unit_note: '（Q2 淨利率）'
   tier: 推論
   source: >
     法說：Q2 2026 營收 **2.417 億美元（季增 +82.6%）**、稅後淨利 **5,180 萬美元

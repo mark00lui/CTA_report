@@ -323,8 +323,12 @@ key_variables:
 - name: 對台積電機台銷貨收入（2024）
   kind: 量化
   value: 20.36
+  value_qualifier: 序列最新
+  series:
+  - {period: '2024', value: 20.36}
+  - {period: '2023', value: 9.29}
   unit: '億元新台幣'
-  unit_note: '（2023 年為 9.29 億元）'
+  period: '2024'
   tier: 事實
   source: >
     公司公開揭露：**2024 年對台積電的機台銷貨收入達 20.36 億元，

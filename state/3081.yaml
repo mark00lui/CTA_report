@@ -383,8 +383,10 @@ key_variables:
 - name: Datacom 營收占比
   kind: 量化
   value: 82.5
+  value_qualifier: 區間
+  value_low: 80
+  value_high: 85
   unit: '%'
-  unit_note: '（區間 80–85）'
   tier: 事實
   source: >
     2026 Q2 法說：**Datacom 占 80–85%**（主要為矽光子用的 **CW 連續波雷射**）、

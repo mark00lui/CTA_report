@@ -319,8 +319,12 @@ key_variables:
 - name: 稅後淨利對營業利益的轉換率
   kind: 量化
   value: 64.5
+  value_qualifier: 序列最新
+  series:
+  - {period: '2026 H1', value: 64.5}
+  - {period: '2025 H1', value: 83.7}
   unit: '%'
-  unit_note: '（2026 H1；去年同期約 83.7%）'
+  period: '2026 H1'
   tier: 推論
   source: >
     ⚠⚠⚠ **這是本檔最重要的一個數字，而它是算出來的不是查到的，所以推算式全部寫出來**：

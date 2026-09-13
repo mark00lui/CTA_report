@@ -257,8 +257,12 @@ key_variables:
 - name: HPC 營收占比
   kind: 量化
   value: 45
+  value_qualifier: 序列最新
+  series:
+  - {period: '1Q26', value: 45}
+  - {period: '1Q25', value: 27}
   unit: '%'
-  unit_note: '（1Q26；1Q25 為 27%）'
+  period: '1Q26'
   tier: 事實
   source: >
     法說：**HPC 佔比自 1Q25 的 27% 大幅提升至 1Q26 的 45%**，
@@ -285,8 +289,12 @@ key_variables:
 - name: 單季淨利率（Q1 對 Q2）
   kind: 量化
   value: 12.79
+  value_qualifier: 序列最新
+  series:
+  - {period: '2026 Q2', value: 12.79}
+  - {period: '2026 Q1', value: 10.88}
   unit: '%'
-  unit_note: '（2026 Q2；Q1 約 10.88%）'
+  period: '2026 Q2'
   tier: 推論
   source: >
     ⚠ **推算式與輸入全部寫出來以便查錯**：

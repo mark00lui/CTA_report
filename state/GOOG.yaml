@@ -464,6 +464,10 @@ checkpoints:
   what_to_watch: 預設搜尋協議是否被實質變更（第二條 falsifier 的驗證點）
 gaps:
 - question: >
+    ⚠ **driver `ai-accelerator-demand` 的扇出指向「資本支出」，而本檔的 key_variables 沒有 capex。** **本檔象限判定（Q2，現金流與企業價值）正是建立在資本支出爆炸上， 卻沒有把 capex 列為關鍵變數 —— 扇出因此無處可落。**（2026-09-13 由 S8 的名稱對齊檢查發現）
+  how_to_close: >
+    自 10-Q／法說取得季度與全年 capex guidance，評估是否汰換一項現有 key_variable 以納入
+- question: >
     ⚠⚠⚠ **雙邊規則缺少「觸發餘裕」這一半，而本檔是第一個讓它咬到的案例。**
     規則規範的是一個位階能不能被**選為**失效價位（下界 ≥2 倍 ATR、上界 ≤20%），
     **但它從未規定「價格要穿過那個位階多少，才算觸發」。**

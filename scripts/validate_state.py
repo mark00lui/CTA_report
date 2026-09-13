@@ -552,6 +552,34 @@ def check_driver_integrity(root):
                 f"但這些 state 檔沒有回引 `{did}` 的 driver_refs — 單向引用"
             )
 
+    # ⚠⚠ affects 的名稱必須對得上該檔的 key_variables。
+    #   affects 是「扇出時要更新哪些變數」；名稱對不上，扇出指令就指著空氣，
+    #   而在 2026-09-13 之前沒有任何檢查會說。實測 89 項裡 15 項不符（83%）。
+    #   兩類成因：變數被改名而 driver 沒跟著改（12 項）；
+    #   以及 driver 認為該更新的東西那一檔從來沒在追（3 項 —— 那是真發現，已改記進 gaps）。
+    for did, info in drivers.items():
+        for tick, t in info["targets"].items():
+            affects = t.get("affects") or []
+            if not isinstance(affects, list):
+                continue
+            sp = os.path.join(root, "state", f"{tick}.yaml")
+            if not os.path.exists(sp):
+                continue
+            try:
+                with open(sp, encoding="utf-8") as fh:
+                    sd = yaml.safe_load(fh)
+            except yaml.YAMLError:
+                continue
+            names = {str(k.get("name")) for k in (sd.get("key_variables") or [])
+                     if isinstance(k, dict)}
+            for a in affects:
+                if str(a) not in names:
+                    errors.append(
+                        f"{info['rel']}: transmission[{tick}].affects 的「{a}」"
+                        f"不在 state/{tick}.yaml 的 key_variables 裡 — "
+                        "扇出指令指著一個不存在的變數"
+                    )
+
 
 def main():
     only_stale = "--stale" in sys.argv

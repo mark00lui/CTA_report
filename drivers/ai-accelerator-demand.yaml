@@ -285,7 +285,7 @@ transmission:
       **扇出時要問的是該檔的存貨周轉天數，不是加速器出貨量。**
     lag: 落後 1–2 季（⚠ 但存貨利益的反轉另有時滯，見 path）
     sensitivity: 中（⚠ 刻意不記高：短期為正、中期轉負，見 path）
-    affects: [毛利率, 存貨周轉天數]
+    affects: ['Q2 2026 毛利率', '存貨周轉天數']
   - ticker: '3661'
     direction: '+'
     path: >
@@ -380,7 +380,7 @@ transmission:
       ⚠ 與 3324 同為本 driver 的散熱傳導對象且互為替代，扇出時必須談份額。
     lag: 領先 2–3 季（散熱晚於晶片；與 3324 同）
     sensitivity: 高（⚠ 作用點在量，率由組合決定）
-    affects: [毛利率, 水冷板月產能, 資本支出強度]
+    affects: ['Q2 2026 毛利率（對 FY2025 全年 25.79% 的基期）', '水冷板月產能目標', '年度資本支出']
   - ticker: '6531'
     direction: '+'
     path: >
@@ -584,13 +584,13 @@ transmission:
     path: 同上；另因自研 TPU 比重高，外購加速器的傳導強度低於同業
     lag: 落後 2–4 季
     sensitivity: 中
-    affects: [資本支出, TPU外部採用進展]
+    affects: ['TPU外部採用進展']
   - ticker: META
     direction: '-'
     path: 同上；Meta 無公有雲直接變現加速器投資，ROI 質疑最強
     lag: 落後 2–4 季
     sensitivity: 中
-    affects: [資本支出guidance, 總費用guidance]
+    affects: ['總費用guidance']
 
 # INTU 刻意不列入 transmission：它是 AI 應用端，不在加速器需求鏈上。
 # 它在覆蓋清單裡的作用正是與 capex 因子低相關，把這類事件套到它身上會毀掉那個作用。

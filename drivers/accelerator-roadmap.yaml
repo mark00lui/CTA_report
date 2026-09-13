@@ -315,7 +315,7 @@ transmission:
       面板級與記憶體封裝，兩者不直接競爭。
     lag: 領先 3–4 季
     sensitivity: 高（FOPLP 與 TSV 是本檔 thesis 的核心路徑）
-    affects: ['FOPLP與DDR5_TSV進度', '資本支出強度', 'FOPLP競爭格局與規格']
+    affects: ['FOPLP與DDR5_TSV進度與競爭格局', '資本支出強度']
   - ticker: '8046'
     direction: '+'
     path: >
@@ -431,7 +431,7 @@ transmission:
       **本 driver 上修對兩檔同向，但誰吃到取決於產能誰先開出，而那是可以查的。**
     lag: 領先 2–4 季（規格定案領先量產，散熱設計導入又更早；與 3324 同機制）
     sensitivity: 高
-    affects: [毛利率, 水冷板月產能, 液冷營收占比]
+    affects: ['Q2 2026 毛利率（對 FY2025 全年 25.79% 的基期）', '水冷板月產能目標']
   - ticker: '6805'
     direction: '+'
     path: >

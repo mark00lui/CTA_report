@@ -367,6 +367,10 @@ checkpoints:
   event: Q4 2026 財報 + 2027 capex 與總費用 guidance
   what_to_watch: 本檔論點的核心驗證點 — 2027 費用與 capex 成長率是否低於營收成長率。第一條 falsifier 於此驗證
 gaps:
+- question: >
+    ⚠ **driver `ai-accelerator-demand` 的扇出指向「資本支出guidance」，而本檔只有「總費用guidance」，沒有 capex。** 兩者不可代用（費用是損益表、capex 是現金流量表）。 **本檔象限判定同樣建立在資本支出上。**（2026-09-13 由 S8 的名稱對齊檢查發現）
+  how_to_close: >
+    自 10-Q／法說取得 capex guidance 區間；key_variables 目前 5 項，上限 6，可直接新增
 - question: ⚠ 自身歷史「遠期」本益比分位未取得，只查到 5 年 trailing 平均 26.46x。bear 的 13x 為推論值，非歷史低分位的查得值
   how_to_close: Koyfin／GuruFocus／Bloomberg 的歷史 forward PE band；台股另可用 Goodinfo 本益比河流圖或券商看盤軟體
 - question: 2027 capex 與總費用 guidance 尚未出爐 —— 那是本檔論點的核心變數，也是第一條 falsifier 的驗證點

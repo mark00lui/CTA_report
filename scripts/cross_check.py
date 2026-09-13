@@ -28,6 +28,13 @@
     E1  三情境機率合計 ≠ 1.00
     E2  weighted_tp 欄位 ≠ 由三格算出來的值
     E3  某格的 tp ≠ eps × exit_multiple（eps 為數值時才檢）
+    E4  state 的 weighted_tp ≠ 該檔最新一份報告 front-matter 的 tp_after
+
+⚠ E4 是唯一的**跨層**檢查。E1–E3 都在單一 state 檔內部算，
+  而 E4 比對「可變的 state」與「不可改的 report」：兩者對不上，
+  代表其中一層被單獨改過。state 改了沒寫報告是規則明文禁止的；
+  報告寫了 state 沒跟上則會讓站台與索引顯示過期的判斷。
+  併入閘門時實測 39/39 相符 —— 裝檢查的時機是它還對的時候。
 
 ⚠ E1 與 validate_state.py 的機率合計檢查重複（刻意保留：這支腳本要能獨立跑）。
   **E2 與 E3 在 2026-09-12 併入 .githooks/pre-commit 之前沒有任何機械檢查 ——
@@ -76,6 +83,47 @@ def load(path):
         return yaml.safe_load(fh.read())
 
 
+def latest_report_tp():
+    """掃 reports/ 的 front-matter，回傳 {ticker: (date, tp_after, 檔名)}。
+
+    取 (date, 檔名) 最大者 —— 同日重跑會加 -2／-3 後綴，字典序剛好是正確的先後。
+    tp_after 為 n/a／__／非數值者略過（coverage 層與沿革檔都是那樣）。
+    """
+    out = {}
+    pat = os.path.join(ROOT, 'reports', '**', '*.md')
+    for f in glob.glob(pat, recursive=True):
+        base = os.path.basename(f)
+        if base == 'INDEX.md':
+            continue
+        try:
+            with io.open(f, encoding='utf-8') as fh:
+                text = fh.read()
+        except OSError:
+            continue
+        if not text.startswith('---'):
+            continue
+        parts = text.split('---', 2)
+        if len(parts) < 3:
+            continue
+        try:
+            fm = yaml.safe_load(parts[1])
+        except Exception:
+            # front-matter 解析失敗是 build_index 的職責（它只 warn），這裡不重複報
+            continue
+        if not isinstance(fm, dict):
+            continue
+        tk = str(fm.get('ticker') or '').strip()
+        if not tk or tk == 'coverage':
+            continue
+        tpa = num(fm.get('tp_after'))
+        if tpa is None:
+            continue
+        key = (str(fm.get('date') or ''), base)
+        if tk not in out or key > out[tk][0]:
+            out[tk] = (key, tpa, base)
+    return {k: (v[0][0], v[1], v[2]) for k, v in out.items()}
+
+
 def geo(tp, p):
     """機率加權的幾何平均。tp 必須全為正。"""
     if any(v is None or v <= 0 for v in tp):
@@ -83,7 +131,7 @@ def geo(tp, p):
     return math.exp(sum(p[i] * math.log(tp[i]) for i in range(3)))
 
 
-def analyse(tk, d):
+def analyse(tk, d, rep=None):
     """回傳 (row, errors, flags)。row 的值可能為 None —— 資料不足就留白，不猜。"""
     errs, flags = [], []
     sc = (d or {}).get('scenarios')
@@ -111,6 +159,13 @@ def analyse(tk, d):
             calc = eps[i] * mul[i]
             if abs(calc - tp[i]) > max(1.0, abs(calc) * 0.005):
                 errs.append('E3 %s: %s × %s = %.1f ≠ tp %s' % (c, eps[i], mul[i], calc, tp[i]))
+
+    # E4：跨層對帳。rep = (date, tp_after, 檔名)；None 表示這檔還沒有帶 tp_after 的報告。
+    if rep is not None and wf is not None:
+        rdate, rtp, rfile = rep
+        if abs(rtp - wf) > max(0.51, abs(rtp) * 0.002):
+            errs.append('E4 state weighted_tp %s ≠ 最新報告 tp_after %s（%s，%s）'
+                        % (wf, rtp, rdate, rfile))
 
     # ---- 聚合量 ----
     row = {'tk': tk, 'px': px, 'w': wf}
@@ -223,13 +278,17 @@ def main():
             continue
         paths.append((tk, f))
 
+    reps = latest_report_tp()
+    no_report = []
     rows, all_err, all_flag = [], [], []
     for tk, f in paths:
         try:
             d = load(f)
         except Exception as e:
             all_err.append((tk, ['讀取失敗：%s' % e])); continue
-        row, errs, flags = analyse(tk, d)
+        row, errs, flags = analyse(tk, d, reps.get(tk))
+        if tk not in reps:
+            no_report.append(tk)
         if row:
             rows.append(row)
         if errs:
@@ -283,12 +342,19 @@ def main():
                 print('  [%s] %s' % (tk, s))
         print('\n有 %d 檔算術不自洽。' % len(all_err))
         return 1
+    # ⚠ E4 的涵蓋率一定要印：沒有對照報告的標的會被無聲略過，
+    #   而「無聲略過」正是 2026-09-13 在 --stale 上抓到的那個失效模式。
+    n_e4 = len(rows) - len(no_report)
+    cov = 'E4 對照 %d/%d 檔' % (n_e4, len(rows))
+    if no_report:
+        cov += '（無帶 tp_after 的報告：%s）' % '／'.join(sorted(no_report))
     if a.gate:
-        print('  ✓ %d 檔三情境算術自洽（E1–E3）；%d 檔帶旗標 —— '
+        print('  ✓ %d 檔算術自洽（E1–E4）；%s；%d 檔帶旗標 —— '
               '細節跑 python scripts/cross_check.py'
-              % (len(rows), len(all_flag)))
+              % (len(rows), cov, len(all_flag)))
     else:
-        print('✓ 算術自洽：%d 檔無硬錯（%d 檔帶旗標）' % (len(rows), len(all_flag)))
+        print('✓ 算術自洽：%d 檔無硬錯（E1–E4）；%s；%d 檔帶旗標'
+              % (len(rows), cov, len(all_flag)))
     return 0
 
 

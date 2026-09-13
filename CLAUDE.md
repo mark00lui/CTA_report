@@ -101,8 +101,15 @@ python scripts/check_public.py && python scripts/check_append_only.py && python 
 pre-commit hook 會自動跑前四項（`bash scripts/install_hooks.sh` 安裝一次）。
 
 `cross_check.py` 是**跨清單重算**：把每一項聚合檢查對「全部」標的跑一次，而不是只對剛改的那幾檔。
-它擋下三種算術不自洽 —— E1 機率合計 ≠ 1.00、**E2 `weighted_tp` 與三格算出的值不符、
+它擋下四種不自洽 —— E1 機率合計 ≠ 1.00、**E2 `weighted_tp` 與三格算出的值不符、
 E3 某格 `tp` ≠ `eps × exit_multiple`**；後兩項在它併入閘門之前沒有任何機械檢查。
+**E4（2026-09-13 併入）比對 `state.weighted_tp` 與該檔最新一份報告 front-matter 的 `tp_after`
+—— 它是唯一的跨層檢查**：E1–E3 都在單一 state 檔內部算，
+而 E4 比對「可變的 state」與「不可改的 report」。**兩者對不上代表其中一層被單獨改過**，
+而那正是「state 每次改動必須有對應報告」這條規則想防的事。
+併入時實測 39/39 相符 —— **裝檢查的時機是它還對的時候，不是它壞掉之後。**
+⚠ 反向測試已做：把某檔的倍數、`tp`、`weighted_tp` 同步改成**內部仍自洽**的另一組數字，
+E1–E3 全部通過而 E4 擋下 —— **E4 抓的正是它們抓不到的那一類漂移。**
 另有七條**不擋 commit** 的旗標（F1 算術與幾何加權跨越零／F2 全距 ≥5x／
 F3 倍數段佔對數全距 ≥70%／F4 base 落在現價 ±5% 內／F5 |加權 − base| ≤2pp／
 F6 三情境分母完全相同／F7 反推分母非單調遞增）。

@@ -723,6 +723,62 @@ gaps:
   - {question: "Amazon 與 Meta 的 capex 是否含融資租賃本金？各家口徑不一致，Meta 明確含、Amazon 稱「現金 capex」，跨家加總存在口徑風險", how_to_close: "各家財報現金流量表與附註"}
 
 event_log:
+  - date: 2026-09-14
+    summary: >
+      Anthropic 與 OpenAI 執行長公開主張放慢前沿 AI 開發，白宮前 AI 事務主管 Sacks 公開質疑其動機 ——
+      current 745 不動、三條 falsifiers 全部未觸發、扇出 31 檔全判 L0；
+      登記一個既有 falsifiers 看不到的第三分支，但不新增條件
+    delta: >
+      ⚠⚠ **current 745 與四個 components 全部不動，而且這次連新增區塊都沒有。**
+      本則與 2026-09-09 的 Project Braid 不同：那則至少有量化值（準時率 50% 對三年前 90%），
+      本則**沒有任何數字** —— 沒有 capex、沒有投資金額、沒有時程、沒有產能。
+
+      事實（UDN 2026-09-14 轉述，二手）：Anthropic 執行長 Amodei 主張放慢前沿 AI 發展步調，
+      OpenAI 執行長 Altman 表態認同；白宮前 AI 事務主管 David Sacks 於 2026-09-13 在 X 發文反駁，
+      稱「別假裝你們需要其他人許可、別假裝必須暫停反壟斷法讓你們組成集團」，
+      並稱「別假裝放慢純粹出於利他動機」。報導本身的框架就是**各方說法不一致**。
+
+      ⚠⚠⚠ **最重要的一件事：發言者不是本 driver 追蹤的對象。**
+      current 745 的定義是 **Amazon 220 ＋ Alphabet 205 ＋ Microsoft 175 ＋ Meta 145**，
+      四家皆為自行揭露的 guidance 上限。**Anthropic 與 OpenAI 不在其中 —— 它們是這四家的客戶。**
+      客戶的**意向表態**要變成本 driver 的數字，必須先經過「承購合約改變 → CSP 調整建置 →
+      guidance 下修」這條鏈，而本則連第一節都還沒發生。
+
+      三條 falsifiers 逐條判定：
+      （1）「任兩家在同一季下修全年 capex guidance」→ **未觸發**。四家本季無任何 guidance 變動。
+      （2）「2027 合計 guidance 低於 2026 實際」→ **未驗證**（尚無 2027 guidance，2027-02-28 到期）。
+      （3）「任一家明確將 capex 與『需求不足』而非『產能受限』連結」→ **未觸發**。
+           發言者非四家之一，且其主張是「選擇放慢開發步調」，不是「客戶需求不足」。
+
+      ⚠⚠ **登記一個盲點 —— 而且它與 2026-09-09 登記的那個不是同一個。**
+      三條 falsifiers 共用一個隱含的二分法：世界只有「產能受限」（好消息）與「需求不足」（壞消息）。
+      2026-09-09 登記的盲點是**第一種會轉化成第二種**（供給瓶頸拖久了，客戶改他處採購）。
+      **本則指出的是第三種分支：有能力、有需求，但（宣稱）選擇不做。**
+      自願或受監管驅動的減速，在三條條件下**都不會被判為觸發**，因為它既不是產能問題也不是需求問題。
+
+      ⚠⚠⚠ **但本次不新增 falsifier，理由要寫清楚：本則沒有提供任何可驗證的門檻材料。**
+      一條由「某位執行長說了什麼」觸發的 falsifier，等於把話語當成證據 ——
+      **而那正是這則報導自己在警告的事**：Sacks 直指這可能是規避監管或選舉季的算計。
+      依 2026-09-09 立下的規矩（**事後改門檻會毀掉事前寫定的價值**），本次同樣只登記，不改條件。
+
+      ✓ **而且既有機制已經覆蓋了觀察路徑，不需要新增東西。**
+      checkpoints 的 2026-10 條目原文就寫著要看「**措辭是否由『產能受限』轉為其他說法**」——
+      若「自願減速」由話語轉為行動，Q3 財報季的措辭變化就是最早的可觀測處。
+      **第三分支要變成本 driver 看得見的東西，走的是既有的那條觀察線。**
+
+      扇出（31 個傳導對象，全判 L0，0 份變更單）：
+      依 SKILL.md 的 L0 定義 —— 「未改變任何 key_variable 的數值或信心；純二手轉述無新增一手事實」——
+      本則三個條件同時成立。逐一比對 transmission 的 affects 清單後：
+      ・**MSFT**（affects：營益率、折舊年限假設）—— **31 檔裡距離最近的一檔**，因為 OpenAI 關係
+        本就是它的 key_variable；但該格記的是**會計結構**（non-GAAP 排除 OpenAI 投資損益、
+        RPO 含 OpenAI 承諾），而本則不改變任何一個數字，且 affects 的兩項都未觸及。**L0。**
+      ・**GOOG**（affects：Cloud成長率、TPU外部採用進展）—— Alphabet 同為 Anthropic 的投資人與雲端供應商，
+        但兩項 affects 皆未觸及，Anthropic 亦無任何承購變動的揭露。**L0。**
+      ・**AMZN** —— 無 state 檔。惟其 Q2 GAAP EPS 含 **53.4B** Anthropic 投資利益（已記於
+        equity_gain_distortion），故若 Anthropic 的發展步調真的改變，AMZN 是**帳面上最先被影響**的一家。
+        **這是本次唯一值得預先記下的傳導路徑，而它指向一個沒有 state 檔的標的。**
+      ・其餘 28 檔（硬體端 TSM／3324／6442／8046／AAOI／COHR／LITE 等與平台端 META）——
+        距離更遠，key_variables 皆為公司側揭露的產能、占比、毛利率，不因一則無數字的意向表態而改變。**全部 L0。**
   - date: 2026-09-09
     summary: >
       Google／Blackstone 合資案 Project Braid 多個廠址延誤，交付準時率 50%（三年前 90%）——
@@ -818,4 +874,4 @@ event_log:
      delta: "current 由第三方統計 725 改為公司揭露上限加總 745 並寫死基準；四個成分全部附上公司揭露來源與變動性質；新增 cross_check（對 ai-accelerator-demand）與 equity_gain_distortion 兩節；修正 MSFT／GOOG／META 三筆 affects 的懸空變數名；3017 與 AMZN 條目加註刻意保留；三條 falsifier 補上 evidence，均未觸發；扇出 8 個對象全 L0"}
   - {date: 2026-08-26, level: '—', summary: 建立驅動因子檔，彙整 2026 Q2 後的 guidance, delta: 新增}
 
-last_updated: 2026-09-09
+last_updated: 2026-09-14

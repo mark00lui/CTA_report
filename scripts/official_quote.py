@@ -28,6 +28,7 @@
   2. ⚠ **日期是民國年**：`1150911` ＝ 2026-09-11。
 """
 import argparse
+from datetime import date
 import io
 import json
 import os
@@ -110,18 +111,23 @@ def detect_market(tk):
 SKIPPED = []
 
 
-def bars(tk, market, months):
+def bars(tk, market, months, refresh=False):
     """回傳 [(iso_date, open, high, low, close)]，依日期遞增。
-    ⚠ 無法解析 OHLC 的列（零成交日）會被記進 SKIPPED 並在輸出中報告，不靜默丟棄。"""
+    ⚠ 無法解析 OHLC 的列（零成交日）會被記進 SKIPPED 並在輸出中報告，不靜默丟棄。
+    ⚠ 2026-09-17（2317／2337 批次實測）：`--refresh` 原本沒傳進這裡，且當月檔一旦快取就永遠停在
+      首次抓取日 —— 09-12 跑過的標的在 09-17 仍拿到 09-11 的收盤，價格安靜過期而沒有任何提示。
+      修正：當月檔一律重抓（它每個交易日都會長），歷史月檔沿用快取除非 --refresh。"""
     out = []
+    today = date.today()
     for y, m in month_list(months):
+        force = refresh or (y == today.year and m == today.month)
         if market == "上櫃":
             url = TPEX_DAY % (tk, y, "%02d" % m)
-            d = curl_json(url, "%s_%d%02d_otc.json" % (tk, y, m))
+            d = curl_json(url, "%s_%d%02d_otc.json" % (tk, y, m), refresh=force)
             rows = ((d or {}).get("tables") or [{}])[0].get("data") or []
         else:
             url = TWSE_DAY % ("%d%02d" % (y, m), tk)
-            d = curl_json(url, "%s_%d%02d_twse.json" % (tk, y, m))
+            d = curl_json(url, "%s_%d%02d_twse.json" % (tk, y, m), refresh=force)
             rows = (d or {}).get("data") or []
         for r in rows:
             o, h, l, c = num(r[3]), num(r[4]), num(r[5]), num(r[6])
@@ -173,7 +179,7 @@ def report(tk, months, refresh):
     if market is None:
         print("%s：兩個市場的日收盤清單都找不到這個代號 —— 確認它是否仍在交易" % tk)
         return
-    b = bars(tk, market, months)
+    b = bars(tk, market, months, refresh)
     if len(b) < 21:
         print("%s（%s）：只取到 %d 根，不足以算 ATR20" % (tk, market, len(b)))
         return

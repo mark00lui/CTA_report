@@ -27,6 +27,10 @@ factor_tags:
 - tw_fx
 
 driver_refs:
+- driver: discount-rate
+  direction: '-'
+  note: >
+    折現率通道，方向 −。台債 10Y 住在 driver；Gordon 檢查器的折現率未錨定，且被正常化 ROE 這個上游缺口串聯擋住 —— 即使 r 錨定，檢查器仍跑不動。主錨與副錨都不含 r（本檔明文禁用 DCF）。2026-09-17 建立。
 - driver: ai-accelerator-demand
   direction: '+'
   note: >
@@ -671,7 +675,7 @@ gaps:
     ⚠ **Gordon 檢查器的折現率未錨定**（valuation-map 要求「公債殖利率／ECI／beta 擇一，附日期」）。
     ⚠ 且該檢查器需要**正常化後的 ROE**，而正常化又需要上面第二項的循環區間 ——
     **兩個缺口是串聯的。**
-  how_to_close: 取台灣十年期公債殖利率或以 Beta 1.61 推算權益成本，附日期
+  how_to_close: ✓ 台灣十年期公債殖利率自 2026-09-17 起住在 `drivers/discount-rate.yaml`（以 driver_refs 引用，不複製）—— rf 那一半已關；Beta 1.61 在本清單被判不可用，權益成本待方法層決定（driver gaps 第 2 項）。⚠ 即使 r 錨定，正常化 ROE 那個串聯缺口仍擋著檢查器
 
 notes: >
   ⚠⚠ **本檔存在的價值有一半在於：它測試我在數字好看的時候會不會照自己的規則做。**
@@ -737,4 +741,4 @@ event_log:
 - date: 2026-09-10
   level: L2
   summary: 新增追蹤標的 —— 本日本益比最低（9.55）卻是循環頂；⚠⚠ 上游 MU／SNDK 在清單內且方向相反
-last_updated: 2026-09-12
+last_updated: 2026-09-17

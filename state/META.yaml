@@ -7,6 +7,10 @@ factor_tags:
 - ai_platform
 - advertising
 driver_refs:
+- driver: discount-rate
+  direction: '-'
+  note: >
+    折現率通道，方向 −。沒有進 key_variables 的 r；SOTP 第二法有一個未錨定的 r ＝ 9%（彈性約 0.1%／pp，可忽略）。錨 B 對本 driver 天生中性（三檔平台同受同一折現率）；真正的曝險在 bull 的 22x（5 年 trailing 換算，那五年 10Y 遠低於 5%）。本檔 capex 含表外融資，同時是排擠通道的來源與承受者。2026-09-17 建立。
 - driver: hyperscaler-capex
   direction: '-'
   note: >
@@ -417,4 +421,4 @@ event_log:
 - date: 2026-08-27
   level: L3
   summary: 手動全量重估（thesis 首次寫定）。加權目標價 600，相對盤後 579.11 為 +3.6%；訊號中性／信心中
-last_updated: 2026-09-12
+last_updated: 2026-09-17

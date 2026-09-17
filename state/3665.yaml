@@ -397,7 +397,7 @@ cta:
     ✓ **但它裁決了兩件事**：殖利率 0.81% × 1,875 ＝ 15.19 對上現金股利 15.184（三方原本給 15.0／15.184／15.42）；
     而本益比 34.43 裁決了發行股數的 2.5% 歧異，見 `key_variables` 與 gaps。
     ｜⚠ **beta 不可用於折現率這一條仍然成立**（本檔振幅 ÷ beta ＝ 5.00，七檔裡第四極端），
-    屬覆蓋層共同前提，已在 coverage 的 shared_macro_inputs 記載。
+    屬覆蓋層共同前提，住在 drivers/discount-rate.yaml（2026-09-17 自 coverage 的 shared_macro_inputs 遷入）。
     ⚠ **forward PE 隱含 EPS 僅作記錄，依 §7 不得由它反推 EPS。**
     報告：reports/2026/09/2026-09-12-3665-revaluation-2.md
   key_ma: >

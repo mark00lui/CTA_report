@@ -11,6 +11,10 @@ factor_tags:
 - ai_platform
 - saas
 driver_refs:
+- driver: discount-rate
+  direction: '-'
+  note: >
+    折現率通道，方向 −。10Y ↑ → reverse-DCF 反推的市場隱含永續成長率 ↑ →「市場太樂觀」加深；FCF 殖利率對 10Y 的負利差擴大。彈性：rf 每 +1bp 隱含 g 約 +1bp，本檔 r 網格 7／8／9% 為 100bp 步距，rf 動 30bp 內看不見。⚠ 真正的曝險在錨 A 的 5 年窗口含零利率期 —— escalation 觸發時重審窗口。無風險利率住在 driver（美國財政部 CSV），不複製進本檔。2026-09-17 建立。
 - driver: ai-accelerator-demand
   direction: '-'
   note: >
@@ -466,4 +470,4 @@ event_log:
 - date: 2026-08-26
   level: L3
   summary: 手動全量重估（最近財報為 2026-07-29 FY26 Q4）。營收 $90.0B +18%、non-GAAP EPS $4.74 +23%、Azure +43%、RPO $678B +84%；曆年 2026 capex 由 ~190 降至 ~175
-last_updated: 2026-09-12
+last_updated: 2026-09-17

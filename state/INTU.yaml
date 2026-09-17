@@ -10,6 +10,12 @@ market: US
 factor_tags:
 - ai_application
 - saas
+driver_refs:
+- driver: discount-rate
+  direction: '-'
+  note: >
+    折現率通道，方向 −。本檔是清單裡 r 直接進目標價、彈性最高的一檔：加權目標價每 100bp rf 約 −15%（driver 判官 2026-09-17 重跑，tier 推論）；rf 相對模型所用值偏離 ≥ +34bp 才跨 −5%（L2），15–25bp 為 L1。⚠ valuation_frame.methods.primary 硬寫的「r ＝ 4.97%（10 年期美債 2026-09-10）」是複製進本檔的 driver 值，且與財政部 CSV 同日 4.95 不同源 —— 下次重估時改為引用 driver。2026-09-17 建立。
+
 valuation_frame:   # 2026-09-07 首次宣告。⚠ 本輪發現錨 C 形式成立但實質等於市場定價
   quadrant: Q1
   quadrant_basis: >
@@ -517,4 +523,4 @@ event_log:
 - date: 2026-08-26
   level: L3
   summary: 手動全量重估（適逢 FY26 Q4 財報）。當季雙超預期（$4.4B +14%／non-GAAP EPS $4.03），FY27 指引主動減速至 +9–10%；管理層承認 DIY 稅務在低價端輸掉市佔
-last_updated: 2026-09-12
+last_updated: 2026-09-17

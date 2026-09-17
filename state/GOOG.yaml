@@ -13,6 +13,10 @@ factor_tags:
 - ai_platform
 - advertising
 driver_refs:
+- driver: discount-rate
+  direction: '-'
+  note: >
+    折現率通道，方向 −。本檔模型裡沒有任何參數是 r（倍數由錨 A／錨 B／SOTP 決定），曝險目前不可量化 —— 不是免疫。driver 記了一個不複製數值的檢查器（盈餘殖利率對 10Y 利差：base 20x → 約 0；現價隱含 24.85x → 低於 10Y 約 1pp），待 /cta 決定是否採用。本檔同時是排擠通道的來源之一（Q2 發債 20.3B）。2026-09-17 建立。
 - driver: hyperscaler-capex
   direction: '-'
   note: >
@@ -555,4 +559,4 @@ event_log:
 - date: 2026-08-27
   level: L3
   summary: 手動全量重估（thesis 首次寫定）。加權目標價 342，相對盤後 339.70 為 +0.7%；訊號中性／信心中
-last_updated: 2026-09-12
+last_updated: 2026-09-17

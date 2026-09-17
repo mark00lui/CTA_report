@@ -8,6 +8,10 @@ factor_tags:
 - optical
 - cpo
 driver_refs:
+- driver: discount-rate
+  direction: '-'
+  note: >
+    折現率通道，方向 −。r ＝ rf ＋ beta 2.10 × ERP 4.5% 只用於檢驗回收期說法，不進目標價（FCF 為負、錨 C 不可用）。對 rf 不敏感、對 ERP／beta 高度敏感。第二條腿：II-VI 併購後負債若含浮動利率，升息進利息支付 → 營運現金流 → 第 1 條 falsifier；量級未取得（見 driver gaps）。⚠ 本檔寫的 rf 4.97%（2026-09-10）與 driver 依財政部 CSV 記的同日 4.95 不同源，下次重估時改為引用 driver。2026-09-17 建立。
 - driver: hyperscaler-capex
   direction: '+'
   note: >
@@ -804,4 +808,4 @@ event_log:
 - date: 2026-08-27
   level: '—'
   summary: 建檔。適逢 FY2026 Q4（2026-08-12 公布）— 全年營收 71.2 億美元（+22.5%）、non-GAAP EPS 5.61（前一年 3.53）；Q4 營收 20.5 億（+34% YoY，優於共識 19.9 億）、資料中心段 16.2 億（+58.6% YoY，占 79%）、non-GAAP EPS 1.74；Q1 FY27 指引營收 22–24 億、EPS 1.85–2.05，皆優於共識
-last_updated: 2026-09-12
+last_updated: 2026-09-17

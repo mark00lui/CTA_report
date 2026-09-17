@@ -17,6 +17,10 @@ factor_tags:
 - tw_fx
 
 driver_refs:
+- driver: discount-rate
+  direction: '-'
+  note: >
+    折現率通道，方向 −。台股用台債 10Y（住在 driver，不複製）；鏈為 Fed 路徑 → 台灣央行 → 台債 → Gordon 檢查器的 r。2026-09-16 Fed +25bp 而台債 0bp，第一節未傳導。beta 1.50 已取得但本清單 beta 不可用，錨 C 待方法層決定。⚠ 曝險被匯率（美台利差擴大 → 台幣走弱，對出口為 +）與淨現金利息收入部分對沖。2026-09-17 建立。
 # ⚠ 建檔時刻意只掛一個，理由寫在下面。第二個（accelerator-roadmap）應掛而未掛，已列 gaps。
 - driver: hyperscaler-capex
   direction: '+'
@@ -611,8 +615,8 @@ gaps:
   how_to_close: 比對兩家對同一年度的定義（GAAP／調整後、是否含業外、是否為母公司淨利）
 - question: ⚠⚠ **資料商台股 forward PE 的分母機制未確認** —— NTM 混合年度的推論試算為 54.41（0.25×40.65 ＋ 0.75×59.00），與反推值 50.88 仍不等。**無論機制為何都不得用於反推 EPS**，但確認機制可判斷該欄位還有什麼用途。⚠ 對照美股 INTU：forward PE 12.93 反推 24.18 與其預估頁的 FY2027 共識 24.18 完全相同 → **這個不一致在本資料商上是台股特有的。**
   how_to_close: 比對同一資料商多檔台股的 forward PE 與其預估頁年度值，找出固定的加權關係
-- question: ⚠⚠ **台幣無風險利率** —— cnyes 的 TW10YY 頁面回傳 1.91% 但**日期為 2024-09-10（兩年前）**，不可用。**取得後可用 CAPM（台幣無風險利率 ＋ beta 1.50 × ERP 網格）做錨 C，而錨 A 與錨 B 都不成立的情況下那是唯一剩下的獨立錨。這是 24 檔台股共通的缺口。**
-  how_to_close: 櫃買中心公債殖利率曲線（tpex.org.tw）、中央銀行中央政府債券業務資訊（cbc.gov.tw）、MacroMicro
+- question: ⚠⚠ **折現率做法** —— ✓ 台幣無風險利率已於 2026-09-12 取得並自 2026-09-17 起住在 `drivers/discount-rate.yaml`（本檔以 driver_refs 引用，不複製）；**原記「cnyes 回傳 2024-09-10」是年份判讀錯誤**（見 2026-09-12 coverage 報告）。**剩下的缺口是 beta 在本清單被判不可用 → 錨 C 仍做不出來，那是方法層決定（driver gaps 第 2 項），不是查詢。** 錨 A 與錨 B 都不成立的情況下錨 C 仍是唯一剩下的獨立錨。
+  how_to_close: 在 valuation.md 決定不依賴個股 beta 的折現率做法（全族群單一折現率或分市場單一 ERP），決定後本檔 r 重錨
 - question: ⚠ **VRT 的股數與 EV** —— 沒有它算不出 VRT 的 EV/Sales，**選擇權拆分算出的「市場對 AI 那塊付 8.35x EV/Sales」就沒有比對對象**。→ 本輪的選擇權拆分只做到「把市場的定價拆開」，沒做到「判斷拆開後貴不貴」。
   how_to_close: stockanalysis.com/stocks/vrt/statistics/
 - question: ⚠ **2301 的 EV/Sales** —— 選擇權拆分沿用 state 2026-09-10 記載的 3.37x，本輪未重取。而 2301 的股價本輪已確認為 277.00，故 EV/Sales 應已變動。
@@ -648,8 +652,8 @@ gaps:
   how_to_close: 公開資訊觀測站月營收彙總表；Goodinfo／財報狗月營收頁
 - question: ⚠ 同業倍數只取得 Vertiv 一家。**光寶科 2301 是 NVIDIA 同時點名的另一家台廠，可比性最高卻未取得任何倍數**；Eaton 與群電 6412 亦未取得。依 valuation-map，族群基準應取**中位數**而非單一同業
   how_to_close: stockanalysis／Goodinfo 各檔統計頁；⚠ 台股與美股倍數口徑須確認一致（trailing 或 forward 擇一）
-- question: ⚠ 折現率無可觀測錨（公債殖利率／beta／ECI 皆未取得日期）—— 這使 Gordon 合理 PB 這個與主錨正交的檢查器做不出來。⚠ 這是全清單共通的缺口，valuation-map 已列為第 7 項待辦
-  how_to_close: 台灣 10 年期公債殖利率（櫃買中心）＋ 本檔 beta（5Y 1.50，已取得）
+- question: ⚠ Gordon 合理 PB 檢查器仍做不出來 —— rf 已由 driver 提供（見上一項），**卡在 beta 不可用**；ECI 仍未取得日期。valuation-map 第 7 項待辦的性質已自「查詢」變為「方法層決定」
+  how_to_close: 同上一項；ECI 另查 BLS
 - question: ⚠ 指數成分調整（MSCI、台灣 50）本輪未逐項查證，而本檔為台股權值股，被動資金流對量能判讀的污染可能不小
   how_to_close: MSCI 季度調整公告；台灣證交所指數成分股異動公告
 - question: ⚠ `drivers/accelerator-roadmap` 應建立對本檔的 transmission 但尚未建立 —— 該 driver 的 power_architecture 記載了 800 VDC 的完整物理理由與 NVIDIA 生態名單（含本檔），**是本檔 thesis 的上游來源，卻沒有正式的傳導關係**
@@ -689,4 +693,4 @@ event_log:
 - date: 2026-09-10
   level: '—'
   summary: 建檔。⚠ 關閉「電力／電源鏈零曝險」缺口，但同時使 ai_capex_hw 與 tw_market 雙雙刷新歷來最高
-last_updated: 2026-09-12
+last_updated: 2026-09-17

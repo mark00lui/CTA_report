@@ -9,8 +9,17 @@ factor_tags:
 - us_utility
 - merchant_power
 
-driver_refs:   # ⚠ 建檔時暫不建立，理由寫在下方 —— 這是刻意的空白，不是遺漏
-# ⚠ **本檔的傳導方向與現有三個 driver 都不完全相符，寧可先空著。**
+driver_refs:   # ⚠ 建檔時暫不建立需求側 driver，理由寫在下方；2026-09-17 補上折現率 driver（那是另一條軸）
+- driver: discount-rate
+  direction: '-'
+  note: >
+    折現率通道，方向 −。本檔是清單中唯一估值直接對標公債殖利率的標的（債券替代品），
+    傳導對象是「對同業的forward PE溢價」，即時、落在盤面。⚠ 但 2026-09-17 建檔當日的實證是：09-11→09-16 的溢價壓縮九成
+    發生在 09-14（三檔 IPP 同步 −5～8%、10Y +1bp），是 AI-power 族群因子不是利率；FOMC 當日本檔 −0.14%、XLU 0.00%。
+    driver 的 sensitivity 因此記中而非高（gaps 的「倍數對 10Y 迴歸」關閉前不升）。美債 10Y 住在 driver，不複製進本檔。
+    ⚠ 這條 driver 解決的是折現率軸；下方註解說的「需求軸沒有 driver 相符」仍然成立 ——
+    09-14 那個打本檔最重的族群衝擊，至今沒有任何 driver 能路由過來。
+# ⚠ **本檔的需求側傳導方向與現有三個需求 driver 都不完全相符，寧可先空著。**
 # `hyperscaler-capex` 記的是四大 CSP 的**資本支出承諾**，`ai-accelerator-demand` 記的是
 # **加速器出貨**，`accelerator-roadmap` 記的是**平台時程與功率密度**。
 # ⚠ **本檔曝險的是資料中心的「用電量」，那是資本支出落成之後的存量，不是資本支出本身。**
@@ -876,4 +885,4 @@ event_log:
 - date: 2026-09-08
   level: '—'
   summary: 建檔。價格 298.96（2026-09-04 收盤）；市值 105.92B／EV 129.93B／淨負債 24.00B；PE 28.95／forward PE 24.21／EV/EBITDA 16.34／PB 3.32；TTM 營收 31.27B（+26.0%）、GAAP EPS 10.33、EBITDA 7.95B、自由現金流僅 295M；FY2026 共識 Adjusted EPS 12.12（22 位，錨寬度 5.78%，全清單最窄）
-last_updated: 2026-09-12
+last_updated: 2026-09-17

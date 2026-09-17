@@ -45,12 +45,13 @@
 | NVDA | 2026-09-13 | L0 | n/a | 6 | 4 |
 | SNDK | 2026-09-13 | L0 | n/a | 4 | 2 |
 | TSM | 2026-09-13 | L0 | n/a | 4 | 2 |
-| coverage | 2026-09-13 | L2 | n/a | 27 | 24 |
+| coverage | 2026-09-17 | L1 | n/a | 28 | 24 |
 
 ## 全部推論（新到舊）
 
 | 日期 | 標的 | 等級 | 摘要 | 訊號 | 信心 | 目標價Δ | 狀態 | 檔案 |
 |---|---|---|---|---|---|---|---|---|
+| 2026-09-17 | coverage | L1 | **折現率通道自 notes 晉升為 driver（`drivers/discount-rate.yaml`），11 檔扇出全 L0，0 份個股變更單。** 建檔理由不是本則的數值（current 只動 +5bp，4.96 → 5.01），是它達到了事先寫定的門檻：「官員談話明確把 AI 資本支出或 AI 發債列為考量」—— 發言者是 Fed 主席、場合是 FOMC 記者會。⚠ 保留兩點：問答段的一手逐字稿尚未發布（目前二手引述一手，列 checkpoint）；Warsh 講的是殖利率為何上行的歸因，不是升息的理由 —— hyperscaler 募資是殖利率的解釋變數，不是 FOMC 的反應函數。｜**扇出的產出不是等級，是 11 條被量化或被否證的傳導假設**：INTU 錨 C 重跑 −15%／100bp、偏離 ≥34bp 才 L2（sensitivity 中 → 高）；CEG 09-11→09-16 溢價壓縮九成在 09-14、是 AI-power 族群因子不是利率（sensitivity 高 → 中，原判是斷言）；MSFT 曝險在錨 A 的零利率期窗口；台股五檔台債 0bp、鏈第一節未動，補一條台債門檻的 escalation。｜coverage.yaml 的 `shared_macro_inputs` 遷入 driver，只留指標；11 檔 state 補 driver_refs（雙向引用完成），五檔台股過時的「rf 未取得」缺口改為指向 driver、不複製數值。**本報告不動任何標的的情境、機率、倍數或目標價。** | n/a | n/a | n/a —— 11 檔全 L0，無任何目標價變動 | 現行 | [連結](reports/2026/09/2026-09-17-coverage-discount-rate-driver.md) |
 | 2026-09-13 | 2308 | L0 | 沿革檔：2308 的 `cta.price_basis` 與 `signal.changes_if` 各有兩段同名鍵，PyYAML 只保留最後一個。**`price_basis` 的情況有實質後果 —— 第一段是 2026-09-11 的重錨（與 `cta.price` 的 1,620 一致），第二段是 2026-09-09／09-10 的舊討論，而生效的是第二段：檔案裡的現價是 09-11 的，描述它的依據卻是 09-09 的，而在 2026-09-13 之前沒有任何檢查會說話（重複鍵當時只是 WARN）。**`changes_if` 則是新版在後、生效的是對的那一段，行為無誤但同樣不該重複。修正方式：保留與現價一致的那一段，被丟棄的兩段原文逐字搬進本檔。**本檔不新增、不修改、不撤回任何判斷，只搬動文字**，故 level 填 L0、signal／conviction／tp_* 一律 n/a。 | n/a | n/a | n/a —— 沿革檔不動任何判斷 | 現行 | [連結](reports/2026/09/2026-09-13-2308-duplicate-key-archive.md) |
 | 2026-09-13 | 2308 | L0 | 沿革檔：把 2308 的 `event_log[].delta` 原文搬進 reports/，state 只留 date／level／summary。**本檔不新增、不修改、不撤回任何判斷，只搬動文字**，故 level 填 L0、signal／conviction／tp_* 一律 n/a。搬移量：4 筆事件、4 筆帶 delta、合計 8,800 字元，最長一筆 3,774 字元（2026-09-11）。⚠ 搬移的依據是 state-schema.md 自己寫的「delta（一行）」—— 實際超出約 37 倍；而 CLAUDE.md 已為 coverage.yaml 的同一個形狀裁決過：「當 state 裡的某個欄位開始承擔『記錄歷史』的職責時，它就站錯地方了」。 | n/a | n/a | n/a —— 沿革檔不動任何判斷 | 現行 | [連結](reports/2026/09/2026-09-13-2308-event-log-archive.md) |
 | 2026-09-13 | 2317 | L0 | 沿革檔：把 2317 的 `event_log[].delta` 原文搬進 reports/，state 只留 date／level／summary。**本檔不新增、不修改、不撤回任何判斷，只搬動文字**，故 level 填 L0、signal／conviction／tp_* 一律 n/a。搬移量：5 筆事件、5 筆帶 delta、合計 9,455 字元，最長一筆 2,996 字元（2026-09-12）。⚠ 搬移的依據是 state-schema.md 自己寫的「delta（一行）」—— 實際超出約 32 倍；而 CLAUDE.md 已為 coverage.yaml 的同一個形狀裁決過：「當 state 裡的某個欄位開始承擔『記錄歷史』的職責時，它就站錯地方了」。 | n/a | n/a | n/a —— 沿革檔不動任何判斷 | 現行 | [連結](reports/2026/09/2026-09-13-2317-event-log-archive.md) |

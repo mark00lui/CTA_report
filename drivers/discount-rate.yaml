@@ -1,0 +1,432 @@
+# 共用驅動因子。這一層存放「多檔標的共用、且不屬於任何單一標的」的變數。
+# 規則：一個共用事實只能有一個家。個股 state 用 driver_refs 引用，不複製數值。
+id: discount-rate
+name: 折現率（美國政策利率與公債殖利率）
+what_it_is: >
+  美國聯邦資金目標區間、FOMC 中位數利率路徑（SEP）、美債 2Y／10Y／30Y 殖利率，
+  以及台幣 10 年期公債殖利率 —— 即覆蓋清單所有估值模型裡「無風險利率」那一項的唯一的家。
+why_shared: >
+  現有三個 driver（hyperscaler-capex／ai-accelerator-demand／accelerator-roadmap）**全部是需求側**：
+  capex → 零組件。沒有一個捕捉「AI capex 本身推升利率 → 折現率上升 → 打到清單每一檔」這條通道。
+  ⚠⚠ **它的方向與需求側相反**：同一筆 AI 資本支出，對硬體端是需求利多，對所有標的的折現率是利空。
+  這也是為什麼它該獨立成一個 driver 而不是塞進 hyperscaler-capex。
+  ⚠ 2026-09-12 起美債 10Y 與台債 10Y 暫置於 state/coverage.yaml 的 shared_macro_inputs，
+  並標記為「待遷移」—— 本檔建立後兩個數值遷入此處，coverage.yaml 只留指標。
+
+# ⚠⚠⚠ 建檔理由：notes/README.md 的晉升規則「同一主題出現 3 次以上 → 建 driver」，
+#   而 notes 在 2026-08-31 與 2026-09-08 兩度**事先寫定**第 3 次該長什麼樣：
+#   「FOMC 會議紀要或官員談話明確把 AI 資本支出或 AI 發債列為政策考量」。
+#   2026-09-16 FOMC 記者會，Fed 主席 Warsh 把殖利率上行歸因於三件事，第二件是
+#   「資本競爭 —— AI hyperscalers 在市場上募資」。發言者是 Fed 主席、場合是 FOMC 記者會，
+#   **門檻達到，且達到的方式正是事先寫定的那一種。** 見 channels 與 event_log。
+#
+# ⚠ 2026-09-08 的計數疑慮（通膨通道與排擠通道是一件事還是兩件事）在此定案：
+#   **一個 driver、兩條 channel，分開計數。** 兩條通道的終點相同（折現率），
+#   但可觀測訊號不同（PCE／SEP 對 投資級發行量／期限溢酬），falsifier 也不同。
+
+current:
+  value: 5.01
+  unit: '%（美國 10 年期公債殖利率，收盤）'
+  as_of: 2026-09-16
+  tier: 事實
+  basis: >
+    以 10Y 為 current 的理由：它是覆蓋清單裡實際被代進估值模型的那一項
+    （INTU／COHR 的 CAPM、MSFT 的 reverse-DCF 對照、CEG 的債券替代品倍數），
+    政策利率只透過它傳導。政策利率與 SEP 路徑列在 components。
+  source: >
+    美國財政部每日殖利率曲線 CSV（home.treasury.gov，daily_treasury_yield_curve，2026-09-17 取得）。
+    2026-09-16：2Y 4.74／10Y 5.01／30Y 5.35。⚠ 10Y 於 2026-09-15 首度收在 5.00，09-16 收 5.01 ——
+    是本倉庫記錄期間（2026-08-28 起）第一次站上 5%。
+  note: >
+    ⚠ 本則事件對 current 的直接影響很小：10Y 自 2026-09-11 的 4.96 到 09-16 的 5.01，**+5bp**。
+    真正的資訊在 components 的政策路徑（SEP 中位數 2026 年底 3.8 → 4.1、2027 年底 3.6 → 4.1）
+    與 channels 的「Fed 主席點名 hyperscaler 募資」—— 前者改變的是**未來一年的利率水準假設**，
+    後者改變的是**這條通道的證據等級**。看 current 的 +5bp 會低估本則。
+
+components:
+  - name: 聯邦資金目標區間
+    value: '3.75–4.00'
+    unit: '%'
+    as_of: 2026-09-16
+    tier: 事實
+    source: >
+      FOMC 聲明 2026-09-16（federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm）：
+      「raise the target range for the federal funds rate by 1/4 percentage point to 3-3/4 to 4 percent」，
+      12–0 通過。Fed 公開市場操作頁記生效日 2026-09-17。
+    change: '+25bp（自 3.50–3.75）。2023 年 7 月以來第一次升息；2024-09 至 2025-12 累計降息六次 175bp 後反轉'
+  - name: SEP 中位數利率路徑
+    value: '2026 年底 4.1／2027 年底 4.1／2028 年底 3.9／長期 3.2'
+    unit: '%'
+    as_of: 2026-09-16
+    tier: 事實
+    source: >
+      FOMC 經濟預測摘要 2026-09-16（federalreserve.gov/monetarypolicy/fomcprojtabl20260916.htm）。
+      18 位參與者提交；主席 Warsh 未提交自己的點（記者會開場聲明明言，與 6 月相同）。
+    change: >
+      對 6 月 SEP：2026 年底 3.8 → 4.1（+30bp）、2027 年底 3.6 → 4.1（+50bp）、2028 年底 3.4 → 3.9（+50bp）。
+      ⚠ 中位數隱含年底前**再升一碼**；報導稱 18 人中 16 人預期再升、其中 4 人看兩次（CNBC，二手）。
+  - name: SEP 中位數通膨與成長
+    value: 'PCE 2026 3.7／2027 2.3；核心 PCE 2026 3.4／2027 2.5；實質 GDP 2026 2.3／2027 2.4；失業率 4.1'
+    unit: '%'
+    as_of: 2026-09-16
+    tier: 事實
+    source: 同上。6 月為 PCE 3.6／2.3、核心 3.3／2.5、GDP 2.2／2.3、失業率 4.3／4.3
+    change: '2026 PCE +0.1、核心 +0.1、失業率 −0.2 —— 通膨上修、就業更緊，兩者都指向更高的路徑'
+  - name: 主席對 8 月 PCE 的估計
+    value: '總 PCE 約 3.6／核心 PCE 約 3.2／CPI 約 2.4（12 個月）'
+    unit: '%'
+    as_of: 2026-09-16
+    tier: 推論
+    source: >
+      記者會開場聲明（PRELIMINARY 逐字稿，federalreserve.gov/mediacenter/files/FOMCpresconf20260916.pdf）：
+      「Based on the most recent CPI and PPI data, the 12-month change in total PCE prices likely was around 3.6 percent in August.」
+      ⚠ tier 推論：這是主席由 CPI／PPI 推估的值，BEA 的 8 月 PCE 尚未發布。
+  - name: 美債 2Y
+    value: 4.74
+    unit: '%'
+    as_of: 2026-09-16
+    tier: 事實
+    source: 美國財政部每日殖利率曲線 CSV。09-11 為 4.63、09-08 為 4.39
+    change: '自 09-08 +35bp —— 政策路徑重定價集中在短端'
+  - name: 美債 30Y
+    value: 5.35
+    unit: '%'
+    as_of: 2026-09-16
+    tier: 事實
+    source: 美國財政部每日殖利率曲線 CSV。09-11 為 5.35、09-08 為 5.25
+    change: '自 09-11 持平 —— 長端未再上行，曲線 2s10s 自 33bp 壓至 27bp'
+  - name: 台幣 10 年期公債殖利率
+    value: 1.94
+    unit: '%'
+    as_of: 2026-09-16
+    tier: 推論
+    source: >
+      tradingeconomics.com/taiwan/government-bond-yield（2026-09-17 取得）：
+      「held steady at 1.94% on September 16, 2026」。
+      ⚠ 單一第三方通道故 tier 推論；**2026-09-11 的 1.94 有三條通道一致**
+      （investing.com 帶年份逐日表／tradingeconomics／cnyes EOD），本值與之相同，是「未變」而非「新值」。
+      ⚠ 自 coverage.yaml 的 shared_macro_inputs 遷入（2026-09-17）。
+      **無風險利率必須與標的的計價幣別同國**：台股 24 檔用本值，不用美債 10Y。
+    change: '對 09-11 持平。⚠ Fed 升息一碼，台債 10Y 一動不動 —— 對台股五檔的傳導見 transmission'
+
+history:
+  - {as_of: 2026-08-28, value: 4.728, note: "10Y。來源為週事件節錄（二手），記於 notes/2026-08.md 折現率通道第 2 次。當週 Jackson Hole 演說後 9 月升息機率 35% → 57%"}
+  - {as_of: 2026-09-01, value: 4.79, note: "10Y，財政部 CSV（以下同）"}
+  - {as_of: 2026-09-08, value: 4.80, note: "10Y。同日 2Y 4.39、30Y 5.25"}
+  - {as_of: 2026-09-09, value: 4.83, note: "10Y。單日 +3bp"}
+  - {as_of: 2026-09-10, value: 4.95, note: "10Y。單日 +12bp —— 本序列最大單日變動，發生在 FOMC 之前"}
+  - {as_of: 2026-09-11, value: 4.96, note: "10Y。coverage.yaml shared_macro_inputs 原記錄值（2026-09-12 取得）"}
+  - {as_of: 2026-09-14, value: 4.97, note: "10Y。同日 2Y 4.65、30Y 5.34。⚠ 當天三檔 IPP（CEG／VST／TLN）跌 5–8% 而 10Y 只 +1bp —— 不是利率因子"}
+  - {as_of: 2026-09-15, value: 5.00, note: "10Y。FOMC 第一天，首度收在 5.00。XLU −1.20% —— bond-proxy 對 5% 的反應在這一天，不在 FOMC 當天"}
+  - as_of: 2026-09-16
+    value: 5.01
+    note: >
+      10Y。FOMC 升息一碼當日。⚠ 盤中反應兩段（Yahoo Finance 實錄，二手）：聲明公布後 10Y −4bp、S&P +0.3%；
+      記者會進行中 10Y 回升站上 5%、道瓊 −1.2%。**聲明本身已被定價，記者會的鷹派程度沒有。**
+
+policy_rate_history:   # 聯邦資金目標區間的變動，Fed 公開市場操作頁（federalreserve.gov/monetarypolicy/openmarket.htm，2026-09-17 取得），tier 事實
+  - {date: 2024-09-19, change_bp: -50, range: '4.75–5.00'}
+  - {date: 2024-11-08, change_bp: -25, range: '4.50–4.75'}
+  - {date: 2024-12-19, change_bp: -25, range: '4.25–4.50'}
+  - {date: 2025-09-18, change_bp: -25, range: '4.00–4.25'}
+  - {date: 2025-10-30, change_bp: -25, range: '3.75–4.00'}
+  - {date: 2025-12-11, change_bp: -25, range: '3.50–3.75'}
+  - {date: 2026-09-16, change_bp: +25, range: '3.75–4.00', note: '決議日；公開市場操作頁記生效日 2026-09-17。2023-07 以來第一次升息'}
+
+channels:   # 兩條通道，終點相同（折現率），訊號與 falsifier 不同 —— 分開計數
+  inflation:
+    chain: AI capex → 原材料／記憶體／3C 價格與雇用成本 → 通膨黏性 → Fed 不降息或升息 → 無風險利率
+    occurrences:
+      - {date: 2026-08-31, tier: 三手, source: "投資TALK君影片經 Gemini 摘要（notes/2026-08.md 第 1 次）。可查證部分：ECI 12 個月 +3.4%（BLS）"}
+      - {date: 2026-08-31, tier: 一手, source: "Warsh Jackson Hole 演說＋7 月 PCE 3.7%／核心 3.3%＋10Y 4.728%（notes/2026-08.md 第 2 次）"}
+      - date: 2026-09-16
+        tier: 一手
+        source: >
+          FOMC 聲明與記者會開場聲明。⚠ **本則沒有直接把 AI capex 與通膨連在一起** ——
+          聲明說的是「Productivity growth is strong, and capital investment is robust」（成長面），
+          通膨歸因是商品價格與「too many categories still posting increases above 3 percent」。
+          **所以本則在通膨通道上是「利率路徑上修」的一手證據，不是「AI capex → 通膨」的一手證據。**
+    status: 利率路徑上修已成事實；「AI capex → 通膨」這一節仍未被 Fed 官方明說
+  crowding_out:
+    chain: AI 相關企業發債與表外融資 → 與公債競爭資金 → 期限溢酬與殖利率上行 → 無風險利率
+    occurrences:
+      - {date: 2026-09-08, tier: 二手, source: "CMoney 對美股類股評論的轉述（notes/2026-09.md）：AI 相關企業債券大量發行與公債競爭資金。依事先門檻不晉升"}
+      - date: 2026-09-16
+        tier: 二手引述一手（待逐字稿確認）
+        source: >
+          Yahoo Finance FOMC 實錄（2026-09-16）：Warsh 於記者會問答把殖利率上行歸因於三件事 ——
+          「The economy has strengthened」、「Competition for capital」（點名 AI hyperscalers
+          「out in the market raising funding」）、地緣政治推升商品價格。
+          ⚠⚠ **Fed 目前只發布了開場聲明的 PRELIMINARY 逐字稿（4 頁），問答段尚未發布**；
+          本引述的一手確認列為 checkpoints 第一項。使用者提供的中文摘要與之一致
+          （「強勁的資本支出導致資本需求增加」）。
+    status: >
+      ⚠⚠⚠ **事先寫定的門檻已達**：「官員談話明確把 AI 資本支出或 AI 發債列為考量」——
+      發言者是 Fed 主席、場合是 FOMC 記者會。**這是本 driver 建檔的直接理由。**
+      ⚠ 但 Warsh 講的是「殖利率為何上行」的歸因，不是「政策為何升息」的理由 ——
+      升息的理由他講得很清楚：通膨太高太久。兩者不可混讀：**hyperscaler 募資是殖利率的解釋變數，
+      不是 FOMC 的反應函數。**
+
+market_reaction_regime:
+  as_of: 2026-09-16
+  tier: 推論（Yahoo Finance 實錄，二手；未取得收盤值）
+  observation: >
+    聲明公布（18:19 UTC）：S&P +0.3%、Nasdaq +0.7%、10Y −4bp、2Y −1bp —— 升息一碼**已被定價**。
+    記者會中（20:24 UTC）：道瓊 −1.2%、S&P −0.4%、Nasdaq 持平、10Y 站回 5% 以上 ——
+    **市場沒有定價的是記者會的鷹派程度**：不把升息定性為風險管理、不給前瞻指引、
+    「hard-pressed to describe broad financial conditions as restrictive」。
+    ⚠ 族群層（stockanalysis 收盤，判官 2026-09-17 補）：bond-proxy 的反應發生在 **09-15**（XLU −1.20%，10Y 首收 5.00），
+    **FOMC 當日 XLU 0.00%、CEG −0.14%** —— 「已定價」的時間點要再往前推一天。XLU 對 SPY 09-11→09-16 全窗差 −1.18pp，對照 8 月的 −7.40pp。
+  implication: >
+    對本清單的判讀規則：**「升息」本身不是事件，「利率路徑」才是。**
+    下一次 FOMC（2026-10-28）無 SEP，市場對「年底再升一碼」的定價會在 10-07 的會議紀要與
+    9 月 PCE 之間擺盪 —— 那兩個日期比 FOMC 本身更值得看。
+
+transmission:
+  # ⚠⚠⚠ 本 driver 所有傳導對象方向皆為 −。/driver 的規則說「若你發現自己對硬體端和平台端
+  #   寫出同方向的結論，先停下來確認那是真的」—— 已確認：**這是折現率通道，不是需求通道。**
+  #   折現率上升對每一檔的現金流折現值都是負向，差別只在存續期（久期）與模型裡 r 的權重。
+  #   需求側的方向分歧（capex 對硬體端 + 對平台端 −）住在 hyperscaler-capex，不在這裡。
+  # ⚠ 傳導對象刻意只列 11 檔：估值模型裡**明確有折現率輸入**的美股 6 檔（CEG／INTU／MSFT／GOOG／META／COHR）
+  #   與 Gordon 檢查器需要 r 的台股 5 檔（2308／3037／6239／8046／8299）。其餘 28 檔的折現率曝險
+  #   目前不在任何模型參數裡 —— 不是免疫，是**沒有可更新的東西**；建檔時全記 L0（見 event_log）。
+  # ⚠ affects 為空的條目是誠實的：那幾檔的 r 住在 valuation_frame 或 gaps（檢查器參數），不是 key_variable。
+  #   validate_state 的 affects 對照只擋「指向不存在的名稱」，不擋空清單。
+  - ticker: 'CEG'
+    direction: '-'
+    path: >
+      10Y ↑ → 公用事業（市場公認的債券替代品）倍數壓縮 → 本檔對族群的 forward PE 溢價壓縮（數值只住在 state 的該 key_variable，此處不抄）。
+      ⚠⚠ **本檔是覆蓋清單中唯一估值直接對標公債殖利率的標的**（state/CEG.yaml 2026-09-08 記錄：
+      2026 年 8 月 XLU −4.78% 對 S&P500 +2.62%）。**溢價可能在核能稀缺性完全成立的情況下照樣壓縮 ——
+      那不會使 thesis 為假，但會使它不可獲利地為真。**
+      ⚠ 同時它是清單上唯一「同一筆 AI capex 既是需求順風（PPA）又是估值逆風（折現率）」的標的。
+      ⚠⚠ **建檔當日的實證與「高敏感度」相反（判官 2026-09-17 逐日拆解，價格為 stockanalysis 收盤，tier 事實；歸因為推論）**：
+      09-11 → 09-16 三檔 IPP 跌 5–9%，**九成集中在 09-14**（CEG −7.09%／VST −5.16%／TLN −8.38%），當天 10Y 只 +1bp、XLU 只 −1.3% ——
+      那是 AI-power 族群因子（候選催化劑：09-13 前沿實驗室減速表態，見 hyperscaler-capex 09-14 event_log），不是 bond-proxy 因子。
+      bond-proxy 的壓力存在但小、且在 FOMC 前一天：09-15 XLU −1.20%（10Y 首收 5.00）；**FOMC 當日 CEG −0.14%、XLU 0.00%，都優於 SPY 的 −0.44%。**
+      **→ 本檔對本 driver 的彈性目前是「未量測」，對 AI-power 因子的彈性反而有實證** —— 而後者沒有任何 driver 路由（state gaps 的 datacenter-power-demand 缺口這次真的咬人了）。
+    lag: 即時（估值倍數，不經財報；落在盤面）
+    sensitivity: 中（⚠ 建檔初稿判高，那是斷言不是量測；實證見 path。gaps 第 4 項的迴歸關閉前不升回高）
+    affects: ['對同業的forward PE溢價']
+  - ticker: 'INTU'
+    direction: '-'
+    path: >
+      10Y ↑ → 錨 C（正向 DCF）的 r ＝ 無風險利率 ＋ beta 0.98 × ERP 網格 → 目標價。
+      state/INTU.yaml 現用 r ＝ 4.97%（2026-09-10）＋ 0.98 × 4.0／4.5／5.0% ＝ 8.89／9.38／9.87%。
+      ⚠⚠ **rf 來源不一致（判官 2026-09-17 抓到）**：INTU 與 COHR 的 state 都寫「4.97%（10 年期美債 2026-09-10）」，
+      而本檔 history 依財政部 CSV 記 09-10 ＝ 4.95、09-11 ＝ 4.96 —— 4.97 應為資料商當日值，來源不同。
+      **自本檔起 rf 一律以財政部 CSV 為準**；兩檔下次重估時把 4.97 改為引用本檔，Δrf 依 CSV 為 +5～6bp 而非 +4bp。對結論零影響，但兩處各自漂移正是本檔要防的事。
+      ⚠ 本則 rf +4～6bp，對 r 的影響遠小於 ERP 網格的 ±50bp；**長存續期（10 年明確期＋永續，終值占 56%）
+      使本檔對 r 的彈性在清單裡最高。**
+      ⚠⚠ **可重用的量化參數（判官 2026-09-17 以 2026-09-11 報告的參數把錨 C 重建到一分不差後重跑，tier 推論）**：
+      加權目標價每 100bp rf 約 **−15%**（base 單格約 −16%、bear 約 −11%）；rf 5.01 → 加權 412.25 → 409.7（−0.6%）；
+      rf 5.25（本檔 escalation 門檻）→ −4.1%；**rf 相對模型所用值偏離 +34bp（≈5.31%）加權目標價才跨 −5%（L2）**。
+      ⚠ 為 −0.6% 重錨 r 是假精確 —— 單一錨、beta 一個參數就能解釋 48.7% 分歧的模型，不該把 0.6% 寫成一次變更。
+      ⚠ SEP 路徑對 ERP／永續成長的信心不變：鷹派路徑已完整表達在 rf 裡，因為利率變高再抬 ERP 是同一件事算兩次；
+      永續 3% 名目仍低於 SEP 長期利率 3.2 ＋ 通膨 2 隱含的長期名目成長。
+      ⚠ 結構性理由本則影響小：重定價集中在短端（2Y +35bp、30Y 持平），而本檔現金流坐在長端。
+      ⚠ affects 指的是該 key_variable 的「殖利率對 10Y 利差」那一半（衍生值）；r 本身住在 valuation_frame.methods.primary，
+      且那裡硬寫了「r ＝ 4.97%（2026-09-10）」—— 一個複製進 state 的 driver 值，下次重估時改為引用本檔。
+      ⚠ driver gaps 第 2 項（beta 不可用 → 折現率做法）對本檔的潛在衝擊遠大於本則：beta 0.98 → 1.20 即 +99bp、加權 −13.5%，那是 L2 級的方法變更。
+    lag: 即時（DCF 參數）
+    sensitivity: 高（−15%／100bp；本則判中是低估，已改）
+    affects: ['自由現金流與FCF殖利率']
+  - ticker: 'MSFT'
+    direction: '-'
+    path: >
+      10Y ↑ → reverse-DCF 反推的市場隱含永續成長率上升（同一現價在更高的 r 下隱含更高的成長）→
+      「市場太樂觀」的判讀加深。同時 FCF 殖利率 1.82% 對 10Y 5.01% 的負利差擴大至約 3.2pp。
+      ⚠ 本檔不做 forward-DCF，r 只在 reverse-DCF 對照裡出現；倍數錨（26x）是同業錨 B，不直接吃 r。
+      彈性（判官 2026-09-17 驗算）：反推 g ＝ (r − y)/(1 + y)，∂g/∂r ≈ 0.98 —— rf 每 +1bp 隱含 g 約 +1bp；
+      本則 +5bp → g +0.05pp，08-27 至今累計 +28bp → 5.1／6.1／7.1 → 5.4／6.4／7.3，仍在 7／8／9% 那個 100bp 步距的同一格。
+      ⚠ **本檔真正的折現率曝險不在 reverse-DCF，在錨 A**：primary 錨 A 是「5 年平均 trailing 31.26x ÷ 1.18 ≈ 26x」，
+      而 5 年窗口涵蓋 2021–22 的零利率時期 —— 在 10Y 5% 的體制下，那個歷史平均的代表性比推導當日（10Y 4.73）更弱。
+      這是體制問題不是本則的 +5bp，本輪不動倍數；**escalation 觸發時對本檔的動作是「重審錨 A 的窗口」，不只是 reverse-DCF。**
+      ⚠ 原稿寫「本檔淨現金」有誤：state 記市值 3.69T、EV 3.74T，隱含淨負債約 0.05T（可能含租賃負債）。
+      正確措辭是「淨負債相對 FCF 極小（約 0.7 年）、無可量化的再融資敏感度」。現金／有息負債拆分列 gaps。
+    lag: 即時（估值對照），營益率層面無傳導
+    sensitivity: 中
+    affects: ['自由現金流與FCF殖利率']
+  - ticker: 'GOOG'
+    direction: '-'
+    path: >
+      10Y ↑ → 長存續期平台倍數壓縮。⚠ 本檔估值以 forward PE 24.36 對同業錨定，**模型裡沒有任何一個參數是 r**，
+      折現率曝險目前不可量化 —— 列在 gaps，不是免疫。
+      ⚠ 與 META 同：本檔 2026 年 6 月發股 49.6B、Q2 發債 20.3B（state notes），Alphabet 正是 Warsh 點名的 hyperscalers 之一 ——
+      若 crowding_out 通道成立，本檔同時是**排擠效應的來源之一與承受者**。
+      ⚠ 扇出判官（2026-09-17）提出一個不複製數值的檢查器：以正常化 EPS 算的盈餘殖利率對 10Y 的利差
+      （base 20x → 5.0% 對 10Y 5.01 利差約 0；現價隱含 24.85x → 4.02%，低於 10Y 約 1pp；bull 30x → 3.33%），
+      10Y 一律經 driver_refs 引用。它不改三情境，只讓「base 倍數在 5% 的 10Y 下等於零股權溢酬」變成可追蹤的量。
+      **未採用進 state，留在此處待 /cta GOOG 時決定。**
+    lag: 即時（以估值倍數為觀測點，不以財報季為觀測點）
+    sensitivity: 模型 0／經濟 中（⚠ 兩者分列：「模型 0」是本檔還沒有能接住這條 driver 的參數，不是「GOOG 對利率不敏感」）
+    affects: []
+  - ticker: 'META'
+    direction: '-'
+    path: >
+      10Y ↑ → 長存續期平台倍數壓縮。⚠ 同 GOOG：倍數 19x 由錨 B 與 SOTP 決定，**沒有進 key_variables 的 r**。
+      ⚠ 精確地說模型裡有一個 r：SOTP 第二法以 r ＝ 9%、五年年金因子 3.89 折現 Reality Labs 未來虧損（每股約 28）——
+      那是未錨定的假設，不是 rf ＋ beta × ERP；彈性 r +1pp → 年金因子 3.89 → 3.79，對 SOTP 661 約 −0.1%。可忽略，但要記得它在。
+      ⚠ sensitivity 低的結構性理由：錨 B（同業 forward PE）對本則天生中性 —— MSFT／GOOG／META 同受同一折現率，相對倍數不變。
+      **真正的折現率曝險在 bull 的 22x**（自身 5 年 trailing 平均 26.46x 換算），那五年的 10Y 均值遠低於 5%。
+      ⚠ 本檔 2026 capex 上限 145（hyperscaler-capex）有部分表外融資 —— 若 crowding_out 通道成立，
+      本檔同時是**排擠效應的來源之一與承受者**。目前無法量化。
+    lag: 即時（以估值倍數為觀測點，不以財報季為觀測點）
+    sensitivity: 模型 0／經濟 中（分列理由同 GOOG）
+    affects: []
+  - ticker: 'COHR'
+    direction: '-'
+    path: >
+      10Y ↑ → 資本成本 r ＝ 無風險利率 ＋ beta 2.10 × ERP 4.5% ＝ 14.4%（2026-09-11 用於檢驗 18 個月回收期說法）。
+      ⚠ rf 只占 r 的三分之一，beta 項主導；本則 +4～6bp 對 r 的影響為 14.4 → 14.46%，對「回收期內含報酬遠高於資本成本」的結論無影響
+      （要讓 r 追上保守情形的 24%，rf 需 +954bp、或 ERP 升至 9.04%、或 beta 升至 4.22）。
+      ⚠ 本檔自由現金流為負，錨 C 不可用，r 不進目標價 —— 傳導只到 falsifier 的檢驗，不到情境。
+      ⚠ **本檔對 rf 不敏感、對 ERP／beta 高度敏感** —— 而後兩者目前不在任何 driver 裡。若本檔日後把 ERP 納入 components，sensitivity 應重評為中或高。
+      ⚠ 第二條真實的現金通道（判官 2026-09-17 指出，本 path 原漏）：II-VI 併購後的負債若含浮動利率部分，升息直接進利息支付 → 營運現金流 →
+      本檔第 1 條 falsifier（營運現金流佔營收 ≥ 6%）。量級未取得（浮動負債餘額 __、避險比例 __；FY2026 10-K 長期債務與衍生工具附註）。
+      以營收 71.2 億計，+25bp 要動營運現金流佔營收 1pp 需約 285 億美元浮動負債 —— 遠超合理規模，所以單次升息仍是 L0；但 escalation 情境下會累積。
+    lag: 即時（資本成本對照）；浮動利率負債那條腿最早落在 FY2027 Q2（2026-10～12，2027-02 公告）
+    sensitivity: 低（對 rf）
+    affects: ['自由現金流與資本支出']
+  - ticker: '2308'
+    direction: '-'
+    path: >
+      ⚠ 台股：無風險利率用台債 10Y（1.94%），不用美債。傳導鏈為 Fed 政策路徑 → 台灣央行與台債殖利率 → Gordon 檢查器的 r。
+      本則台債 10Y 持平 1.94，**第一節就沒有傳導**。本檔 beta 1.50 已取得、rf 已取得，CAPM 可算但 beta 在本清單被判不可用
+      （coverage.yaml），錨 C 仍未建立 —— r 目前不在任何生效的參數裡。
+      ⚠ 扇出判官（2026-09-17）指出「Fed 升、台央行不跟」這個型態對本檔並不乾淨：折現率通道是 −，
+      但美台利差擴大的匯率效果（tw_fx）與淨現金 1,118.8 億元的利息收入都是 +。**不改 direction（本 driver 的定義是折現率通道），
+      但 sensitivity 低的理由多一條：本檔對本 driver 的曝險被匯率與淨現金部分對沖。**
+    lag: 落後 0–2 季（⚠ 指 Fed → 台灣央行 → 台債 10Y 的政策傳導時滯，以台債 10Y 的變動為觀測點，不是事件 → 財報的損益時滯。台股五檔皆同）
+    sensitivity: 低
+    affects: []
+  - ticker: '3037'
+    direction: '-'
+    path: >
+      同 2308 的鏈。Gordon 檢查器 r ＝ 11% 無可觀測錨（state gaps），敏感度 r 11% → 5.17x、12% → 4.43x、13% → 3.88x。
+      台債 10Y 1.94 持平，本則不改 r。
+    lag: 落後 0–2 季
+    sensitivity: 低
+    affects: []
+  - ticker: '6239'
+    direction: '-'
+    path: >
+      同 2308 的鏈。Gordon 合理 PB 檢查器用 r 9／10／11%（1.69–2.53x，對應 135–202 元），折現率未錨定；
+      state 明寫「r 每差 1pp，隱含價差約 20–40 元」。台債 10Y 持平，本則不改 r。
+      ⚠⚠ **本檔有台股五檔裡唯一的第二條腿：融資成本。** 淨負債 299 億元（約市值 13.4%）、三年 1,200 億元 capex 靠籌資補缺口 ——
+      是 11 檔傳導對象裡唯一同時「淨負債為正且占市值兩位數」「未來兩年 700 億元 capex 靠籌資」的標的。
+      若台灣央行跟進，利息費用會實際進損益，屆時 lag 才變成「落後 1–2 季的財報」而不只是估值層即時。
+      ⚠ 利息費用對 TTM 營業利益 110 億元的量級未量化（缺：長短期借款餘額與平均利率）—— sensitivity 維持低，直到台債動且量級取得。
+    lag: 落後 0–2 季（估值層以台債 10Y 為觀測點；若台債上行，融資成本那條腿再落後 1–2 季進損益）
+    sensitivity: 低
+    affects: []
+  - ticker: '8046'
+    direction: '-'
+    path: >
+      同 2308 的鏈。Gordon 檢查器 r ＝ 11% 未錨定，而「PB 6.0x 被 FY2027 ROE 41.2% 驗證（Gordon 給 6.03x）」整個建立在它上面
+      （r 12% → 5.17x、13% → 4.52x）。台債 10Y 持平，本則不改 r。
+      ⚠ sensitivity 低的意思是「現行模型裡可更新的參數少」，**不是估值對 r 不敏感**：Gordon 階梯 r 每 +1pp 合理 PB 掉 0.65–0.86x，
+      以每股淨值 120.42 計，base 目標價約 −10% 至 −14%。**一旦 r 有錨，本檔的 sensitivity 該重評為中或高，affects 不再為空。**
+    lag: 落後 0–2 季（估值層以台債 10Y 為觀測點）
+    sensitivity: 低（模型層；經濟層見 path）
+    affects: []
+  - ticker: '8299'
+    direction: '-'
+    path: >
+      同 2308 的鏈。Gordon 檢查器的折現率未錨定（state gaps：公債殖利率／ECI／beta 擇一，附日期）。
+      台債 10Y 持平，本則不改 r。
+    lag: 落後 0–2 季
+    sensitivity: 低
+    affects: []
+
+falsifiers:
+  - condition: 美債 10Y 收盤回落至 4.50% 以下（本序列起點 2026-08-28 的 4.728 之下）
+    check_by: 2026-12-31
+    status: 未觸發
+    evidence: "2026-09-16：5.01，距門檻 51bp。方向相反（上行）"
+    action: 折現率通道降級為觀察；11 檔的 r 假設回到 8 月水準重算
+  - condition: 12 月 SEP 中位數 2026 年底利率低於 4.1（即撤回本次隱含的第二次升息）
+    check_by: 2026-12-09
+    status: 未驗證
+    evidence: "2026-09-16：中位數 4.1，隱含年底前再升一碼；18 人中 16 人預期再升（CNBC，二手）"
+    action: 路徑假設下修；平台端與 INTU 的 r 上緣收斂
+  - condition: BEA 公布的 PCE 12 個月變動連續兩個月 ≤ 3.0%
+    check_by: 2026-11-30
+    status: 未觸發
+    evidence: "主席估 8 月總 PCE 約 3.6（推論）；7 月官方 3.7。距門檻 0.6pp"
+    action: 通膨通道的「Fed 不降息」那一節失效，路徑假設下修
+
+escalation:   # 不是 falsifier —— 是「通道變強」的觸發
+  - condition: 美債 10Y 收盤 ≥ 5.25% 連續 10 個交易日
+    action: >
+      全清單 L2 折現率重估（不只 11 檔），並先做「不依賴個股 beta 的折現率做法」這個方法層決定。
+      逐檔已知的動作：INTU 錨 C 重跑（5.25 對應 −4.1%，單獨不足 L2，偏離 ≥ 34bp 才是）；MSFT 重審錨 A 的 5 年窗口（含零利率期）；
+      META 檢視 bull 22x 的歷史換算；CEG 溢價對 10Y 的同期序列；COHR 浮動利率負債累積效果。
+  - condition: 美債 10Y 相對 INTU 錨 C 所用 rf 偏離 ≥ +34bp（以 4.97 計即 ≥ 5.31%）
+    action: INTU 單檔 L2 —— 加權目標價跨 −5%（判官 2026-09-17 重跑；tier 推論）。中間值（偏離 15–25bp）重跑為 L1
+  - condition: 台債 10Y 收盤 ≥ 2.20%（自 1.94 上行 26bp）或台灣央行調升政策利率
+    action: >
+      台股五檔（2308／3037／6239／8046／8299）的 Gordon 檢查器 r 重錨；6239 另補融資成本量級。
+      ⚠ 扇出判官（2026-09-17）指出前三條 falsifier 與第一條 escalation 全以美債或 SEP 為門檻，
+      而台股五檔的 r 只吃台債 —— **Fed +25bp 對台債 0bp 這個實測本身就說明兩者不能互為代理。**
+      沒有這一條，台股五檔在本 driver 裡永遠只能被動判 L0，連「通道變強」都測不到。
+      門檻 2.20 為分析者設定：約為 2026-09 水準加上一次 Fed 升息幅度，觸發即檢視，非估值輸入。
+  - condition: 完整逐字稿或 10-07 會議紀要以 Fed 名義把 AI 相關發債或 capex 列為金融條件或通膨考量
+    action: crowding_out 通道的 status 自「二手引述一手」升為「一手」；量化 AI 相關投資級發行占比列為首要缺口
+
+checkpoints:
+  - {date: 2026-09-23, event: "Fed 發布 2026-09-16 記者會完整逐字稿（含問答；開場聲明 PRELIMINARY 版已於 09-16 發布）", what_to_watch: "Warsh 對殖利率三因的原話 —— 「AI hyperscalers raising funding」是否為逐字；若逐字稿無此語，crowding_out 第 2 次降級為二手"}
+  - {date: 2026-09-30, event: "BEA 8 月 PCE（實際日期見 BEA 行事曆）", what_to_watch: "總 PCE 是否如主席所估約 3.6、核心約 3.2；對照 falsifier 第 3 條"}
+  - {date: 2026-10-07, event: "9 月 FOMC 會議紀要（決議後三週）", what_to_watch: "AI 資本支出、AI 發債、期限溢酬是否出現在紀要的金融條件段；年底再升一碼的支持人數"}
+  - {date: 2026-10-28, event: "FOMC（10-27／28，無 SEP）", what_to_watch: "是否再升一碼；措辭是否維持「hard-pressed to describe … as restrictive」"}
+  - {date: 2026-12-09, event: "FOMC（12-08／09，含 SEP）", what_to_watch: "2026／2027 中位數是否維持 4.1；對照 falsifier 第 2 條"}
+
+update_cadence: "每次 FOMC（含 SEP 的 3／6／9／12 月）；美債殖利率每週自財政部 CSV；台債 10Y 每週三通道之一（investing.com 帶年份表優先）"
+
+gaps:
+  - {question: "⚠⚠ Warsh 問答段「AI hyperscalers raising funding」的一手逐字稿 —— 目前只有 Yahoo 實錄", how_to_close: "federalreserve.gov/mediacenter/files/FOMCpresconf20260916.pdf 完整版（通常決議後一週內）"}
+  - {question: "⚠⚠⚠ 不依賴個股 beta 的折現率做法 —— rf 已取得（美 5.01／台 1.94），但 beta 在本清單被判不可用，錨 C 仍算不出來。這是方法層決定，不是查詢", how_to_close: "在 valuation.md 決定：全族群單一折現率（明寫為假設）或分市場單一 ERP；決定後 11 檔的 r 全部重錨"}
+  - {question: "AI 相關企業發債占投資級發行的比重 —— crowding_out 通道的規模參數。⚠ 與 hyperscaler-capex 未調和的『3 兆美元表外承諾（WSJ，九家公司）』可能是同一個數字", how_to_close: "SIFMA 或 Bloomberg 投資級發行統計；各家 10-Q 的融資租賃與合資負債"}
+  - {question: "CEG 倍數對 10Y 的歷史迴歸（本檔唯一直接對標殖利率的標的，敏感度未量化）", how_to_close: "取 2022 分拆以來的 forward PE 與 10Y 週序列；樣本短，至少先記同期序列"}
+  - {question: "MSFT 的現金與有息負債拆分（EV 3.74T 對市值 3.69T 隱含淨負債約 0.05T，是否含租賃）；COHR 的浮動利率負債餘額與避險比例；META 表外融資的規模與租約條款（利率是否鎖定、何時啟用）—— 三者決定排擠通道對平台端與 COHR 是「來源」還是「承受者」的比重", how_to_close: "MSFT FY26 10-K 資產負債表與 other income 附註；COHR FY2026 10-K 長期債務與衍生工具附註；META 10-Q 租賃附註與 VIE 揭露"}
+  - {question: "台債 10Y 對 Fed 政策路徑的傳導係數 —— 本則 Fed +25bp 而台債 0bp。⚠ 各檔 state 記的 beta（2308 1.50、8299 1.61、3037 2.34、6239 1.75）都是對台股大盤的 beta，不是對利率的，不可拿來當這個係數的替代品", how_to_close: "取 2024-09 至今兩者的週序列；台灣央行下次理監事會（2026-09 下旬）是否跟進"}
+  - {question: "GOOG／META 的 forward PE 對 10Y 的敏感度未取得 —— 兩檔模型裡沒有 r，折現率曝險目前只能記為「不可量化」；自身歷史 forward PE 的樣本期橫跨 10Y 自約 0.5% 到 5% 的全程，歷史錨無法告訴你 5% 的 10Y 對應哪個倍數", how_to_close: "至少先記兩檔 forward PE 與 10Y 的同期週序列；或採用 GOOG 條目裡的盈餘殖利率利差檢查器（不需 beta）"}
+
+event_log:
+  - date: 2026-09-17
+    level: '—'
+    summary: >
+      建檔。觸發：2026-09-16 FOMC 升息一碼至 3.75–4.00（2023-07 以來首次），SEP 中位數 2026／2027 年底利率
+      上修至 4.1／4.1，10Y 收 5.01。Fed 主席 Warsh 於記者會把殖利率上行歸因於三件事，第二件點名 AI hyperscalers 募資 ——
+      notes 事先寫定的「第 3 次」門檻達到，折現率通道自 notes 晉升為 driver。
+    delta: >
+      新建 current（10Y 5.01）、components（政策區間／SEP 路徑／SEP 通膨成長／主席 PCE 估計／2Y／30Y／台債 10Y）、
+      history（08-28 起 9 點）、policy_rate_history（2024-09 起 7 次）、channels（通膨／排擠，分開計數）、
+      market_reaction_regime、transmission 11 檔、falsifiers 3 條、escalation 4 條（含扇出後新增的台債門檻與 INTU 專屬門檻）、checkpoints 5 個、gaps 7 項。
+      ⚠ 美債 10Y 與台債 10Y 自 state/coverage.yaml 的 shared_macro_inputs 遷入，coverage.yaml 改為指標。
+    fanout: >
+      **11 檔各起一個隔離的扇出判官，全判 L0，0 份個股變更單。** 全部 11 檔本次補上 discount-rate 的 driver_refs（雙向引用完成）。
+      共同理由：current 只動 +5bp，而 11 檔裡沒有一檔的 r 是機械掛在 rf 上的參數 ——
+      美股 6 檔的 r 若非硬寫的常數（INTU／COHR 的 4.97、MSFT 的 7／8／9% 網格、META SOTP 的 9%）就是不存在（GOOG／META 主錨）；
+      台股 5 檔吃的是台債 10Y，而它 0bp。**扇出的產出不是等級，是 11 條被量化或被否證的傳導假設**：
+      **INTU（L0）**：判官以 09-11 報告的參數把錨 C 重建到一分不差後重跑 —— 加權目標價每 100bp rf 約 −15%；本則 −0.6%；
+        rf 偏離 ≥ +34bp（≈5.31%）才跨 −5%。sensitivity 自中改為高；新增 INTU 專屬 escalation。為 0.6% 重錨是假精確，不動。
+      **CEG（L0）**：09-11→09-16 溢價自約 60% 壓到 57.1%，但逐日拆解後九成跌幅在 09-14（10Y +1bp、三檔 IPP 同步 −5～8%），
+        是 AI-power 族群因子不是利率；FOMC 當日 −0.14%。sensitivity 自高降為中（原判是斷言）。
+        ⚠ 另案：invalidation「週收盤跌破 268.47」—— 09-16 收 259.53 已在其下，判定點 09-18 週收盤，**走 /cta CEG 的 L2 路，不在此處理。**
+        ⚠ 另記：key_variable 的 67.0%（updated 09-08）與同檔 multiple_basis 已重測的 60.0% 不一致，下次 /cta 同步。
+      **MSFT（L0）**：反推 g 對 rf 的斜率 ≈ 0.98，本則 +0.05pp、08-27 至今累計 +0.3pp，仍在 100bp 網格同一格。
+        真正的曝險在錨 A 的 5 年窗口含零利率期。path 的「淨現金」有誤（EV > 市值），已改。
+      **GOOG（L0）**：模型無 r。判官提出盈餘殖利率對 10Y 利差檢查器（base 20x → 約 0；現價隱含 → 低於 10Y 約 1pp），記在 path 待 /cta 決定。
+      **META（L0）**：利息費用不在「總成本費用」口徑（營業線以下）；SOTP 的 r=9% 彈性約 0.1%／pp；曝險在 bull 22x。
+      **COHR（L0）**：r 14.4 → 14.46%，對回收期結論無影響；補記浮動利率負債那條真實現金腿（量級未取得）。
+        抓到 rf 4.97（state）與財政部 CSV 同日 4.95 不同源 —— 自本檔起 rf 一律以 CSV 為準。
+      **2308／3037／6239／8046／8299（L0）**：台債 10Y 0bp，鏈的第一節未動；Gordon 的 r 全部未錨定，沒有可更新的東西。
+        共同修正：lag 語意改為「以台債 10Y 為觀測點」；新增台債門檻的 escalation（否則五檔永遠只能被動 L0）；
+        6239 補融資成本腿（淨負債 299 億元）；2308 記匯率與淨現金的對沖；8046 記「低敏感是無參數，非估值不敏感」；
+        五檔 state 已過時的「台幣無風險利率未取得」缺口改為指向本檔（rf 已關、beta 方法層仍開），不複製數值。
+      **不在 transmission 的 28 檔**：折現率不在任何模型參數裡，L0，未逐檔起判官。⚠ 不是免疫 —— 是沒有可更新的東西；
+        escalation 第一條觸發時全清單重估。
+      ⚠ 方向檢查：11 檔全為 −，已確認這是折現率通道而非需求通道，同方向是真的。
+
+last_updated: 2026-09-17

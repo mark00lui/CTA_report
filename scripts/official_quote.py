@@ -110,18 +110,25 @@ def detect_market(tk):
 SKIPPED = []
 
 
-def bars(tk, market, months):
+def bars(tk, market, months, refresh=False):
     """回傳 [(iso_date, open, high, low, close)]，依日期遞增。
-    ⚠ 無法解析 OHLC 的列（零成交日）會被記進 SKIPPED 並在輸出中報告，不靜默丟棄。"""
+    ⚠ 無法解析 OHLC 的列（零成交日）會被記進 SKIPPED 並在輸出中報告，不靜默丟棄。
+    ⚠⚠ 2026-09-18 修正：`refresh` 原本沒有從 report() 傳進來，
+    等於 --refresh 對日線快取（本函式）與官方倍數快取（valuation()）完全無效——
+    只要當月快取檔已存在（哪怕是六天前抓的），就一直被沿用，`--refresh` 只是看起來有作用。
+    當月（進行中的月份）尤其危險：快取一旦寫入就再也不會更新，直到跨月。"""
     out = []
     for y, m in month_list(months):
+        # ⚠ 當月資料每天都在變（新交易日陸續加入），即使沒有 --refresh 也不可信任舊快取。
+        is_current_month = (y, m) == month_list(1)[0]
+        force = refresh or is_current_month
         if market == "上櫃":
             url = TPEX_DAY % (tk, y, "%02d" % m)
-            d = curl_json(url, "%s_%d%02d_otc.json" % (tk, y, m))
+            d = curl_json(url, "%s_%d%02d_otc.json" % (tk, y, m), refresh=force)
             rows = ((d or {}).get("tables") or [{}])[0].get("data") or []
         else:
             url = TWSE_DAY % ("%d%02d" % (y, m), tk)
-            d = curl_json(url, "%s_%d%02d_twse.json" % (tk, y, m))
+            d = curl_json(url, "%s_%d%02d_twse.json" % (tk, y, m), refresh=force)
             rows = (d or {}).get("data") or []
         for r in rows:
             o, h, l, c = num(r[3]), num(r[4]), num(r[5]), num(r[6])
@@ -136,9 +143,9 @@ def bars(tk, market, months):
     return out
 
 
-def valuation(tk, market):
+def valuation(tk, market, refresh=False):
     if market == "上櫃":
-        d = curl_json(TPEX_PERATIO, "tpex_pe.json") or []
+        d = curl_json(TPEX_PERATIO, "tpex_pe.json", refresh=refresh) or []
         for r in d:
             if r.get("SecuritiesCompanyCode") == tk:
                 return {"本益比": r.get("PriceEarningRatio"),
@@ -147,7 +154,7 @@ def valuation(tk, market):
                         "每股股利": r.get("DividendPerShare"),
                         "日期": roc_to_iso("%s/%s/%s" % (r["Date"][:3], r["Date"][3:5], r["Date"][5:]))}
     else:
-        d = curl_json(TWSE_BWIBBU, "twse_pe.json") or []
+        d = curl_json(TWSE_BWIBBU, "twse_pe.json", refresh=refresh) or []
         for r in d:
             if r.get("Code") == tk:
                 return {"本益比": r.get("PEratio"),
@@ -173,7 +180,7 @@ def report(tk, months, refresh):
     if market is None:
         print("%s：兩個市場的日收盤清單都找不到這個代號 —— 確認它是否仍在交易" % tk)
         return
-    b = bars(tk, market, months)
+    b = bars(tk, market, months, refresh=refresh)
     if len(b) < 21:
         print("%s（%s）：只取到 %d 根，不足以算 ATR20" % (tk, market, len(b)))
         return
@@ -256,7 +263,7 @@ def report(tk, months, refresh):
               % (n, ma, "在價格上方" if ma > px else "在價格下方", abs(rel) * 100,
                  dist * 100, ratio, verd))
     print()
-    v = valuation(tk, market)
+    v = valuation(tk, market, refresh=refresh)
     if v:
         print("官方倍數（%s）：%s" % (v.pop("日期"),
                                  "　".join("%s %s" % (k, x) for k, x in v.items())))

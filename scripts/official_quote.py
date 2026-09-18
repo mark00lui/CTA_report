@@ -116,7 +116,10 @@ def bars(tk, market, months, refresh=False):
     ⚠ 無法解析 OHLC 的列（零成交日）會被記進 SKIPPED 並在輸出中報告，不靜默丟棄。
     ⚠ 2026-09-17（2317／2337 批次實測）：`--refresh` 原本沒傳進這裡，且當月檔一旦快取就永遠停在
       首次抓取日 —— 09-12 跑過的標的在 09-17 仍拿到 09-11 的收盤，價格安靜過期而沒有任何提示。
-      修正：當月檔一律重抓（它每個交易日都會長），歷史月檔沿用快取除非 --refresh。"""
+      修正：當月檔一律重抓（它每個交易日都會長），歷史月檔沿用快取除非 --refresh。
+    ⚠⚠ 2026-09-18 修正：`refresh` 原本沒有從 report() 傳進 valuation()，
+    等於 --refresh 對官方倍數快取（valuation()）完全無效——只要快取檔已存在
+    （哪怕是六天前抓的），就一直被沿用，`--refresh` 只是看起來有作用。"""
     out = []
     today = date.today()
     for y, m in month_list(months):
@@ -142,9 +145,9 @@ def bars(tk, market, months, refresh=False):
     return out
 
 
-def valuation(tk, market):
+def valuation(tk, market, refresh=False):
     if market == "上櫃":
-        d = curl_json(TPEX_PERATIO, "tpex_pe.json") or []
+        d = curl_json(TPEX_PERATIO, "tpex_pe.json", refresh=refresh) or []
         for r in d:
             if r.get("SecuritiesCompanyCode") == tk:
                 return {"本益比": r.get("PriceEarningRatio"),
@@ -153,7 +156,7 @@ def valuation(tk, market):
                         "每股股利": r.get("DividendPerShare"),
                         "日期": roc_to_iso("%s/%s/%s" % (r["Date"][:3], r["Date"][3:5], r["Date"][5:]))}
     else:
-        d = curl_json(TWSE_BWIBBU, "twse_pe.json") or []
+        d = curl_json(TWSE_BWIBBU, "twse_pe.json", refresh=refresh) or []
         for r in d:
             if r.get("Code") == tk:
                 return {"本益比": r.get("PEratio"),
@@ -179,7 +182,7 @@ def report(tk, months, refresh):
     if market is None:
         print("%s：兩個市場的日收盤清單都找不到這個代號 —— 確認它是否仍在交易" % tk)
         return
-    b = bars(tk, market, months, refresh)
+    b = bars(tk, market, months, refresh=refresh)
     if len(b) < 21:
         print("%s（%s）：只取到 %d 根，不足以算 ATR20" % (tk, market, len(b)))
         return
@@ -262,7 +265,7 @@ def report(tk, months, refresh):
               % (n, ma, "在價格上方" if ma > px else "在價格下方", abs(rel) * 100,
                  dist * 100, ratio, verd))
     print()
-    v = valuation(tk, market)
+    v = valuation(tk, market, refresh=refresh)
     if v:
         print("官方倍數（%s）：%s" % (v.pop("日期"),
                                  "　".join("%s %s" % (k, x) for k, x in v.items())))
